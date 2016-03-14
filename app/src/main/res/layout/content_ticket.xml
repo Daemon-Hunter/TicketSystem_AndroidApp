@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".TicketActivity">
+
+    <!--event image-->
+    <ImageView
+        android:id="@+id/event_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <!--event title-->
+    <TextView
+        android:id="@+id/event_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/event_image"
+        android:layout_marginLeft="20dp"
+        android:text="Event Name"
+        android:textSize="28sp" />
+
+    <!--event time and date-->
+    <TextView
+        android:id="@+id/event_time_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/event_title"
+        android:layout_toRightOf="@id/event_image"
+        android:layout_marginLeft="20dp"
+        android:text="7pm on 12/11/16"/>
+
+    <!--event pg rating-->
+    <TextView
+        android:id="@+id/event_pg_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/event_time_date"
+        android:layout_toRightOf="@id/event_image"
+        android:layout_marginLeft="20dp"
+        android:text="PG: 18"/>
+
+    <!--description-->
+    <TextView
+        android:id="@+id/event_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/event_image"
+        android:layout_marginTop="10dp"
+        android:text="This is where the description of the event will go... This is where the description of the event will go... This is where the description of the event will go..."/>
+
+    <!-- event lineup list-->
+    <ListView
+        android:id="@+id/ticket_list"
+        android:layout_width="match_parent"
+        android:layout_height="225dp"
+        android:layout_below="@+id/event_description"
+        android:layout_marginTop="15dp"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="3.0sp"
+        android:fadeScrollbars="false"
+        android:scrollbarAlwaysDrawHorizontalTrack="true"
+        android:scrollbarThumbVertical="@drawable/custom_scroll_bar" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/ticket_list"
+        android:layout_marginTop="20dp"
+        android:layout_centerVertical="true"
+        android:background="@android:color/holo_blue_dark">
+
+        <TextView
+            android:id="@+id/total_ticket_cost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_centerVertical="true"
+            android:text="@string/total_ticket_cost"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/total_ticket_cost"
+            android:text="@string/zero_cost"
+            android:textColor="@android:color/white"
+            android:padding="3dp"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/checkout" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
+

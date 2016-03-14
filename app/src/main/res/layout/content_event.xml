@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/event_background"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".EventActivity"
+    tools:showIn="@layout/activity_event">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--event image-->
+        <ImageView
+            android:id="@+id/event_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp" />
+
+        <!--event title-->
+        <TextView
+            android:id="@+id/event_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@id/event_image"
+            android:text="Event Name"
+            android:textColor="@android:color/white"
+            android:textSize="28sp" />
+
+        <!--date-->
+        <TextView
+            android:id="@+id/event_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/event_title"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@id/event_image"
+            android:text="12th May - 15th May"
+            android:textColor="@android:color/white" />
+
+        <!--address-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/event_date"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_toRightOf="@id/event_image"
+            android:layout_toLeftOf="@+id/google_maps_icon"
+            android:text="Devon Arena, Plymouth, PL3 4KF"
+            android:textColor="@android:color/white" />
+
+        <!--google maps icon-->
+        <ImageView
+            android:id="@+id/google_maps_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/google_maps_icon" />
+
+        <!--description-->
+        <TextView
+            android:id="@+id/event_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/event_image"
+            android:text="This is where the description of the event will go... This is where the description of the event will go... This is where the description of the event will go..."
+            android:textColor="@android:color/white" />
+
+        <LinearLayout
+            android:id="@+id/event_lineup_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/event_description"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/holo_blue_dark">
+
+            <TextView
+                android:id="@+id/tv_event_lineup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/event_lineup"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:padding="7dp"/>
+
+        </LinearLayout>
+
+        <!-- event lineup list-->
+        <ListView
+            android:id="@+id/lineup_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/event_lineup_layout"
+            android:background="@android:color/white"
+            android:fadeScrollbars="false"
+            android:scrollbarAlwaysDrawHorizontalTrack="true"
+            android:scrollbarThumbVertical="@drawable/custom_scroll_bar"/>
+
+    </RelativeLayout>
+
+    <!--fragment container for tabs-->
+    <FrameLayout
+        android:id="@+id/contentFragmentEvent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</RelativeLayout>
+
+
+
+
