@@ -22,6 +22,7 @@ public class ArtistActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static String EventImageIndex;
+    int random;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
