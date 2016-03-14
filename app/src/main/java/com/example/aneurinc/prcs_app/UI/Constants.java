@@ -1,4 +1,6 @@
-package com.example.aneurinc.prcs_app;
+package com.example.aneurinc.prcs_app.UI;
+
+import com.example.aneurinc.prcs_app.R;
 
 /**
  * Created by aneurinc on 28/02/2016.
@@ -22,50 +24,48 @@ public class Constants {
 
     };
 
+
     // references to our images
     public static Integer[] artistImages = {
 
-            R.drawable.calendar,
             R.drawable.artist1, R.drawable.artist2, R.drawable.artist3,
-            R.drawable.calendar,
             R.drawable.artist4, R.drawable.artist5, R.drawable.artist6,
-            R.drawable.calendar,
-            R.drawable.artist7, R.drawable.artist3, R.drawable.artist1,
-            R.drawable.artist2, R.drawable.artist1, R.drawable.artist2,
+            R.drawable.artist7, R.drawable.artist1, R.drawable.artist2,
+            R.drawable.artist3, R.drawable.artist4, R.drawable.artist5,
+            R.drawable.artist6, R.drawable.artist7, R.drawable.artist1,
+            R.drawable.artist2, R.drawable.artist3, R.drawable.artist4,
+            R.drawable.artist5, R.drawable.artist6, R.drawable.artist7,
+            R.drawable.artist1, R.drawable.artist2, R.drawable.artist3,
             R.drawable.artist4, R.drawable.artist5, R.drawable.artist6,
-            R.drawable.artist7, R.drawable.artist3, R.drawable.artist1,
-            R.drawable.artist2, R.drawable.artist1, R.drawable.artist2,
+            R.drawable.artist7,
 
     };
 
     // references to our images
-    public static Integer[] moreArtistImages = {
+    public static Integer[] venueImages = {
 
-            R.drawable.artist1, R.drawable.artist2, R.drawable.artist3,
-            R.drawable.artist4, R.drawable.artist5, R.drawable.artist6,
-            R.drawable.artist7, R.drawable.artist3, R.drawable.artist1,
-            R.drawable.artist2, R.drawable.artist1, R.drawable.artist2,
-            R.drawable.artist4, R.drawable.artist5, R.drawable.artist6,
-            R.drawable.artist7, R.drawable.artist3, R.drawable.artist1,
-            R.drawable.artist2, R.drawable.artist1, R.drawable.artist2,
+            R.drawable.venue1, R.drawable.venue2, R.drawable.venue3,
+            R.drawable.venue4, R.drawable.venue5, R.drawable.venue1,
+            R.drawable.venue2, R.drawable.venue3, R.drawable.venue4,
+            R.drawable.venue5, R.drawable.venue1, R.drawable.venue2,
+            R.drawable.venue3, R.drawable.venue4, R.drawable.venue5,
+            R.drawable.venue1, R.drawable.venue2, R.drawable.venue3,
+            R.drawable.venue4, R.drawable.venue5, R.drawable.venue1,
 
     };
 
-    public static String[] eventName = {
+    public static String[] artistName = {
 
-            "Friday 1/03/2016",
-            "Big D",
+            "23/12/2016",
+            "Kevin Hart",
             "A Bunch of Fairies",
             "Adele",
-            "Saturday 2/03/2016",
-            "R. Kelly",
-            "Katy Perry",
-            "Xavier Jackson",
-            "Sunday 3/03/2016",
-            "Run DMC",
-            "Adele",
+            "24/12/2016",
             "Big D",
-            "A Bunch of Fairies"
+            "Russel Howard",
+            "25/12/2016",
+            "Xavier Jackson",
+            "Run DMC",
 
     };
 

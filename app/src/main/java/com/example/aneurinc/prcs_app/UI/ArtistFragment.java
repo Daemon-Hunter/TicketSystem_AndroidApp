@@ -1,4 +1,4 @@
-package com.example.aneurinc.prcs_app;
+package com.example.aneurinc.prcs_app.UI;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+
+import com.example.aneurinc.prcs_app.R;
 
 /**
  * Created by aneurinc on 02/03/2016.
@@ -21,7 +23,7 @@ public class ArtistFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_artist, container, false);
 
         GridView gridView = (GridView)view.findViewById(R.id.artist_grid_view);
-        gridView.setAdapter(new GridAdapter(this.getActivity(), Constants.moreArtistImages));
+        gridView.setAdapter(new GridAdapter(this.getActivity(), Constants.artistImages));
 
         addGridViewListener(gridView);
 

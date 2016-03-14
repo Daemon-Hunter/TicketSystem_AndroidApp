@@ -1,4 +1,4 @@
-package com.example.aneurinc.prcs_app;
+package com.example.aneurinc.prcs_app.UI;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -10,14 +10,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Spinner;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.example.aneurinc.prcs_app.R;
 
 public class TicketActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

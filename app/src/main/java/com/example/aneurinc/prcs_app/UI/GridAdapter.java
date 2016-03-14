@@ -1,4 +1,4 @@
-package com.example.aneurinc.prcs_app;
+package com.example.aneurinc.prcs_app.UI;
 
 import android.content.Context;
 import android.graphics.Point;
@@ -61,6 +61,7 @@ public class GridAdapter extends BaseAdapter {
         }
 
         imageView.setImageResource(mImages[position]);
+
         return imageView;
     }
 

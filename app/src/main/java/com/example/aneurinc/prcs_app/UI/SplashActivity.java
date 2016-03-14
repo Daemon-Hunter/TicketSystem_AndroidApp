@@ -1,9 +1,11 @@
-package com.example.aneurinc.prcs_app;
+package com.example.aneurinc.prcs_app.UI;
 
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.aneurinc.prcs_app.R;
 
 public class SplashActivity extends AppCompatActivity {
 

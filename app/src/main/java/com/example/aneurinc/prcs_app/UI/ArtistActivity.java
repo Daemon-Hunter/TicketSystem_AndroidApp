@@ -1,91 +1,37 @@
-package com.example.aneurinc.prcs_app;
+package com.example.aneurinc.prcs_app.UI;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
 
-public class EventActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+import com.example.aneurinc.prcs_app.R;
+
+public class ArtistActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     public static String EventImageIndex;
-    private ListView list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event);
+        setContentView(R.layout.activity_artist);
 
         initToolbar();
         displayImage();
-
-        setOnClickListeners();
-
-
-        setLineupListAdapter();
-        setListOnClickListener();
-
-    }
-
-    private void setLineupListAdapter() {
-        LineupListAdapter adapter = new LineupListAdapter(this, Constants.eventName, Constants.artistImages);
-        list = (ListView) findViewById(R.id.lineup_list);
-        list.setAdapter(adapter);
-    }
-
-    private void setListOnClickListener() {
-
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-
-                String selectedItem = Constants.eventName[+position];
-                Log.d(MainActivity.DEBUG_TAG, "Artist: " + selectedItem);
-                Intent i = new Intent(EventActivity.this, ArtistActivity.class);
-                i.putExtra(ArtistActivity.EventImageIndex, position);
-                startActivity(i);
-
-            }
-        });
-    }
-
-    private void setOnClickListeners() {
-
-        ImageView map = (ImageView) findViewById(R.id.google_maps_icon);
-        map.setOnClickListener(this);
-
-    }
-
-    @Override
-    public void onClick(View v) {
-
-        switch (v.getId()) {
-
-            case R.id.google_maps_icon:
-                v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.onclick));
-                startActivity(new Intent(this, MapActivity.class));
-                break;
-
-        }
     }
 
     private void displayImage() {
         int imageIndex = getIntent().getExtras().getInt(EventImageIndex);
-        ImageView eventImage = (ImageView) findViewById(R.id.event_image);
-        eventImage.setImageResource(Constants.eventImages[imageIndex]);
+        ImageView artistImage = (ImageView) findViewById(R.id.artist_image);
+        artistImage.setImageResource(Constants.artistImages[imageIndex]);
     }
 
     private void initToolbar() {
@@ -93,7 +39,7 @@ public class EventActivity extends AppCompatActivity implements NavigationView.O
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.event_drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.artist_drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -101,6 +47,16 @@ public class EventActivity extends AppCompatActivity implements NavigationView.O
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.artist_drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -120,7 +76,6 @@ public class EventActivity extends AppCompatActivity implements NavigationView.O
             case R.id.ab_search:
                 Log.d(MainActivity.DEBUG_TAG, "Action Bar: Search");
                 break;
-
         }
 
         return super.onOptionsItemSelected(item);
@@ -128,7 +83,7 @@ public class EventActivity extends AppCompatActivity implements NavigationView.O
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-
+        // Handle navigation view item clicks here.
         switch (item.getItemId()) {
 
             case R.id.nav_camera:

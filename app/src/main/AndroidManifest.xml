@@ -16,17 +16,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".SplashActivity"
+            android:name=".UI.SplashActivity"
             android:label=""
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".EventActivity"
+            android:name=".UI.EventActivity"
             android:label=""
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".UI.MainActivity"
             android:label=""
             android:theme="@style/AppTheme.NoActionBar">
 
@@ -43,15 +43,15 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MapActivity"
+            android:name=".UI.MapActivity"
             android:label=""
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".TicketActivity"
+            android:name=".UI.TicketActivity"
             android:label=""
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".ArtistActivity"
+            android:name=".UI.ArtistActivity"
             android:label=""
             android:theme="@style/AppTheme.NoActionBar">
         </activity>

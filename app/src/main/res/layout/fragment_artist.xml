@@ -7,7 +7,7 @@
     android:paddingBottom="5dp"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
-    tools:context=".MainActivity$DummySectionFragment">
+    tools:context=".UI.MainActivity$DummySectionFragment">
 
     <!--grid view of all artists-->
     <GridView
@@ -19,6 +19,6 @@
         android:drawSelectorOnTop="true"
         android:numColumns="3"
         android:stretchMode="columnWidth"
-        android:gravity="center"/>
+        android:gravity="center" />
 
 </RelativeLayout>

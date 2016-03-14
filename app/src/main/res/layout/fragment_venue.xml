@@ -6,7 +6,7 @@
     android:paddingBottom="5dp"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
-    tools:context=".MainActivity$DummySectionFragment">
+    tools:context=".UI.MainActivity$DummySectionFragment">
 
     <!--grid view of all venues-->
     <GridView

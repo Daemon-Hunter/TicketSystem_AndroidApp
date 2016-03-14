@@ -1,6 +1,5 @@
-package com.example.aneurinc.prcs_app;
+package com.example.aneurinc.prcs_app.UI;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -10,23 +9,21 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
-/**
- * Created by aneurinc on 02/03/2016.
- */
-public class EventFragment extends Fragment {
+import com.example.aneurinc.prcs_app.R;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+/**
+ * Created by aneurinc on 06/03/2016.
+ */
+public class VenueFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
 
-        View view = inflater.inflate(R.layout.fragment_event, container, false);
+        View view = inflater.inflate(R.layout.fragment_venue, container, false);
 
-        GridView gridView = (GridView)view.findViewById(R.id.event_grid_view);
-        gridView.setAdapter(new GridAdapter(this.getActivity(), Constants.eventImages));
+        GridView gridView = (GridView)view.findViewById(R.id.venue_grid_view);
+        gridView.setAdapter(new GridAdapter(this.getActivity(), Constants.venueImages));
 
         setOnItemClickListener(gridView);
 
@@ -42,18 +39,14 @@ public class EventFragment extends Fragment {
 
                 Log.d(MainActivity.DEBUG_TAG, String.format("You clicked event tile: %d", position));
 
-                Intent i = new Intent(getActivity(), EventActivity.class);
-                i.putExtra(EventActivity.EventImageIndex, position);
-                startActivity(i);
-
             }
         });
     }
 
     @Override
     public void onPause() {
-        // save data if necessary
+        // called before fragment or parent activity is destroyed,
+        // so saved data here!
         super.onPause();
     }
-
 }

@@ -1,4 +1,4 @@
-package com.example.aneurinc.prcs_app;
+package com.example.aneurinc.prcs_app.UI;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,6 +12,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.aneurinc.prcs_app.R;
 
 /**
  * Created by aneurinc on 29/02/2016.
@@ -54,6 +56,8 @@ public class LineupListAdapter extends ArrayAdapter<String> {
             rowView.setBackgroundColor(Color.parseColor("#90caf9")); // Blue
             rowView.setOnClickListener(null);   // remove listener
             dimensions = 90;
+            rowImage.setImageResource(R.drawable.calendar);
+
 
         } else {
 
@@ -62,12 +66,13 @@ public class LineupListAdapter extends ArrayAdapter<String> {
             ticketImage.setImageResource(R.drawable.ticket);
             dimensions = 120;
             addTicketListener(ll, position);
+            rowImage.setImageResource(imageID[position]);
+
 
         }
 
         rowImage.getLayoutParams().height = dimensions;
         rowImage.getLayoutParams().width = dimensions;
-        rowImage.setImageResource(imageID[position]);
         title.setText(name[position]);
 
         return rowView;
