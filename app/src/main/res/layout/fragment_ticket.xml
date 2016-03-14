@@ -40,12 +40,20 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="71"
             android:background="@color/colorGrey100"
             android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/ticket_event_image"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentRight="true"
+                android:padding="5dp"
+                android:src="@drawable/event_image4"/>
 
             <TextView
                 android:id="@+id/event_name"
@@ -53,6 +61,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
+                android:layout_toLeftOf="@+id/ticket_event_image"
+                android:layout_alignParentLeft="true"
                 android:text="Event Name"
                 android:textSize="24sp"/>
 
@@ -60,6 +70,7 @@
                 android:id="@+id/event_venue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/event_name"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:text="Event Venue"/>
@@ -68,6 +79,7 @@
                 android:id="@+id/event_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/event_venue"
                 android:layout_marginStart="10dp"
                 android:text="3 Days (12/05/16 - 14/05/16)"/>
 
@@ -75,10 +87,11 @@
                 android:id="@+id/event_cost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/event_date"
                 android:layout_marginStart="10dp"
                 android:text="£60.00"/>
 
-        </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 
