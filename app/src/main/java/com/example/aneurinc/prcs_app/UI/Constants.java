@@ -21,7 +21,6 @@ public class Constants {
             R.drawable.event_image4, R.drawable.event_image5, R.drawable.event_image6,
             R.drawable.event_image7,
 
-
     };
 
 
