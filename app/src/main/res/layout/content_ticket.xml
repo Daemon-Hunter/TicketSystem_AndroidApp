@@ -89,6 +89,7 @@
             android:textSize="18sp" />
 
         <TextView
+            android:id="@+id/ticket_total_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

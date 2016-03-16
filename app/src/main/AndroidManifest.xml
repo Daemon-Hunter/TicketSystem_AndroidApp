@@ -18,16 +18,7 @@
         <activity
             android:name=".UI.SplashActivity"
             android:label=""
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity
-            android:name=".UI.EventActivity"
-            android:label=""
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity
-            android:name=".UI.MainActivity"
-            android:label=""
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
 
             <intent-filter>
@@ -35,6 +26,18 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+        <activity
+            android:name=".UI.EventActivity"
+            android:label=""
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".UI.MainActivity"
+            android:label=""
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
 
@@ -45,16 +48,18 @@
         <activity
             android:name=".UI.MapActivity"
             android:label=""
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".UI.TicketActivity"
             android:label=""
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".UI.ArtistActivity"
             android:label=""
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

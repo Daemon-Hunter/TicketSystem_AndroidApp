@@ -35,7 +35,6 @@ public class EventActivity extends AppCompatActivity implements NavigationView.O
 
         setOnClickListeners();
 
-
         setLineupListAdapter();
         setListOnClickListener();
 
@@ -78,16 +77,16 @@ public class EventActivity extends AppCompatActivity implements NavigationView.O
     @Override
     public void onClick(View v) {
 
+        v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.onclick));
+
         switch (v.getId()) {
 
             case R.id.google_maps_icon:
-                v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.onclick));
                 startActivity(new Intent(this, MapActivity.class));
                 break;
 
             case R.id.buy_tickets:
                 int imageIndex = getIntent().getExtras().getInt(EventImageIndex);
-                v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.onclick));
                 Intent i = new Intent(this, TicketActivity.class);
                 i.putExtra(TicketActivity.EventImageIndex, imageIndex);
                 startActivity(i);
