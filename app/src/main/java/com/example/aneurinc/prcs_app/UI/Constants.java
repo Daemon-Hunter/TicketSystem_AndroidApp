@@ -56,13 +56,10 @@ public class Constants {
     public static String[] artistName = {
 
             "23/12/2016",
-            "Kevin Hart",
             "A Bunch of Fairies",
             "Adele",
             "24/12/2016",
-            "Big D",
             "Russel Howard",
-            "25/12/2016",
             "Xavier Jackson",
             "Run DMC",
 

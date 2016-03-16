@@ -22,8 +22,7 @@
         <ImageView
             android:id="@+id/event_image"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="10dp" />
+            android:layout_height="wrap_content" />
 
         <!--event title-->
         <TextView
@@ -74,7 +73,20 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/event_image"
             android:text="This is where the description of the event will go... This is where the description of the event will go... This is where the description of the event will go..."
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"/>
+
+        <!--buy ticket image-->
+        <ImageView
+            android:id="@+id/buy_tickets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/event_description"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/buy_tickets"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"/>
 
         <LinearLayout
             android:id="@+id/event_lineup_layout"

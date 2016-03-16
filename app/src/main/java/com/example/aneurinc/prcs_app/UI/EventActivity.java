@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -67,7 +68,10 @@ public class EventActivity extends AppCompatActivity implements NavigationView.O
     private void setOnClickListeners() {
 
         ImageView map = (ImageView) findViewById(R.id.google_maps_icon);
+        ImageView tickets = (ImageView) findViewById(R.id.buy_tickets);
+
         map.setOnClickListener(this);
+        tickets.setOnClickListener(this);
 
     }
 
@@ -79,6 +83,17 @@ public class EventActivity extends AppCompatActivity implements NavigationView.O
             case R.id.google_maps_icon:
                 v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.onclick));
                 startActivity(new Intent(this, MapActivity.class));
+                break;
+
+            case R.id.buy_tickets:
+                int imageIndex = getIntent().getExtras().getInt(EventImageIndex);
+                v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.onclick));
+                Intent i = new Intent(this, TicketActivity.class);
+                i.putExtra(TicketActivity.EventImageIndex, imageIndex);
+                startActivity(i);
+                break;
+
+            default:
                 break;
 
         }

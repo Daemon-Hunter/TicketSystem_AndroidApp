@@ -41,9 +41,6 @@ public class LineupListAdapter extends ArrayAdapter<String> {
         View rowView = inflater.inflate(R.layout.lineup_list, null, true);
         TextView title = (TextView) rowView.findViewById(R.id.item);
         ImageView rowImage = (ImageView) rowView.findViewById(R.id.icon);
-        ImageView ticketImage = (ImageView) rowView.findViewById(R.id.ticket_image);
-        TextView desc = (TextView) rowView.findViewById(R.id.desc);
-        LinearLayout ll = (LinearLayout) rowView.findViewById(R.id.layout_ticket);
 
         int colorPos = position % Constants.rowColour.length;
         int dimensions;
@@ -51,8 +48,6 @@ public class LineupListAdapter extends ArrayAdapter<String> {
         if (name[position].contains("/")) {
 
             title.setTextColor(Color.WHITE);
-            desc.setTextSize(5);
-            desc.setText("");
             rowView.setBackgroundColor(Color.parseColor("#90caf9")); // Blue
             rowView.setOnClickListener(null);   // remove listener
             dimensions = 90;
@@ -61,13 +56,9 @@ public class LineupListAdapter extends ArrayAdapter<String> {
 
         } else {
 
-            desc.setText("Description of " + name[position]);
             rowView.setBackgroundColor(Constants.rowColour[colorPos]);
-            ticketImage.setImageResource(R.drawable.ticket);
             dimensions = 120;
-            addTicketListener(ll, position);
             rowImage.setImageResource(imageID[position]);
-
 
         }
 
@@ -79,21 +70,4 @@ public class LineupListAdapter extends ArrayAdapter<String> {
 
     }
 
-
-    private void addTicketListener(LinearLayout layout, final int index) {
-
-        layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                v.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.onclick));
-                Log.d(MainActivity.DEBUG_TAG, "Clicked Ticket row: " + index);
-                Intent i = new Intent(context, TicketActivity.class);
-                i.putExtra(TicketActivity.EventImageIndex, index);
-                context.startActivity(i);
-
-            }
-        });
-
-    }
 }

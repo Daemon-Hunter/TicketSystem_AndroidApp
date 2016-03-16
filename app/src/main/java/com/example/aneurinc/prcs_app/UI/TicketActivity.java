@@ -41,7 +41,7 @@ public class TicketActivity extends AppCompatActivity
     private void displayImage() {
         int imageIndex = getIntent().getExtras().getInt(EventImageIndex);
         ImageView eventImage = (ImageView) findViewById(R.id.event_image);
-        eventImage.setImageResource(Constants.artistImages[imageIndex]);
+        eventImage.setImageResource(Constants.eventImages[imageIndex]);
     }
 
     private void initToolbar() {
