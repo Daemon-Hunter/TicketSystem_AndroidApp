@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="10dp"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.aneurinc.prcs_app.UI.CheckoutActivity"
+    tools:showIn="@layout/activity_checkout">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="top">
+
+        <ImageView
+            android:id="@+id/checkout_details"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="80"
+            android:src="@drawable/checkout_page"/>
+
+        <ImageView
+            android:id="@+id/pay"
+            android:layout_width="100dp"
+            android:layout_height="0dp"
+            android:layout_weight="20"
+            android:layout_gravity="center"
+            android:src="@drawable/pay" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

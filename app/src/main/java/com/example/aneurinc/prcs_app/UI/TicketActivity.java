@@ -1,5 +1,6 @@
 package com.example.aneurinc.prcs_app.UI;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,7 +20,7 @@ import android.widget.TextView;
 import com.example.aneurinc.prcs_app.R;
 
 public class TicketActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     public static String EventImageIndex;
     private ListView list;
@@ -32,7 +33,13 @@ public class TicketActivity extends AppCompatActivity
         initToolbar();
         setListAdapter();
         displayImage();
+        initOnClickListeners();
 
+    }
+
+    private void initOnClickListeners() {
+        ImageView checkout = (ImageView) findViewById(R.id.checkout);
+        checkout.setOnClickListener(this);
     }
 
     private void setListAdapter() {
@@ -121,4 +128,23 @@ public class TicketActivity extends AppCompatActivity
         return true;
     }
 
+    @Override
+    public void onClick(View v) {
+
+        v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.onclick));
+
+        switch (v.getId()) {
+
+            case R.id.checkout:
+                int imageIndex = getIntent().getExtras().getInt(EventImageIndex);
+                Intent i = new Intent(this, CheckoutActivity.class);
+                i.putExtra(CheckoutActivity.EventImageIndex, imageIndex);
+                startActivity(i);
+                break;
+
+            default:
+                break;
+
+        }
+    }
 }

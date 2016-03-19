@@ -20,31 +20,22 @@
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".UI.EventActivity"
             android:label=""
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".UI.MainActivity"
             android:label=""
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
-
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".UI.MapActivity"
             android:label=""
@@ -59,7 +50,22 @@
             android:name=".UI.ArtistActivity"
             android:label=""
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.CheckoutActivity"
+            android:label=""
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".UI.ReceiptActivity"
+            android:label=""
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
+
+    <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="@string/google_maps_key" />
 
 </manifest>

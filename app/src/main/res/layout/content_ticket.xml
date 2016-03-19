@@ -67,7 +67,8 @@
         android:dividerHeight="3.0sp"
         android:fadeScrollbars="false"
         android:scrollbarAlwaysDrawHorizontalTrack="true"
-        android:scrollbarThumbVertical="@drawable/custom_scroll_bar" />
+        android:scrollbarThumbVertical="@drawable/custom_scroll_bar"
+        android:listSelector="@android:color/transparent"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -100,6 +101,7 @@
             android:textSize="18sp" />
 
         <ImageView
+            android:id="@+id/checkout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

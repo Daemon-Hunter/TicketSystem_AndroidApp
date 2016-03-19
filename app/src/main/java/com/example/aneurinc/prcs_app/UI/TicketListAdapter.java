@@ -1,7 +1,6 @@
 package com.example.aneurinc.prcs_app.UI;
 
 import android.app.Activity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,7 @@ public class TicketListAdapter extends ArrayAdapter<String> {
 
     public TicketListAdapter(Activity context, String[] name, String[] cost) {
 
-        super(context, R.layout.ticket_list, name);
+        super(context, R.layout.list_ticket, name);
 
         this.context = context;
         this.name = name;
@@ -37,7 +36,7 @@ public class TicketListAdapter extends ArrayAdapter<String> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         LayoutInflater inflater = context.getLayoutInflater();
-        View rowView = inflater.inflate(R.layout.ticket_list, null, true);
+        View rowView = inflater.inflate(R.layout.list_ticket, null, true);
 
         setOnClickListeners(rowView);
 
@@ -91,7 +90,8 @@ public class TicketListAdapter extends ArrayAdapter<String> {
         plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rowView.startAnimation(AnimationUtils.loadAnimation(context, R.anim.onclick));
+                ImageView plus = (ImageView) rowView.findViewById(R.id.plus);
+                plus.startAnimation(AnimationUtils.loadAnimation(context, R.anim.onclick));
                 int qty = Integer.parseInt(tv.getText().toString());
                 qty++;
                 tv.setText(Integer.toString(qty));
@@ -102,7 +102,8 @@ public class TicketListAdapter extends ArrayAdapter<String> {
         minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rowView.startAnimation(AnimationUtils.loadAnimation(context, R.anim.onclick));
+                ImageView minus = (ImageView) rowView.findViewById(R.id.minus);
+                minus.startAnimation(AnimationUtils.loadAnimation(context, R.anim.onclick));
                 int qty = Integer.parseInt(tv.getText().toString());
 
                 if (qty > 0) {

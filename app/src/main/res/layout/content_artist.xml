@@ -41,5 +41,81 @@
         android:text="This is where the description of the artist will go... This is where the description of the artist will go..."
         android:textColor="@android:color/white" />
 
+    <LinearLayout
+        android:id="@+id/sm_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/artist_description"
+        android:gravity="center_horizontal"
+        android:paddingTop="25dp"
+        android:paddingBottom="20dp">
+
+        <ImageView
+            android:id="@+id/facebook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/sm_facebook"
+            android:paddingRight="20dp"/>
+
+        <ImageView
+            android:id="@+id/twitter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/sm_twitter"
+            android:paddingRight="20dp"/>
+
+        <ImageView
+            android:id="@+id/instagram"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/sm_instagram"
+            android:paddingRight="20dp"/>
+
+        <ImageView
+            android:id="@+id/spotify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/sm_spotify"
+            android:paddingRight="20dp"/>
+
+        <ImageView
+            android:id="@+id/soundcloud"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/sm_soundcloud"
+            android:paddingRight="20dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/featured_lineup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sm_layout"
+        android:background="@android:color/holo_blue_dark">
+
+        <TextView
+            android:id="@+id/tv_event_lineup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Featured Events"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:padding="10dp"/>
+
+    </LinearLayout>
+
+    <!-- event lineup list-->
+    <ListView
+        android:id="@+id/featured_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/featured_lineup"
+        android:background="@android:color/white"
+        android:fadeScrollbars="false"
+        android:scrollbarAlwaysDrawHorizontalTrack="true"
+        android:scrollbarThumbVertical="@drawable/custom_scroll_bar"
+        android:listSelector="@android:color/transparent" />
 
 </RelativeLayout>

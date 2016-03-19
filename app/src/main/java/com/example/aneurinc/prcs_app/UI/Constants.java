@@ -65,6 +65,30 @@ public class Constants {
 
     };
 
+    public static String[] eventName = {
+
+            "Film Festival Laurels",
+            "Mystic Valley Festival",
+            "Taste of Brickell",
+            "Peninsula Festival",
+            "North Coast Festival",
+            "Jazz Blues",
+            "Kryshna Oyster Festival"
+
+    };
+
+    public static String[] eventDate = {
+
+            "12/06/2016",
+            "13/07/2016",
+            "14/08/2016",
+            "15/09/2016",
+            "16/10/2016",
+            "17/11/2016",
+            "18/11/2016"
+
+    };
+
     public static Integer[] rowColour = {
             0x3003a9f4, 0x3081d4fa
     };

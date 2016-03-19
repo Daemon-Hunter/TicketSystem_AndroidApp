@@ -1,16 +1,12 @@
 package com.example.aneurinc.prcs_app.UI;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
@@ -26,7 +22,7 @@ public class LineupListAdapter extends ArrayAdapter<String> {
 
     public LineupListAdapter(Activity context, String[] name, Integer[] imageID) {
 
-        super(context, R.layout.lineup_list, name);
+        super(context, R.layout.list_lineup, name);
 
         this.context = context;
         this.name = name;
@@ -38,9 +34,9 @@ public class LineupListAdapter extends ArrayAdapter<String> {
 
         LayoutInflater inflater = context.getLayoutInflater();
 
-        View rowView = inflater.inflate(R.layout.lineup_list, null, true);
+        View rowView = inflater.inflate(R.layout.list_lineup, null, true);
         TextView title = (TextView) rowView.findViewById(R.id.item);
-        ImageView rowImage = (ImageView) rowView.findViewById(R.id.icon);
+        ImageView rowImage = (ImageView) rowView.findViewById(R.id.image);
 
         int colorPos = position % Constants.rowColour.length;
         int dimensions;

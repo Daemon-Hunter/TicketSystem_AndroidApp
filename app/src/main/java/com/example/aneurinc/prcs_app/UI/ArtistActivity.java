@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import com.example.aneurinc.prcs_app.R;
 
@@ -18,6 +19,7 @@ public class ArtistActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static String EventImageIndex;
+    private ListView list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,7 @@ public class ArtistActivity extends AppCompatActivity
 
         initToolbar();
         displayImage();
+        setListAdapter();
     }
 
     private void displayImage() {
@@ -47,6 +50,14 @@ public class ArtistActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void setListAdapter() {
+        FeatureListAdapter adapter = new FeatureListAdapter(this, Constants.eventName,
+                Constants.eventDate, Constants.eventImages);
+
+        list = (ListView) findViewById(R.id.featured_list);
+        list.setAdapter(adapter);
     }
 
     @Override

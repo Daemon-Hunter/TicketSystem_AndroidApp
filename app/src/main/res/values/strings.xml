@@ -39,5 +39,9 @@
     <string name="total_ticket_cost">Total: </string>
     <string name="zero_cost">£0.00</string>
     <string name="my_tickets">My Tickets</string>
+    <string name="title_activity_checkout">CheckoutActivity</string>
+    <string name="title_activity_receipt">ReceiptActivity</string>
+    <string name="booking_confirmation">Booking Confirmation</string>
+    <string name="thank_you">Thank you for your purchase!</string>
 
 </resources>
