@@ -54,7 +54,7 @@ public class ArtistActivity extends AppCompatActivity
 
     private void setListAdapter() {
         FeatureListAdapter adapter = new FeatureListAdapter(this, Constants.eventName,
-                Constants.eventDate, Constants.eventImages);
+                Constants.dates, Constants.eventImages);
 
         list = (ListView) findViewById(R.id.featured_list);
         list.setAdapter(adapter);

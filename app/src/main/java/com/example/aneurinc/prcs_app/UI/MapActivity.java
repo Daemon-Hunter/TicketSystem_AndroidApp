@@ -102,7 +102,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
         LatLng plymouth = new LatLng(50.3741, -4.1385);
         mMap.addMarker(new MarkerOptions().position(plymouth).title("Event Title").snippet("Address goes here..."));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(plymouth, ZOOM_LOCATION));

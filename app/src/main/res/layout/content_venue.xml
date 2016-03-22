@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.aneurinc.prcs_app.UI.VenueActivity"
+    tools:showIn="@layout/activity_venue"
+    android:background="@drawable/event_background">
+
+    <!--venue image-->
+    <ImageView
+        android:id="@+id/venue_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <!--venue name title-->
+    <TextView
+        android:id="@+id/venue_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@id/venue_image"
+        android:text="Venue Name"
+        android:textColor="@android:color/white"
+        android:textSize="28sp" />
+
+    <!--venue description-->
+    <TextView
+        android:id="@+id/venue_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/venue_name"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@id/venue_image"
+        android:text="This is where the description of the venue will go... This is where the description of the venue will go..."
+        android:textColor="@android:color/white" />
+
+    <LinearLayout
+        android:id="@+id/featured_lineup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/venue_description"
+        android:layout_marginTop="30dp"
+        android:background="@android:color/holo_blue_dark">
+
+        <TextView
+            android:id="@+id/tv_event_lineup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Featured Events"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:padding="10dp"/>
+
+    </LinearLayout>
+
+    <!-- event lineup list-->
+    <ListView
+        android:id="@+id/featured_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/featured_lineup"
+        android:background="@android:color/white"
+        android:fadeScrollbars="false"
+        android:scrollbarAlwaysDrawHorizontalTrack="true"
+        android:scrollbarThumbVertical="@drawable/custom_scroll_bar"
+        android:listSelector="@android:color/transparent" />
+
+
+</RelativeLayout>

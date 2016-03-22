@@ -43,5 +43,6 @@
     <string name="title_activity_receipt">ReceiptActivity</string>
     <string name="booking_confirmation">Booking Confirmation</string>
     <string name="thank_you">Thank you for your purchase!</string>
+    <string name="title_activity_venue">VenueActivity</string>
 
 </resources>

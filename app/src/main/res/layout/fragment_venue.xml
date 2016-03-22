@@ -2,22 +2,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="5dp"
-    android:paddingBottom="5dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
     tools:context=".UI.MainActivity$DummySectionFragment">
 
-    <!--grid view of all venues-->
-    <GridView
-        android:id="@+id/venue_grid_view"
-        android:layout_width="wrap_content"
+    <!-- event lineup list-->
+    <ListView
+        android:id="@+id/venue_list"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:verticalSpacing="2dp"
-        android:horizontalSpacing="10dp"
-        android:drawSelectorOnTop="true"
-        android:numColumns="3"
-        android:stretchMode="columnWidth"
-        android:gravity="center"/>
+        android:layout_below="@+id/featured_lineup"
+        android:background="@android:color/white"
+        android:fadeScrollbars="false"
+        android:scrollbarAlwaysDrawHorizontalTrack="true"
+        android:scrollbarThumbVertical="@drawable/custom_scroll_bar"
+        android:listSelector="@android:color/transparent" />
 
 </RelativeLayout>
