@@ -20,9 +20,25 @@ public class CheckoutActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
+
+        setUpToolbar();
+        initOnClickListeners();
+    }
+
+    private void setUpToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        initOnClickListeners();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setNavigationOnClickListener(toolbar);
+    }
+
+    private void setNavigationOnClickListener(Toolbar t) {
+        t.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     private void initOnClickListeners() {

@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.aneurinc.prcs_app.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -19,8 +20,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,
-        NavigationView.OnNavigationItemSelectedListener {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private static final float ZOOM_LOCATION = 17.0f;
@@ -30,7 +30,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
-        initToolbar();
+        setUpToolbar();
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -38,43 +38,20 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
     }
 
-    private void initToolbar() {
-
+    private void setUpToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.map_drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setNavigationOnClickListener(toolbar);
     }
 
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        switch (item.getItemId()) {
-
-            case R.id.nav_camera:
-                break;
-            case R.id.nav_gallery:
-                break;
-            case R.id.nav_slideshow:
-                break;
-            case R.id.nav_manage:
-                break;
-            case R.id.nav_share:
-                break;
-            case R.id.nav_send:
-                break;
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.main_drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+    private void setNavigationOnClickListener(Toolbar t) {
+        t.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     @Override

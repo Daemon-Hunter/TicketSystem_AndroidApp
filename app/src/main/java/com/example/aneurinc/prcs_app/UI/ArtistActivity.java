@@ -10,13 +10,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.aneurinc.prcs_app.R;
 
-public class ArtistActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class ArtistActivity extends AppCompatActivity {
 
     public static String EventImageIndex;
     private ListView list;
@@ -26,30 +26,31 @@ public class ArtistActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_artist);
 
-        initToolbar();
+        setUpToolbar();
         displayImage();
         setListAdapter();
+    }
+
+    private void setUpToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setNavigationOnClickListener(toolbar);
+    }
+
+    private void setNavigationOnClickListener(Toolbar t) {
+        t.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     private void displayImage() {
         int imageIndex = getIntent().getExtras().getInt(EventImageIndex);
         ImageView artistImage = (ImageView) findViewById(R.id.artist_image);
         artistImage.setImageResource(Constants.artistImages[imageIndex]);
-    }
-
-    private void initToolbar() {
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.artist_drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
     }
 
     private void setListAdapter() {
@@ -62,12 +63,13 @@ public class ArtistActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.artist_drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.artist_drawer_layout);
+//        if (drawer.isDrawerOpen(GravityCompat.START)) {
+//            drawer.closeDrawer(GravityCompat.START);
+//        } else {
+//            super.onBackPressed();
+//        }
+        super.onBackPressed();
     }
 
     @Override
@@ -92,27 +94,4 @@ public class ArtistActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        switch (item.getItemId()) {
-
-            case R.id.nav_camera:
-                break;
-            case R.id.nav_gallery:
-                break;
-            case R.id.nav_slideshow:
-                break;
-            case R.id.nav_manage:
-                break;
-            case R.id.nav_share:
-                break;
-            case R.id.nav_send:
-                break;
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.main_drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
 }

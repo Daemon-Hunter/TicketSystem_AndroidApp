@@ -20,8 +20,7 @@ import android.widget.Button;
 
 import com.example.aneurinc.prcs_app.R;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     // debug tag
     public static final String DEBUG_TAG = "ASC";
@@ -39,7 +38,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initToolbar();
+        setUpToolbar();
+
         initButtonListeners();
 
         createFragment(new EventFragment(), E_TAG);
@@ -47,28 +47,29 @@ public class MainActivity extends AppCompatActivity
         fragmentManager = getSupportFragmentManager();
     }
 
-    private void initToolbar() {
-
+    private void setUpToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setNavigationOnClickListener(toolbar);
+    }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.main_drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+    private void setNavigationOnClickListener(Toolbar t) {
+        t.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     private void initButtonListeners() {
 
         // get buttons
-        Button btnEvents = (Button)findViewById(R.id.btn_event);
-        Button btnArtists = (Button)findViewById(R.id.btn_artist);
-        Button btnTickets = (Button)findViewById(R.id.btn_tickets);
-        Button btnFollowing = (Button)findViewById(R.id.btn_venue);
+        Button btnEvents = (Button) findViewById(R.id.btn_event);
+        Button btnArtists = (Button) findViewById(R.id.btn_artist);
+        Button btnTickets = (Button) findViewById(R.id.btn_tickets);
+        Button btnFollowing = (Button) findViewById(R.id.btn_venue);
 
         // set listeners
         btnEvents.setOnClickListener(this);
@@ -91,20 +92,16 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.main_drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+
+        if (fragmentManager.getBackStackEntryCount() > 1) {
+            super.onBackPressed();
+            updateCurrentFragment();
         } else {
-            if (fragmentManager.getBackStackEntryCount() > 1) {
-                super.onBackPressed();
-                updateCurrentFragment();
-            } else {
-                // exit app if back stack == 1
-                Intent intent = new Intent(Intent.ACTION_MAIN);
-                intent.addCategory(Intent.CATEGORY_HOME);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            }
+            // exit app if back stack == 1
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         }
 
     }
@@ -142,10 +139,10 @@ public class MainActivity extends AppCompatActivity
 
     private void updateButtons(int btnID) {
 
-        Button btnEvents = (Button)findViewById(R.id.btn_event);
-        Button btnArtists = (Button)findViewById(R.id.btn_artist);
-        Button btnTickets = (Button)findViewById(R.id.btn_tickets);
-        Button btnFollowing = (Button)findViewById(R.id.btn_venue);
+        Button btnEvents = (Button) findViewById(R.id.btn_event);
+        Button btnArtists = (Button) findViewById(R.id.btn_artist);
+        Button btnTickets = (Button) findViewById(R.id.btn_tickets);
+        Button btnFollowing = (Button) findViewById(R.id.btn_venue);
 
         // set 4 buttons to clickable
         btnEvents.setClickable(true);
@@ -160,7 +157,7 @@ public class MainActivity extends AppCompatActivity
         btnFollowing.setTextColor(Color.BLACK);
 
         // get selected button
-        Button selectedBtn = (Button)findViewById(btnID);
+        Button selectedBtn = (Button) findViewById(btnID);
 
         // set to non-clickable and grey
         selectedBtn.setClickable(false);
@@ -189,32 +186,6 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-
-        // Handle navigation view item clicks here.
-        switch (item.getItemId()) {
-
-            case R.id.nav_camera:
-                break;
-            case R.id.nav_gallery:
-                break;
-            case R.id.nav_slideshow:
-                break;
-            case R.id.nav_manage:
-                break;
-            case R.id.nav_share:
-                break;
-            case R.id.nav_send:
-                break;
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.main_drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
     @Override
     public void onClick(View v) {
 
@@ -240,7 +211,8 @@ public class MainActivity extends AppCompatActivity
                 updateButtons(R.id.btn_venue);
                 break;
 
-            default: break;
+            default:
+                break;
 
         }
     }

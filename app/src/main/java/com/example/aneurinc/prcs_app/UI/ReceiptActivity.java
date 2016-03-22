@@ -20,9 +20,25 @@ public class ReceiptActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receipt);
+
+        setUpToolbar();
+        initOnClickListener();
+    }
+
+    private void setUpToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        initOnClickListener();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setNavigationOnClickListener(toolbar);
+    }
+
+    private void setNavigationOnClickListener(Toolbar t) {
+        t.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     private void initOnClickListener() {

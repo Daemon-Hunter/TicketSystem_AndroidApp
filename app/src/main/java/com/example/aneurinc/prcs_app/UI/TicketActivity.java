@@ -19,8 +19,7 @@ import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
 
-public class TicketActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+public class TicketActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static String EventImageIndex;
     private ListView list;
@@ -30,11 +29,27 @@ public class TicketActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ticket);
 
-        initToolbar();
+        setUpToolbar();
         setListAdapter();
         displayImage();
         initOnClickListeners();
 
+    }
+
+    private void setUpToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setNavigationOnClickListener(toolbar);
+    }
+
+    private void setNavigationOnClickListener(Toolbar t) {
+        t.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     private void initOnClickListeners() {
@@ -54,30 +69,10 @@ public class TicketActivity extends AppCompatActivity
         eventImage.setImageResource(Constants.eventImages[imageIndex]);
     }
 
-    private void initToolbar() {
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.ticket_drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-    }
-
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.ticket_drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+
+        super.onBackPressed();
     }
 
     @Override
@@ -101,31 +96,6 @@ public class TicketActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        switch (item.getItemId()) {
-
-            case R.id.nav_camera:
-                break;
-            case R.id.nav_gallery:
-                break;
-            case R.id.nav_slideshow:
-                break;
-            case R.id.nav_manage:
-                break;
-            case R.id.nav_share:
-                break;
-            case R.id.nav_send:
-                break;
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.main_drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 
     @Override

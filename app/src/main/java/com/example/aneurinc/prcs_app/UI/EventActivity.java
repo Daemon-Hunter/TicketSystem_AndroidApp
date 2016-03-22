@@ -20,7 +20,7 @@ import android.widget.ListView;
 
 import com.example.aneurinc.prcs_app.R;
 
-public class EventActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+public class EventActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static String EventImageIndex;
     private ListView list;
@@ -30,7 +30,8 @@ public class EventActivity extends AppCompatActivity implements NavigationView.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
 
-        initToolbar();
+        setUpToolbar();
+
         displayImage();
 
         setOnClickListeners();
@@ -38,6 +39,22 @@ public class EventActivity extends AppCompatActivity implements NavigationView.O
         setLineupListAdapter();
         setListOnClickListener();
 
+    }
+
+    private void setUpToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setNavigationOnClickListener(toolbar);
+    }
+
+    private void setNavigationOnClickListener(Toolbar t) {
+        t.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     private void setLineupListAdapter() {
@@ -104,21 +121,6 @@ public class EventActivity extends AppCompatActivity implements NavigationView.O
         eventImage.setImageResource(Constants.eventImages[imageIndex]);
     }
 
-    private void initToolbar() {
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.event_drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -142,27 +144,5 @@ public class EventActivity extends AppCompatActivity implements NavigationView.O
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
 
-        switch (item.getItemId()) {
-
-            case R.id.nav_camera:
-                break;
-            case R.id.nav_gallery:
-                break;
-            case R.id.nav_slideshow:
-                break;
-            case R.id.nav_manage:
-                break;
-            case R.id.nav_share:
-                break;
-            case R.id.nav_send:
-                break;
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.main_drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
 }
