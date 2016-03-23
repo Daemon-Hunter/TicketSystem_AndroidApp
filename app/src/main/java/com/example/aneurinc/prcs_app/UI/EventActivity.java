@@ -32,7 +32,6 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
         setOnClickListeners();
 
         setLineupListAdapter();
-        setListOnClickListener();
 
     }
 
@@ -56,24 +55,6 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
         LineupListAdapter adapter = new LineupListAdapter(this, Constants.artistName, Constants.artistImages);
         list = (ListView) findViewById(R.id.lineup_list);
         list.setAdapter(adapter);
-    }
-
-    private void setListOnClickListener() {
-
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-
-                String selectedItem = Constants.artistName[+position];
-                Log.d(MainActivity.DEBUG_TAG, "Artist: " + selectedItem);
-                Intent i = new Intent(EventActivity.this, ArtistActivity.class);
-                i.putExtra(ArtistActivity.EventImageIndex, position);
-                startActivity(i);
-
-            }
-        });
     }
 
     private void setOnClickListeners() {
@@ -102,9 +83,6 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
                 Intent i = new Intent(this, TicketActivity.class);
                 i.putExtra(TicketActivity.EventImageIndex, imageIndex);
                 startActivity(i);
-                break;
-
-            default:
                 break;
 
         }

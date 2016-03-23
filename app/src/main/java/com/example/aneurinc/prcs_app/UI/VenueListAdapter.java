@@ -2,13 +2,14 @@ package com.example.aneurinc.prcs_app.UI;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
@@ -16,7 +17,7 @@ import com.example.aneurinc.prcs_app.R;
 /**
  * Created by aneurinc on 21/03/2016.
  */
-public class VenueListAdapter extends ArrayAdapter<String> {
+public class VenueListAdapter extends ArrayAdapter<String> implements AdapterView.OnItemClickListener, View.OnClickListener {
 
     private final Activity context;
     private final String[] name;
@@ -30,7 +31,11 @@ public class VenueListAdapter extends ArrayAdapter<String> {
         this.name = name;
         this.image = image;
         this.location = location;
+
+        ListView list = (ListView) context.findViewById(R.id.venue_list);
+        list.setOnItemClickListener(this);
     }
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -47,40 +52,24 @@ public class VenueListAdapter extends ArrayAdapter<String> {
         rowName.setText(name[position]);
         rowLocation.setText(location[position]);
 
-        setOnClickListener(rowMaps, position);
-        setOnClickListener(rowImage, position);
+        rowMaps.setOnClickListener(this);
 
         int colorPos = position % Constants.rowColour.length;
         rowView.setBackgroundColor(Constants.rowColour[colorPos]);
 
-
         return rowView;
     }
 
-    private void setOnClickListener(View v, final int index) {
-
-
-        v.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.onclick));
-
-                switch (v.getId()) {
-
-                    case R.id.image:
-                        Intent intent = new Intent(context, VenueActivity.class);
-                        intent.putExtra(VenueActivity.VenueImageIndex, index);
-                        context.startActivity(intent);
-                        break;
-
-                    case R.id.map:
-                        context.startActivity(new Intent(context, MapActivity.class));
-                        break;
-
-                }
-            }
-        });
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(context, VenueActivity.class);
+        intent.putExtra(VenueActivity.VenueImageIndex, position);
+        context.startActivity(intent);
     }
 
+    @Override
+    public void onClick(View v) {
+        v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.onclick));
+        context.startActivity(new Intent(context, MapActivity.class));
+    }
 }

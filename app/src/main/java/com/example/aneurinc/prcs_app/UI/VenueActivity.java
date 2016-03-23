@@ -1,10 +1,7 @@
 package com.example.aneurinc.prcs_app.UI;
 
-import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -55,10 +52,10 @@ public class VenueActivity extends AppCompatActivity {
     }
 
     private void setListAdapter() {
-        FeatureListAdapter adapter = new FeatureListAdapter(this, Constants.eventName,
+        UpcomingListAdapter adapter = new UpcomingListAdapter(this, Constants.eventName,
                 Constants.dates, Constants.eventImages);
 
-        list = (ListView) findViewById(R.id.featured_list);
+        list = (ListView) findViewById(R.id.upcoming_list);
         list.setAdapter(adapter);
     }
 

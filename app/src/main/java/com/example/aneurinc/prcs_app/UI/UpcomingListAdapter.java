@@ -6,8 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
@@ -15,21 +17,24 @@ import com.example.aneurinc.prcs_app.R;
 /**
  * Created by aneurinc on 19/03/2016.
  */
-public class FeatureListAdapter extends ArrayAdapter<String> {
+public class UpcomingListAdapter extends ArrayAdapter<String> implements AdapterView.OnItemClickListener {
 
     private final Activity context;
     private final String[] name;
     private final String[] date;
     private final Integer[] imageID;
 
-    public FeatureListAdapter(Activity context, String[] name, String[] date, Integer[] imageID) {
+    public UpcomingListAdapter(Activity context, String[] name, String[] date, Integer[] imageID) {
 
-        super(context, R.layout.list_featured, name);
+        super(context, R.layout.list_upcoming, name);
 
         this.context = context;
         this.name = name;
         this.date = date;
         this.imageID = imageID;
+
+        ListView list = (ListView) context.findViewById(R.id.upcoming_list);
+        list.setOnItemClickListener(this);
     }
 
     @Override
@@ -37,7 +42,7 @@ public class FeatureListAdapter extends ArrayAdapter<String> {
 
         LayoutInflater inflater = context.getLayoutInflater();
 
-        View rowView = inflater.inflate(R.layout.list_featured, null, true);
+        View rowView = inflater.inflate(R.layout.list_upcoming, null, true);
         ImageView rowImage = (ImageView) rowView.findViewById(R.id.image);
         TextView rowName = (TextView) rowView.findViewById(R.id.name);
         TextView rowDate = (TextView) rowView.findViewById(R.id.date);
@@ -46,24 +51,17 @@ public class FeatureListAdapter extends ArrayAdapter<String> {
         rowView.setBackgroundColor(Constants.rowColour[colorPos]);
 
         rowImage.setImageResource(imageID[position]);
-        setOnClickListener(rowImage, position);
+
         rowName.setText(name[position]);
         rowDate.setText(date[position]);
 
         return rowView;
-
     }
 
-    private void setOnClickListener(ImageView image, final int index) {
-
-        image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                v.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.onclick));
-                Intent i = new Intent(getContext(), EventActivity.class);
-                i.putExtra(EventActivity.EventImageIndex, index);
-                context.startActivity(i);
-            }
-        });
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent i = new Intent(getContext(), EventActivity.class);
+        i.putExtra(EventActivity.EventImageIndex, position);
+        context.startActivity(i);
     }
 }

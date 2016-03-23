@@ -99,7 +99,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Upcoming Events"
+            android:text="@string/upcoming_performances"
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:padding="10dp"/>
@@ -108,14 +108,13 @@
 
     <!-- event lineup list-->
     <ListView
-        android:id="@+id/featured_list"
+        android:id="@+id/upcoming_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/featured_lineup"
         android:background="@android:color/white"
         android:fadeScrollbars="false"
         android:scrollbarAlwaysDrawHorizontalTrack="true"
-        android:scrollbarThumbVertical="@drawable/custom_scroll_bar"
-        android:listSelector="@android:color/transparent" />
+        android:scrollbarThumbVertical="@drawable/custom_scroll_bar" />
 
 </RelativeLayout>

@@ -13,7 +13,6 @@
         android:background="@android:color/white"
         android:fadeScrollbars="false"
         android:scrollbarAlwaysDrawHorizontalTrack="true"
-        android:scrollbarThumbVertical="@drawable/custom_scroll_bar"
-        android:listSelector="@android:color/transparent" />
+        android:scrollbarThumbVertical="@drawable/custom_scroll_bar" />
 
 </RelativeLayout>

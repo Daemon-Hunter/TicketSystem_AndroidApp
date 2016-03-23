@@ -45,5 +45,7 @@
     <string name="thank_you">Thank you for your purchase!</string>
     <string name="title_activity_venue">VenueActivity</string>
     <string name="home">home</string>
+    <string name="upcoming_performances">Upcoming Performances</string>
+    <string name="upcoming_events">Upcoming Events</string>
 
 </resources>

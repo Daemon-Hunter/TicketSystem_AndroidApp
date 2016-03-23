@@ -24,7 +24,7 @@ public class TicketListAdapter extends ArrayAdapter<String> {
 
     public TicketListAdapter(Activity context, String[] name, String[] cost) {
 
-        super(context, R.layout.list_ticket, name);
+        super(context, R.layout.list_ticket_type, name);
 
         this.context = context;
         this.name = name;
@@ -36,7 +36,7 @@ public class TicketListAdapter extends ArrayAdapter<String> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         LayoutInflater inflater = context.getLayoutInflater();
-        View rowView = inflater.inflate(R.layout.list_ticket, null, true);
+        View rowView = inflater.inflate(R.layout.list_ticket_type, null, true);
 
         setOnClickListeners(rowView);
 
