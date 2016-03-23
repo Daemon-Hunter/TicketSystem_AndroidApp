@@ -6,13 +6,16 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.example.aneurinc.prcs_app.R;
 
-public class CheckoutActivity extends AppCompatActivity implements View.OnClickListener {
+public class PaymentActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static String EventImageIndex;
 
@@ -29,10 +32,10 @@ public class CheckoutActivity extends AppCompatActivity implements View.OnClickL
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setNavigationOnClickListener(toolbar);
+        setToolbarListener(toolbar);
     }
 
-    private void setNavigationOnClickListener(Toolbar t) {
+    private void setToolbarListener(Toolbar t) {
         t.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,6 +47,28 @@ public class CheckoutActivity extends AppCompatActivity implements View.OnClickL
     private void initOnClickListeners() {
         ImageView pay = (ImageView) findViewById(R.id.pay);
         pay.setOnClickListener(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        menu.findItem(R.id.tb_search).setVisible(false);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+
+            case R.id.tb_home:
+                startActivity(new Intent(this, MainActivity.class));
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

@@ -1,10 +1,7 @@
 package com.example.aneurinc.prcs_app.UI;
 
-import android.support.design.widget.NavigationView;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -42,10 +39,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setNavigationOnClickListener(toolbar);
+        setToolbarListener(toolbar);
     }
 
-    private void setNavigationOnClickListener(Toolbar t) {
+    private void setToolbarListener(Toolbar t) {
         t.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,8 +64,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
 
-            case R.id.ab_search:
+            case R.id.tb_search:
                 Log.d(MainActivity.DEBUG_TAG, "Action Bar: Search");
+                break;
+
+            case R.id.tb_home:
+                startActivity(new Intent(this, MainActivity.class));
                 break;
         }
 
@@ -83,4 +84,5 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions().position(plymouth).title("Event Title").snippet("Address goes here..."));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(plymouth, ZOOM_LOCATION));
     }
+
 }

@@ -4,9 +4,16 @@
 
     <!--search-->
     <item
-        android:id="@+id/ab_search"
-        android:icon="@drawable/ab_search"
+        android:id="@+id/tb_search"
+        android:icon="@mipmap/ic_search_white_24dp"
         android:title="@string/action_search"
+        app:showAsAction="always"/>
+
+    <!--home-->
+    <item
+        android:id="@+id/tb_home"
+        android:icon="@mipmap/ic_home_white_24dp"
+        android:title="@string/home"
         app:showAsAction="always"/>
 
 </menu>
