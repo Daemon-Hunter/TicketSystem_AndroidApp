@@ -29,6 +29,10 @@ public class TicketActivity extends AppCompatActivity implements View.OnClickLis
         displayImage();
         initOnClickListeners();
 
+        // disable the checkout button
+        ImageView checkout = (ImageView) findViewById(R.id.checkout);
+        checkout.setClickable(false);
+
     }
 
     private void setUpToolbar() {

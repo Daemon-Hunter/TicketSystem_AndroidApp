@@ -30,6 +30,15 @@
         android:textColor="@android:color/white"
         android:textSize="28sp" />
 
+    <!--map image-->
+    <ImageView
+        android:id="@+id/map"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_toRightOf="@id/venue_name"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/google_maps_icon" />
+
     <!--venue description-->
     <TextView
         android:id="@+id/venue_description"
@@ -37,16 +46,62 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/venue_name"
         android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
         android:layout_toRightOf="@id/venue_image"
         android:text="This is where the description of the venue will go... This is where the description of the venue will go..."
         android:textColor="@android:color/white" />
 
     <LinearLayout
+        android:id="@+id/sm_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/venue_description"
+        android:gravity="center_horizontal"
+        android:paddingTop="25dp"
+        android:paddingBottom="20dp">
+
+        <ImageView
+            android:id="@+id/facebook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/sm_facebook"
+            android:paddingRight="20dp"/>
+
+        <ImageView
+            android:id="@+id/twitter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/sm_twitter"
+            android:paddingRight="20dp"/>
+
+        <ImageView
+            android:id="@+id/instagram"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/sm_instagram"
+            android:paddingRight="20dp"/>
+
+        <ImageView
+            android:id="@+id/spotify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/sm_spotify"
+            android:paddingRight="20dp"/>
+
+        <ImageView
+            android:id="@+id/soundcloud"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/sm_soundcloud"
+            android:paddingRight="20dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/featured_lineup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/venue_description"
-        android:layout_marginTop="30dp"
+        android:layout_below="@id/sm_layout"
         android:background="@android:color/holo_blue_dark">
 
         <TextView

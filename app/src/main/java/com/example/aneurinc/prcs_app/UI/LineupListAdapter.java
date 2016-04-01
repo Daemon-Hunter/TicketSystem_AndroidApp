@@ -44,28 +44,26 @@ public class LineupListAdapter extends ArrayAdapter<String> implements AdapterVi
         TextView title = (TextView) rowView.findViewById(R.id.item);
         ImageView rowImage = (ImageView) rowView.findViewById(R.id.image);
 
-        int colorPos = position % Constants.rowColour.length;
-        int dimensions;
+        if (position % 4 == 0) {
 
-        if (name[position].contains("/")) {
-
-            title.setTextColor(Color.WHITE);
-            rowView.setBackgroundColor(Color.parseColor("#90caf9")); // Blue
-            rowView.setOnClickListener(null);   // remove listener
-            dimensions = 90;
+            rowView.setBackgroundColor(Color.parseColor("#90CAF9"));
+            rowView.setOnClickListener(null);
             rowImage.setImageResource(R.drawable.calendar);
+            rowImage.getLayoutParams().height = 120;
+            rowImage.getLayoutParams().width = 120;
+            title.setText(Constants.nameDates[position]);
+            title.setTextColor(Color.WHITE);
 
         } else {
 
+            int colorPos = position % Constants.rowColour.length;
             rowView.setBackgroundColor(Constants.rowColour[colorPos]);
-            dimensions = 120;
             rowImage.setImageResource(imageID[position]);
+            rowImage.getLayoutParams().height = 120;
+            rowImage.getLayoutParams().width = 120;
+            title.setText(name[position]);
 
         }
-
-        rowImage.getLayoutParams().height = dimensions;
-        rowImage.getLayoutParams().width = dimensions;
-        title.setText(name[position]);
 
         return rowView;
 

@@ -23,7 +23,7 @@ public class ArtistFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_artist, container, false);
 
         GridView gridView = (GridView)view.findViewById(R.id.artist_grid_view);
-        gridView.setAdapter(new GridAdapter(this.getActivity(), Constants.artistImages));
+        gridView.setAdapter(new GridAdapter(this.getActivity(), Constants.artistImages, Constants.artistName));
 
         addGridViewListener(gridView);
 

@@ -28,7 +28,7 @@ public class EventFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_event, container, false);
 
         GridView gridView = (GridView)view.findViewById(R.id.event_grid_view);
-        gridView.setAdapter(new GridAdapter(this.getActivity(), Constants.eventImages));
+        gridView.setAdapter(new GridAdapter(this.getActivity(), Constants.eventImages, Constants.eventName));
 
         setOnItemClickListener(gridView);
 

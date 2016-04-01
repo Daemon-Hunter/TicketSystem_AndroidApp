@@ -79,6 +79,15 @@ public class TicketListAdapter extends ArrayAdapter<String> {
         DecimalFormat df = new DecimalFormat("#0.00");
         // output new value
         total.setText("£" + df.format(newTotalVal));
+
+        // set checkout button to enabled
+        ImageView checkout = (ImageView) context.findViewById(R.id.checkout);
+        if (newTotalVal > 0) {
+            checkout.setClickable(true);
+        } else {
+            checkout.setClickable(false);
+        }
+
     }
 
     private void setOnClickListeners(final View rowView) {

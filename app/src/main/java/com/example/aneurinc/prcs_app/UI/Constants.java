@@ -16,6 +16,27 @@ public class Constants {
             "Peninsula Festival",
             "North Coast Festival",
             "Jazz Blues",
+            "Kryshna Oyster Festival",
+            "Film Festival Laurels",
+            "Mystic Valley Festival",
+            "Taste of Brickell",
+            "Peninsula Festival",
+            "North Coast Festival",
+            "Jazz Blues",
+            "Kryshna Oyster Festival",
+            "Film Festival Laurels",
+            "Mystic Valley Festival",
+            "Taste of Brickell",
+            "Peninsula Festival",
+            "North Coast Festival",
+            "Jazz Blues",
+            "Kryshna Oyster Festival",
+            "Film Festival Laurels",
+            "Mystic Valley Festival",
+            "Taste of Brickell",
+            "Peninsula Festival",
+            "North Coast Festival",
+            "Jazz Blues",
             "Kryshna Oyster Festival"
 
     };
@@ -40,13 +61,18 @@ public class Constants {
     //    artist names
     public static String[] artistName = {
 
-            "23/12/2016",
-            "A Bunch of Fairies",
+            "Kevin Hart",
+            "Ed Sheeran",
             "Adele",
-            "24/12/2016",
+            "Action Bronson",
             "Russel Howard",
-            "Xavier Jackson",
-            "Run DMC",
+            "Michael Jackson",
+            "A Swedish Ventriloquist...",
+            "A Jazz Guy...",
+            "Bob Marley",
+            "Pavarotti",
+            "Nas",
+            "Rihanna",
 
     };
 
@@ -101,7 +127,7 @@ public class Constants {
 
     };
 
-    // dates
+    //    dates
     public static String[] dates = {
 
             "12/06/2016",
@@ -111,6 +137,23 @@ public class Constants {
             "16/10/2016",
             "17/11/2016",
             "18/11/2016"
+
+    };
+
+    public static String[] nameDates = {
+
+            "Friday 12th June 2016",
+            "Saturday 13th Sep 2016",
+            "Sunday 14th June 2016",
+            "Friday 14th Sep 2016",
+            "Saturday 13th June 2016",
+            "Tuesday 17th Nov 2016",
+            "Wednesday 18th Nov 2016",
+            "Friday 12th June 2016",
+            "Sunday 14th June 2016",
+            "Friday 12th June 2016",
+            "Saturday 13th Sep 2016",
+            "Sunday 14th June 2016"
 
     };
 

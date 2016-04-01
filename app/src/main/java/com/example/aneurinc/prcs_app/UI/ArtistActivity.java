@@ -8,12 +8,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.aneurinc.prcs_app.R;
 
-public class ArtistActivity extends AppCompatActivity {
+public class ArtistActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static String EventImageIndex;
     private ListView list;
@@ -26,6 +27,21 @@ public class ArtistActivity extends AppCompatActivity {
         setUpToolbar();
         displayImage();
         setListAdapter();
+        setOnClickListeners();
+    }
+
+    private void setOnClickListeners() {
+        ImageView facebook = (ImageView) findViewById(R.id.facebook);
+        ImageView twitter = (ImageView) findViewById(R.id.twitter);
+        ImageView instagram = (ImageView) findViewById(R.id.instagram);
+        ImageView soundcloud = (ImageView) findViewById(R.id.soundcloud);
+        ImageView spotify = (ImageView) findViewById(R.id.spotify);
+
+        facebook.setOnClickListener(this);
+        twitter.setOnClickListener(this);
+        instagram.setOnClickListener(this);
+        soundcloud.setOnClickListener(this);
+        spotify.setOnClickListener(this);
     }
 
     private void setUpToolbar() {
@@ -90,4 +106,24 @@ public class ArtistActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onClick(View v) {
+
+        Log.d(MainActivity.DEBUG_TAG, "Clicked on venue social media icon...");
+
+        v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.onclick));
+
+        switch (v.getId()) {
+            case R.id.facebook:
+                break;
+            case R.id.twitter:
+                break;
+            case R.id.instagram:
+                break;
+            case R.id.soundcloud:
+                break;
+            case R.id.spotify:
+                break;
+        }
+    }
 }

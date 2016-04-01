@@ -10,6 +10,9 @@ import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.example.aneurinc.prcs_app.R;
 
 /**
  * Created by aneurinc on 22/02/2016.
@@ -18,10 +21,12 @@ public class GridAdapter extends BaseAdapter {
 
     private Context mContext;
     private Integer[] mImages;
+    private String[] mTitle;
 
-    public GridAdapter(Context c, Integer[] i) {
+    public GridAdapter(Context c, Integer[] i, String[] t) {
         mContext = c;
         mImages = i;
+        mTitle = t;
     }
 
     @Override
@@ -42,27 +47,32 @@ public class GridAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ImageView imageView;
-        WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int xy = size.x / 3 - 10;
+
+        View grid;
+        LayoutInflater inflater =
+                (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         if (convertView == null) {
+
             // if it's not recycled, initialize some attributes
-            imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new GridView.LayoutParams(xy, xy));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setPadding(5, 5, 5, 5);
+
+            grid = inflater.inflate(R.layout.grid_single, null);
+
+            TextView textView = (TextView) grid.findViewById(R.id.grid_text);
+            textView.setText(mTitle[position]);
+
+            ImageView imageView = (ImageView) grid.findViewById(R.id.grid_image);
+            imageView.setImageResource(mImages[position]);
+            imageView.getLayoutParams().width = 275;
+            imageView.getLayoutParams().height = 275;
 
         } else {
-            imageView = (ImageView) convertView;
+
+            grid = convertView;
+
         }
 
-        imageView.setImageResource(mImages[position]);
-
-        return imageView;
+        return grid;
     }
 
 

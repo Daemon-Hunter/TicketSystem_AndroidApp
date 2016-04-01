@@ -14,7 +14,7 @@
         android:id="@+id/artist_grid_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:verticalSpacing="2dp"
+        android:verticalSpacing="10dp"
         android:horizontalSpacing="10dp"
         android:drawSelectorOnTop="true"
         android:numColumns="3"

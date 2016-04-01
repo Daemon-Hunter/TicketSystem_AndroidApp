@@ -54,6 +54,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
+        menu.findItem(R.id.tb_search).setVisible(false);
         return true;
     }
 
@@ -63,10 +64,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
-
-            case R.id.tb_search:
-                Log.d(MainActivity.DEBUG_TAG, "Action Bar: Search");
-                break;
 
             case R.id.tb_home:
                 startActivity(new Intent(this, MainActivity.class));
