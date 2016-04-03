@@ -8,91 +8,223 @@
     tools:context="com.example.aneurinc.prcs_app.UI.ReceiptActivity"
     tools:showIn="@layout/activity_receipt">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-
-
-    </RelativeLayout>
-
+    <!--booking confirmation header layout container-->
     <RelativeLayout
         android:id="@+id/payment_confirmation_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:background="@color/colorGrey100">
+        android:background="@color/colorGrey100"
+        android:gravity="center">
 
+        <!--booking confirmation text view-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="10dp"
             android:text="@string/booking_confirmation"
-            android:textSize="22sp"
-            android:padding="10dp"/>
+            android:textSize="22sp" />
 
     </RelativeLayout>
 
+    <!--booking complete text view -->
     <TextView
-        android:id="@+id/thank_you"
+        android:id="@+id/booking_confirmation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/payment_confirmation_layout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:padding="10dp"
-        android:text="@string/thank_you"/>
+        android:layout_below="@id/payment_confirmation_layout"
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp"
+        android:text="@string/booking_complete"
+        android:textColor="@color/colorBlue800"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
+    <!--booking complete message-->
     <TextView
-        android:id="@+id/customer_name"
+        android:id="@+id/booking_complete_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/thank_you"
-        android:layout_centerHorizontal="true"
-        android:padding="2dp"
-        android:text="Roy Tucker"/>
+        android:layout_below="@+id/booking_confirmation"
+        android:paddingTop="8dp"
+        android:paddingLeft="10dp"
+        android:text="@string/booking_complete_desc" />
 
+    <!--booking details header-->
     <TextView
-        android:id="@+id/customer_email"
+        android:id="@+id/booking_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/customer_name"
-        android:layout_centerHorizontal="true"
-        android:padding="2dp"
-        android:text="roytucker@gmail.com"/>
+        android:layout_below="@+id/booking_complete_desc"
+        android:paddingLeft="10dp"
+        android:paddingTop="8dp"
+        android:text="@string/booking_details"
+        android:textColor="@color/colorBlue800"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
+    <!-- invoice list header container-->
+    <LinearLayout
+        android:id="@+id/invoice_list_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/booking_details"
+        android:paddingLeft="25dp"
+        android:paddingTop="8dp">
+
+        <!-- ticket type text view-->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="50"
+            android:text="@string/ticket_type"
+            android:textStyle="bold" />
+
+        <!-- ticket quantity text view-->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="25"
+            android:text="@string/ticket_qty"
+            android:textStyle="bold" />
+
+        <!-- ticket cost text view-->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="25"
+            android:text="@string/cost"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <!-- invoice list view -->
+    <ListView
+        android:id="@+id/invoice_list"
+        android:layout_width="match_parent"
+        android:layout_height="105dp"
+        android:layout_below="@+id/invoice_list_header"
+        android:background="@null"
+        android:fadeScrollbars="false"
+        android:paddingLeft="25dp"
+        android:paddingTop="5dp" />
+
+    <!-- total layout container-->
+    <LinearLayout
+        android:id="@+id/total_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/invoice_list"
+        android:paddingLeft="25dp"
+        android:paddingTop="8dp">
+
+        <!-- total text view-->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="50"
+            android:text="@string/total_ticket_cost"
+            android:textStyle="bold" />
+
+        <!-- total qty text view-->
+        <TextView
+            android:id="@+id/total_qty"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="25"
+            android:text="@string/zero_qty" />
+
+        <!-- total cost text view-->
+        <TextView
+            android:id="@+id/total_cost"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="25"
+            android:text="@string/zero_cost" />
+
+    </LinearLayout>
+
+    <!-- booking id text view-->
     <TextView
         android:id="@+id/booking_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/customer_email"
-        android:layout_centerHorizontal="true"
-        android:padding="2dp"
-        android:text="Booking ID: 100332324"/>
+        android:layout_below="@id/total_header"
+        android:paddingLeft="25dp"
+        android:paddingTop="5dp"
+        android:text="@string/booking_id" />
 
+    <!-- customer booking id txt view-->
     <TextView
-        android:id="@+id/email_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/total_header"
+        android:layout_toRightOf="@id/booking_id"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:text="10939382" />
+
+    <!--customer details header-->
+    <TextView
+        android:id="@+id/customer_details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/booking_id"
-        android:layout_centerHorizontal="true"
-        android:padding="10dp"
-        android:text="These details will be sent via email"/>
+        android:paddingLeft="10dp"
+        android:paddingTop="8dp"
+        android:text="@string/customer_details"
+        android:textColor="@color/colorBlue800"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/button_ok"
+    <!-- customer name-->
+    <TextView
+        android:id="@+id/customer_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/email_details"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:text="OK"/>
+        android:layout_below="@id/customer_details"
+        android:paddingLeft="25dp"
+        android:paddingTop="2dp"
+        android:text="Name: Roy Tucker" />
 
+    <!-- customer email-->
+    <TextView
+        android:id="@+id/customer_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/customer_name"
+        android:paddingLeft="25dp"
+        android:paddingTop="2dp"
+        android:text="Email: roytucker@plymouth.ac.uk" />
+
+    <!--customer id text view-->
+    <TextView
+        android:id="@+id/customer_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/customer_email"
+        android:paddingLeft="25dp"
+        android:paddingTop="2dp"
+        android:text="ID: 1002442442" />
+
+    <!--qr code image-->
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/button_ok"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/qrcode"
-        android:padding="50dp"/>
+        android:id="@+id/qr_code"
+        android:layout_width="115dp"
+        android:layout_height="115dp"
+        android:layout_below="@id/booking_id"
+        android:layout_alignParentRight="true"
+        android:paddingRight="35dp"
+        android:paddingTop="15dp"
+        android:src="@drawable/qrcode" />
+
+    <!-- confirm order button-->
+    <ImageView
+        android:id="@+id/btn_confirm"
+        android:layout_width="150dp"
+        android:layout_height="120dp"
+        android:layout_below="@+id/customer_id"
+        android:src="@drawable/confirm_order"
+        android:paddingLeft="10dp"
+        android:paddingTop="2dp"/>
 
 </RelativeLayout>

@@ -20,18 +20,12 @@ import com.example.aneurinc.prcs_app.R;
 public class UpcomingListAdapter extends ArrayAdapter<String> implements AdapterView.OnItemClickListener {
 
     private final Activity context;
-    private final String[] name;
-    private final String[] date;
-    private final Integer[] imageID;
 
-    public UpcomingListAdapter(Activity context, String[] name, String[] date, Integer[] imageID) {
+    public UpcomingListAdapter(Activity context) {
 
-        super(context, R.layout.list_upcoming, name);
+        super(context, R.layout.list_upcoming, Constants.eventName);
 
         this.context = context;
-        this.name = name;
-        this.date = date;
-        this.imageID = imageID;
 
         ListView list = (ListView) context.findViewById(R.id.upcoming_list);
         list.setOnItemClickListener(this);
@@ -40,21 +34,27 @@ public class UpcomingListAdapter extends ArrayAdapter<String> implements Adapter
     @Override
     public View getView(int position, View view, ViewGroup parent) {
 
+        // inflate view
         LayoutInflater inflater = context.getLayoutInflater();
-
         View rowView = inflater.inflate(R.layout.list_upcoming, null, true);
+
+        // get reference to view objects
         ImageView rowImage = (ImageView) rowView.findViewById(R.id.image);
         TextView rowName = (TextView) rowView.findViewById(R.id.name);
         TextView rowDate = (TextView) rowView.findViewById(R.id.date);
 
+        // alternate colour of rows
         int colorPos = position % Constants.rowColour.length;
         rowView.setBackgroundColor(Constants.rowColour[colorPos]);
 
-        rowImage.setImageResource(imageID[position]);
+        // set image
+        rowImage.setImageResource(Constants.eventImages[position]);
 
-        rowName.setText(name[position]);
-        rowDate.setText(date[position]);
+        // set text fields
+        rowName.setText(Constants.eventName[position]);
+        rowDate.setText(Constants.dates[position]);
 
+        // return complete row view
         return rowView;
     }
 

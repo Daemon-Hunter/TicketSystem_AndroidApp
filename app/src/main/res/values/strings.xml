@@ -47,5 +47,20 @@
     <string name="home">home</string>
     <string name="upcoming_performances">Upcoming Performances</string>
     <string name="upcoming_events">Upcoming Events</string>
+    <string name="booking_complete">Your Booking Is Complete</string>
+    <string name="booking_complete_desc">Thank you for your booking. The details of your booking are printed below. If these details are incorrect, please contact the Function Junction Customer Support Team.</string>
+    <string name="ticket_qty">Quantity</string>
+    <string name="booking_details">Booking Details:</string>
+    <string name="zero_qty">0</string>
+    <string name="customer_details">Customer Details:</string>
+    <string name="booking_id">Booking ID:</string>
+    <string name="current_artists">Current Artists</string>
+    <string name="current_events">Current Events</string>
+    <string name="current_venues">Current Venues</string>
+    <string name="event">Event</string>
+    <string name="artist">Artist</string>
+    <string name="checkout">Checkout</string>
+    <string name="your_receipt">Your Receipt</string>
+    <string name="map_location">Map Location</string>
 
 </resources>

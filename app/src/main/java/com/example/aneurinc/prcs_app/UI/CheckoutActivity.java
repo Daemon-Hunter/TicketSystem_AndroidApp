@@ -12,10 +12,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
 
-public class PaymentActivity extends AppCompatActivity implements View.OnClickListener {
+public class CheckoutActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static String EventImageIndex;
 
@@ -30,9 +31,11 @@ public class PaymentActivity extends AppCompatActivity implements View.OnClickLi
 
     private void setUpToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setToolbarListener(toolbar);
+        toolbarTitle.setText(R.string.checkout);
     }
 
     private void setToolbarListener(Toolbar t) {

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -37,9 +38,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private void setUpToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setToolbarListener(toolbar);
+        toolbarTitle.setText(R.string.map_location);
     }
 
     private void setToolbarListener(Toolbar t) {

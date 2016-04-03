@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
 
@@ -45,7 +46,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setUpToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
+        toolbarTitle.setText(R.string.current_events);
     }
 
     private void initButtonListeners() {
@@ -174,26 +177,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
 
+        TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
+
         switch (v.getId()) {
 
             case R.id.btn_event:
                 createFragment(new EventFragment(), E_TAG);
                 updateButtons(R.id.btn_event);
+                toolbarTitle.setText(R.string.current_events);
                 break;
 
             case R.id.btn_artist:
                 createFragment(new ArtistFragment(), A_TAG);
                 updateButtons(R.id.btn_artist);
+                toolbarTitle.setText(R.string.current_artists);
                 break;
 
             case R.id.btn_tickets:
                 createFragment(new TicketFragment(), T_TAG);
                 updateButtons(R.id.btn_tickets);
+                toolbarTitle.setText(R.string.my_tickets);
                 break;
 
             case R.id.btn_venue:
                 createFragment(new VenueFragment(), F_TAG);
                 updateButtons(R.id.btn_venue);
+                toolbarTitle.setText(R.string.current_venues);
                 break;
 
             default:

@@ -4,13 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
 
@@ -37,9 +37,11 @@ public class TicketActivity extends AppCompatActivity implements View.OnClickLis
 
     private void setUpToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setToolbarListener(toolbar);
+        toolbarTitle.setText(R.string.tickets);
     }
 
     private void setToolbarListener(Toolbar t) {
@@ -107,8 +109,8 @@ public class TicketActivity extends AppCompatActivity implements View.OnClickLis
 
             case R.id.checkout:
                 int imageIndex = getIntent().getExtras().getInt(EventImageIndex);
-                Intent i = new Intent(this, PaymentActivity.class);
-                i.putExtra(PaymentActivity.EventImageIndex, imageIndex);
+                Intent i = new Intent(this, CheckoutActivity.class);
+                i.putExtra(CheckoutActivity.EventImageIndex, imageIndex);
                 startActivity(i);
                 break;
 

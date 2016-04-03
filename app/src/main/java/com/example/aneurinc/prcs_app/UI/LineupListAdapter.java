@@ -20,16 +20,12 @@ import com.example.aneurinc.prcs_app.R;
 public class LineupListAdapter extends ArrayAdapter<String> implements AdapterView.OnItemClickListener {
 
     private final Activity context;
-    private final String[] name;
-    private final Integer[] imageID;
 
-    public LineupListAdapter(Activity context, String[] name, Integer[] imageID) {
+    public LineupListAdapter(Activity context) {
 
-        super(context, R.layout.list_artist_lineup, name);
+        super(context, R.layout.list_artist_lineup, Constants.artistName);
 
         this.context = context;
-        this.name = name;
-        this.imageID = imageID;
 
         ListView list = (ListView) context.findViewById(R.id.lineup_list);
         list.setOnItemClickListener(this);
@@ -58,10 +54,10 @@ public class LineupListAdapter extends ArrayAdapter<String> implements AdapterVi
 
             int colorPos = position % Constants.rowColour.length;
             rowView.setBackgroundColor(Constants.rowColour[colorPos]);
-            rowImage.setImageResource(imageID[position]);
+            rowImage.setImageResource(Constants.artistImages[position]);
             rowImage.getLayoutParams().height = 120;
             rowImage.getLayoutParams().width = 120;
-            title.setText(name[position]);
+            title.setText(Constants.artistName[position]);
 
         }
 

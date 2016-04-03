@@ -167,6 +167,12 @@ public class Constants {
             "VIP Pass"
     };
 
+    //    ticket types
+    public static String[] ticketQty = {
+
+            "1", "2", "3", "4", "5"
+    };
+
     //    ticket costs
     public static String[] ticketCost = {
 

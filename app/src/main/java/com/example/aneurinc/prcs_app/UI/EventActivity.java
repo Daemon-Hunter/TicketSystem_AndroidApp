@@ -12,6 +12,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
 
@@ -37,9 +38,11 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
 
     private void setUpToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setToolbarListener(toolbar);
+        toolbarTitle.setText(R.string.event);
     }
 
     private void setToolbarListener(Toolbar t) {
@@ -52,7 +55,7 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void setLineupListAdapter() {
-        LineupListAdapter adapter = new LineupListAdapter(this, Constants.artistName, Constants.artistImages);
+        LineupListAdapter adapter = new LineupListAdapter(this);
         list = (ListView) findViewById(R.id.lineup_list);
         list.setAdapter(adapter);
     }

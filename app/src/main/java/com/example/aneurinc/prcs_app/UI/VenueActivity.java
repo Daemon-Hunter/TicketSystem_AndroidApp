@@ -71,8 +71,7 @@ public class VenueActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void setListAdapter() {
-        UpcomingListAdapter adapter = new UpcomingListAdapter(this, Constants.eventName,
-                Constants.dates, Constants.eventImages);
+        UpcomingListAdapter adapter = new UpcomingListAdapter(this);
 
         list = (ListView) findViewById(R.id.upcoming_list);
         list.setAdapter(adapter);

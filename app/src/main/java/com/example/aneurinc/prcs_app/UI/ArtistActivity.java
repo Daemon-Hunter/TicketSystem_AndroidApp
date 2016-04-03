@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
 
@@ -46,9 +47,11 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
 
     private void setUpToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setToolbarListener(toolbar);
+        toolbarTitle.setText(R.string.artist);
     }
 
     private void setToolbarListener(Toolbar t) {
@@ -67,8 +70,7 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void setListAdapter() {
-        UpcomingListAdapter adapter = new UpcomingListAdapter(this, Constants.eventName,
-                Constants.dates, Constants.eventImages);
+        UpcomingListAdapter adapter = new UpcomingListAdapter(this);
 
         list = (ListView) findViewById(R.id.upcoming_list);
         list.setAdapter(adapter);
