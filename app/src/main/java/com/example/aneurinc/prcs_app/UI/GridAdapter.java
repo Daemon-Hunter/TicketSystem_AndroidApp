@@ -1,14 +1,10 @@
 package com.example.aneurinc.prcs_app.UI;
 
 import android.content.Context;
-import android.graphics.Point;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,19 +15,19 @@ import com.example.aneurinc.prcs_app.R;
  */
 public class GridAdapter extends BaseAdapter {
 
-    private Context mContext;
-    private Integer[] mImages;
-    private String[] mTitle;
+    private Context context;
+    private Integer[] images;
+    private String[] title;
 
     public GridAdapter(Context c, Integer[] i, String[] t) {
-        mContext = c;
-        mImages = i;
-        mTitle = t;
+        context = c;
+        images = i;
+        title = t;
     }
 
     @Override
     public int getCount() {
-        return mImages.length;
+        return images.length;
     }
 
     @Override
@@ -47,32 +43,38 @@ public class GridAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-
-        View grid;
-        LayoutInflater inflater =
-                (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        ViewHolder viewHolder;
 
         if (convertView == null) {
 
-            // if it's not recycled, initialize some attributes
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.grid_single, null);
 
-            grid = inflater.inflate(R.layout.grid_single, null);
+            // set up view holder
+            viewHolder = new ViewHolder();
+            viewHolder.gridImage = (ImageView) convertView.findViewById(R.id.grid_image);
+            viewHolder.gridText = (TextView) convertView.findViewById(R.id.grid_text);
 
-            TextView textView = (TextView) grid.findViewById(R.id.grid_text);
-            textView.setText(mTitle[position]);
-
-            ImageView imageView = (ImageView) grid.findViewById(R.id.grid_image);
-            imageView.setImageResource(mImages[position]);
-            imageView.getLayoutParams().width = 275;
-            imageView.getLayoutParams().height = 275;
+            // store the holder with the view
+            convertView.setTag(viewHolder);
 
         } else {
 
-            grid = convertView;
+            viewHolder = (ViewHolder) convertView.getTag();
 
         }
 
-        return grid;
+        viewHolder.gridImage.setImageResource(images[position]);
+        viewHolder.gridImage.getLayoutParams().height = 275;
+        viewHolder.gridImage.getLayoutParams().width = 275;
+        viewHolder.gridText.setText(title[position]);
+
+        return convertView;
+    }
+
+    static class ViewHolder {
+        ImageView gridImage;
+        TextView gridText;
     }
 
 

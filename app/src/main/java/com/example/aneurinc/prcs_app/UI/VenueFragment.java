@@ -32,9 +32,7 @@ public class VenueFragment extends Fragment {
     }
 
     private void setListAdapter() {
-        VenueListAdapter adapter = new VenueListAdapter(getActivity(), Constants.venueNames,
-                Constants.venueImages, Constants.locations);
-
+        VenueListAdapter adapter = new VenueListAdapter(getActivity());
         list = (ListView) getView().findViewById(R.id.venue_list);
         list.setAdapter(adapter);
     }

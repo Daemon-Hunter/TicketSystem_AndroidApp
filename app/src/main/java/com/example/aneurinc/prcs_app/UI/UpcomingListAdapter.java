@@ -32,30 +32,42 @@ public class UpcomingListAdapter extends ArrayAdapter<String> implements Adapter
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
 
-        // inflate view
-        LayoutInflater inflater = context.getLayoutInflater();
-        View rowView = inflater.inflate(R.layout.list_upcoming, null, true);
+        ViewHolder viewHolder;
 
-        // get reference to view objects
-        ImageView rowImage = (ImageView) rowView.findViewById(R.id.image);
-        TextView rowName = (TextView) rowView.findViewById(R.id.name);
-        TextView rowDate = (TextView) rowView.findViewById(R.id.date);
+        if (convertView == null) {
+
+            // inflate view
+            LayoutInflater inflater = context.getLayoutInflater();
+            convertView = inflater.inflate(R.layout.list_upcoming, parent, false);
+
+            // set up view holder
+            viewHolder = new ViewHolder();
+            viewHolder.eventImage = (ImageView) convertView.findViewById(R.id.image);
+            viewHolder.eventName = (TextView) convertView.findViewById(R.id.name);
+            viewHolder.eventDate = (TextView) convertView.findViewById(R.id.date);
+
+            // store the holder with the view
+            convertView.setTag(viewHolder);
+
+        } else {
+
+            // use view holder to save resources
+            viewHolder = (ViewHolder) convertView.getTag();
+
+        }
 
         // alternate colour of rows
         int colorPos = position % Constants.rowColour.length;
-        rowView.setBackgroundColor(Constants.rowColour[colorPos]);
+        convertView.setBackgroundColor(Constants.rowColour[colorPos]);
 
-        // set image
-        rowImage.setImageResource(Constants.eventImages[position]);
+        // get view from view holder and update value
+        viewHolder.eventImage.setImageResource(Constants.eventImages[position]);
+        viewHolder.eventName.setText(Constants.eventName[position]);
+        viewHolder.eventDate.setText(Constants.dates[position]);
 
-        // set text fields
-        rowName.setText(Constants.eventName[position]);
-        rowDate.setText(Constants.dates[position]);
-
-        // return complete row view
-        return rowView;
+        return convertView;
     }
 
     @Override
@@ -63,5 +75,11 @@ public class UpcomingListAdapter extends ArrayAdapter<String> implements Adapter
         Intent i = new Intent(getContext(), EventActivity.class);
         i.putExtra(EventActivity.EventImageIndex, position);
         context.startActivity(i);
+    }
+
+    static class ViewHolder {
+        ImageView eventImage;
+        TextView eventName;
+        TextView eventDate;
     }
 }

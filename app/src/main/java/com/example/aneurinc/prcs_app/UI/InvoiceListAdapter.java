@@ -31,24 +31,46 @@ public class InvoiceListAdapter extends ArrayAdapter<String> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        // inflate view
-        LayoutInflater inflater = context.getLayoutInflater();
-        View rowView = inflater.inflate(R.layout.list_invoice, null, true);
+        ViewHolder viewHolder;
 
-        // get references to view objects
-        TextView ticket = (TextView) rowView.findViewById(R.id.ticket);
-        TextView qty = (TextView) rowView.findViewById(R.id.qty);
-        TextView price = (TextView) rowView.findViewById(R.id.price);
+        if (convertView == null) {
 
-        // set text values
-        ticket.setText(Constants.ticketType[position]);
-        qty.setText(Constants.ticketQty[position]);
-        price.setText(Constants.ticketCost[position]);
+            // inflate view
+            LayoutInflater inflater = context.getLayoutInflater();
+            convertView = inflater.inflate(R.layout.list_invoice, parent, false);
 
-        updateTotal(rowView);
+            // set up view holder
+            viewHolder = new ViewHolder();
+            viewHolder.ticketType = (TextView) convertView.findViewById(R.id.ticket_type);
+            viewHolder.ticketCost = (TextView) convertView.findViewById(R.id.ticket_cost);
+            viewHolder.ticketQty = (TextView) convertView.findViewById(R.id.ticket_qty);
 
-        // return row view
-        return rowView;
+            // store the holder with the view
+            convertView.setTag(viewHolder);
+
+        } else {
+
+            // use view holder to save resources
+            viewHolder = (ViewHolder) convertView.getTag();
+
+        }
+
+        // get text view from view holder and update value
+        viewHolder.ticketType.setText(Constants.ticketType[position]);
+        viewHolder.ticketCost.setText(Constants.ticketCost[position]);
+        viewHolder.ticketQty.setText(Constants.ticketQty[position]);
+
+        // set parent cost and parent qty values to 0 if getView is called
+        if (position == 0) {
+            TextView parentCost = (TextView) context.findViewById(R.id.total_cost);
+            TextView parentQty = (TextView) context.findViewById(R.id.total_qty);
+            parentCost.setText(R.string.zero_cost);
+            parentQty.setText(R.string.zero_qty);
+        }
+
+        updateTotal(convertView);
+
+        return convertView;
     }
 
     private void updateTotal(View rowView) {
@@ -65,12 +87,12 @@ public class InvoiceListAdapter extends ArrayAdapter<String> {
         int parentQtyVal = Integer.parseInt(parentQtyStr);
 
         // get reference to ticket row qty text view and convert to int
-        TextView rowQty = (TextView) rowView.findViewById(R.id.qty);
+        TextView rowQty = (TextView) rowView.findViewById(R.id.ticket_qty);
         String rowQtyStr = rowQty.getText().toString();
         int rowQtyVal = Integer.parseInt(rowQtyStr);
 
         // get reference to ticket row cost text view and convert to double
-        TextView rowCost = (TextView) rowView.findViewById(R.id.price);
+        TextView rowCost = (TextView) rowView.findViewById(R.id.ticket_cost);
         String rowCostStr = rowCost.getText().toString();
         rowCostStr = rowCostStr.replace("£", "");
         double rowCostVal = Double.parseDouble(rowCostStr);
@@ -84,6 +106,12 @@ public class InvoiceListAdapter extends ArrayAdapter<String> {
         int totalQty = parentQtyVal + rowQtyVal;
         parentQty.setText(String.valueOf(totalQty));
 
+    }
+
+    static class ViewHolder {
+        TextView ticketType;
+        TextView ticketQty;
+        TextView ticketCost;
     }
 
 }

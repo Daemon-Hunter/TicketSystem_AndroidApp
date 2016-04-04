@@ -30,13 +30,6 @@ public class Constants {
             "Peninsula Festival",
             "North Coast Festival",
             "Jazz Blues",
-            "Kryshna Oyster Festival",
-            "Film Festival Laurels",
-            "Mystic Valley Festival",
-            "Taste of Brickell",
-            "Peninsula Festival",
-            "North Coast Festival",
-            "Jazz Blues",
             "Kryshna Oyster Festival"
 
     };
@@ -50,10 +43,7 @@ public class Constants {
             R.drawable.event_image3, R.drawable.event_image4, R.drawable.event_image5,
             R.drawable.event_image6, R.drawable.event_image7, R.drawable.event_image1,
             R.drawable.event_image2, R.drawable.event_image3, R.drawable.event_image4,
-            R.drawable.event_image5, R.drawable.event_image6, R.drawable.event_image7,
-            R.drawable.event_image1, R.drawable.event_image2, R.drawable.event_image3,
-            R.drawable.event_image4, R.drawable.event_image5, R.drawable.event_image6,
-            R.drawable.event_image7,
+            R.drawable.event_image5, R.drawable.event_image6, R.drawable.event_image7
 
     };
 
@@ -73,6 +63,18 @@ public class Constants {
             "Pavarotti",
             "Nas",
             "Rihanna",
+            "Kevin Hart",
+            "Ed Sheeran",
+            "Adele",
+            "Action Bronson",
+            "Russel Howard",
+            "Michael Jackson",
+            "A Swedish Ventriloquist...",
+            "A Jazz Guy...",
+            "Bob Marley",
+            "Pavarotti",
+            "Nas",
+            "Rihanna"
 
     };
 
@@ -99,6 +101,12 @@ public class Constants {
             "The O2 Arena",
             "The Royal Theatre",
             "Late Night Laughs",
+            "The Gorge",
+            "Royal Albert Hall",
+            "Wembley",
+            "The O2 Arena",
+            "The Royal Theatre",
+            "Late Night Laughs",
             "The Gorge"
 
     };
@@ -106,6 +114,12 @@ public class Constants {
     //    locations
     public static String[] locations = {
 
+            "London",
+            "London",
+            "London",
+            "Plymouth",
+            "Newcastle",
+            "Bath",
             "London",
             "London",
             "London",
@@ -121,8 +135,6 @@ public class Constants {
             R.drawable.venue1, R.drawable.venue2, R.drawable.venue3,
             R.drawable.venue4, R.drawable.venue5, R.drawable.venue6,
             R.drawable.venue1, R.drawable.venue2, R.drawable.venue3,
-            R.drawable.venue4, R.drawable.venue5, R.drawable.venue6,
-            R.drawable.venue1, R.drawable.venue2, R.drawable.venue3,
             R.drawable.venue4, R.drawable.venue5, R.drawable.venue6
 
     };
@@ -130,6 +142,20 @@ public class Constants {
     //    dates
     public static String[] dates = {
 
+            "12/06/2016",
+            "13/07/2016",
+            "14/08/2016",
+            "15/09/2016",
+            "16/10/2016",
+            "17/11/2016",
+            "18/11/2016",
+            "12/06/2016",
+            "13/07/2016",
+            "14/08/2016",
+            "15/09/2016",
+            "16/10/2016",
+            "17/11/2016",
+            "18/11/2016",
             "12/06/2016",
             "13/07/2016",
             "14/08/2016",
@@ -170,17 +196,17 @@ public class Constants {
     //    ticket types
     public static String[] ticketQty = {
 
-            "1", "2", "3", "4", "5"
+            "6", "4", "3", "2", "2"
     };
 
     //    ticket costs
     public static String[] ticketCost = {
 
             "£25.00",
-            "£45.00",
-            "£60.00",
+            "£50.00",
+            "£75.00",
             "£100.00",
-            "£925.00"
+            "£500.00"
     };
 
     //    colours

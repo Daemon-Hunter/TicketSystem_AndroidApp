@@ -20,17 +20,11 @@ import com.example.aneurinc.prcs_app.R;
 public class VenueListAdapter extends ArrayAdapter<String> implements AdapterView.OnItemClickListener, View.OnClickListener {
 
     private final Activity context;
-    private final String[] name;
-    private final String[] location;
-    private final Integer[] image;
 
-    public VenueListAdapter(Activity context, String[] name, Integer[] image, String[] location) {
-        super(context, R.layout.list_venue, name);
+    public VenueListAdapter(Activity context) {
+        super(context, R.layout.list_venue, Constants.venueNames);
 
         this.context = context;
-        this.name = name;
-        this.image = image;
-        this.location = location;
 
         ListView list = (ListView) context.findViewById(R.id.venue_list);
         list.setOnItemClickListener(this);
@@ -48,9 +42,9 @@ public class VenueListAdapter extends ArrayAdapter<String> implements AdapterVie
         TextView rowLocation = (TextView) rowView.findViewById(R.id.location);
         ImageView rowMaps = (ImageView) rowView.findViewById(R.id.map);
 
-        rowImage.setImageResource(image[position]);
-        rowName.setText(name[position]);
-        rowLocation.setText(location[position]);
+        rowImage.setImageResource(Constants.venueImages[position]);
+        rowName.setText(Constants.venueNames[position]);
+        rowLocation.setText(Constants.locations[position]);
 
         rowMaps.setOnClickListener(this);
 
