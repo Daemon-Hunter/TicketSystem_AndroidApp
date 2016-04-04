@@ -62,5 +62,6 @@
     <string name="checkout">Checkout</string>
     <string name="your_receipt">Your Receipt</string>
     <string name="map_location">Map Location</string>
+    <string name="title_activity_location">Map</string>
 
 </resources>
