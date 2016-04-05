@@ -99,13 +99,13 @@ public class Constants {
             "Royal Albert Hall",
             "Wembley",
             "The O2 Arena",
-            "The Royal Theatre",
+            "The Theatre Royal",
             "Late Night Laughs",
             "The Gorge",
             "Royal Albert Hall",
             "Wembley",
             "The O2 Arena",
-            "The Royal Theatre",
+            "The Theatre Royal",
             "Late Night Laughs",
             "The Gorge"
 

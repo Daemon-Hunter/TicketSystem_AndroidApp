@@ -17,6 +17,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
@@ -33,13 +34,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_map);
         setUpToolbar();
 
-        strAddress = "Plymouth University, Drake Circus, Plymouth PL4 8AA";
+        strAddress = "The Royal Albert Hall, Kensington Gore, London SW7 2AP";
 
         location = getLocationFromAddress();
 
         initMapFragment();
 
-        TextView tvAddress = (TextView) findViewById(R.id.address);
+        TextView tvAddress = (TextView) findViewById(R.id.venue_address);
         tvAddress.setText(strAddress);
     }
 
@@ -81,7 +82,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setToolbarListener(toolbar);
-        toolbarTitle.setText(R.string.map_location);
+        toolbarTitle.setText(R.string.venue_location);
     }
 
     private void setToolbarListener(Toolbar t) {
@@ -119,8 +120,28 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        // Add a marker and move the camera
+        // Add a marker to location and move the camera
         googleMap.addMarker(new MarkerOptions().position(location).title("Location Address:").snippet(strAddress));
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, ZOOM_VAL));
+
+        googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+            @Override
+            public View getInfoWindow(Marker marker) {
+                return null;
+            }
+
+            @Override
+            public View getInfoContents(Marker marker) {
+
+                View view = getLayoutInflater().inflate(R.layout.info_window, null);
+
+                TextView address = (TextView) view.findViewById(R.id.venue_address);
+
+                address.setText(strAddress);
+
+                return view;
+
+            }
+        });
     }
 }

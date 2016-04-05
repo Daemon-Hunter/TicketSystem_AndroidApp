@@ -53,18 +53,9 @@
             android:layout_below="@id/event_date"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_toLeftOf="@+id/google_maps_icon"
             android:layout_toRightOf="@id/event_image"
             android:text="Devon Arena, Plymouth, PL3 4KF"
             android:textColor="@android:color/white" />
-
-        <!--google maps icon-->
-        <ImageView
-            android:id="@+id/google_maps_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/google_maps_icon" />
 
         <!--description-->
         <TextView

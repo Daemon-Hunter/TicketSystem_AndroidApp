@@ -62,10 +62,7 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
 
     private void setOnClickListeners() {
 
-        ImageView map = (ImageView) findViewById(R.id.google_maps_icon);
         ImageView tickets = (ImageView) findViewById(R.id.buy_tickets);
-
-        map.setOnClickListener(this);
         tickets.setOnClickListener(this);
 
     }
@@ -76,10 +73,6 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
         v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.onclick));
 
         switch (v.getId()) {
-
-            case R.id.google_maps_icon:
-                startActivity(new Intent(this, MapActivity.class));
-                break;
 
             case R.id.buy_tickets:
                 int imageIndex = getIntent().getExtras().getInt(EventImageIndex);
