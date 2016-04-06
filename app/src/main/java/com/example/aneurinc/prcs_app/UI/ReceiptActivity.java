@@ -63,10 +63,7 @@ public class ReceiptActivity extends AppCompatActivity implements View.OnClickLi
         switch (v.getId()) {
 
             case R.id.btn_confirm:
-                int imageIndex = getIntent().getExtras().getInt(EventImageIndex);
-                Intent i = new Intent(this, EventActivity.class);
-                i.putExtra(EventActivity.EventImageIndex, imageIndex);
-                startActivity(i);
+                onBackPressed();
                 break;
 
             default:

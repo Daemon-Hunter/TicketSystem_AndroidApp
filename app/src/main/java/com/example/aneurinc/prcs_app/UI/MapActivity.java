@@ -123,25 +123,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         // Add a marker to location and move the camera
         googleMap.addMarker(new MarkerOptions().position(location).title("Location Address:").snippet(strAddress));
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, ZOOM_VAL));
-
-        googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
-            @Override
-            public View getInfoWindow(Marker marker) {
-                return null;
-            }
-
-            @Override
-            public View getInfoContents(Marker marker) {
-
-                View view = getLayoutInflater().inflate(R.layout.info_window, null);
-
-                TextView address = (TextView) view.findViewById(R.id.venue_address);
-
-                address.setText(strAddress);
-
-                return view;
-
-            }
-        });
+        googleMap.setInfoWindowAdapter(new CustomInfoWindow(this, strAddress));
     }
 }

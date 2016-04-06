@@ -18,8 +18,6 @@ import com.example.aneurinc.prcs_app.R;
 
 public class CheckoutActivity extends AppCompatActivity implements View.OnClickListener {
 
-    public static String EventImageIndex;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,10 +80,7 @@ public class CheckoutActivity extends AppCompatActivity implements View.OnClickL
         switch (v.getId()) {
 
             case R.id.pay:
-                int imageIndex = getIntent().getExtras().getInt(EventImageIndex);
-                Intent i = new Intent(this, ReceiptActivity.class);
-                i.putExtra(ReceiptActivity.EventImageIndex, imageIndex);
-                startActivity(i);
+                startActivity(new Intent(this, ReceiptActivity.class));
                 break;
 
             default:

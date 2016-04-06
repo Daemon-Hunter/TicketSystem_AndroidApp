@@ -63,5 +63,9 @@
     <string name="your_receipt">Your Receipt</string>
     <string name="venue_location">Venue Location</string>
     <string name="title_activity_location">Map</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="are_you_sure">Are You Sure?</string>
+    <string name="confirmation_message">Have you selected all of your tickets? Press confirm to continue to the payment page.</string>
 
 </resources>

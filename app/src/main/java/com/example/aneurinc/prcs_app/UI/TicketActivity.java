@@ -1,9 +1,12 @@
 package com.example.aneurinc.prcs_app.UI;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -108,10 +111,9 @@ public class TicketActivity extends AppCompatActivity implements View.OnClickLis
         switch (v.getId()) {
 
             case R.id.checkout:
-                int imageIndex = getIntent().getExtras().getInt(EventImageIndex);
-                Intent i = new Intent(this, CheckoutActivity.class);
-                i.putExtra(CheckoutActivity.EventImageIndex, imageIndex);
-                startActivity(i);
+
+                new CustomDialog(this).show();
+
                 break;
 
             default:
