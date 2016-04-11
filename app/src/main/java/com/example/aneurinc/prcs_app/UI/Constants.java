@@ -179,6 +179,18 @@ public class Constants {
             "Sunday 14th June 2016",
             "Friday 12th June 2016",
             "Saturday 13th Sep 2016",
+            "Sunday 14th June 2016",
+            "Friday 12th June 2016",
+            "Saturday 13th Sep 2016",
+            "Sunday 14th June 2016",
+            "Friday 14th Sep 2016",
+            "Saturday 13th June 2016",
+            "Tuesday 17th Nov 2016",
+            "Wednesday 18th Nov 2016",
+            "Friday 12th June 2016",
+            "Sunday 14th June 2016",
+            "Friday 12th June 2016",
+            "Saturday 13th Sep 2016",
             "Sunday 14th June 2016"
 
     };
@@ -206,7 +218,9 @@ public class Constants {
             "£50.00",
             "£75.00",
             "£100.00",
-            "£500.00"
+            "£500.00",
+            "£25.00",
+            "£50.00"
     };
 
     //    colours

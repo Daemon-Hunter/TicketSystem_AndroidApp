@@ -71,7 +71,6 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
 
     private void setListAdapter() {
         UpcomingListAdapter adapter = new UpcomingListAdapter(this);
-
         list = (ListView) findViewById(R.id.upcoming_list);
         list.setAdapter(adapter);
     }

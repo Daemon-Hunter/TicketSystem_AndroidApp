@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
@@ -18,7 +19,6 @@ import com.example.aneurinc.prcs_app.R;
  * Created by aneurinc on 01/03/2016.
  */
 public class TicketFragment extends Fragment {
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -29,7 +29,17 @@ public class TicketFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setAdapter();
+    }
 
+    private void setAdapter() {
+        MyTicketsListAdapter adapter = new MyTicketsListAdapter(getActivity());
+        ListView list = (ListView) getView().findViewById(R.id.my_tickets_list);
+        list.setAdapter(adapter);
+    }
 
     @Override
     public void onPause() {

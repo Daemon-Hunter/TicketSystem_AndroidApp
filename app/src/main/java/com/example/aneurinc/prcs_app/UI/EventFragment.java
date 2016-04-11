@@ -15,7 +15,7 @@ import com.example.aneurinc.prcs_app.R;
 /**
  * Created by aneurinc on 02/03/2016.
  */
-public class EventFragment extends Fragment {
+public class EventFragment extends Fragment implements AdapterView.OnItemClickListener {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,27 +29,9 @@ public class EventFragment extends Fragment {
 
         GridView gridView = (GridView)view.findViewById(R.id.event_grid_view);
         gridView.setAdapter(new GridAdapter(this.getActivity(), Constants.eventImages, Constants.eventName));
-
-        setOnItemClickListener(gridView);
+        gridView.setOnItemClickListener(this);
 
         return view;
-    }
-
-    private void setOnItemClickListener(GridView gridView) {
-
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
-
-                Log.d(MainActivity.DEBUG_TAG, String.format("You clicked event tile: %d", position));
-
-                Intent i = new Intent(getActivity(), EventActivity.class);
-                i.putExtra(EventActivity.EventImageIndex, position);
-                startActivity(i);
-
-            }
-        });
     }
 
     @Override
@@ -58,4 +40,12 @@ public class EventFragment extends Fragment {
         super.onPause();
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        Intent i = new Intent(getActivity(), EventActivity.class);
+        i.putExtra(EventActivity.EventImageIndex, position);
+        startActivity(i);
+
+    }
 }

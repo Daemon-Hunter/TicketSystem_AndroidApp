@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -14,7 +17,6 @@ import com.example.aneurinc.prcs_app.R;
 
 public class ReceiptActivity extends AppCompatActivity implements View.OnClickListener {
 
-    public static String EventImageIndex;
     private ListView list;
 
     @Override
@@ -23,7 +25,7 @@ public class ReceiptActivity extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.activity_receipt);
 
         setUpToolbar();
-        initOnClickListener();
+        setOnClickListeners();
 
         InvoiceListAdapter adapter = new InvoiceListAdapter(this);
         list = (ListView) findViewById(R.id.invoice_list);
@@ -35,22 +37,10 @@ public class ReceiptActivity extends AppCompatActivity implements View.OnClickLi
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationIcon(R.mipmap.ic_home_white_24dp);
-        setNavigationOnClickListener(toolbar);
         toolbarTitle.setText(R.string.your_receipt);
     }
 
-    private void setNavigationOnClickListener(Toolbar t) {
-        t.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(ReceiptActivity.this, MainActivity.class));
-            }
-        });
-    }
-
-    private void initOnClickListener() {
+    private void setOnClickListeners() {
         ImageView btnOk = (ImageView) findViewById(R.id.btn_confirm);
         btnOk.setOnClickListener(this);
     }
@@ -63,11 +53,37 @@ public class ReceiptActivity extends AppCompatActivity implements View.OnClickLi
         switch (v.getId()) {
 
             case R.id.btn_confirm:
-                onBackPressed();
+                startActivity(new Intent(this, MainActivity.class));
                 break;
 
             default:
                 break;
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu, menu);
+        MenuItem search = menu.findItem(R.id.tb_search);
+        search.setVisible(false);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case R.id.tb_home:
+                startActivity(new Intent(this, MainActivity.class));
+                break;
+
+            default:
+                break;
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

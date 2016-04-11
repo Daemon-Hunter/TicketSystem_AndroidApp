@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         setUpToolbar();
 
-        initButtonListeners();
+        setOnClickListeners();
 
         createFragment(new EventFragment(), E_TAG);
 
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         toolbarTitle.setText(R.string.current_events);
     }
 
-    private void initButtonListeners() {
+    private void setOnClickListeners() {
 
         // get buttons
         Button btnEvents = (Button) findViewById(R.id.btn_event);

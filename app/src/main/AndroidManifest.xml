@@ -29,6 +29,7 @@
 
         <activity
             android:name=".UI.EventActivity"
+            android:parentActivityName=".UI.MainActivity"
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />

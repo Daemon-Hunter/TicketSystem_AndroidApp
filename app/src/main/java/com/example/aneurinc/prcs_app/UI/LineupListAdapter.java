@@ -32,36 +32,52 @@ public class LineupListAdapter extends ArrayAdapter<String> implements AdapterVi
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
 
-        LayoutInflater inflater = context.getLayoutInflater();
+        ViewHolder viewHolder;
 
-        View rowView = inflater.inflate(R.layout.list_artist_lineup, null, true);
-        TextView title = (TextView) rowView.findViewById(R.id.item);
-        ImageView rowImage = (ImageView) rowView.findViewById(R.id.image);
+        if (convertView == null) {
+
+            // inflate view
+            LayoutInflater inflater = context.getLayoutInflater();
+            convertView = inflater.inflate(R.layout.list_artist_lineup, parent, false);
+
+            viewHolder = new ViewHolder();
+            viewHolder.artistName = (TextView) convertView.findViewById(R.id.item);
+            viewHolder.artistImage = (ImageView) convertView.findViewById(R.id.image);
+
+            // store the holder with the view
+            convertView.setTag(viewHolder);
+
+        } else {
+
+            // use view holder to save resources
+            viewHolder = (ViewHolder) convertView.getTag();
+
+        }
 
         if (position % 4 == 0) {
 
-            rowView.setBackgroundColor(Color.parseColor("#90CAF9"));
-            rowView.setOnClickListener(null);
-            rowImage.setImageResource(R.drawable.calendar);
-            rowImage.getLayoutParams().height = 120;
-            rowImage.getLayoutParams().width = 120;
-            title.setText(Constants.nameDates[position]);
-            title.setTextColor(Color.WHITE);
+            convertView.setBackgroundColor(Color.parseColor("#90CAF9"));
+            convertView.setOnClickListener(null);
+            viewHolder.artistImage.setImageResource(R.drawable.calendar);
+            viewHolder.artistImage.getLayoutParams().height = 120;
+            viewHolder.artistImage.getLayoutParams().width = 120;
+            viewHolder.artistName.setText(Constants.nameDates[position]);
+            viewHolder.artistName.setTextColor(Color.WHITE);
 
         } else {
 
             int colorPos = position % Constants.rowColour.length;
-            rowView.setBackgroundColor(Constants.rowColour[colorPos]);
-            rowImage.setImageResource(Constants.artistImages[position]);
-            rowImage.getLayoutParams().height = 120;
-            rowImage.getLayoutParams().width = 120;
-            title.setText(Constants.artistName[position]);
+            convertView.setBackgroundColor(Constants.rowColour[colorPos]);
+            viewHolder.artistImage.setImageResource(Constants.artistImages[position]);
+            viewHolder.artistImage.getLayoutParams().height = 120;
+            viewHolder.artistImage.getLayoutParams().width = 120;
+            viewHolder.artistName.setText(Constants.artistName[position]);
 
         }
 
-        return rowView;
+        return convertView;
 
     }
 
@@ -70,5 +86,10 @@ public class LineupListAdapter extends ArrayAdapter<String> implements AdapterVi
         Intent i = new Intent(getContext(), ArtistActivity.class);
         i.putExtra(ArtistActivity.EventImageIndex, position);
         context.startActivity(i);
+    }
+
+    static class ViewHolder {
+        TextView artistName;
+        ImageView artistImage;
     }
 }

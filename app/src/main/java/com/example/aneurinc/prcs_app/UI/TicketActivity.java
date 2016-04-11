@@ -30,7 +30,7 @@ public class TicketActivity extends AppCompatActivity implements View.OnClickLis
         setUpToolbar();
         setListAdapter();
         displayImage();
-        initOnClickListeners();
+        setOnClickListeners();
 
         // disable the checkout button
         ImageView checkout = (ImageView) findViewById(R.id.checkout);
@@ -56,7 +56,7 @@ public class TicketActivity extends AppCompatActivity implements View.OnClickLis
         });
     }
 
-    private void initOnClickListeners() {
+    private void setOnClickListeners() {
         ImageView checkout = (ImageView) findViewById(R.id.checkout);
         checkout.setOnClickListener(this);
     }
