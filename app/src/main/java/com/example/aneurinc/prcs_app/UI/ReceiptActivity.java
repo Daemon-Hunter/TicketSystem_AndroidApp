@@ -17,8 +17,6 @@ import com.example.aneurinc.prcs_app.R;
 
 public class ReceiptActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private ListView list;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,10 +25,13 @@ public class ReceiptActivity extends AppCompatActivity implements View.OnClickLi
         setUpToolbar();
         setOnClickListeners();
 
-        InvoiceListAdapter adapter = new InvoiceListAdapter(this);
-        list = (ListView) findViewById(R.id.invoice_list);
-        list.setAdapter(adapter);
+        setAdapter();
+    }
 
+    private void setAdapter() {
+        InvoiceListAdapter adapter = new InvoiceListAdapter(this);
+        ListView list = (ListView) findViewById(R.id.invoice_list);
+        list.setAdapter(adapter);
     }
 
     private void setUpToolbar() {

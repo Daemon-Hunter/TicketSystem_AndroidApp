@@ -17,10 +17,11 @@ import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
 
+import java.util.List;
+
 public class TicketActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static String EventImageIndex;
-    private ListView list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +64,7 @@ public class TicketActivity extends AppCompatActivity implements View.OnClickLis
 
     private void setListAdapter() {
         TicketListAdapter adapter = new TicketListAdapter(this);
-        list = (ListView) findViewById(R.id.ticket_list);
+        ListView list = (ListView) findViewById(R.id.ticket_list);
         list.setAdapter(adapter);
     }
 

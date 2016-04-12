@@ -67,5 +67,18 @@
     <string name="confirm">Confirm</string>
     <string name="are_you_sure">Are You Sure?</string>
     <string name="confirmation_message">Have you selected all of your tickets? Press confirm to continue to the payment page.</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_username">Username</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="sign_in">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
 
 </resources>

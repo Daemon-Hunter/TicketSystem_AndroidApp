@@ -17,7 +17,6 @@ import com.example.aneurinc.prcs_app.R;
 public class VenueActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static String VenueImageIndex;
-    private ListView list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +47,7 @@ public class VenueActivity extends AppCompatActivity implements View.OnClickList
         map.setOnClickListener(this);
 
     }
+
     private void setUpToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -72,8 +72,7 @@ public class VenueActivity extends AppCompatActivity implements View.OnClickList
 
     private void setListAdapter() {
         UpcomingListAdapter adapter = new UpcomingListAdapter(this);
-
-        list = (ListView) findViewById(R.id.upcoming_list);
+        ListView list = (ListView) findViewById(R.id.upcoming_list);
         list.setAdapter(adapter);
     }
 

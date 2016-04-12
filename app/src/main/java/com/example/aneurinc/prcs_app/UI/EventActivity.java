@@ -19,7 +19,6 @@ import com.example.aneurinc.prcs_app.R;
 public class EventActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static String EventImageIndex;
-    private ListView list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +45,7 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
 
     private void setLineupListAdapter() {
         LineupListAdapter adapter = new LineupListAdapter(this);
-        list = (ListView) findViewById(R.id.lineup_list);
+        ListView list = (ListView) findViewById(R.id.lineup_list);
         list.setAdapter(adapter);
     }
 

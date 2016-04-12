@@ -18,7 +18,6 @@ import com.example.aneurinc.prcs_app.R;
 public class ArtistActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static String EventImageIndex;
-    private ListView list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +26,7 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
 
         setUpToolbar();
         displayImage();
-        setListAdapter();
+        setAdapter();
         setOnClickListeners();
     }
 
@@ -69,9 +68,9 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
         artistImage.setImageResource(Constants.artistImages[imageIndex]);
     }
 
-    private void setListAdapter() {
+    private void setAdapter() {
         UpcomingListAdapter adapter = new UpcomingListAdapter(this);
-        list = (ListView) findViewById(R.id.upcoming_list);
+        ListView list = (ListView) findViewById(R.id.upcoming_list);
         list.setAdapter(adapter);
     }
 

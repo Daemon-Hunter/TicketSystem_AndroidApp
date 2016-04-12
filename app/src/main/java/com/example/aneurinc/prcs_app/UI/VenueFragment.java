@@ -28,10 +28,10 @@ public class VenueFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setListAdapter();
+        setAdapter();
     }
 
-    private void setListAdapter() {
+    private void setAdapter() {
         VenueListAdapter adapter = new VenueListAdapter(getActivity());
         list = (ListView) getView().findViewById(R.id.venue_list);
         list.setAdapter(adapter);
