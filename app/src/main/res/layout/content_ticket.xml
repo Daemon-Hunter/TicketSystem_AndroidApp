@@ -9,7 +9,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".UI.TicketActivity">
+    tools:context=".UI.TicketActivity"
+    android:background="@drawable/background6">
 
     <!--event image-->
     <ImageView
@@ -25,7 +26,8 @@
         android:layout_toRightOf="@id/event_image"
         android:layout_marginLeft="20dp"
         android:text="Event Name"
-        android:textSize="28sp" />
+        android:textSize="28sp"
+        android:textColor="@android:color/white"/>
 
     <!--event time and date-->
     <TextView
@@ -35,7 +37,8 @@
         android:layout_below="@id/event_title"
         android:layout_toRightOf="@id/event_image"
         android:layout_marginLeft="20dp"
-        android:text="7pm on 12/11/16"/>
+        android:text="7pm on 12/11/16"
+        android:textColor="@android:color/white"/>
 
     <!--event pg rating-->
     <TextView
@@ -45,7 +48,8 @@
         android:layout_below="@id/event_time_date"
         android:layout_toRightOf="@id/event_image"
         android:layout_marginLeft="20dp"
-        android:text="PG: 18"/>
+        android:text="PG: 18"
+        android:textColor="@android:color/white"/>
 
     <!--description-->
     <TextView
@@ -54,6 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/event_image"
         android:layout_marginTop="10dp"
+        android:textColor="@android:color/white"
         android:text="This is where the description of the event will go... This is where the description of the event will go... This is where the description of the event will go..."/>
 
     <!-- event lineup list-->
@@ -63,12 +68,11 @@
         android:layout_height="225dp"
         android:layout_below="@+id/event_description"
         android:layout_marginTop="15dp"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="3.0sp"
         android:fadeScrollbars="false"
         android:scrollbarAlwaysDrawHorizontalTrack="true"
         android:scrollbarThumbVertical="@drawable/custom_scroll_bar"
-        android:listSelector="@android:color/transparent"/>
+        android:listSelector="@android:color/transparent"
+        android:background="@android:color/white"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
