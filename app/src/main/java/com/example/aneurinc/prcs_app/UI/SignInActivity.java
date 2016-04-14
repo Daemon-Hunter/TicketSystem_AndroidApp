@@ -203,6 +203,11 @@ public class SignInActivity extends AppCompatActivity implements TextView.OnEdit
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
