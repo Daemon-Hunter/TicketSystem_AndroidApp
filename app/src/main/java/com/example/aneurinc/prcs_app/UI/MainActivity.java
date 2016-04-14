@@ -1,18 +1,25 @@
 package com.example.aneurinc.prcs_app.UI;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
@@ -28,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String T_TAG = "TICKETS";
     private static final String F_TAG = "FOLLOWING";
 
-    public static FragmentManager fragmentManager;
+    private static FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +49,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         createFragment(new EventFragment(), E_TAG);
 
         fragmentManager = getSupportFragmentManager();
+    }
+
+    private void createFragment(Fragment fragment, String tag) {
+
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.contentFragmentMain, fragment, tag);
+        transaction.commit();
+
     }
 
     private void setUpToolbar() {
@@ -67,18 +83,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void createFragment(Fragment fragment, String tag) {
-
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.contentFragmentMain, fragment, tag);
-        transaction.commit();
-
-    }
-
     @Override
     public void onBackPressed() {
-
 
         if (fragmentManager.getBackStackEntryCount() > 1) {
             super.onBackPressed();
@@ -155,6 +161,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu, menu);
+
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.tb_search));
+        SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setGravity(Gravity.RIGHT);
+
         menu.findItem(R.id.tb_home).setVisible(false);
         return true;
     }
@@ -167,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (item.getItemId()) {
 
             case R.id.tb_search:
-                Log.d(DEBUG_TAG, "Action Bar: Search");
+
                 break;
         }
 

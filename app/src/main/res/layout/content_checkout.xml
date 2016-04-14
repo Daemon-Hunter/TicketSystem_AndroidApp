@@ -28,7 +28,8 @@
             android:layout_height="0dp"
             android:layout_weight="20"
             android:layout_gravity="center"
-            android:src="@drawable/pay" />
+            android:src="@drawable/pay"
+            android:paddingBottom="10dp"/>
 
     </LinearLayout>
 
