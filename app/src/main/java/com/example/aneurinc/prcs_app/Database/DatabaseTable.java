@@ -4,20 +4,21 @@ package com.example.aneurinc.prcs_app.Database;
  * Created by Joshua Kellaway on 14/03/2016.
  * Database table enum
  */
+
 public enum DatabaseTable {
     ARTIST,
-    ARTISTREVIEW,
+    ARTIST_REVIEW,
     BOOKING,
-    CHILDEVENT,
+    CHILD_EVENT,
     CUSTOMER,
-    EVENTREVIEW,
+    EVENT_REVIEW,
     GUESTBOOKING,
     LINEUP,
-    PARENTEVENT,
-    SOCIALMEDIA,
+    PARENT_EVENT,
+    SOCIAL_MEDIA,
     TICKET,
     VENUE,
-    VENUEREVIEW,
+    VENUE_REVIEW,
     ORDER;
 }
 

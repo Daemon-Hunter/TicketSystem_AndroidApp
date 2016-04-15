@@ -25,7 +25,7 @@ public class VenueReview extends Review {
                        Date date, String body, Boolean verified)
     {
         super(baseID, customerID, rating, date, body, verified);
-        table = DatabaseTable.VENUEREVIEW;
+        table = DatabaseTable.VENUE_REVIEW;
     }
 
     /**
@@ -39,7 +39,7 @@ public class VenueReview extends Review {
     public VenueReview(Integer baseID, Integer customerID, Integer rating, String body)
     {
         super(baseID, customerID, rating, body);
-        table = DatabaseTable.VENUEREVIEW;
+        table = DatabaseTable.VENUE_REVIEW;
         this.baseID = baseID;
     }
 }

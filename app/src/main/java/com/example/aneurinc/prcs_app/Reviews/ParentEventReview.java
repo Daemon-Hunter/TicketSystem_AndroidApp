@@ -21,7 +21,7 @@ public ParentEventReview(Integer baseID, Integer customerID, Integer rating,
                          Date date, String body, Boolean verified)
 {
     super(baseID, customerID, rating, date, body, verified);
-    table = DatabaseTable.PARENTEVENT;
+    table = DatabaseTable.PARENT_EVENT;
 }
 
     /**
@@ -35,6 +35,6 @@ public ParentEventReview(Integer baseID, Integer customerID, Integer rating,
     public ParentEventReview(Integer baseID, Integer customerID, Integer rating, String body)
     {
         super(baseID, customerID, rating, body);
-        table = DatabaseTable.PARENTEVENT;
+        table = DatabaseTable.PARENT_EVENT;
     }
 }

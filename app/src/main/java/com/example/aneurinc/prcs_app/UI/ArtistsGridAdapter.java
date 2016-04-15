@@ -72,8 +72,8 @@ public class ArtistsGridAdapter extends BaseAdapter {
         }
 
         viewHolder.gridImage.setImageResource(images[position]);
-        viewHolder.gridImage.getLayoutParams().height = 275;
-        viewHolder.gridImage.getLayoutParams().width = 275;
+        //viewHolder.gridImage.getLayoutParams().height = 275;
+       // viewHolder.gridImage.getLayoutParams().width = 275;
         viewHolder.gridText.setText(title[position]);
 
         return convertView;

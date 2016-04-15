@@ -39,7 +39,6 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
         readAllAsyncTask task = new readAllAsyncTask();
         task.execute();
          info = Information.getInstance();
-
         gridView = (GridView) view.findViewById(R.id.artist_grid_view);
         gridView.setAdapter(new ArtistsGridAdapter(this.getActivity(),listOfArtists));
         gridView.setOnItemClickListener(this);
@@ -51,9 +50,8 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         Intent i = new Intent(getActivity(), ArtistActivity.class);
-        i.putExtra(ArtistActivity.EventImageIndex, position);
+        i.putExtra(ArtistActivity.EventImageIndex, listOfArtists.get(position).getArtistID());
         getActivity().startActivity(i);
-
     }
     private class readAllAsyncTask extends AsyncTask<Void,Void,List<Artist>> {
 

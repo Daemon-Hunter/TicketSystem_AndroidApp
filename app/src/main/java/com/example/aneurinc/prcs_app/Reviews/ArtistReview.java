@@ -21,7 +21,7 @@ public ArtistReview(Integer baseID, Integer customerID, Integer rating, Date dat
                     Boolean verified)
 {
     super(baseID, customerID, rating, date, body, verified);
-    table = DatabaseTable.ARTISTREVIEW;
+    table = DatabaseTable.ARTIST_REVIEW;
 }
 
     /**
@@ -35,6 +35,6 @@ public ArtistReview(Integer baseID, Integer customerID, Integer rating, Date dat
     public ArtistReview(Integer baseID, Integer customerID, Integer rating, String body)
     {
         super(baseID, customerID, rating, body);
-        table = DatabaseTable.ARTISTREVIEW;
+        table = DatabaseTable.ARTIST_REVIEW;
     }
 }

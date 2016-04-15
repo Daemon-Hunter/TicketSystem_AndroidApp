@@ -16,7 +16,7 @@ public class SocialMedia implements ISocial,Serializable{
     private Integer id;
     private String  facebook, twitter, instagram, soundcloud, website, spotify;
     //private BufferedImage image;
-    private final DatabaseTable table = DatabaseTable.SOCIALMEDIA;
+    private final DatabaseTable table = DatabaseTable.SOCIAL_MEDIA;
     private LinkedList<IObserver> observers;
 
     public SocialMedia(Integer id, String fb, String tw,

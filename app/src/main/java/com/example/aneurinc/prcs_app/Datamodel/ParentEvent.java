@@ -34,7 +34,7 @@ public class ParentEvent extends ReviewBase implements IParentEvent {
     public ParentEvent() {
         super();
         // Initialize table variable, which matches Java object to database table
-        table = DatabaseTable.PARENTEVENT;
+        table = DatabaseTable.PARENT_EVENT;
         childEvents = new LinkedList<>();
         reviewFactory = new ParentEventReviewFactory();
     }
@@ -45,7 +45,7 @@ public class ParentEvent extends ReviewBase implements IParentEvent {
         this.ID = ID;
         this.name = name;
         this.description = description;
-        table = DatabaseTable.PARENTEVENT;
+        table = DatabaseTable.PARENT_EVENT;
         childEvents = events;
         this.reviews = reviewsList;
         socialMedia = social;

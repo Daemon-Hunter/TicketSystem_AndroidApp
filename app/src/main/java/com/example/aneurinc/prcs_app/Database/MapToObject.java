@@ -63,14 +63,14 @@ public class MapToObject {
             String name = artistMap.get("ARTIST_NAME");
             String tags = artistMap.get("ARTIST_TAGS");
             String[] tempArr = tags.split("#");
-            String description = null; //DOMINIC DO SOMTHING HERE ONCE API UPDATED
-          //  String description = artistMap.get("ARTIST_DESCRIPTION");
+            //String description = null; //DOMINIC DO SOMTHING HERE ONCE API UPDATED
+            String description = artistMap.get("ARTIST_DESCRIPTION");
             LinkedList<String> listOfTags    = new LinkedList<>();
             LinkedList<IReview> listOfReviews = new LinkedList<>();
             List<Map<String,String>> allReviews;
             listOfTags.addAll(Arrays.asList(tempArr));
 
-            allReviews = MapToObject.getListOfReviews(DatabaseTable.ARTISTREVIEW);
+            allReviews = MapToObject.getListOfReviews(DatabaseTable.ARTIST_REVIEW);
 
             for(Map<String,String> currReview : allReviews)
             {
@@ -201,7 +201,7 @@ public class MapToObject {
 
         }
         List<Map<String,String>> allReviews;
-        allReviews = MapToObject.getListOfReviews(DatabaseTable.VENUEREVIEW);
+        allReviews = MapToObject.getListOfReviews(DatabaseTable.VENUE_REVIEW);
 
         for(Map<String,String> currReview : allReviews)
         {
@@ -236,7 +236,7 @@ public class MapToObject {
 
         try
         {
-            APIConnection eventConn = new APIConnection(DatabaseTable.CHILDEVENT);
+            APIConnection eventConn = new APIConnection(DatabaseTable.CHILD_EVENT);
             eventMap = eventConn.readSingle(childEventID);
             event = ConvertEvent(eventMap);
 
@@ -385,7 +385,7 @@ public class MapToObject {
         name  = eventMap.get("PARENT_EVENT_NAME");
         description = eventMap.get("PARENT_EVENT_DESCRIPTION");
         socialMediaID = Integer.parseInt(eventMap.get("SOCIAL_MEDIA_ID"));
-        APIConnection socialConn = new APIConnection(DatabaseTable.SOCIALMEDIA);
+        APIConnection socialConn = new APIConnection(DatabaseTable.SOCIAL_MEDIA);
         socialConn.readSingle(socialMediaID);
         try {
             social = ConvertSocialMedia(socialConn.readSingle(socialMediaID));
@@ -394,7 +394,7 @@ public class MapToObject {
         }
         try{
 
-            allReviews = MapToObject.getListOfReviews(DatabaseTable.EVENTREVIEW);
+            allReviews = MapToObject.getListOfReviews(DatabaseTable.EVENT_REVIEW);
             for(Map<String,String> currReview : allReviews)
             {
                 if(eventID == Integer.parseInt(currReview.get("PARENT_EVENT_ID")))
@@ -411,7 +411,7 @@ public class MapToObject {
 
         try{
 
-            allEvents = MapToObject.getListOfReviews(DatabaseTable.CHILDEVENT);
+            allEvents = MapToObject.getListOfReviews(DatabaseTable.CHILD_EVENT);
             for(Map<String,String> currEvent: allEvents)
             {
                 if(eventID.equals(Integer.parseInt(currEvent.get("PARENT_EVENT_ID"))))
