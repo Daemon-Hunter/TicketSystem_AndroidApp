@@ -1,7 +1,5 @@
 package com.example.aneurinc.prcs_app.bookings;
 
-import com.example.aneurinc.prcs_app.People.Customer;
-import com.example.aneurinc.prcs_app.People.User;
 import com.example.aneurinc.prcs_app.Tickets.Ticket;
 
 /**

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import com.example.aneurinc.prcs_app.Database.DatabaseTable;
 import com.example.aneurinc.prcs_app.Database.MapToObject;
 import com.example.aneurinc.prcs_app.Datamodel.Artist;
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.Utility.Information;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,67 +24,59 @@ import java.util.Map;
  * Created by aneurinc on 02/03/2016.
  */
 public class ArtistFragment extends Fragment implements AdapterView.OnItemClickListener {
-    View view;
-    GridView gridView;
-    ArtistsGridAdapter gridAdapter;
-    List<Artist> listOfArtists= new ArrayList<>();
-    Information info;
+
+    private GridView gridView;
+    private List<Artist> artistList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-         view = inflater.inflate(R.layout.fragment_artist, container, false);
-        readAllAsyncTask task = new readAllAsyncTask();
-        task.execute();
-         info = Information.getInstance();
+        View view = inflater.inflate(R.layout.fragment_artist, container, false);
+        executeAsyncTask();
         gridView = (GridView) view.findViewById(R.id.artist_grid_view);
-        gridView.setAdapter(new ArtistsGridAdapter(this.getActivity(),listOfArtists));
         gridView.setOnItemClickListener(this);
 
         return view;
+    }
+
+    private void executeAsyncTask() {
+        ReadArtists task = new ReadArtists();
+        task.execute();
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         Intent i = new Intent(getActivity(), ArtistActivity.class);
-        i.putExtra(ArtistActivity.EventImageIndex, listOfArtists.get(position).getArtistID());
+        i.putExtra(ArtistActivity.EventImageIndex, artistList.get(position).getArtistID());
         getActivity().startActivity(i);
     }
-    private class readAllAsyncTask extends AsyncTask<Void,Void,List<Artist>> {
 
+    private class ReadArtists extends AsyncTask<Void, Void, List<Artist>> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            Log.e("PRE","Display loading bar");
-            // Do something like display a progress bar
+            // TODO display something like display a progress bar
         }
-
-
 
         @Override
         protected List<Artist> doInBackground(Void... voids) {
+
             APIConnection connection = new APIConnection(DatabaseTable.ARTIST);
-            List<Map<String,String>> listOfMaps = connection.readAll();
-            for(Map<String,String> currMap : listOfMaps)
-            {
-                listOfArtists.add(MapToObject.ConvertArtist(currMap));
+            List<Map<String, String>> listOfMaps = connection.readAll();
 
+            for (Map<String, String> currMap : listOfMaps) {
+                artistList.add(MapToObject.ConvertArtist(currMap));
             }
-            return listOfArtists;
 
+            return artistList;
         }
 
         @Override
         protected void onPostExecute(List<Artist> artists) {
-            Log.e("End","Post Execute");
-            Log.e("CUSTOMER",artists.get(0).getArtistName());
-            Log.e("CUSTOMER",listOfArtists.get(1).getArtistName());
-            Log.e("SIZE",Integer.toString(listOfArtists.size()));
-            info.setListOfArtists(listOfArtists);
-            gridAdapter = new ArtistsGridAdapter(getContext(),listOfArtists);
-            gridView.setAdapter(gridAdapter);
+
+            gridView.setAdapter(new ArtistGridAdapter(getContext(), artistList));
 
         }
     }

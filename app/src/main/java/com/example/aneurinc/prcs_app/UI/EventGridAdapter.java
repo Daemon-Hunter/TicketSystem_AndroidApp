@@ -16,18 +16,27 @@ import java.util.List;
 /**
  * Created by Dominic on 15/04/2016.
  */
-public class EventsGridAdapter extends BaseAdapter {
+public class EventGridAdapter extends BaseAdapter {
 
     private Context context;
-    private Integer[] images = Constants.artistImages;
+    private Integer[] images = Constants.eventImages;
     private String[] title;
 
-
-
-    public EventsGridAdapter(Context c, List<ParentEvent> eventsList)
-    {
+    public EventGridAdapter(Context c, List<ParentEvent> eventList) {
         context = c;
-        updateGridList(eventsList);
+        updateGridList(eventList);
+
+    }
+
+    public void updateGridList(List<ParentEvent> events) {
+
+        title = new String[events.size()];
+        int i = 0;
+        for (ParentEvent currEvent : events) {
+
+            title[i++] = currEvent.getParentEventName();
+
+        }
 
     }
 
@@ -71,33 +80,14 @@ public class EventsGridAdapter extends BaseAdapter {
         }
 
         viewHolder.gridImage.setImageResource(images[position]);
-      //  viewHolder.gridImage.getLayoutParams().height = 275;
-      //  viewHolder.gridImage.getLayoutParams().width = 275;
         viewHolder.gridText.setText(title[position]);
 
         return convertView;
     }
 
-    public void updateGridList(List<ParentEvent> events) {
-
-        title = new String[events.size()];
-        int i = 0;
-        for (ParentEvent currEvent:events) {
-
-            title[i] = currEvent.getParentEventName();
-                    i++;
-        }
-
-    }
-
-
-
     static class ViewHolder {
         ImageView gridImage;
         TextView gridText;
     }
-
-
-
 
 }

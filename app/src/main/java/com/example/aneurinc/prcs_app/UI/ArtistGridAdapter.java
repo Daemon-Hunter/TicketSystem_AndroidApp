@@ -17,18 +17,27 @@ import com.example.aneurinc.prcs_app.R;
 
 import java.util.List;
 
-public class ArtistsGridAdapter extends BaseAdapter {
+public class ArtistGridAdapter extends BaseAdapter {
 
     private Context context;
     private Integer[] images = Constants.artistImages;
     private String[] title;
 
+    // TODO display images from backend
 
-
-    public ArtistsGridAdapter(Context c, List<Artist> artistList)
-    {
+    public ArtistGridAdapter(Context c, List<Artist> artistList) {
         context = c;
         updateGridList(artistList);
+    }
+
+    public void updateGridList(List<Artist> artists) {
+
+        title = new String[artists.size()];
+        int i = 0;
+
+        for (Artist currArtist : artists) {
+            title[i++] = currArtist.getArtistName();
+        }
 
     }
 
@@ -72,33 +81,15 @@ public class ArtistsGridAdapter extends BaseAdapter {
         }
 
         viewHolder.gridImage.setImageResource(images[position]);
-        //viewHolder.gridImage.getLayoutParams().height = 275;
-       // viewHolder.gridImage.getLayoutParams().width = 275;
         viewHolder.gridText.setText(title[position]);
 
         return convertView;
     }
 
-    public void updateGridList(List<Artist> artists) {
-
-        title = new String[artists.size()];
-        int i = 0;
-        for (Artist currArtist:artists) {
-
-            title[i] = currArtist.getArtistName();
-            i++;
-        }
-
-    }
-
-
-
     static class ViewHolder {
         ImageView gridImage;
         TextView gridText;
     }
-
-
 
 
 }

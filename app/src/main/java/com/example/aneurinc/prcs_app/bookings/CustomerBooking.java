@@ -1,7 +1,6 @@
 package com.example.aneurinc.prcs_app.bookings;
 
 import com.example.aneurinc.prcs_app.Database.DatabaseTable;
-import com.example.aneurinc.prcs_app.People.Customer;
 import com.example.aneurinc.prcs_app.People.IUser;
 import com.example.aneurinc.prcs_app.Tickets.Ticket;
 
