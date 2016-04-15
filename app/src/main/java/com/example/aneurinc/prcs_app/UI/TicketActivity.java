@@ -58,7 +58,7 @@ public class TicketActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void setListAdapter() {
-        TicketListAdapter adapter = new TicketListAdapter(this);
+        EventTicketListAdapter adapter = new EventTicketListAdapter(this);
         ListView list = (ListView) findViewById(R.id.ticket_list);
         list.setAdapter(adapter);
     }

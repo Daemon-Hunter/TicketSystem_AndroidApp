@@ -23,6 +23,9 @@ public class VenueListAdapter extends ArrayAdapter<String> implements OnClickLis
 
     private final Activity mContext;
     private String[] name;
+    private String[] city;
+
+    // TODO get image
 
     public VenueListAdapter(Activity context, List<IVenue> venues) {
         super(context, R.layout.list_venue, Constants.venueNames);
@@ -35,10 +38,12 @@ public class VenueListAdapter extends ArrayAdapter<String> implements OnClickLis
     private void updateVenueList(List<IVenue> venues) {
 
         name = new String[venues.size()];
+        city = new String[venues.size()];
         int i = 0;
 
         for (IVenue v : venues) {
             name[i] = v.getVenueName();
+            city[i] = v.getVenueAddress();
             i++;
         }
     }
@@ -56,7 +61,7 @@ public class VenueListAdapter extends ArrayAdapter<String> implements OnClickLis
             viewHolder = new ViewHolder();
             viewHolder.venueImage = (ImageView) convertView.findViewById(R.id.image);
             viewHolder.venueName = (TextView) convertView.findViewById(R.id.name);
-            viewHolder.venueCity = (TextView) convertView.findViewById(R.id.location);
+            viewHolder.venueCity = (TextView) convertView.findViewById(R.id.city);
             viewHolder.venueMap = (ImageView) convertView.findViewById(R.id.map);
 
             convertView.setTag(viewHolder);
@@ -69,7 +74,8 @@ public class VenueListAdapter extends ArrayAdapter<String> implements OnClickLis
 
         viewHolder.venueImage.setImageResource(Constants.venueImages[position]);
         viewHolder.venueName.setText(name[position]);
-        viewHolder.venueCity.setText(Constants.locations[position]);
+        // TODO change address to city!
+        viewHolder.venueCity.setText(city[position]);
         viewHolder.venueMap.setImageResource(R.drawable.google_maps_icon);
         viewHolder.venueMap.setOnClickListener(this);
 

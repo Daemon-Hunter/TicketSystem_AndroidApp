@@ -3,14 +3,16 @@ package com.example.aneurinc.prcs_app.Utility;
 import android.util.Log;
 
 import java.io.IOException;
-import static java.lang.System.out;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import static java.util.regex.Pattern.compile;
+
 import static com.example.aneurinc.prcs_app.Utility.Blacklist.contains;
+import static java.lang.System.out;
+import static java.util.regex.Pattern.compile;
 
 
 /**
@@ -183,5 +185,13 @@ public final class Validator {
 
     public static Boolean tagValidator(String tag) {
         return contains(tag) && tag.contains(",");
+    }
+
+    public static String formatPrice(Double price) {
+
+        DecimalFormat df = new DecimalFormat("£0.00");
+        String formattedPrice = df.format(price);
+
+        return formattedPrice;
     }
 }
