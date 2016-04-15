@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
 
 import com.example.aneurinc.prcs_app.R;
@@ -33,13 +32,13 @@ public class EventFragment extends Fragment implements AdapterView.OnItemClickLi
         gridView.setAdapter(new GridAdapter(this.getActivity(), Constants.eventImages, Constants.eventName));
         gridView.setOnItemClickListener(this);
 
-        gridView.setOnTouchListener(new OnSwipeTouchListener(getActivity()) {
-            @Override
-            public void onSwipeRight() {
-                Button b = (Button) getActivity().findViewById(R.id.btn_event);
-                main.createFragment(new ArtistFragment(), "ARTISTS", b);
-            }
-        });
+//       // gridView.setOnTouchListener(new OnSwipeTouchListener(getActivity()) {
+//            @Override
+//            public void onSwipeRight() {
+//                Button b = (Button) getActivity().findViewById(R.id.btn_event);
+//                main.createFragment(new ArtistFragment(), "ARTISTS", b);
+//            }
+//        });
 
         return view;
     }
