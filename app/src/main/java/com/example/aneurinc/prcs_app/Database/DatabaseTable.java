@@ -5,17 +5,19 @@ package com.example.aneurinc.prcs_app.Database;
  * Database table enum
  */
 public enum DatabaseTable {
-    ARTISTS,
-    ARTISTREVIEWS,
-    BOOKINGS,
-    CHILDEVENTS,
-    CUSTOMERS,
-    EVENTREVIEWS,
-    GUESTBOOKINGS,
-    LINEUPS,
-    PARENTEVENTS,
-    SOCIALMEDIAS,
-    TICKETS,
-    VENUES,
-    VENUEREVIEWS
+    ARTIST,
+    ARTISTREVIEW,
+    BOOKING,
+    CHILDEVENT,
+    CUSTOMER,
+    EVENTREVIEW,
+    GUESTBOOKING,
+    LINEUP,
+    PARENTEVENT,
+    SOCIALMEDIA,
+    TICKET,
+    VENUE,
+    VENUEREVIEW,
+    ORDER;
 }
+

@@ -2,9 +2,9 @@ package com.example.aneurinc.prcs_app.UI;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,19 +13,21 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.aneurinc.prcs_app.Datamodel.Artist;
 import com.example.aneurinc.prcs_app.R;
+import com.example.aneurinc.prcs_app.Utility.Information;
 
 public class ArtistActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static String EventImageIndex;
-
+    public static Artist thisArtist;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_artist);
 
         setUpToolbar();
-        displayImage();
+        displayInfo();
         setAdapter();
         setOnClickListeners();
     }
@@ -62,10 +64,16 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
         });
     }
 
-    private void displayImage() {
-        int imageIndex = getIntent().getExtras().getInt(EventImageIndex);
+    private void displayInfo() {
+        int index = getIntent().getExtras().getInt(EventImageIndex);
+
         ImageView artistImage = (ImageView) findViewById(R.id.artist_image);
-        artistImage.setImageResource(Constants.artistImages[imageIndex]);
+        TextView artistName = (TextView) findViewById(R.id.artist_name);
+        Information info = Information.getInstance();
+        thisArtist = info.getListOfArtists().get(index);
+        artistImage.setImageResource(Constants.artistImages[index]);
+        artistName.setText(thisArtist.getArtistName());
+
     }
 
     private void setAdapter() {
