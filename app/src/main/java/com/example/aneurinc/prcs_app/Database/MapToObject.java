@@ -1,5 +1,9 @@
 package com.example.aneurinc.prcs_app.Database;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+
 import com.example.aneurinc.prcs_app.Datamodel.Artist;
 import com.example.aneurinc.prcs_app.Datamodel.ChildEvent;
 import com.example.aneurinc.prcs_app.Datamodel.IArtist;
@@ -63,7 +67,6 @@ public class MapToObject {
             String name = artistMap.get("ARTIST_NAME");
             String tags = artistMap.get("ARTIST_TAGS");
             String[] tempArr = tags.split("#");
-            //String description = null; //DOMINIC DO SOMTHING HERE ONCE API UPDATED
             String description = artistMap.get("ARTIST_DESCRIPTION");
             LinkedList<String> listOfTags    = new LinkedList<>();
             LinkedList<IReview> listOfReviews = new LinkedList<>();
@@ -103,11 +106,10 @@ public class MapToObject {
         soundcloud = socialMap.get("SOUNDCLOUD");
         website = socialMap.get("WEBSITE");
         spotify = socialMap.get("SPOTIFY");
-        byte[] strm = socialMap.get("IMAGE").getBytes();
-        //final BufferedImage img = ImageIO.read(new ByteArrayInputStream(strm));
+        byte[] decodedBytes = Base64.decode(socialMap.get("IMAGE"), 0);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
 
-       // social = new SocialMedia(socialMediaID, img, facebook, twitter, instagram,soundcloud, website, spotify);
-          social = new SocialMedia();
+         social = new SocialMedia(socialMediaID, bitmap, facebook, twitter, instagram,soundcloud, website, spotify);
         return social;
     }
 

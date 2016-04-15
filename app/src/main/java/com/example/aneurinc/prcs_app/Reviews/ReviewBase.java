@@ -1,5 +1,7 @@
 package com.example.aneurinc.prcs_app.Reviews;
 
+import android.graphics.Bitmap;
+
 import com.example.aneurinc.prcs_app.Database.DatabaseTable;
 import com.example.aneurinc.prcs_app.Datamodel.ISocial;
 import com.example.aneurinc.prcs_app.Datamodel.SocialMedia;
@@ -25,7 +27,7 @@ public class ReviewBase implements ISocial, IReviewable {
     public ReviewBase() {
         reviews = new LinkedList<>();
         observers = new LinkedList<>();
-        socialMedia = new SocialMedia(0, null, null, null, null, null, null);
+        socialMedia = new SocialMedia(0,null, null, null, null, null, null, null);
         ID = 0;
         name = "UNKNOWN";
         description = null;
@@ -41,9 +43,20 @@ public class ReviewBase implements ISocial, IReviewable {
      * @param id
      * @return Boolean true if ID set.
      */
+
     @Override
     public Boolean setSocialId(Integer id) {
         return socialMedia.setSocialId(id);
+    }
+
+    @Override
+    public Bitmap getImage() {
+        return socialMedia.getImage();
+    }
+
+    @Override
+    public Boolean setImage(Bitmap img) {
+        return socialMedia.setImage(img);
     }
 
     protected IReviewFactory getReviewFactory() {
@@ -150,15 +163,6 @@ public class ReviewBase implements ISocial, IReviewable {
         }
     }
 
-//    @Override
-//    public BufferedImage getImage() {
-//        return socialMedia.getImage();
-//    }
-//
-//    @Override
-//    public Boolean setImage(BufferedImage img) {
-//        return socialMedia.setImage(img);
-//    }
 
     @Override
     public String getFacebook() {

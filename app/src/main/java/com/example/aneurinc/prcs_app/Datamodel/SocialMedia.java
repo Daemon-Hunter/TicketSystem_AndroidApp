@@ -1,5 +1,7 @@
 package com.example.aneurinc.prcs_app.Datamodel;
 
+import android.graphics.Bitmap;
+
 import com.example.aneurinc.prcs_app.Database.DatabaseTable;
 import com.example.aneurinc.prcs_app.utilities.Observer.IObserver;
 
@@ -15,11 +17,11 @@ import static com.example.aneurinc.prcs_app.Utility.Validator.idValidator;
 public class SocialMedia implements ISocial,Serializable{
     private Integer id;
     private String  facebook, twitter, instagram, soundcloud, website, spotify;
-    //private BufferedImage image;
+    private Bitmap image;
     private final DatabaseTable table = DatabaseTable.SOCIAL_MEDIA;
     private LinkedList<IObserver> observers;
 
-    public SocialMedia(Integer id, String fb, String tw,
+    public SocialMedia(Integer id,Bitmap img, String fb, String tw,
                        String insta, String sc, String web, String sp) {
         this.id    = id;
         facebook   = fb;
@@ -29,6 +31,7 @@ public class SocialMedia implements ISocial,Serializable{
         website    = web;
         spotify    = sp;
         observers = new LinkedList<>();
+        image = img;
     }
 
     public SocialMedia(){
@@ -58,22 +61,23 @@ public class SocialMedia implements ISocial,Serializable{
         return valid;
     }
 
-//    @Override
-//    public BufferedImage getImage() {
-//        if (image == null) {
+    @Override
+    public Bitmap getImage() {
+     //   if (image == null) {
 //            throw new NullPointerException();
-//        } else return image;
-//    }
-//
-//    @Override
-//    public Boolean setImage(BufferedImage img) {
-//        if (img == null) {
-//            throw new NullPointerException("Null image");
-//        } else {
-//            image = img;
-//            return true;
-//        }
-//    }
+      //  } else
+        return image;
+    }
+
+    @Override
+    public Boolean setImage(Bitmap img) {
+        if (img == null) {
+            throw new NullPointerException("Null image");
+        } else {
+            image = img;
+            return true;
+        }
+    }
 
     @Override
     public String getFacebook() {

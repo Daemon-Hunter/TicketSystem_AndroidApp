@@ -5,6 +5,7 @@ package com.example.aneurinc.prcs_app.UI;
  */
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +21,8 @@ import java.util.List;
 public class ArtistGridAdapter extends BaseAdapter {
 
     private Context context;
-    private Integer[] images = Constants.artistImages;
     private String[] title;
+    private Bitmap[] image;
 
     // TODO display images from backend
 
@@ -33,10 +34,13 @@ public class ArtistGridAdapter extends BaseAdapter {
     public void updateGridList(List<Artist> artists) {
 
         title = new String[artists.size()];
+        image = new Bitmap[artists.size()];
         int i = 0;
 
         for (Artist currArtist : artists) {
-            title[i++] = currArtist.getArtistName();
+            image[i] = currArtist.getImage();
+            title[i] = currArtist.getArtistName();
+            i++;
         }
 
     }
@@ -80,7 +84,7 @@ public class ArtistGridAdapter extends BaseAdapter {
 
         }
 
-        viewHolder.gridImage.setImageResource(images[position]);
+        viewHolder.gridImage.setImageBitmap(image[position]);
         viewHolder.gridText.setText(title[position]);
 
         return convertView;

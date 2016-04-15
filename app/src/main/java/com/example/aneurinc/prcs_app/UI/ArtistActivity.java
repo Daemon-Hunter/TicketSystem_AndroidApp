@@ -79,8 +79,7 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
 
         artistName.setText(thisArtist.getArtistName());
         artistDescription.setText(thisArtist.getDescription());
-        artistImage.setImageResource(Constants.artistImages[1]);
-
+        artistImage.setImageBitmap(thisArtist.getImage());
 
     }
 

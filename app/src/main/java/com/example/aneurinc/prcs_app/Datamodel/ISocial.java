@@ -1,5 +1,7 @@
 package com.example.aneurinc.prcs_app.Datamodel;
 
+import android.graphics.Bitmap;
+
 import com.example.aneurinc.prcs_app.utilities.Observer.IDbSubject;
 
 /**
@@ -9,8 +11,8 @@ public interface ISocial extends IDbSubject{
     Integer getSocialId();
     Boolean setSocialId(Integer id);
 
-//    BufferedImage getImage();
-//    Boolean setImage(BufferedImage img);
+    Bitmap getImage();
+    Boolean setImage(Bitmap img);
 
     String getFacebook();
     Boolean setFacebook(String fb);
