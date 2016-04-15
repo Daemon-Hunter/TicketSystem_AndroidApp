@@ -49,6 +49,7 @@ public class Artist extends ReviewBase implements IArtist {
         this.name = name;
         reviewFactory = new ArtistReviewFactory();
         observers = new LinkedList<>();
+        this.description = description;
     }
 
     @Override
@@ -93,5 +94,10 @@ public class Artist extends ReviewBase implements IArtist {
     @Override
     public Boolean removeArtistTag(String tag) {
         return tags.remove(tag);
+    }
+
+    @Override
+    public String getDescription() {
+        return description;
     }
 }

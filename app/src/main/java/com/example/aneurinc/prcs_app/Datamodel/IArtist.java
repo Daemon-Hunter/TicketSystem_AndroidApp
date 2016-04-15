@@ -12,4 +12,5 @@ public interface IArtist {
     public List<String> getArtistTags();
     public Boolean addArtistTag(String tag);
     public Boolean removeArtistTag(String tag);
+    public String getDescription();
 }

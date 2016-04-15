@@ -1,6 +1,7 @@
 package com.example.aneurinc.prcs_app.UI;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,9 +14,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.aneurinc.prcs_app.Database.APIConnection;
+import com.example.aneurinc.prcs_app.Database.DatabaseTable;
 import com.example.aneurinc.prcs_app.Datamodel.Artist;
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.Utility.Information;
+
+import static com.example.aneurinc.prcs_app.Database.MapToObject.ConvertArtist;
 
 public class ArtistActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -25,13 +29,16 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_artist);
-
+        executeAsyncTask();
         setUpToolbar();
-        displayInfo();
+     //displayInfo(); //Might not be needed on start
         setAdapter();
         setOnClickListeners();
     }
-
+    private void executeAsyncTask() {
+        readDetails task = new readDetails();
+        task.execute();
+    }
     private void setOnClickListeners() {
         ImageView facebook = (ImageView) findViewById(R.id.facebook);
         ImageView twitter = (ImageView) findViewById(R.id.twitter);
@@ -65,14 +72,15 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void displayInfo() {
-        int index = getIntent().getExtras().getInt(EventImageIndex);
-
+      //  int index = getIntent().getExtras().getInt(EventImageIndex);
         ImageView artistImage = (ImageView) findViewById(R.id.artist_image);
         TextView artistName = (TextView) findViewById(R.id.artist_name);
-        Information info = Information.getInstance();
-        thisArtist = info.getListOfArtists().get(index);
-        artistImage.setImageResource(Constants.artistImages[index]);
+        TextView artistDescription = (TextView) findViewById(R.id.artist_description);
+
         artistName.setText(thisArtist.getArtistName());
+        artistDescription.setText(thisArtist.getDescription());
+        artistImage.setImageResource(Constants.artistImages[1]);
+
 
     }
 
@@ -134,4 +142,31 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
                 break;
         }
     }
+
+    private class readDetails extends AsyncTask<Void, Void, Artist> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // TODO display something like display a progress bar
+        }
+
+        @Override
+        protected Artist doInBackground(Void... voids) {
+
+            APIConnection connection = new APIConnection(DatabaseTable.ARTIST);
+            int index = getIntent().getExtras().getInt(EventImageIndex);
+
+            thisArtist =  ConvertArtist(connection.readSingle(index));
+
+
+            return  thisArtist;
+        }
+
+        @Override
+        protected void onPostExecute(Artist anArtist) {
+            displayInfo();
+        }
+    }
+
 }
