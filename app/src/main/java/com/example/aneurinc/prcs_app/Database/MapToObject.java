@@ -106,6 +106,7 @@ public class MapToObject {
         soundcloud = socialMap.get("SOUNDCLOUD");
         website = socialMap.get("WEBSITE");
         spotify = socialMap.get("SPOTIFY");
+
         byte[] decodedBytes = Base64.decode(socialMap.get("IMAGE"), 0);
         Bitmap bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
 
