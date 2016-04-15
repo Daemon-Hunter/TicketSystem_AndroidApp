@@ -15,11 +15,12 @@
         <meta-data
             android:name="com.google.android.maps.API_KEY"
             android:value="@string/google_maps_key" />
-
         <activity
             android:name=".UI.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
+
+
 
         </activity>
         <activity
@@ -34,15 +35,16 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
 
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-
         </activity>
+
+
+
         <activity
             android:name=".UI.TicketActivity"
             android:label=""
@@ -82,7 +84,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".UI.SignInActivity"
+            android:name=".UI.LoginActivity"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>

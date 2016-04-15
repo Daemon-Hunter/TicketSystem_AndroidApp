@@ -18,11 +18,7 @@ public class VenueFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-
-        View view = inflater.inflate(R.layout.fragment_venue, container, false);
-
-        return view;
+        return inflater.inflate(R.layout.fragment_venue, container, false);
     }
 
     @Override
@@ -35,12 +31,5 @@ public class VenueFragment extends Fragment {
         VenueListAdapter adapter = new VenueListAdapter(getActivity());
         list = (ListView) getView().findViewById(R.id.venue_list);
         list.setAdapter(adapter);
-    }
-
-    @Override
-    public void onPause() {
-        // called before fragment or parent activity is destroyed,
-        // so saved data here!
-        super.onPause();
     }
 }

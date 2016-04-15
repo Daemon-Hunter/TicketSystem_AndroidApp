@@ -73,41 +73,19 @@
             android:id="@+id/buy_tickets"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_below="@+id/event_description"
-            android:paddingBottom="5dp"
             android:paddingTop="5dp"
+            android:paddingBottom="10dp"
             android:src="@drawable/buy_now" />
-
-        <LinearLayout
-            android:id="@+id/event_lineup_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/event_description"
-            android:layout_marginTop="10dp"
-            android:background="@android:color/holo_blue_dark">
-
-            <TextView
-                android:id="@+id/tv_event_lineup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:text="@string/event_lineup"
-                android:textColor="@android:color/white"
-                android:textSize="18sp" />
-
-        </LinearLayout>
 
         <!-- event lineup list-->
         <ListView
             android:id="@+id/lineup_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/event_lineup_layout"
+            android:layout_below="@+id/buy_tickets"
             android:background="@android:color/white"
-            android:fadeScrollbars="false"
-            android:scrollbarAlwaysDrawHorizontalTrack="true"
-            android:scrollbarThumbVertical="@drawable/custom_scroll_bar" />
+            android:fadeScrollbars="false"/>
 
     </RelativeLayout>
 

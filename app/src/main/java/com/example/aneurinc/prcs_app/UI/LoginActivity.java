@@ -4,13 +4,12 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -19,6 +18,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,7 +29,7 @@ import com.example.aneurinc.prcs_app.R;
 /**
  * A login screen that offers login via email/password.
  */
-public class SignInActivity extends AppCompatActivity implements TextView.OnEditorActionListener, OnClickListener {
+public class LoginActivity extends AppCompatActivity implements TextView.OnEditorActionListener, OnClickListener {
 
 
     /**
@@ -196,6 +196,7 @@ public class SignInActivity extends AppCompatActivity implements TextView.OnEdit
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_confirm:
+                closeKeyboard();
                 attemptLogin();
                 break;
             default:
@@ -203,9 +204,17 @@ public class SignInActivity extends AppCompatActivity implements TextView.OnEdit
         }
     }
 
+    private void closeKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     /**
@@ -230,7 +239,7 @@ public class SignInActivity extends AppCompatActivity implements TextView.OnEdit
 
             try {
                 // Simulate network access.
-                Thread.sleep(3000);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 return false;
             }
@@ -265,6 +274,7 @@ public class SignInActivity extends AppCompatActivity implements TextView.OnEdit
             mAuthTask = null;
             showProgress(false);
         }
+
     }
 }
 

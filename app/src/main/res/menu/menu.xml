@@ -4,8 +4,8 @@
 
     <!--search-->
     <item android:id="@+id/tb_search"
-        android:title="@string/search"
-        android:icon="@drawable/abc_ic_search_api_mtrl_alpha"
+        android:title="@string/action_search"
+        android:icon="@mipmap/ic_search_white_24dp"
         app:showAsAction="ifRoom|collapseActionView"
         app:actionViewClass="android.support.v7.widget.SearchView" />
 

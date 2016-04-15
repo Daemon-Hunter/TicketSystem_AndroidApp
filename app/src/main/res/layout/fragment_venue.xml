@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.MainActivity$DummySectionFragment">
+    tools:context=".UI.MainActivity">
 
     <!-- event lineup list-->
     <ListView
@@ -11,8 +11,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/featured_lineup"
         android:background="@android:color/white"
-        android:fadeScrollbars="false"
-        android:scrollbarAlwaysDrawHorizontalTrack="true"
-        android:scrollbarThumbVertical="@drawable/custom_scroll_bar" />
+        android:fadeScrollbars="false" />
 
 </RelativeLayout>

@@ -1,14 +1,11 @@
 package com.example.aneurinc.prcs_app.UI;
 
 import android.app.Activity;
-import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
@@ -67,9 +64,6 @@ public class MyTicketsListAdapter extends ArrayAdapter<String> {
         viewHolder.eventVenue.setText(Constants.venueNames[position]);
         viewHolder.eventCost.setText(Constants.ticketCost[position]);
         viewHolder.eventImage.setImageResource(Constants.eventImages[position]);
-
-        Log.d(MainActivity.DEBUG_TAG, String.format("%s width = %d", Constants.eventName[position],
-                viewHolder.eventName.getWidth()));
 
         return convertView;
     }

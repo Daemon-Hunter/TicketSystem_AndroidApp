@@ -1,7 +1,6 @@
 package com.example.aneurinc.prcs_app.UI;
 
 import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,17 +8,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.SearchView;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.View;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.inputmethod.InputMethodManager;
+import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
@@ -33,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String E_TAG = "EVENTS";
     private static final String A_TAG = "ARTISTS";
     private static final String T_TAG = "TICKETS";
-    private static final String F_TAG = "FOLLOWING";
+    private static final String V_TAG = "VENUE";
 
     private static FragmentManager fragmentManager;
 
@@ -46,18 +42,79 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         setOnClickListeners();
 
-        createFragment(new EventFragment(), E_TAG);
+        Button events = (Button) findViewById(R.id.btn_event);
+        createFragment(new EventFragment(), E_TAG, events);
 
         fragmentManager = getSupportFragmentManager();
     }
 
-    private void createFragment(Fragment fragment, String tag) {
+    public void createFragment(Fragment fragment, String tag, View v) {
 
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
+        setCustomAnimation(transaction, v);
         transaction.replace(R.id.contentFragmentMain, fragment, tag);
         transaction.commit();
 
+    }
+
+    private void setCustomAnimation(FragmentTransaction t, View v) {
+
+        int id = v.getId();
+
+        switch (getFragmentTag()) {
+
+            case E_TAG:
+                t.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_left);
+                break;
+
+            case A_TAG:
+                if (id == R.id.btn_venue || id == R.id.btn_tickets) {
+                    t.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_left);
+                } else {
+                    t.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right);
+                }
+                break;
+
+            case V_TAG:
+                if (id == R.id.btn_tickets) {
+                    t.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_left);
+                } else {
+                    t.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right);
+                }
+                break;
+
+            case T_TAG:
+                t.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right);
+                break;
+
+            default:
+                break;
+        }
+
+    }
+
+    private String getFragmentTag() {
+
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag(E_TAG);
+
+        if (fragment != null && fragment.isVisible()) {
+            return E_TAG;
+        }
+
+        fragment = getSupportFragmentManager().findFragmentByTag(T_TAG);
+
+        if (fragment != null && fragment.isVisible()) {
+            return T_TAG;
+        }
+
+        fragment = getSupportFragmentManager().findFragmentByTag(A_TAG);
+
+        if (fragment != null && fragment.isVisible()) {
+            return A_TAG;
+        }
+
+        return V_TAG;
     }
 
     private void setUpToolbar() {
@@ -101,33 +158,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void updateCurrentFragment() {
 
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag(E_TAG);
-
-        if (fragment != null && fragment.isVisible()) {
-            updateButtons(R.id.btn_event);
-            return;
+        switch (getFragmentTag()) {
+            case A_TAG:
+                updateButtons(R.id.btn_artist);
+                break;
+            case V_TAG:
+                updateButtons(R.id.btn_venue);
+                break;
+            case T_TAG:
+                updateButtons(R.id.btn_tickets);
+                break;
+            case E_TAG:
+                updateButtons(R.id.btn_event);
+                break;
+            default:
+                break;
         }
 
-        fragment = getSupportFragmentManager().findFragmentByTag(T_TAG);
-
-        if (fragment != null && fragment.isVisible()) {
-            updateButtons(R.id.btn_tickets);
-            return;
-        }
-
-        fragment = getSupportFragmentManager().findFragmentByTag(A_TAG);
-
-        if (fragment != null && fragment.isVisible()) {
-            updateButtons(R.id.btn_artist);
-            return;
-        }
-
-        fragment = getSupportFragmentManager().findFragmentByTag(F_TAG);
-
-        if (fragment != null && fragment.isVisible()) {
-            updateButtons(R.id.btn_venue);
-            return;
-        }
     }
 
     private void updateButtons(int btnID) {
@@ -194,25 +241,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
 
             case R.id.btn_event:
-                createFragment(new EventFragment(), E_TAG);
+                createFragment(new EventFragment(), E_TAG, v);
                 updateButtons(R.id.btn_event);
                 toolbarTitle.setText(R.string.current_events);
                 break;
 
             case R.id.btn_artist:
-                createFragment(new ArtistFragment(), A_TAG);
+                createFragment(new ArtistFragment(), A_TAG, v);
                 updateButtons(R.id.btn_artist);
                 toolbarTitle.setText(R.string.current_artists);
                 break;
 
             case R.id.btn_tickets:
-                createFragment(new TicketFragment(), T_TAG);
+                createFragment(new TicketFragment(),T_TAG, v);
                 updateButtons(R.id.btn_tickets);
                 toolbarTitle.setText(R.string.my_tickets);
                 break;
 
             case R.id.btn_venue:
-                createFragment(new VenueFragment(), F_TAG);
+                createFragment(new VenueFragment(), V_TAG, v);
                 updateButtons(R.id.btn_venue);
                 toolbarTitle.setText(R.string.current_venues);
                 break;

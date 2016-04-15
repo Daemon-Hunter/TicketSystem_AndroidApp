@@ -8,8 +8,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".UI.SignInActivity"
-    android:background="@drawable/background6">
+    tools:context=".UI.LoginActivity"
+    android:background="@drawable/background5">
 
     <LinearLayout
         android:layout_width="wrap_content"

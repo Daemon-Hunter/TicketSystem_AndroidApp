@@ -6,7 +6,7 @@
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:paddingTop="10dp"
-    tools:context=".UI.MainActivity$DummySectionFragment">
+    tools:context=".UI.MainActivity">
 
     <!--grid view of new events-->
     <GridView

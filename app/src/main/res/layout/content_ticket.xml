@@ -69,8 +69,6 @@
         android:layout_below="@+id/event_description"
         android:layout_marginTop="15dp"
         android:fadeScrollbars="false"
-        android:scrollbarAlwaysDrawHorizontalTrack="true"
-        android:scrollbarThumbVertical="@drawable/custom_scroll_bar"
         android:listSelector="@android:color/transparent"
         android:background="@android:color/white"/>
 

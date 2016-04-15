@@ -3,6 +3,8 @@ package com.example.aneurinc.prcs_app.UI;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,9 +62,8 @@ public class LineupListAdapter extends ArrayAdapter<String> implements AdapterVi
 
             convertView.setBackgroundColor(Color.parseColor("#90CAF9"));
             convertView.setOnClickListener(null);
+
             viewHolder.artistImage.setImageResource(R.drawable.calendar);
-            viewHolder.artistImage.getLayoutParams().height = 120;
-            viewHolder.artistImage.getLayoutParams().width = 120;
             viewHolder.artistName.setText(Constants.nameDates[position]);
             viewHolder.artistName.setTextColor(Color.WHITE);
 
@@ -71,11 +72,13 @@ public class LineupListAdapter extends ArrayAdapter<String> implements AdapterVi
             int colorPos = position % Constants.rowColour.length;
             convertView.setBackgroundColor(Constants.rowColour[colorPos]);
             viewHolder.artistImage.setImageResource(Constants.artistImages[position]);
-            viewHolder.artistImage.getLayoutParams().height = 120;
-            viewHolder.artistImage.getLayoutParams().width = 120;
             viewHolder.artistName.setText(Constants.artistName[position]);
+            viewHolder.artistName.setTextColor(ContextCompat.getColor(context, R.color.colorGrey400));
 
         }
+
+        viewHolder.artistImage.getLayoutParams().height = 120;
+        viewHolder.artistImage.getLayoutParams().width = 120;
 
         return convertView;
 

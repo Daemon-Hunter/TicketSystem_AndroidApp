@@ -23,16 +23,20 @@ public class CustomClickableSpan extends ClickableSpan {
     public void onClick(View v) {
 
         switch (v.getId()) {
+
             case R.id.tv_go_to_sign_in:
                 context.onBackPressed();
-                context.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                context.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
                 break;
+
             case R.id.tv_go_to_register:
                 context.startActivity(new Intent(context, RegisterActivity.class));
-                context.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                context.overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
                 break;
+
             default:
                 break;
+
         }
 
     }

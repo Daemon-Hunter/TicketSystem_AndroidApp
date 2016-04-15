@@ -22,7 +22,7 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             public void run() {
 
-                SplashActivity.this.startActivity(new Intent(SplashActivity.this, SignInActivity.class));
+                SplashActivity.this.startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                 SplashActivity.this.finish();
 
                 // Transition from SplashActivity to MainActivity

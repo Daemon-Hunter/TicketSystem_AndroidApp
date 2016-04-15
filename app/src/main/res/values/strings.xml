@@ -8,6 +8,7 @@
     <string name="title_activity_event">EventActivity</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_ticket">TicketActivity</string>
+    <string name="title_activity_register">Register</string>
 
     <!--action bar names-->
     <string name="action_settings">Settings</string>
@@ -21,17 +22,10 @@
     <string name="tickets">Tickets</string>
     <string name="venues">Venues</string>
 
-    <!--event activity strings-->
     <string name="event_date">Event Date here...</string>
     <string name="event_location">Event Location here...</string>
     <string name="event_lineup">Event Line-Up</string>
     <string name="event_view_lineup">View Line-Up</string>
-
-    <!--navigation drawer-->
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="title_activity_artist">ArtistActivity</string>
-
     <string name="buy_tickets">Tickets</string>
     <string name="ticket_type">Ticket Type:</string>
     <string name="cost">Cost:</string>
@@ -80,10 +74,7 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
     <string name="register_now">Not a member? Register now.</string>
-    <string name="sign_in_now">Already registered? Log me in!</string>
-    <string name="title_activity_register">Register</string>
-    <string name="search">Search</string>
+    <string name="sign_in_now">Already registered? Sign in.</string>
 
 </resources>
