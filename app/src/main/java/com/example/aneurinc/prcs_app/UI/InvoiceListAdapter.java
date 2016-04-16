@@ -43,7 +43,7 @@ public class InvoiceListAdapter extends ArrayAdapter<String> {
             viewHolder = new ViewHolder();
             viewHolder.ticketType = (TextView) convertView.findViewById(R.id.ticket_type);
             viewHolder.ticketCost = (TextView) convertView.findViewById(R.id.ticket_cost);
-            viewHolder.ticketQty = (TextView) convertView.findViewById(R.id.ticket_qty);
+            viewHolder.ticketQty = (TextView) convertView.findViewById(R.id.ticketType);
 
             // store the holder with the view
             convertView.setTag(viewHolder);
@@ -87,7 +87,7 @@ public class InvoiceListAdapter extends ArrayAdapter<String> {
         int parentQtyVal = Integer.parseInt(parentQtyStr);
 
         // get reference to ticket row qty text view and convert to int
-        TextView rowQty = (TextView) rowView.findViewById(R.id.ticket_qty);
+        TextView rowQty = (TextView) rowView.findViewById(R.id.ticketType);
         String rowQtyStr = rowQty.getText().toString();
         int rowQtyVal = Integer.parseInt(rowQtyStr);
 

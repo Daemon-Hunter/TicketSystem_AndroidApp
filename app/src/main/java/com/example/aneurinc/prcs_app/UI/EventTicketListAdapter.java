@@ -16,11 +16,11 @@ import java.text.DecimalFormat;
 /**
  * Created by aneurinc on 11/03/2016.
  */
-public class TicketListAdapter extends ArrayAdapter<String> {
+public class EventTicketListAdapter extends ArrayAdapter<String> {
 
     private final Activity context;
 
-    public TicketListAdapter(Activity context) {
+    public EventTicketListAdapter(Activity context) {
 
         super(context, R.layout.list_ticket_type, Constants.ticketType);
 
@@ -42,7 +42,7 @@ public class TicketListAdapter extends ArrayAdapter<String> {
             viewHolder = new ViewHolder();
             viewHolder.ticketType = (TextView) convertView.findViewById(R.id.ticket_type);
             viewHolder.ticketCost = (TextView) convertView.findViewById(R.id.ticket_cost);
-            viewHolder.ticketQty = (TextView) convertView.findViewById(R.id.ticket_qty);
+            viewHolder.ticketQty = (TextView) convertView.findViewById(R.id.ticketType);
             viewHolder.plus = (ImageView) convertView.findViewById(R.id.plus);
             viewHolder.minus = (ImageView) convertView.findViewById(R.id.minus);
 
@@ -77,7 +77,7 @@ public class TicketListAdapter extends ArrayAdapter<String> {
             public void onClick(View v) {
 
                 v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.onclick));
-                TextView ticketQty = (TextView) row.findViewById(R.id.ticket_qty);
+                TextView ticketQty = (TextView) row.findViewById(R.id.ticketType);
                 int qty = Integer.valueOf(ticketQty.getText().toString());
                 qty++;
                 ticketQty.setText(Integer.toString(qty));
@@ -91,7 +91,7 @@ public class TicketListAdapter extends ArrayAdapter<String> {
             public void onClick(View v) {
 
                 v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.onclick));
-                TextView ticketQty = (TextView) row.findViewById(R.id.ticket_qty);
+                TextView ticketQty = (TextView) row.findViewById(R.id.ticketType);
                 int qty = Integer.valueOf(ticketQty.getText().toString());
 
                 if (qty > 0) {
@@ -121,8 +121,8 @@ public class TicketListAdapter extends ArrayAdapter<String> {
 
         // calculate new value of total ticket price
         double newTotalVal = currTotalVal + costVal * val;
-        DecimalFormat df = new DecimalFormat("#0.00");
-        total.setText("£" + df.format(newTotalVal));
+        DecimalFormat df = new DecimalFormat("£0.00");
+        total.setText(df.format(newTotalVal));
 
         // set checkout button to enabled
         ImageView checkout = (ImageView) context.findViewById(R.id.checkout);

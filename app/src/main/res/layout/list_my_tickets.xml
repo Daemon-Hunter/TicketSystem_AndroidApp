@@ -46,18 +46,17 @@
             android:layout_marginTop="5dp"/>
 
         <TextView
-            android:id="@+id/event_date"
+            android:id="@+id/ticketType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/event_venue"
-            android:layout_marginLeft="7dp"
-            android:text="3 Days (12/05/16 - 14/05/16)"/>
+            android:layout_marginLeft="7dp"/>
 
         <TextView
             android:id="@+id/event_cost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/event_date"
+            android:layout_below="@id/ticketType"
             android:layout_marginLeft="7dp"/>
 
     </LinearLayout>

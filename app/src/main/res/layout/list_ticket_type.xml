@@ -50,7 +50,7 @@
 
         <!--ticket quantity-->
         <TextView
-            android:id="@+id/ticket_qty"
+            android:id="@+id/ticketType"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:editable="false"
