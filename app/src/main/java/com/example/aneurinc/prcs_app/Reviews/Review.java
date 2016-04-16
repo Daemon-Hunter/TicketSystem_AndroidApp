@@ -1,7 +1,7 @@
 package com.example.aneurinc.prcs_app.Reviews;
 
 import com.example.aneurinc.prcs_app.Database.DatabaseTable;
-import com.example.aneurinc.prcs_app.utilities.Observer.IObserver;
+import com.example.aneurinc.prcs_app.Utility.Observer.IObserver;
 
 import java.util.Date;
 import java.util.LinkedList;

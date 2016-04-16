@@ -1,4 +1,4 @@
-package com.example.aneurinc.prcs_app.bookings;
+package com.example.aneurinc.prcs_app.Bookings;
 
 import com.example.aneurinc.prcs_app.People.User;
 import com.example.aneurinc.prcs_app.Tickets.Ticket;

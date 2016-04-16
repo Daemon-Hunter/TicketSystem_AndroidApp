@@ -1,4 +1,4 @@
-package com.example.aneurinc.prcs_app.bookings;
+package com.example.aneurinc.prcs_app.Bookings;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -9,7 +9,7 @@ package com.example.aneurinc.prcs_app.bookings;
 
 import com.example.aneurinc.prcs_app.Database.DatabaseTable;
 import com.example.aneurinc.prcs_app.People.IUser;
-import com.example.aneurinc.prcs_app.utilities.Observer.IObserver;
+import com.example.aneurinc.prcs_app.Utility.Observer.IObserver;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

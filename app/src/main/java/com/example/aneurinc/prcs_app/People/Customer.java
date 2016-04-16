@@ -3,7 +3,7 @@ package com.example.aneurinc.prcs_app.People;
 import com.example.aneurinc.prcs_app.Database.DatabaseTable;
 import com.example.aneurinc.prcs_app.Reviews.IHaveReviews;
 import com.example.aneurinc.prcs_app.Reviews.IReview;
-import com.example.aneurinc.prcs_app.bookings.IOrder;
+import com.example.aneurinc.prcs_app.Bookings.IOrder;
 
 import java.util.LinkedList;
 import java.util.List;

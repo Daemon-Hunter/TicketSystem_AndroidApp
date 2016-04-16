@@ -1,6 +1,6 @@
 package com.example.aneurinc.prcs_app.People;
 
-import com.example.aneurinc.prcs_app.utilities.Observer.IDbSubject;
+import com.example.aneurinc.prcs_app.Utility.Observer.IDbSubject;
 
 /**
  * Created by Dominic on 14/04/2016.

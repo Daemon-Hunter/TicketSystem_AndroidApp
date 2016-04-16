@@ -6,14 +6,14 @@
     <ImageView
         android:id="@+id/grid_image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:paddingTop="7dp"/>
 
     <TextView
         android:id="@+id/grid_text"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_below="@id/grid_image"
-        android:layout_marginTop="-12dp"
         android:layout_centerInParent="true"
         android:textSize="14sp"
         android:gravity="center"

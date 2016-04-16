@@ -17,7 +17,7 @@
             android:name="com.google.android.maps.API_KEY"
             android:value="@string/google_maps_key" />
         <activity
-            android:name=".UI.SplashActivity"
+            android:name=".UI.Activities.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
 
@@ -25,13 +25,13 @@
 
         </activity>
         <activity
-            android:name=".UI.EventActivity"
+            android:name=".UI.Activities.EventActivity"
             android:label=""
-            android:parentActivityName=".UI.MainActivity"
+            android:parentActivityName=".UI.Activities.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".UI.MainActivity"
+            android:name=".UI.Activities.MainActivity"
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -47,30 +47,30 @@
 
 
         <activity
-            android:name=".UI.TicketActivity"
+            android:name=".UI.Activities.TicketActivity"
             android:label=""
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".UI.ArtistActivity"
+            android:name=".UI.Activities.ArtistActivity"
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".UI.CheckoutActivity"
-            android:label=""
-            android:noHistory="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".UI.ReceiptActivity"
+            android:name=".UI.Activities.CheckoutActivity"
             android:label=""
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".UI.VenueActivity"
+            android:name=".UI.Activities.ReceiptActivity"
+            android:label=""
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.Activities.VenueActivity"
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -80,17 +80,17 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".UI.MapActivity"
+            android:name=".UI.Activities.MapActivity"
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".UI.LoginActivity"
+            android:name=".UI.Activities.LoginActivity"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".UI.RegisterActivity"
+            android:name=".UI.Activities.RegisterActivity"
             android:label="@string/title_activity_register"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>

@@ -8,8 +8,8 @@ package com.example.aneurinc.prcs_app.Tickets;
 
         import com.example.aneurinc.prcs_app.Database.DatabaseTable;
         import com.example.aneurinc.prcs_app.Datamodel.ChildEvent;
-        import com.example.aneurinc.prcs_app.utilities.Observer.IDbSubject;
-        import com.example.aneurinc.prcs_app.utilities.Observer.IObserver;
+        import com.example.aneurinc.prcs_app.Utility.Observer.IDbSubject;
+        import com.example.aneurinc.prcs_app.Utility.Observer.IObserver;
 
         import java.util.LinkedList;
         import java.util.List;

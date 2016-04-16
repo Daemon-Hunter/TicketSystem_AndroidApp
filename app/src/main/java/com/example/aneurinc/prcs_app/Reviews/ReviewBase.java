@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import com.example.aneurinc.prcs_app.Database.DatabaseTable;
 import com.example.aneurinc.prcs_app.Datamodel.ISocial;
 import com.example.aneurinc.prcs_app.Datamodel.SocialMedia;
-import com.example.aneurinc.prcs_app.utilities.Observer.IObserver;
+import com.example.aneurinc.prcs_app.Utility.Observer.IObserver;
 
 import java.util.LinkedList;
 

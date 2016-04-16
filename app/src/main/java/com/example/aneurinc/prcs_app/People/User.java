@@ -1,7 +1,7 @@
 package com.example.aneurinc.prcs_app.People;
 
 import com.example.aneurinc.prcs_app.Database.DatabaseTable;
-import com.example.aneurinc.prcs_app.utilities.Observer.IObserver;
+import com.example.aneurinc.prcs_app.Utility.Observer.IObserver;
 
 import java.util.LinkedList;
 
@@ -9,7 +9,6 @@ import static com.example.aneurinc.prcs_app.Utility.Validator.addressValidator;
 import static com.example.aneurinc.prcs_app.Utility.Validator.emailValidator;
 import static com.example.aneurinc.prcs_app.Utility.Validator.nameValidator;
 import static com.example.aneurinc.prcs_app.Utility.Validator.postcodeValidator;
-import com.example.aneurinc.prcs_app.utilities.Observer.IObserver;
 
 /**
  * Created by Dominic on 14/04/2016.

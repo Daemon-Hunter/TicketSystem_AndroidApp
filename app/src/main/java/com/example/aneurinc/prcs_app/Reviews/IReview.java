@@ -1,6 +1,6 @@
 package com.example.aneurinc.prcs_app.Reviews;
 
-import com.example.aneurinc.prcs_app.utilities.Observer.IDbSubject;
+import com.example.aneurinc.prcs_app.Utility.Observer.IDbSubject;
 
 import java.util.Date;
 

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.example.aneurinc.prcs_app.UI.MainActivity">
+    tools:context=".UI.Activities.MainActivity">
 
     <include layout="@layout/toolbar" />
 

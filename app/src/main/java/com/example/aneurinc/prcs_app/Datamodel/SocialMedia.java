@@ -3,7 +3,7 @@ package com.example.aneurinc.prcs_app.Datamodel;
 import android.graphics.Bitmap;
 
 import com.example.aneurinc.prcs_app.Database.DatabaseTable;
-import com.example.aneurinc.prcs_app.utilities.Observer.IObserver;
+import com.example.aneurinc.prcs_app.Utility.Observer.IObserver;
 
 import java.io.Serializable;
 import java.util.LinkedList;

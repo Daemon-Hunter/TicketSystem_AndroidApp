@@ -1,7 +1,7 @@
-package com.example.aneurinc.prcs_app.bookings;
+package com.example.aneurinc.prcs_app.Bookings;
 
 import com.example.aneurinc.prcs_app.People.IUser;
-import com.example.aneurinc.prcs_app.utilities.Observer.IDbSubject;
+import com.example.aneurinc.prcs_app.Utility.Observer.IDbSubject;
 
 import java.util.List;
 
