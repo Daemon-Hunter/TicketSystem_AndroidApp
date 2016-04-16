@@ -4,6 +4,7 @@ package com.example.aneurinc.prcs_app.UI.CustomAdapters;
  * Created by Dominic on 14/04/2016.
  */
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
@@ -15,18 +16,17 @@ import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.Datamodel.Artist;
 import com.example.aneurinc.prcs_app.R;
+import com.example.aneurinc.prcs_app.Utility.Validator;
 
 import java.util.List;
 
 public class ArtistGridAdapter extends BaseAdapter {
 
-    private Context context;
+    private Activity context;
     private String[] title;
     private Bitmap[] image;
 
-    // TODO display images from backend
-
-    public ArtistGridAdapter(Context c, List<Artist> artistList) {
+    public ArtistGridAdapter(Activity c, List<Artist> artistList) {
         context = c;
         updateGridList(artistList);
     }
@@ -84,7 +84,13 @@ public class ArtistGridAdapter extends BaseAdapter {
 
         }
 
-        viewHolder.gridImage.setImageBitmap(image[position]);
+        if (image[position] != null) {
+            // get width of single grid
+            int xy = context.findViewById(R.id.artist_grid_view).getWidth() / 3;
+            // resize image to fit single grid
+            viewHolder.gridImage.setImageBitmap(Validator.scaleDown(image[position], xy));
+        }
+
         viewHolder.gridText.setText(title[position]);
 
         return convertView;

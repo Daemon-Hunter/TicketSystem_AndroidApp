@@ -78,7 +78,7 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
         @Override
         protected void onPostExecute(List<Artist> artists) {
 
-            gridView.setAdapter(new ArtistGridAdapter(getContext(), artistList));
+            gridView.setAdapter(new ArtistGridAdapter(getActivity(), artistList));
 
         }
     }

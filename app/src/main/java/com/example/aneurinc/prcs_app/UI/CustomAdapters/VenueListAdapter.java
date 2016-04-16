@@ -2,6 +2,7 @@ package com.example.aneurinc.prcs_app.UI.CustomAdapters;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,10 +12,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.aneurinc.prcs_app.Datamodel.IVenue;
+import com.example.aneurinc.prcs_app.Datamodel.Venue;
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.Activities.MapActivity;
 import com.example.aneurinc.prcs_app.UI.Utilities.Constants;
+import com.example.aneurinc.prcs_app.Utility.Validator;
 
 import java.util.List;
 
@@ -23,29 +25,30 @@ import java.util.List;
  */
 public class VenueListAdapter extends ArrayAdapter<String> implements OnClickListener {
 
-    private final Activity mContext;
+    private final Activity context;
     private String[] name;
     private String[] city;
+    private Bitmap[] image;
 
-    // TODO get image
+    public VenueListAdapter(Activity c, List<Venue> venues) {
+        super(c, R.layout.list_venue, Constants.venueNames);
 
-    public VenueListAdapter(Activity context, List<IVenue> venues) {
-        super(context, R.layout.list_venue, Constants.venueNames);
-
-        mContext = context;
+        context = c;
 
         updateVenueList(venues);
     }
 
-    private void updateVenueList(List<IVenue> venues) {
+    private void updateVenueList(List<Venue> venues) {
 
         name = new String[venues.size()];
         city = new String[venues.size()];
+        image = new Bitmap[venues.size()];
         int i = 0;
 
-        for (IVenue v : venues) {
+        for (Venue v : venues) {
             name[i] = v.getVenueName();
             city[i] = v.getVenueAddress();
+            image[i] = v.getImage();
             i++;
         }
     }
@@ -57,7 +60,7 @@ public class VenueListAdapter extends ArrayAdapter<String> implements OnClickLis
 
         if (convertView == null) {
 
-            LayoutInflater inflater = mContext.getLayoutInflater();
+            LayoutInflater inflater = context.getLayoutInflater();
             convertView = inflater.inflate(R.layout.list_venue, null);
 
             viewHolder = new ViewHolder();
@@ -74,7 +77,13 @@ public class VenueListAdapter extends ArrayAdapter<String> implements OnClickLis
 
         }
 
-        viewHolder.venueImage.setImageResource(Constants.venueImages[position]);
+        if (image[position] != null) {
+            // get width of single grid
+            int xy = context.findViewById(R.id.venue_list).getWidth() / 4;
+            // resize image to fit single grid
+            viewHolder.venueImage.setImageBitmap(Validator.scaleDown(image[position], xy));
+        }
+
         viewHolder.venueName.setText(name[position]);
         // TODO change address to city!
         viewHolder.venueCity.setText(city[position]);
@@ -89,8 +98,8 @@ public class VenueListAdapter extends ArrayAdapter<String> implements OnClickLis
 
     @Override
     public void onClick(View v) {
-        v.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.onclick));
-        mContext.startActivity(new Intent(mContext, MapActivity.class));
+        v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.onclick));
+        context.startActivity(new Intent(context, MapActivity.class));
     }
 
     @Override

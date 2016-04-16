@@ -33,28 +33,26 @@ import java.util.Map;
  */
 public class MapToObject {
 
-    MapToObject()
-    {
+    MapToObject() {
 
     }
-    public static Customer ConvertCustomer(Map<String,String> custMap)
-    {
-        String firstName, lastName,address, email, postcode;
-        firstName = custMap.get("CUSTOMER_FIRST_NAME");
-        lastName  = custMap.get("CUSTOMER_LAST_NAME");
-        int ID    = Integer.parseInt(custMap.get("CUSTOMER_ID"));
-        address   = custMap.get("CUSTOMER_ADDRESS");
-        email     = custMap.get("CUSTOMER_EMAIL");
-        postcode  = custMap. get("CUSTOMER_POSTCODE");
 
-        Customer cust = new Customer(ID,firstName, lastName, email, address, postcode);
+    public static Customer ConvertCustomer(Map<String, String> custMap) {
+        String firstName, lastName, address, email, postcode;
+        firstName = custMap.get("CUSTOMER_FIRST_NAME");
+        lastName = custMap.get("CUSTOMER_LAST_NAME");
+        int ID = Integer.parseInt(custMap.get("CUSTOMER_ID"));
+        address = custMap.get("CUSTOMER_ADDRESS");
+        email = custMap.get("CUSTOMER_EMAIL");
+        postcode = custMap.get("CUSTOMER_POSTCODE");
+
+        Customer cust = new Customer(ID, firstName, lastName, email, address, postcode);
 
         return cust;
     }
 
 
-    public static Artist ConvertArtist(Map<String,String> artistMap)
-    {
+    public static Artist ConvertArtist(Map<String, String> artistMap) {
         Artist artist;
         SocialMedia social = new SocialMedia();
         APIConnection socialConn = new APIConnection(social.getTable());
@@ -63,41 +61,38 @@ public class MapToObject {
                     .parseInt(artistMap
                             .get("SOCIAL_MEDIA_ID"))));
 
-            Integer ID  = Integer.parseInt(artistMap.get("ARTIST_ID"));
+            Integer ID = Integer.parseInt(artistMap.get("ARTIST_ID"));
             String name = artistMap.get("ARTIST_NAME");
             String tags = artistMap.get("ARTIST_TAGS");
             String[] tempArr = tags.split("#");
             String description = artistMap.get("ARTIST_DESCRIPTION");
-            LinkedList<String> listOfTags    = new LinkedList<>();
+            description = description.replace("#", ",");
+            LinkedList<String> listOfTags = new LinkedList<>();
             LinkedList<IReview> listOfReviews = new LinkedList<>();
-            List<Map<String,String>> allReviews;
+            List<Map<String, String>> allReviews;
             listOfTags.addAll(Arrays.asList(tempArr));
 
             allReviews = MapToObject.getListOfReviews(DatabaseTable.ARTIST_REVIEW);
 
-            for(Map<String,String> currReview : allReviews)
-            {
-                if(ID.equals(Integer.parseInt(currReview.get("ARTIST_ID"))))
-                {
+            for (Map<String, String> currReview : allReviews) {
+                if (ID.equals(Integer.parseInt(currReview.get("ARTIST_ID")))) {
                     listOfReviews.add(ConvertArtistReview(currReview));
                 }
             }
-            artist = new Artist(ID,name, description, listOfTags,social,listOfReviews);
+            artist = new Artist(ID, name, description, listOfTags, social, listOfReviews);
             return artist;
-        }
-        catch(Exception ex) {
+        } catch (Exception ex) {
 
         }
         // Return null if the artist was not created properly.
         return null;
     }
 
-    public static SocialMedia ConvertSocialMedia(Map<String,String> socialMap) throws IOException
-    {
+    public static SocialMedia ConvertSocialMedia(Map<String, String> socialMap) throws IOException {
         // CHECK IF IMAGE OUTPUT WORKS.
         SocialMedia social;
         Integer socialMediaID;
-        String  facebook, twitter, instagram, soundcloud, website, spotify;
+        String facebook, twitter, instagram, soundcloud, website, spotify;
 
         socialMediaID = Integer.parseInt(socialMap.get("SOCIAL_MEDIA_ID"));
         facebook = socialMap.get("FACEBOOK");
@@ -110,35 +105,34 @@ public class MapToObject {
         byte[] decodedBytes = Base64.decode(socialMap.get("IMAGE"), 0);
         Bitmap bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
 
-         social = new SocialMedia(socialMediaID, bitmap, facebook, twitter, instagram,soundcloud, website, spotify);
+        social = new SocialMedia(socialMediaID, bitmap, facebook, twitter, instagram, soundcloud, website, spotify);
         return social;
     }
 
-    private  static List<Map<String,String>> getListOfReviews(DatabaseTable table)
-    {
-        List<Map<String,String>> listOfReviews;
+    private static List<Map<String, String>> getListOfReviews(DatabaseTable table) {
+        List<Map<String, String>> listOfReviews;
 
-        APIConnection   conn = new APIConnection(table);
+        APIConnection conn = new APIConnection(table);
         listOfReviews = conn.readAll();
-
 
 
         return listOfReviews;
     }
+
     public static IReview ConvertArtistReview(Map<String, String> reviewMap) {
 
         ArtistReviewFactory factory = new ArtistReviewFactory();
-        Integer artistID   = Integer.parseInt(reviewMap.get("ARTIST_ID"));
+        Integer artistID = Integer.parseInt(reviewMap.get("ARTIST_ID"));
         Integer customerID = Integer.parseInt(reviewMap.get("CUSTOMER_ID"));
-        Integer rating     = Integer.parseInt(reviewMap.get("ARTIST_REVIEW_RATING"));
-        String  body       = reviewMap.get("ARTIST_REVIEW_BODY");
+        Integer rating = Integer.parseInt(reviewMap.get("ARTIST_REVIEW_RATING"));
+        String body = reviewMap.get("ARTIST_REVIEW_BODY");
 
-        IReview review     = factory.createReview(artistID, customerID, rating, body);
+        IReview review = factory.createReview(artistID, customerID, rating, body);
 
-        return  review;
+        return review;
     }
 
-    private static IReview ConvertVenueReview(Map<String,String> reviewMap){
+    private static IReview ConvertVenueReview(Map<String, String> reviewMap) {
 
         VenueReviewFactory factory = new VenueReviewFactory();
         Integer venueID = Integer.parseInt(reviewMap.get("VENUE_ID"));
@@ -147,13 +141,13 @@ public class MapToObject {
         String body = reviewMap.get("VENUE_REVIEW_BODY");
 
 
-        IReview review = factory.createReview(venueID,customerID,rating,body);
+        IReview review = factory.createReview(venueID, customerID, rating, body);
 
-        return  review;
+        return review;
 
     }
 
-    private static IReview ConvertEventReview(Map<String,String> reviewMap){
+    private static IReview ConvertEventReview(Map<String, String> reviewMap) {
 
         ParentEventReviewFactory factory = new ParentEventReviewFactory();
         Integer eventID = Integer.parseInt(reviewMap.get("PARENT_EVENT_ID	"));
@@ -162,16 +156,16 @@ public class MapToObject {
         String body = reviewMap.get("EVENT_REVIEW_BODY");
 
 
-        IReview review = factory.createReview(eventID,customerID,rating,body);
+        IReview review = factory.createReview(eventID, customerID, rating, body);
 
         return review;
     }
 
-    public static IVenue ConvertVenue(Map<String,String> venueMap){
+    public static IVenue ConvertVenue(Map<String, String> venueMap) {
 
-        Integer venueID,capSeating, capStanding, parking ;
+        Integer venueID, capSeating, capStanding, parking;
         SocialMedia social;
-        String description,facilities, phoneNumber, email, address, postcode, name;
+        String description, facilities, phoneNumber, email, address, postcode, name;
         Boolean disabledAccess = false;
         LinkedList<IReview> reviews = new LinkedList<>();
         venueID = Integer.parseInt(venueMap.get("VENUE_ID"));
@@ -182,8 +176,7 @@ public class MapToObject {
             social = ConvertSocialMedia(socialConn.readSingle(Integer
                     .parseInt(venueMap
                             .get("SOCIAL_MEDIA_ID"))));
-        }catch(Exception x)
-        {
+        } catch (Exception x) {
             social = new SocialMedia();
         }
 
@@ -198,33 +191,29 @@ public class MapToObject {
         postcode = venueMap.get("VENUE_ADDRESS");
         name = venueMap.get("VENUE_NAME");
 
-        if(venueMap.get("VENUE_DISABLED_ACCESS").equals("true"));
+        if (venueMap.get("VENUE_DISABLED_ACCESS").equals("true")) ;
         {
             disabledAccess = true;
 
         }
-        List<Map<String,String>> allReviews;
+        List<Map<String, String>> allReviews;
         allReviews = MapToObject.getListOfReviews(DatabaseTable.VENUE_REVIEW);
 
-        for(Map<String,String> currReview : allReviews)
-        {
-            if(venueID.equals(Integer.parseInt(currReview.get("VENUE_ID"))))
-            {
+        for (Map<String, String> currReview : allReviews) {
+            if (venueID.equals(Integer.parseInt(currReview.get("VENUE_ID")))) {
                 reviews.add(ConvertArtistReview(currReview));
             }
         }
 
 
-
-        Venue ven = new Venue(venueID,social,description,capSeating,capStanding,disabledAccess,facilities,
-                parking, phoneNumber,email,address,postcode,name,reviews);
+        Venue ven = new Venue(venueID, social, description, capSeating, capStanding, disabledAccess, facilities,
+                parking, phoneNumber, email, address, postcode, name, reviews);
 
         return ven;
     }
 
-    public static Ticket ConvertTicket(Map<String,String> ticketMap)
-    {
-        Map<String,String> eventMap;
+    public static Ticket ConvertTicket(Map<String, String> ticketMap) {
+        Map<String, String> eventMap;
         Integer ticketID, remaining, childEventID;
         ChildEvent event = new ChildEvent();
         Double price;
@@ -235,22 +224,18 @@ public class MapToObject {
         remaining = Integer.parseInt(ticketMap.get("TICKET_AMOUNT_REMAINING"));
         type = ticketMap.get("TICKET_TYPE");
         desc = ticketMap.get("TICKET_DESCRIPTION");
-        childEventID = Integer.parseInt(ticketMap.get("CHILD_EVENT_ID"));
+        childEventID = Integer.parseInt(ticketMap.get("CHILDEVENT_ID"));
 
-        try
-        {
+        try {
             APIConnection eventConn = new APIConnection(DatabaseTable.CHILD_EVENT);
             eventMap = eventConn.readSingle(childEventID);
             event = ConvertEvent(eventMap);
 
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
 
         }
 
-        Ticket retTicker = new Ticket(ticketID, event,price, desc,remaining,type );
-
+        Ticket retTicker = new Ticket(ticketID, event, price, desc, remaining, type);
 
 
         return retTicker;
@@ -259,7 +244,7 @@ public class MapToObject {
 
     public static ChildEvent ConvertEvent(Map<String, String> eventMap) {
         Integer eventID, venueID, lineupID;
-        String description,name;
+        String description, name;
         Date startTime, endTime;
         IVenue venue;
         ILineup lineup;
@@ -274,8 +259,7 @@ public class MapToObject {
         APIConnection lineupConn = new APIConnection(DatabaseTable.LINEUP);
         venue = ConvertVenue(venueConn.readSingle(venueID));
         lineup = ConvertLineup(lineupConn.readSingle(lineupID));
-        if(eventMap.get("CHILD_EVENT_CANCELED").equals("true"))
-        {
+        if (eventMap.get("CHILD_EVENT_CANCELED").equals("true")) {
             cancelled = true;
         }
 
@@ -283,17 +267,13 @@ public class MapToObject {
         endTime = ConvertDate(eventMap.get("END_DATE_TIME"));
 
 
-
-
-
-        ChildEvent event = new ChildEvent(eventID,name,description,startTime,endTime,venue,lineup,cancelled);
+        ChildEvent event = new ChildEvent(eventID, name, description, startTime, endTime, venue, lineup, cancelled);
 
         return event;
 
     }
 
-    public static ILineup ConvertLineup(Map<String,String> lineupMap)
-    {
+    public static ILineup ConvertLineup(Map<String, String> lineupMap) {
         List<IArtist> artists = new ArrayList<>();
         Integer lineupID;
 
@@ -302,16 +282,15 @@ public class MapToObject {
         String _ID = "_ID";
         APIConnection artistConn = new APIConnection(DatabaseTable.ARTIST);
 
-        for(int i = 1; i < 11; i++)
-        {
-            if(!lineupMap.get(artistID + String.valueOf(i)+ _ID).equals("null")) // Might not need inversion
+        for (int i = 1; i < 11; i++) {
+            if (!lineupMap.get(artistID + String.valueOf(i) + _ID).equals("null")) // Might not need inversion
             {
                 artists.add(ConvertArtist(artistConn.readSingle(
-                        Integer.parseInt(lineupMap.get(artistID+String.valueOf(i) + _ID)))));
+                        Integer.parseInt(lineupMap.get(artistID + String.valueOf(i) + _ID)))));
             }
         }
 
-        Lineup lineup = new Lineup(lineupID,artists);
+        Lineup lineup = new Lineup(lineupID, artists);
 
         return lineup;
     }
@@ -320,8 +299,8 @@ public class MapToObject {
     private static Date ConvertDate(String dateTime) {
         Date thisDate = new Date();
         String[] dateTimeArray = dateTime.split("T");
-        String[]   dateArray = dateTimeArray[0].split("-");
-        String[]  timeArray = dateTimeArray[1].split(":");
+        String[] dateArray = dateTimeArray[0].split("-");
+        String[] timeArray = dateTimeArray[1].split(":");
 
         thisDate.setYear(Integer.parseInt(dateArray[0]));
         thisDate.setMonth(Integer.parseInt(dateArray[1]));
@@ -372,20 +351,18 @@ public class MapToObject {
 //    }
 
 
-    public static ParentEvent ConvertParentEvent(Map<String,String> eventMap)
-    {
+    public static ParentEvent ConvertParentEvent(Map<String, String> eventMap) {
         Integer eventID, socialMediaID;
         String name, description;
         SocialMedia social;
         LinkedList<IReview> reviewsList = new LinkedList<>();
-        LinkedList<ChildEvent> childEvents= new LinkedList<>();
-        List<Map<String,String>> allReviews;
-        List<Map<String,String>> allEvents;
-
+        LinkedList<ChildEvent> childEvents = new LinkedList<>();
+        List<Map<String, String>> allReviews;
+        List<Map<String, String>> allEvents;
 
 
         eventID = Integer.parseInt(eventMap.get("PARENT_EVENT_ID"));
-        name  = eventMap.get("PARENT_EVENT_NAME");
+        name = eventMap.get("PARENT_EVENT_NAME");
         description = eventMap.get("PARENT_EVENT_DESCRIPTION");
         socialMediaID = Integer.parseInt(eventMap.get("SOCIAL_MEDIA_ID"));
         APIConnection socialConn = new APIConnection(DatabaseTable.SOCIAL_MEDIA);
@@ -395,41 +372,31 @@ public class MapToObject {
         } catch (IOException ex) {
             social = new SocialMedia();
         }
-        try{
+        try {
 
             allReviews = MapToObject.getListOfReviews(DatabaseTable.EVENT_REVIEW);
-            for(Map<String,String> currReview : allReviews)
-            {
-                if(eventID == Integer.parseInt(currReview.get("PARENT_EVENT_ID")))
-                {
+            for (Map<String, String> currReview : allReviews) {
+                if (eventID == Integer.parseInt(currReview.get("PARENT_EVENT_ID"))) {
                     reviewsList.add(ConvertEventReview(currReview));
                 }
             }
 
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             System.out.println("No Reviews for event");
         }
 
-        try{
+        try {
 
             allEvents = MapToObject.getListOfReviews(DatabaseTable.CHILD_EVENT);
-            for(Map<String,String> currEvent: allEvents)
-            {
-                if(eventID.equals(Integer.parseInt(currEvent.get("PARENT_EVENT_ID"))))
-                {
+            for (Map<String, String> currEvent : allEvents) {
+                if (eventID.equals(Integer.parseInt(currEvent.get("PARENT_EVENT_ID")))) {
                     childEvents.add(ConvertEvent(currEvent));
                 }
 
             }
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             System.out.println("No child events for this parent event");
         }
-
-
 
 
         ParentEvent parentEvent = new ParentEvent(eventID, social, name, description, reviewsList, childEvents);

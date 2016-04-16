@@ -1,5 +1,6 @@
 package com.example.aneurinc.prcs_app.Utility;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import java.io.IOException;
@@ -46,15 +47,17 @@ public final class Validator {
 
     /**
      * Checks the rating is in range '0 to 5'
+     *
      * @param rating
      * @return
      */
     public static Boolean ratingValidator(Integer rating) {
-        return 0 <+ rating && rating <= 5;
+        return 0 < +rating && rating <= 5;
     }
 
     /**
      * Returns true if the review body is between 15 & 100 characters.
+     *
      * @param body
      * @return
      */
@@ -64,6 +67,7 @@ public final class Validator {
 
     /**
      * Returns true if the ID has been initialized.
+     *
      * @param id
      * @return
      */
@@ -84,12 +88,12 @@ public final class Validator {
     /**
      * Tries to make a connection with the given URL.
      * Returns true if a connection is made, false if not.
+     *
      * @param url
      * @return True if a connection is made
      */
     public static Boolean URLValidator(String url) {
-        try
-        {
+        try {
             // Create an instance of a URL object.
             // Will throw an error if the string is invalid.
             URL website = new URL(url);
@@ -97,12 +101,10 @@ public final class Validator {
                 // Try to make a connection.
                 website.openConnection();
                 return true;
-            }
-            catch (IOException ex) {
+            } catch (IOException ex) {
                 return false;
             }
-        }
-        catch (MalformedURLException ex) {
+        } catch (MalformedURLException ex) {
             return false;
         }
     }
@@ -110,11 +112,11 @@ public final class Validator {
     /**
      * returns true if the name does not contain any blacklisted words,
      * and is between 2 & 20 characters long.
+     *
      * @param name
      * @return
      */
-    public static Boolean nameValidator(String name)
-    {
+    public static Boolean nameValidator(String name) {
 //        if (!Blacklist.contains(name)) {
 //            return 2 <= name.length()
 //                    && name.length() <= 20;
@@ -125,6 +127,7 @@ public final class Validator {
     /**
      * Description must be between 10 & 100 characters long,
      * and not have bad words...
+     *
      * @param description
      * @return
      */
@@ -139,11 +142,9 @@ public final class Validator {
 
         Boolean naughty = false;
 
-        for (String badWord : badWords)
-        {
-            if (description.contains(badWord))
-            {
-                Log.i("","Oi! None of that...");
+        for (String badWord : badWords) {
+            if (description.contains(badWord)) {
+                Log.i("", "Oi! None of that...");
                 naughty = true;
                 break;
             }
@@ -163,10 +164,10 @@ public final class Validator {
     }
 
     public static Boolean parkingSpaceValidator(Integer parking) {
-        return parking <=  100000 && parking >= 0;
+        return parking <= 100000 && parking >= 0;
     }
 
-    public static  Boolean emailValidator(String email) {
+    public static Boolean emailValidator(String email) {
         return true;
     }
 
@@ -193,5 +194,9 @@ public final class Validator {
         String formattedPrice = df.format(price);
 
         return formattedPrice;
+    }
+
+    public static Bitmap scaleDown(Bitmap image, int xy) {
+        return Bitmap.createScaledBitmap(image, xy, xy, true);
     }
 }

@@ -13,7 +13,7 @@ import android.widget.ListView;
 import com.example.aneurinc.prcs_app.Database.APIConnection;
 import com.example.aneurinc.prcs_app.Database.DatabaseTable;
 import com.example.aneurinc.prcs_app.Database.MapToObject;
-import com.example.aneurinc.prcs_app.Datamodel.IVenue;
+import com.example.aneurinc.prcs_app.Datamodel.Venue;
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.Activities.VenueActivity;
 import com.example.aneurinc.prcs_app.UI.CustomAdapters.VenueListAdapter;
@@ -27,7 +27,7 @@ import java.util.Map;
  */
 public class VenueFragment extends Fragment implements AdapterView.OnItemClickListener {
 
-    private List<IVenue> venues = new ArrayList<>();
+    private List<Venue> venues = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,7 +54,7 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
         getActivity().startActivity(intent);
     }
 
-    private class ReadVenues extends AsyncTask<Void, Void, List<IVenue>> {
+    private class ReadVenues extends AsyncTask<Void, Void, List<Venue>> {
 
         @Override
         protected void onPreExecute() {
@@ -63,20 +63,20 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
         }
 
         @Override
-        protected List<IVenue> doInBackground(Void... params) {
+        protected List<Venue> doInBackground(Void... params) {
 
             APIConnection connection = new APIConnection(DatabaseTable.VENUE);
             List<Map<String, String>> listOfMaps = connection.readAll();
 
             for (Map<String, String> currMap : listOfMaps) {
-                venues.add(MapToObject.ConvertVenue(currMap));
+                venues.add((Venue)MapToObject.ConvertVenue(currMap));
             }
 
             return venues;
         }
 
         @Override
-        protected void onPostExecute(List<IVenue> venues) {
+        protected void onPostExecute(List<Venue> venues) {
             ListView list = (ListView) getView().findViewById(R.id.venue_list);
             list.setAdapter(new VenueListAdapter(getActivity(), venues));
         }

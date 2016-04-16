@@ -83,7 +83,7 @@ public class EventFragment extends Fragment implements AdapterView.OnItemClickLi
 
         @Override
         protected void onPostExecute(List<ParentEvent> parentEvents) {
-            gridView.setAdapter(new EventGridAdapter(getContext(), parentEventList));
+            gridView.setAdapter(new EventGridAdapter(getActivity(), parentEventList));
         }
     }
 
