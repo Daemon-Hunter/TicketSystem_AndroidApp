@@ -7,32 +7,28 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
+import com.example.aneurinc.prcs_app.UI.CustomAdapters.ChildEventListAdapter;
 import com.example.aneurinc.prcs_app.UI.Utilities.Constants;
-import com.example.aneurinc.prcs_app.UI.CustomAdapters.LineupListAdapter;
 
-public class EventActivity extends AppCompatActivity implements View.OnClickListener {
+public class ParentEventActivity extends AppCompatActivity {
 
     public static String EventImageIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event);
+        setContentView(R.layout.activity_parent_event);
 
         setUpToolbar();
 
         displayImage();
 
-        setOnClickListeners();
-
-        setLineupListAdapter();
+        addListAdapter();
 
     }
 
@@ -41,38 +37,15 @@ public class EventActivity extends AppCompatActivity implements View.OnClickList
         TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbarTitle.setText(R.string.event);
+        toolbarTitle.setText(R.string.parent_event);
     }
 
-    private void setLineupListAdapter() {
-        LineupListAdapter adapter = new LineupListAdapter(this);
-        ListView list = (ListView) findViewById(R.id.lineup_list);
+    private void addListAdapter() {
+        ChildEventListAdapter adapter = new ChildEventListAdapter(this);
+        ListView list = (ListView) findViewById(R.id.child_events_list);
         list.setAdapter(adapter);
     }
 
-    private void setOnClickListeners() {
-
-        ImageView tickets = (ImageView) findViewById(R.id.buy_tickets);
-        tickets.setOnClickListener(this);
-
-    }
-
-    @Override
-    public void onClick(View v) {
-
-        v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.onclick));
-
-        switch (v.getId()) {
-
-            case R.id.buy_tickets:
-                int imageIndex = getIntent().getExtras().getInt(EventImageIndex);
-                Intent i = new Intent(this, TicketActivity.class);
-                i.putExtra(TicketActivity.EventImageIndex, imageIndex);
-                startActivity(i);
-                break;
-
-        }
-    }
 
     private void displayImage() {
         int imageIndex = getIntent().getExtras().getInt(EventImageIndex);

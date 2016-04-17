@@ -13,7 +13,7 @@ import com.example.aneurinc.prcs_app.Database.DatabaseTable;
 import com.example.aneurinc.prcs_app.Database.MapToObject;
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.Tickets.ITicket;
-import com.example.aneurinc.prcs_app.UI.CustomAdapters.TicketsListAdapter;
+import com.example.aneurinc.prcs_app.UI.CustomAdapters.UserTicketListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +62,7 @@ public class TicketFragment extends Fragment {
         @Override
         protected void onPostExecute(List<ITicket> tickets) {
             ListView list = (ListView) getView().findViewById(R.id.my_tickets_list);
-            list.setAdapter(new TicketsListAdapter(getActivity(), tickets));
+            list.setAdapter(new UserTicketListAdapter(getActivity(), tickets));
         }
     }
 }

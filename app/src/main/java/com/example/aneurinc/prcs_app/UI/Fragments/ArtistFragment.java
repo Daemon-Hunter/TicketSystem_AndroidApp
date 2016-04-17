@@ -66,7 +66,7 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
         protected List<Artist> doInBackground(Void... voids) {
 
             APIConnection connection = new APIConnection(DatabaseTable.ARTIST);
-            List<Map<String, String>> listOfMaps = connection.readAll();
+            List<Map<String, String>> listOfMaps = connection.getArtistAmount(3,0);
 
             for (Map<String, String> currMap : listOfMaps) {
                 artistList.add(MapToObject.ConvertArtist(currMap));

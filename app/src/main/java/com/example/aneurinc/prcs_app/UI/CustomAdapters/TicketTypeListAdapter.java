@@ -17,13 +17,13 @@ import java.text.DecimalFormat;
 /**
  * Created by aneurinc on 11/03/2016.
  */
-public class EventTicketListAdapter extends ArrayAdapter<String> {
+public class TicketTypeListAdapter extends ArrayAdapter<String> {
 
     private final Activity context;
 
-    public EventTicketListAdapter(Activity context) {
+    public TicketTypeListAdapter(Activity context) {
 
-        super(context, R.layout.list_ticket_type, Constants.ticketType);
+        super(context, R.layout.list_row_ticket_type, Constants.ticketType);
 
         this.context = context;
 
@@ -37,7 +37,7 @@ public class EventTicketListAdapter extends ArrayAdapter<String> {
         if (convertView == null) {
 
             LayoutInflater inflater = context.getLayoutInflater();
-            convertView = inflater.inflate(R.layout.list_ticket_type, parent, false);
+            convertView = inflater.inflate(R.layout.list_row_ticket_type, parent, false);
 
             // set up view holder
             viewHolder = new ViewHolder();

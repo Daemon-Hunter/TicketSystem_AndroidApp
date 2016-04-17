@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.Utilities.Constants;
 import com.example.aneurinc.prcs_app.UI.CustomViews.CustomDialog;
-import com.example.aneurinc.prcs_app.UI.CustomAdapters.EventTicketListAdapter;
+import com.example.aneurinc.prcs_app.UI.CustomAdapters.TicketTypeListAdapter;
 
 public class TicketActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -61,7 +61,7 @@ public class TicketActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void setListAdapter() {
-        EventTicketListAdapter adapter = new EventTicketListAdapter(this);
+        TicketTypeListAdapter adapter = new TicketTypeListAdapter(this);
         ListView list = (ListView) findViewById(R.id.ticket_list);
         list.setAdapter(adapter);
     }

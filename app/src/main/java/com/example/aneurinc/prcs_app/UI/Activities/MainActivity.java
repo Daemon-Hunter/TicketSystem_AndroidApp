@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.Fragments.ArtistFragment;
-import com.example.aneurinc.prcs_app.UI.Fragments.EventFragment;
+import com.example.aneurinc.prcs_app.UI.Fragments.ParentEventFragment;
 import com.example.aneurinc.prcs_app.UI.Fragments.TicketFragment;
 import com.example.aneurinc.prcs_app.UI.Fragments.VenueFragment;
 
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setOnClickListeners();
 
         Button events = (Button) findViewById(R.id.btn_event);
-        createFragment(new EventFragment(), E_TAG, events);
+        createFragment(new ParentEventFragment(), E_TAG, events);
 
         fragmentManager = getSupportFragmentManager();
     }
@@ -245,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
 
             case R.id.btn_event:
-                createFragment(new EventFragment(), E_TAG, v);
+                createFragment(new ParentEventFragment(), E_TAG, v);
                 updateButtons(R.id.btn_event);
                 toolbarTitle.setText(R.string.current_events);
                 break;

@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by aneurinc on 11/04/2016.
  */
-public class TicketsListAdapter extends ArrayAdapter<String> {
+public class UserTicketListAdapter extends ArrayAdapter<String> {
 
     // TODO get event name, event image and venue name
 
@@ -26,9 +26,9 @@ public class TicketsListAdapter extends ArrayAdapter<String> {
     private String[] cost;
     private String[] type;
 
-    public TicketsListAdapter(Activity context, List<ITicket> tickets) {
+    public UserTicketListAdapter(Activity context, List<ITicket> tickets) {
 
-        super(context, R.layout.list_my_tickets, Constants.eventName);
+        super(context, R.layout.list_row_my_ticket, Constants.eventName);
         mContext = context;
         updateTicketList(tickets);
     }
@@ -56,7 +56,7 @@ public class TicketsListAdapter extends ArrayAdapter<String> {
 
             // inflate view
             LayoutInflater inflater = mContext.getLayoutInflater();
-            convertView = inflater.inflate(R.layout.list_my_tickets, parent, false);
+            convertView = inflater.inflate(R.layout.list_row_my_ticket, parent, false);
 
             viewHolder = new ViewHolder();
             viewHolder.eventName = (TextView) convertView.findViewById(R.id.event_name);

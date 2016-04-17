@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".UI.Activities.EventActivity">
+    tools:context=".UI.Activities.ParentEventActivity">
 
     <include layout="@layout/toolbar" />
 
-    <include layout="@layout/content_event" />
+    <include layout="@layout/content_parent_event" />
 
 </android.support.design.widget.CoordinatorLayout>

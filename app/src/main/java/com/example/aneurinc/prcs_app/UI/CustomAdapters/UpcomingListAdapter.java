@@ -12,7 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.Activities.EventActivity;
+import com.example.aneurinc.prcs_app.UI.Activities.ParentEventActivity;
 import com.example.aneurinc.prcs_app.UI.Utilities.Constants;
 
 /**
@@ -20,13 +20,13 @@ import com.example.aneurinc.prcs_app.UI.Utilities.Constants;
  */
 public class UpcomingListAdapter extends ArrayAdapter<String> implements AdapterView.OnItemClickListener {
 
-    private final Activity context;
+    private final Activity mContext;
 
     public UpcomingListAdapter(Activity context) {
 
-        super(context, R.layout.list_upcoming, Constants.eventName);
+        super(context, R.layout.list_row_upcoming, Constants.eventName);
 
-        this.context = context;
+        mContext = context;
 
         ListView list = (ListView) context.findViewById(R.id.upcoming_list);
         list.setOnItemClickListener(this);
@@ -40,8 +40,8 @@ public class UpcomingListAdapter extends ArrayAdapter<String> implements Adapter
         if (convertView == null) {
 
             // inflate view
-            LayoutInflater inflater = context.getLayoutInflater();
-            convertView = inflater.inflate(R.layout.list_upcoming, parent, false);
+            LayoutInflater inflater = mContext.getLayoutInflater();
+            convertView = inflater.inflate(R.layout.list_row_upcoming, parent, false);
 
             // set up view holder
             viewHolder = new ViewHolder();
@@ -73,9 +73,9 @@ public class UpcomingListAdapter extends ArrayAdapter<String> implements Adapter
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent i = new Intent(getContext(), EventActivity.class);
-        i.putExtra(EventActivity.EventImageIndex, position);
-        context.startActivity(i);
+        Intent i = new Intent(getContext(), ParentEventActivity.class);
+        i.putExtra(ParentEventActivity.EventImageIndex, position);
+        mContext.startActivity(i);
     }
 
     static class ViewHolder {

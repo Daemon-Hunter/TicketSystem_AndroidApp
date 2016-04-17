@@ -15,8 +15,8 @@ import com.example.aneurinc.prcs_app.Database.DatabaseTable;
 import com.example.aneurinc.prcs_app.Database.MapToObject;
 import com.example.aneurinc.prcs_app.Datamodel.ParentEvent;
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.Activities.EventActivity;
-import com.example.aneurinc.prcs_app.UI.CustomAdapters.EventGridAdapter;
+import com.example.aneurinc.prcs_app.UI.Activities.ParentEventActivity;
+import com.example.aneurinc.prcs_app.UI.CustomAdapters.ParentEventGridAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ import java.util.Map;
 /**
  * Created by aneurinc on 02/03/2016.
  */
-public class EventFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class ParentEventFragment extends Fragment implements AdapterView.OnItemClickListener {
 
     private GridView gridView;
     private List<ParentEvent> parentEventList = new ArrayList<>();
@@ -54,8 +54,8 @@ public class EventFragment extends Fragment implements AdapterView.OnItemClickLi
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        Intent i = new Intent(getActivity(), EventActivity.class);
-        i.putExtra(EventActivity.EventImageIndex, position);
+        Intent i = new Intent(getActivity(), ParentEventActivity.class);
+        i.putExtra(ParentEventActivity.EventImageIndex, position);
         startActivity(i);
 
     }
@@ -83,7 +83,7 @@ public class EventFragment extends Fragment implements AdapterView.OnItemClickLi
 
         @Override
         protected void onPostExecute(List<ParentEvent> parentEvents) {
-            gridView.setAdapter(new EventGridAdapter(getActivity(), parentEventList));
+            gridView.setAdapter(new ParentEventGridAdapter(getActivity(), parentEventList));
         }
     }
 

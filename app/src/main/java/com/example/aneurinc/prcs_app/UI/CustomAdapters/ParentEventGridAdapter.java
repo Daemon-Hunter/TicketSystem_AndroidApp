@@ -19,13 +19,13 @@ import java.util.List;
 /**
  * Created by Dominic on 15/04/2016.
  */
-public class EventGridAdapter extends BaseAdapter {
+public class ParentEventGridAdapter extends BaseAdapter {
 
     private Activity context;
     private Bitmap[] image;
     private String[] title;
 
-    public EventGridAdapter(Activity a, List<ParentEvent> eventList) {
+    public ParentEventGridAdapter(Activity a, List<ParentEvent> eventList) {
         context = a;
         updateGridList(eventList);
 

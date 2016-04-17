@@ -31,7 +31,7 @@ public class VenueListAdapter extends ArrayAdapter<String> implements OnClickLis
     private Bitmap[] image;
 
     public VenueListAdapter(Activity c, List<Venue> venues) {
-        super(c, R.layout.list_venue, Constants.venueNames);
+        super(c, R.layout.list_row_venue, Constants.venueNames);
 
         context = c;
 
@@ -61,7 +61,7 @@ public class VenueListAdapter extends ArrayAdapter<String> implements OnClickLis
         if (convertView == null) {
 
             LayoutInflater inflater = context.getLayoutInflater();
-            convertView = inflater.inflate(R.layout.list_venue, null);
+            convertView = inflater.inflate(R.layout.list_row_venue, null);
 
             viewHolder = new ViewHolder();
             viewHolder.venueImage = (ImageView) convertView.findViewById(R.id.image);

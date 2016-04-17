@@ -26,6 +26,7 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
 
     public static String EventImageIndex;
     public static Artist thisArtist;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
