@@ -15,6 +15,7 @@ import com.example.aneurinc.prcs_app.UI.Activities.VenueActivity;
 import com.example.aneurinc.prcs_app.UI.CustomAdapters.VenueFragAdapter;
 import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IVenue;
+import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -26,7 +27,7 @@ import java.util.Map;
  */
 public class VenueFragment extends Fragment implements AdapterView.OnItemClickListener {
 
-    private List<IVenue> venues = new ArrayList<>();
+    private List<IVenue> venues;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,8 +59,8 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
 
         @Override
         protected List<IVenue> doInBackground(Void... params) {
-
-            return APIHandle.getVenueAmount(21, 0);
+            venues = UserWrapper.getInstance().getVenues();
+            return venues;
         }
 
         @Override

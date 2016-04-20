@@ -148,13 +148,14 @@ public final class APIConnection {
                     String inputLine = in.readLine();
                     inputLine = inputLine.replaceAll("\\[", "");
                     inputLine = inputLine.replaceAll("\\]", "");
-                    String[] objArray = inputLine.split("\\},");
-
-                    // Loops though the array and puts it into a Map
-                    for (String anObjArray : objArray) {
-                        Map<String, String> tempMap = splitJSONString(anObjArray);
-                        listOfEntities.add(tempMap);
-                    }  
+                    if(!inputLine.isEmpty()) {
+                        String[] objArray = inputLine.split("\\},");
+                        // Loops though the array and puts it into a Map
+                        for (String anObjArray : objArray) {
+                            Map<String, String> tempMap = splitJSONString(anObjArray);
+                            listOfEntities.add(tempMap);
+                        }
+                    }
                 }  
             }
             catch(IOException e)
@@ -222,12 +223,13 @@ public final class APIConnection {
                 String inputLine = in.readLine();
                 inputLine = inputLine.replaceAll("\\[", "");
                 inputLine = inputLine.replaceAll("\\]", "");
-                String[] objArray = inputLine.split("\\},");
-
-                // Loops though the array and puts it into a Map
-                for (String anObjArray : objArray) {
-                    Map<String, String> tempMap = splitJSONString(anObjArray);
-                    listOfEntities.add(tempMap);
+                if(!inputLine.isEmpty()) {
+                    String[] objArray = inputLine.split("\\},");
+                    // Loops though the array and puts it into a Map
+                    for (String anObjArray : objArray) {
+                        Map<String, String> tempMap = splitJSONString(anObjArray);
+                        listOfEntities.add(tempMap);
+                    }
                 }
             }
         }
@@ -261,12 +263,13 @@ public final class APIConnection {
                 String inputLine = in.readLine();
                 inputLine = inputLine.replaceAll("\\[", "");
                 inputLine = inputLine.replaceAll("\\]", "");
-                String[] objArray = inputLine.split("\\},");
-
-                // Loops though the array and puts it into a Map
-                for (String anObjArray : objArray) {
-                    Map<String, String> tempMap = splitJSONString(anObjArray);
-                    listOfEntities.add(tempMap);
+                if(!inputLine.isEmpty()) {
+                    String[] objArray = inputLine.split("\\},");
+                    // Loops though the array and puts it into a Map
+                    for (String anObjArray : objArray) {
+                        Map<String, String> tempMap = splitJSONString(anObjArray);
+                        listOfEntities.add(tempMap);
+                    }
                 }
             }
         }
@@ -326,10 +329,9 @@ public final class APIConnection {
 
         for (String aSplitArray : splitArray) {
             String temp = aSplitArray.replaceAll("\"", ""); // removes quote marks from json string
-            String[] splitString = temp.split(":", 2);     // splits each strig into key and value
+            String[] splitString = temp.split(":", 2);     // splits each string into key and value
             map.put(splitString[0], splitString[1]); // place values into the Map
         }
-
         return map;
     }
     

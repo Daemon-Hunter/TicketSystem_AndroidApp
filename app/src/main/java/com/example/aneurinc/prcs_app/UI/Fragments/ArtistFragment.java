@@ -18,6 +18,7 @@ import com.example.aneurinc.prcs_app.UI.Activities.ArtistActivity;
 import com.example.aneurinc.prcs_app.UI.CustomAdapters.ArtistFragAdapter;
 import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IArtist;
+import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ import java.util.List;
  */
 public class ArtistFragment extends Fragment implements AdapterView.OnItemClickListener {
 
-    private List<IArtist> artistList = new ArrayList<>();
+    private List<IArtist> artistList;
     private ProgressBar mProgressBar;
 
     @Override
@@ -81,7 +82,8 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
 
         @Override
         protected List<IArtist> doInBackground(Void... voids) {
-            return APIHandle.getArtistAmount(5, 0);
+            artistList = UserWrapper.getInstance().getArtists();
+            return artistList;
         }
 
         @Override
