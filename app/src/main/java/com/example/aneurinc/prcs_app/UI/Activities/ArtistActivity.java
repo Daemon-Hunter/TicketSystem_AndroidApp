@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,14 +17,14 @@ import com.example.aneurinc.prcs_app.Database.APIConnection;
 import com.example.aneurinc.prcs_app.Database.DatabaseTable;
 import com.example.aneurinc.prcs_app.Datamodel.Artist;
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.CustomAdapters.UpcomingListAdapter;
+import com.example.aneurinc.prcs_app.UI.CustomAdapters.ArtistActAdapter;
 
 import static com.example.aneurinc.prcs_app.Database.MapToObject.ConvertArtist;
 
 public class ArtistActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static String EventImageIndex;
-    public static Artist thisArtist;
+    public static Artist artist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,15 +32,16 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_artist);
         executeAsyncTask();
         setUpToolbar();
-     //displayInfo(); //Might not be needed on start
         setAdapter();
-        setOnClickListeners();
+        addOnClickListeners();
     }
+
     private void executeAsyncTask() {
-        readDetails task = new readDetails();
+        ReadArtist task = new ReadArtist();
         task.execute();
     }
-    private void setOnClickListeners() {
+
+    private void addOnClickListeners() {
         ImageView facebook = (ImageView) findViewById(R.id.facebook);
         ImageView twitter = (ImageView) findViewById(R.id.twitter);
         ImageView instagram = (ImageView) findViewById(R.id.instagram);
@@ -60,12 +60,8 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
         TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setToolbarListener(toolbar);
         toolbarTitle.setText(R.string.artist);
-    }
-
-    private void setToolbarListener(Toolbar t) {
-        t.setNavigationOnClickListener(new View.OnClickListener() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
@@ -74,19 +70,19 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void displayInfo() {
-      //  int index = getIntent().getExtras().getInt(EventImageIndex);
+
         ImageView artistImage = (ImageView) findViewById(R.id.artist_image);
         TextView artistName = (TextView) findViewById(R.id.artist_name);
         TextView artistDescription = (TextView) findViewById(R.id.artist_description);
 
-        artistName.setText(thisArtist.getArtistName());
-        artistDescription.setText(thisArtist.getDescription());
-        artistImage.setImageBitmap(thisArtist.getImage());
+        artistName.setText(artist.getArtistName());
+        artistDescription.setText(artist.getDescription());
+        artistImage.setImageBitmap(artist.getImage());
 
     }
 
     private void setAdapter() {
-        UpcomingListAdapter adapter = new UpcomingListAdapter(this);
+        ArtistActAdapter adapter = new ArtistActAdapter(this);
         ListView list = (ListView) findViewById(R.id.upcoming_list);
         list.setAdapter(adapter);
     }
@@ -111,7 +107,6 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
         switch (item.getItemId()) {
 
             case R.id.tb_search:
-                Log.d(MainActivity.DEBUG_TAG, "Action Bar: Search");
                 break;
 
             case R.id.tb_home:
@@ -125,8 +120,6 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-
-        Log.d(MainActivity.DEBUG_TAG, "Clicked on venue social media icon...");
 
         v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.onclick));
 
@@ -144,7 +137,7 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    private class readDetails extends AsyncTask<Void, Void, Artist> {
+    private class ReadArtist extends AsyncTask<Void, Void, Artist> {
 
         @Override
         protected void onPreExecute() {
@@ -158,10 +151,10 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
             APIConnection connection = new APIConnection(DatabaseTable.ARTIST);
             int index = getIntent().getExtras().getInt(EventImageIndex);
 
-            thisArtist =  ConvertArtist(connection.readSingle(index));
+            artist =  ConvertArtist(connection.readSingle(index));
 
 
-            return  thisArtist;
+            return artist;
         }
 
         @Override

@@ -50,7 +50,7 @@
 
         <!--ticket quantity-->
         <TextView
-            android:id="@+id/ticketType"
+            android:id="@+id/parent_event_date"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:editable="false"

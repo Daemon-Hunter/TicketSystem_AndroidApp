@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -15,9 +16,9 @@ import android.widget.TextView;
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.Utilities.Constants;
 import com.example.aneurinc.prcs_app.UI.CustomViews.CustomDialog;
-import com.example.aneurinc.prcs_app.UI.CustomAdapters.TicketTypeListAdapter;
+import com.example.aneurinc.prcs_app.UI.CustomAdapters.TicketActAdapter;
 
-public class TicketActivity extends AppCompatActivity implements View.OnClickListener {
+public class TicketActivity extends AppCompatActivity implements OnClickListener {
 
     public static String EventImageIndex;
 
@@ -26,10 +27,10 @@ public class TicketActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ticket);
 
-        setUpToolbar();
+        setupToolbar();
         setListAdapter();
         displayImage();
-        setOnClickListeners();
+        addOnClickListeners();
 
         // disable the checkout button
         ImageView checkout = (ImageView) findViewById(R.id.checkout);
@@ -37,17 +38,13 @@ public class TicketActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    private void setUpToolbar() {
+    private void setupToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setToolbarListener(toolbar);
         toolbarTitle.setText(R.string.tickets);
-    }
-
-    private void setToolbarListener(Toolbar t) {
-        t.setNavigationOnClickListener(new View.OnClickListener() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
@@ -55,20 +52,20 @@ public class TicketActivity extends AppCompatActivity implements View.OnClickLis
         });
     }
 
-    private void setOnClickListeners() {
+    private void addOnClickListeners() {
         ImageView checkout = (ImageView) findViewById(R.id.checkout);
         checkout.setOnClickListener(this);
     }
 
     private void setListAdapter() {
-        TicketTypeListAdapter adapter = new TicketTypeListAdapter(this);
+        TicketActAdapter adapter = new TicketActAdapter(this);
         ListView list = (ListView) findViewById(R.id.ticket_list);
         list.setAdapter(adapter);
     }
 
     private void displayImage() {
         int imageIndex = getIntent().getExtras().getInt(EventImageIndex);
-        ImageView eventImage = (ImageView) findViewById(R.id.event_image);
+        ImageView eventImage = (ImageView) findViewById(R.id.parent_event_image);
         eventImage.setImageResource(Constants.eventImages[imageIndex]);
     }
 

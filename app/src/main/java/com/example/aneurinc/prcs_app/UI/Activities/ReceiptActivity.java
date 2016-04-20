@@ -7,41 +7,43 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.CustomAdapters.InvoiceListAdapter;
+import com.example.aneurinc.prcs_app.UI.CustomAdapters.ReceiptActAdapter;
 
-public class ReceiptActivity extends AppCompatActivity implements View.OnClickListener {
+public class ReceiptActivity extends AppCompatActivity implements OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receipt);
 
-        setUpToolbar();
-        setOnClickListeners();
+        setupToolbar();
+
+        addOnClickListeners();
 
         setAdapter();
     }
 
     private void setAdapter() {
-        InvoiceListAdapter adapter = new InvoiceListAdapter(this);
+        ReceiptActAdapter adapter = new ReceiptActAdapter(this);
         ListView list = (ListView) findViewById(R.id.invoice_list);
         list.setAdapter(adapter);
     }
 
-    private void setUpToolbar() {
+    private void setupToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
         toolbarTitle.setText(R.string.your_receipt);
     }
 
-    private void setOnClickListeners() {
+    private void addOnClickListeners() {
         ImageView btnOk = (ImageView) findViewById(R.id.btn_confirm);
         btnOk.setOnClickListener(this);
     }

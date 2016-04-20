@@ -1,9 +1,5 @@
 package com.example.aneurinc.prcs_app.UI.CustomAdapters;
 
-/**
- * Created by Dominic on 14/04/2016.
- */
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -14,32 +10,36 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.aneurinc.prcs_app.Datamodel.Artist;
+import com.example.aneurinc.prcs_app.Datamodel.ParentEvent;
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.Utility.Validator;
 
 import java.util.List;
 
-public class ArtistGridAdapter extends BaseAdapter {
+/**
+ * Created by Dominic on 15/04/2016.
+ */
+public class ParentEventFragAdapter extends BaseAdapter {
 
     private Activity context;
-    private String[] title;
     private Bitmap[] image;
+    private String[] title;
 
-    public ArtistGridAdapter(Activity c, List<Artist> artistList) {
-        context = c;
-        updateGridList(artistList);
+    public ParentEventFragAdapter(Activity a, List<ParentEvent> eventList) {
+        context = a;
+        updateGridList(eventList);
+
     }
 
-    public void updateGridList(List<Artist> artists) {
+    public void updateGridList(List<ParentEvent> events) {
 
-        title = new String[artists.size()];
-        image = new Bitmap[artists.size()];
+        title = new String[events.size()];
+        image = new Bitmap[events.size()];
         int i = 0;
 
-        for (Artist currArtist : artists) {
-            image[i] = currArtist.getImage();
-            title[i] = currArtist.getArtistName();
+        for (ParentEvent currEvent : events) {
+            title[i] = currEvent.getParentEventName();
+            image[i] = currEvent.getImage();
             i++;
         }
 
@@ -86,9 +86,9 @@ public class ArtistGridAdapter extends BaseAdapter {
 
         if (image[position] != null) {
             // get width of single grid
-            int xy = context.findViewById(R.id.artist_grid_view).getWidth() / 3;
+            int xy = context.findViewById(R.id.event_grid_view).getWidth() / 3;
             // resize image to fit single grid
-            viewHolder.gridImage.setImageBitmap(Validator.scaleDown(image[position], xy));
+            viewHolder.gridImage.setImageBitmap(Validator.scaleDown(image[position], xy, xy));
         }
 
         viewHolder.gridText.setText(title[position]);
@@ -100,6 +100,5 @@ public class ArtistGridAdapter extends BaseAdapter {
         ImageView gridImage;
         TextView gridText;
     }
-
 
 }

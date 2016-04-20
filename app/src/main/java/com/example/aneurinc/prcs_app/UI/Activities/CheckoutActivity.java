@@ -7,33 +7,30 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
 
-public class CheckoutActivity extends AppCompatActivity implements View.OnClickListener {
+public class CheckoutActivity extends AppCompatActivity implements OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
-        setUpToolbar();
-        setOnClickListeners();
+        setupToolbar();
+        setOnClickListener();
     }
 
-    private void setUpToolbar() {
+    private void setupToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setToolbarListener(toolbar);
         toolbarTitle.setText(R.string.checkout);
-    }
-
-    private void setToolbarListener(Toolbar t) {
-        t.setNavigationOnClickListener(new View.OnClickListener() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
@@ -41,7 +38,7 @@ public class CheckoutActivity extends AppCompatActivity implements View.OnClickL
         });
     }
 
-    private void setOnClickListeners() {
+    private void setOnClickListener() {
         ImageView pay = (ImageView) findViewById(R.id.pay);
         pay.setOnClickListener(this);
     }

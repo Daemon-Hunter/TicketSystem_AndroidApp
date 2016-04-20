@@ -1,38 +1,57 @@
 package com.example.aneurinc.prcs_app.UI.Activities;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.aneurinc.prcs_app.Database.APIConnection;
+import com.example.aneurinc.prcs_app.Database.DatabaseTable;
+import com.example.aneurinc.prcs_app.Datamodel.ChildEvent;
+import com.example.aneurinc.prcs_app.Datamodel.ParentEvent;
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.CustomAdapters.ChildEventListAdapter;
-import com.example.aneurinc.prcs_app.UI.Utilities.Constants;
+import com.example.aneurinc.prcs_app.UI.CustomAdapters.ParentEventActAdapter;
+import com.example.aneurinc.prcs_app.Utility.Validator;
 
-public class ParentEventActivity extends AppCompatActivity {
+import java.util.LinkedList;
 
-    public static String EventImageIndex;
+import static com.example.aneurinc.prcs_app.Database.MapToObject.ConvertParentEvent;
+
+public class ParentEventActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+
+    public static String PARENT_EVENT_ID;
+    private ParentEvent parentEvent;
+    private LinkedList<ChildEvent> parentChildEvents = new LinkedList<>();
+    private Activity mContext = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parent_event);
 
-        setUpToolbar();
+        setupToolbar();
 
-        displayImage();
-
-        addListAdapter();
+        getParentEvent();
 
     }
 
-    private void setUpToolbar() {
+    private void getParentEvent() {
+        ReadParentEvent task = new ReadParentEvent();
+        task.execute();
+    }
+
+    private void setupToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
@@ -40,17 +59,22 @@ public class ParentEventActivity extends AppCompatActivity {
         toolbarTitle.setText(R.string.parent_event);
     }
 
-    private void addListAdapter() {
-        ChildEventListAdapter adapter = new ChildEventListAdapter(this);
-        ListView list = (ListView) findViewById(R.id.child_events_list);
-        list.setAdapter(adapter);
-    }
+    private void displayParentEvent() {
 
+        // // TODO: 18/04/2016 get date from api - get first and last date of child events matching parent id
 
-    private void displayImage() {
-        int imageIndex = getIntent().getExtras().getInt(EventImageIndex);
-        ImageView eventImage = (ImageView) findViewById(R.id.event_image);
-        eventImage.setImageResource(Constants.eventImages[imageIndex]);
+        ImageView image = (ImageView) findViewById(R.id.parent_event_image);
+        TextView name = (TextView) findViewById(R.id.parent_event_name);
+        TextView date = (TextView) findViewById(R.id.parent_event_date);
+        TextView desc = (TextView) findViewById(R.id.parent_event_description);
+        int height = Validator.getScreenHeight(this) / 4;
+        int width = Validator.getScreenHeight(this) / 4;
+
+        Bitmap scaledImage = Validator.scaleDown(parentEvent.getImage(), width, height);
+        image.setImageBitmap(scaledImage);
+        name.setText(parentEvent.getParentEventName());
+        desc.setText(parentEvent.getParentEventDescription());
+
     }
 
     @Override
@@ -79,5 +103,52 @@ public class ParentEventActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        Intent i = new Intent(this, ChildEventActivity.class);
+        i.putExtra(ChildEventActivity.CHILD_EVENT_ID, parentChildEvents.get(position).getChildEventID());
+        startActivity(i);
+
+    }
+
+    private class ReadParentEvent extends AsyncTask<Void, Void, ParentEvent> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected ParentEvent doInBackground(Void... params) {
+
+            // TODO: 18/04/2016 get all children for this parent to display in list
+
+            APIConnection conn = new APIConnection(DatabaseTable.PARENT_EVENT);
+            int index = getIntent().getExtras().getInt(PARENT_EVENT_ID);
+
+            parentEvent = ConvertParentEvent(conn.readSingle(index));
+
+            // list always empty...
+            parentChildEvents = parentEvent.getChildEvents();
+
+            Log.d(MainActivity.DEBUG_TAG, String.format("Number of child events = %d", parentChildEvents.size()));
+
+            return parentEvent;
+
+        }
+
+        @Override
+        protected void onPostExecute(ParentEvent parentEvent) {
+
+            if (parentChildEvents.size() > 0 && parentChildEvents != null) {
+                ListView list = (ListView) mContext.findViewById(R.id.child_events_list);
+                list.setAdapter(new ParentEventActAdapter(mContext, parentChildEvents));
+                list.setOnItemClickListener(ParentEventActivity.this);
+            }
+
+            displayParentEvent();
+        }
+    }
 
 }

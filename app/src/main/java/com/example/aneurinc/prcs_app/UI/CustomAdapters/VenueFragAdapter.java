@@ -23,14 +23,14 @@ import java.util.List;
 /**
  * Created by aneurinc on 21/03/2016.
  */
-public class VenueListAdapter extends ArrayAdapter<String> implements OnClickListener {
+public class VenueFragAdapter extends ArrayAdapter<String> implements OnClickListener {
 
     private final Activity context;
     private String[] name;
     private String[] city;
     private Bitmap[] image;
 
-    public VenueListAdapter(Activity c, List<Venue> venues) {
+    public VenueFragAdapter(Activity c, List<Venue> venues) {
         super(c, R.layout.list_row_venue, Constants.venueNames);
 
         context = c;
@@ -81,7 +81,7 @@ public class VenueListAdapter extends ArrayAdapter<String> implements OnClickLis
             // get width of single grid
             int xy = context.findViewById(R.id.venue_list).getWidth() / 4;
             // resize image to fit single grid
-            viewHolder.venueImage.setImageBitmap(Validator.scaleDown(image[position], xy));
+            viewHolder.venueImage.setImageBitmap(Validator.scaleDown(image[position], xy, xy));
         }
 
         viewHolder.venueName.setText(name[position]);

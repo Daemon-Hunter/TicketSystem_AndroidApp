@@ -15,6 +15,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -24,7 +25,7 @@ import com.example.aneurinc.prcs_app.UI.Fragments.ParentEventFragment;
 import com.example.aneurinc.prcs_app.UI.Fragments.TicketFragment;
 import com.example.aneurinc.prcs_app.UI.Fragments.VenueFragment;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     // debug tag
     public static final String DEBUG_TAG = "PRCS";
@@ -42,9 +43,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        setUpToolbar();
+        setupToolbar();
 
-        setOnClickListeners();
+        addOnClickListeners();
 
         Button events = (Button) findViewById(R.id.btn_event);
         createFragment(new ParentEventFragment(), E_TAG, events);
@@ -121,14 +122,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return V_TAG;
     }
 
-    private void setUpToolbar() {
+    private void setupToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
         toolbarTitle.setText(R.string.current_events);
     }
 
-    private void setOnClickListeners() {
+    private void addOnClickListeners() {
 
         // get buttons
         Button btnEvents = (Button) findViewById(R.id.btn_event);

@@ -20,71 +20,85 @@
 
         <!--event image-->
         <ImageView
-            android:id="@+id/event_image"
+            android:id="@+id/parent_event_image"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
 
         <!--event title-->
         <TextView
-            android:id="@+id/event_title"
+            android:id="@+id/parent_event_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:layout_toRightOf="@id/event_image"
+            android:layout_toRightOf="@id/parent_event_image"
             android:text="Event Name"
             android:textColor="@android:color/white"
             android:textSize="28sp" />
 
         <!--date-->
         <TextView
-            android:id="@+id/ticketType"
+            android:id="@+id/parent_event_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/event_title"
+            android:layout_below="@id/parent_event_name"
             android:layout_marginLeft="15dp"
-            android:layout_toRightOf="@id/event_image"
+            android:layout_toRightOf="@id/parent_event_image"
             android:text="12th May - 15th May"
-            android:textColor="@android:color/white" />
-
-        <!--address-->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/ticketType"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_toRightOf="@id/event_image"
-            android:text="Devon Arena, Plymouth, PL3 4KF"
             android:textColor="@android:color/white" />
 
         <!--description-->
         <TextView
-            android:id="@+id/event_description"
+            android:id="@+id/parent_event_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/event_image"
+            android:layout_below="@id/parent_event_date"
+            android:layout_toRightOf="@id/parent_event_image"
+            android:layout_marginLeft="15dp"
             android:paddingBottom="5dp"
             android:paddingTop="5dp"
-            android:text="This is where the description of the event will go... This is where the description of the event will go... This is where the description of the event will go..."
             android:textColor="@android:color/white" />
+
+        <LinearLayout
+            android:id="@+id/social_media_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/parent_event_image"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:id="@+id/facebook"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/sm_facebook"
+                android:padding="5dp"/>
+
+            <ImageView
+                android:id="@+id/twitter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/sm_twitter"
+                android:padding="5dp"/>
+
+            <ImageView
+                android:id="@+id/instagram"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/sm_instagram"
+                android:padding="5dp"/>
+
+        </LinearLayout>
 
         <!-- event lineup list-->
         <ListView
             android:id="@+id/child_events_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/event_description"
+            android:layout_below="@+id/social_media_container"
             android:layout_marginTop="10dp"
             android:background="@android:color/white"
             android:fadeScrollbars="false"/>
 
     </RelativeLayout>
-
-    <!--fragment container for tabs-->
-    <FrameLayout
-        android:id="@+id/contentFragmentEvent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
 </RelativeLayout>
 

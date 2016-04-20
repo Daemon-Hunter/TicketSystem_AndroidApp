@@ -81,17 +81,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setToolbarListener(toolbar);
         toolbarTitle.setText(R.string.venue_location);
-    }
-
-    private void setToolbarListener(Toolbar t) {
-        t.setNavigationOnClickListener(new View.OnClickListener() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
+
     }
 
     @Override

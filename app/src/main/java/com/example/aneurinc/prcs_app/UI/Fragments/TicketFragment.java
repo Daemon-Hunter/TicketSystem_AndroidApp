@@ -13,7 +13,7 @@ import com.example.aneurinc.prcs_app.Database.DatabaseTable;
 import com.example.aneurinc.prcs_app.Database.MapToObject;
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.Tickets.ITicket;
-import com.example.aneurinc.prcs_app.UI.CustomAdapters.UserTicketListAdapter;
+import com.example.aneurinc.prcs_app.UI.CustomAdapters.TicketFragAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,11 +30,11 @@ public class TicketFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_ticket, container, false);
-        executeAsyncTask();
+        getTickets();
         return view;
     }
 
-    private void executeAsyncTask() {
+    private void getTickets() {
         ReadTickets task = new ReadTickets();
         task.execute();
     }
@@ -61,8 +61,8 @@ public class TicketFragment extends Fragment {
 
         @Override
         protected void onPostExecute(List<ITicket> tickets) {
-            ListView list = (ListView) getView().findViewById(R.id.my_tickets_list);
-            list.setAdapter(new UserTicketListAdapter(getActivity(), tickets));
+            ListView list = (ListView) getActivity().findViewById(R.id.my_tickets_list);
+            list.setAdapter(new TicketFragAdapter(getActivity(), tickets));
         }
     }
 }

@@ -14,16 +14,16 @@
 
     <!--event image-->
     <ImageView
-        android:id="@+id/event_image"
+        android:id="@+id/parent_event_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <!--event title-->
     <TextView
-        android:id="@+id/event_title"
+        android:id="@+id/parent_event_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/event_image"
+        android:layout_toRightOf="@id/parent_event_image"
         android:layout_marginLeft="20dp"
         android:text="Event Name"
         android:textSize="28sp"
@@ -34,8 +34,8 @@
         android:id="@+id/event_time_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/event_title"
-        android:layout_toRightOf="@id/event_image"
+        android:layout_below="@id/parent_event_name"
+        android:layout_toRightOf="@id/parent_event_image"
         android:layout_marginLeft="20dp"
         android:text="7pm on 12/11/16"
         android:textColor="@android:color/white"/>
@@ -46,17 +46,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/event_time_date"
-        android:layout_toRightOf="@id/event_image"
+        android:layout_toRightOf="@id/parent_event_image"
         android:layout_marginLeft="20dp"
         android:text="PG: 18"
         android:textColor="@android:color/white"/>
 
     <!--description-->
     <TextView
-        android:id="@+id/event_description"
+        android:id="@+id/parent_event_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/event_image"
+        android:layout_below="@id/parent_event_image"
         android:layout_marginTop="10dp"
         android:textColor="@android:color/white"
         android:text="This is where the description of the event will go... This is where the description of the event will go... This is where the description of the event will go..."/>
@@ -66,7 +66,7 @@
         android:id="@+id/ticket_list"
         android:layout_width="match_parent"
         android:layout_height="225dp"
-        android:layout_below="@+id/event_description"
+        android:layout_below="@+id/parent_event_description"
         android:layout_marginTop="15dp"
         android:fadeScrollbars="false"
         android:listSelector="@android:color/transparent"

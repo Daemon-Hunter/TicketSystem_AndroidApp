@@ -18,11 +18,11 @@ import com.example.aneurinc.prcs_app.UI.Utilities.Constants;
 /**
  * Created by aneurinc on 19/03/2016.
  */
-public class UpcomingListAdapter extends ArrayAdapter<String> implements AdapterView.OnItemClickListener {
+public class ArtistActAdapter extends ArrayAdapter<String> implements AdapterView.OnItemClickListener {
 
     private final Activity mContext;
 
-    public UpcomingListAdapter(Activity context) {
+    public ArtistActAdapter(Activity context) {
 
         super(context, R.layout.list_row_upcoming, Constants.eventName);
 
@@ -74,7 +74,7 @@ public class UpcomingListAdapter extends ArrayAdapter<String> implements Adapter
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent i = new Intent(getContext(), ParentEventActivity.class);
-        i.putExtra(ParentEventActivity.EventImageIndex, position);
+        i.putExtra(ParentEventActivity.PARENT_EVENT_ID, position);
         mContext.startActivity(i);
     }
 

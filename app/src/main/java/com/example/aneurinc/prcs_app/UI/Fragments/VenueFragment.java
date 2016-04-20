@@ -16,7 +16,7 @@ import com.example.aneurinc.prcs_app.Database.MapToObject;
 import com.example.aneurinc.prcs_app.Datamodel.Venue;
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.Activities.VenueActivity;
-import com.example.aneurinc.prcs_app.UI.CustomAdapters.VenueListAdapter;
+import com.example.aneurinc.prcs_app.UI.CustomAdapters.VenueFragAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,16 +33,11 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_venue, container, false);
-
-        ListView list = (ListView) view.findViewById(R.id.venue_list);
-        list.setOnItemClickListener(this);
-
-        executeAsyncTask();
-
+        getVenues();
         return view;
     }
 
-    private void executeAsyncTask() {
+    private void getVenues() {
         ReadVenues task = new ReadVenues();
         task.execute();
     }
@@ -77,8 +72,9 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
 
         @Override
         protected void onPostExecute(List<Venue> venues) {
-            ListView list = (ListView) getView().findViewById(R.id.venue_list);
-            list.setAdapter(new VenueListAdapter(getActivity(), venues));
+            ListView list = (ListView) getActivity().findViewById(R.id.venue_list);
+            list.setAdapter(new VenueFragAdapter(getActivity(), venues));
+            list.setOnItemClickListener(VenueFragment.this);
         }
     }
 }

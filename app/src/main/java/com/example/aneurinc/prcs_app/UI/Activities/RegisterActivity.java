@@ -23,6 +23,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.CustomViews.CustomClickableSpan;
@@ -30,7 +31,7 @@ import com.example.aneurinc.prcs_app.UI.CustomViews.CustomClickableSpan;
 /**
  * A login screen that offers login via email/password.
  */
-public class RegisterActivity extends AppCompatActivity implements TextView.OnEditorActionListener, OnClickListener {
+public class RegisterActivity extends AppCompatActivity implements OnEditorActionListener, OnClickListener {
 
 
     /**

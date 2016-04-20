@@ -19,7 +19,7 @@ import com.example.aneurinc.prcs_app.UI.Utilities.Constants;
 /**
  * Created by aneurinc on 29/02/2016.
  */
-public class ArtistLineupListAdapter extends ArrayAdapter<String> implements AdapterView.OnItemClickListener {
+public class ChildEventActAdapter extends ArrayAdapter<String> implements AdapterView.OnItemClickListener {
 
     private final Activity mContext;
     private static final int DATE_TYPE = 0;
@@ -27,12 +27,12 @@ public class ArtistLineupListAdapter extends ArrayAdapter<String> implements Ada
     private static final int TYPE_MAX_COUNT = 2;
     private static final int DATE_ROW_COLOUR = 0x7029b6f6;
 
-    public ArtistLineupListAdapter(Activity context) {
+    public ChildEventActAdapter(Activity context) {
         super(context, R.layout.list_row_artist_lineup, Constants.artistName);
 
         mContext = context;
 
-        ListView list = (ListView) context.findViewById(R.id.artist_lineup_list);
+        ListView list = (ListView) context.findViewById(R.id.lineup_list);
         list.setOnItemClickListener(this);
     }
 

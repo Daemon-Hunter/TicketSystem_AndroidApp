@@ -11,7 +11,7 @@
         android:layout_weight="50"/>
 
     <TextView
-        android:id="@+id/ticketType"
+        android:id="@+id/parent_event_date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="25"/>

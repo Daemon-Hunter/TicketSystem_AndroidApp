@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="7dp"
             android:layout_marginTop="5dp"
-            android:layout_toLeftOf="@+id/event_image"
+            android:layout_toLeftOf="@+id/parent_event_image"
             android:layout_alignParentLeft="true"
             android:textSize="20sp"/>
 
@@ -46,7 +46,7 @@
             android:layout_marginTop="5dp"/>
 
         <TextView
-            android:id="@+id/ticketType"
+            android:id="@+id/parent_event_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/event_venue"
@@ -56,7 +56,7 @@
             android:id="@+id/event_cost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/ticketType"
+            android:layout_below="@id/parent_event_date"
             android:layout_marginLeft="7dp"/>
 
     </LinearLayout>
@@ -68,7 +68,7 @@
         android:background="@color/colorGrey100">
 
         <ImageView
-            android:id="@+id/event_image"
+            android:id="@+id/parent_event_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentRight="true"

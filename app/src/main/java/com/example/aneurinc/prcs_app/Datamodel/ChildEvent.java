@@ -1,6 +1,9 @@
 package com.example.aneurinc.prcs_app.Datamodel;
 
+import android.graphics.Bitmap;
+
 import com.example.aneurinc.prcs_app.Database.DatabaseTable;
+import com.example.aneurinc.prcs_app.Reviews.ReviewBase;
 import com.example.aneurinc.prcs_app.Utility.Observer.IObserver;
 
 import java.util.Date;
@@ -13,7 +16,7 @@ import static com.example.aneurinc.prcs_app.Utility.Validator.nameValidator;
 /**
  * Created by Dominic on 14/04/2016.
  */
-public class ChildEvent implements IChildEvent
+public class ChildEvent extends ReviewBase implements IChildEvent
 {    private Integer childEventID;
     private String childEventName, childEventDescription;
     private Date startDateTime, endDateTime;
@@ -72,6 +75,11 @@ public class ChildEvent implements IChildEvent
 
         table = DatabaseTable.CHILD_EVENT;
 
+    }
+
+    @Override
+    public Bitmap getImage() {
+        return super.getImage();
     }
 
     @Override

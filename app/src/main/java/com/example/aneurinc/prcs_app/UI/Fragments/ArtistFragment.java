@@ -16,7 +16,7 @@ import com.example.aneurinc.prcs_app.Database.MapToObject;
 import com.example.aneurinc.prcs_app.Datamodel.Artist;
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.Activities.ArtistActivity;
-import com.example.aneurinc.prcs_app.UI.CustomAdapters.ArtistGridAdapter;
+import com.example.aneurinc.prcs_app.UI.CustomAdapters.ArtistFragAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,6 @@ import java.util.Map;
  */
 public class ArtistFragment extends Fragment implements AdapterView.OnItemClickListener {
 
-    private GridView gridView;
     private List<Artist> artistList = new ArrayList<>();
 
     @Override
@@ -35,8 +34,6 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
 
         View view = inflater.inflate(R.layout.fragment_artist, container, false);
         executeAsyncTask();
-        gridView = (GridView) view.findViewById(R.id.artist_grid_view);
-        gridView.setOnItemClickListener(this);
 
         return view;
     }
@@ -66,7 +63,7 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
         protected List<Artist> doInBackground(Void... voids) {
 
             APIConnection connection = new APIConnection(DatabaseTable.ARTIST);
-            List<Map<String, String>> listOfMaps = connection.getArtistAmount(3,0);
+            List<Map<String, String>> listOfMaps = connection.readAll();
 
             for (Map<String, String> currMap : listOfMaps) {
                 artistList.add(MapToObject.ConvertArtist(currMap));
@@ -78,7 +75,9 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
         @Override
         protected void onPostExecute(List<Artist> artists) {
 
-            gridView.setAdapter(new ArtistGridAdapter(getActivity(), artistList));
+            GridView gridView = (GridView) getActivity().findViewById(R.id.artist_grid_view);
+            gridView.setAdapter(new ArtistFragAdapter(getActivity(), artistList));
+            gridView.setOnItemClickListener(ArtistFragment.this);
 
         }
     }

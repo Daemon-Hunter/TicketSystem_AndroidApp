@@ -4,19 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.ListView;
 
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.Utilities.Constants;
-import com.example.aneurinc.prcs_app.UI.CustomAdapters.UpcomingListAdapter;
 
-public class VenueActivity extends AppCompatActivity implements View.OnClickListener {
+public class VenueActivity extends AppCompatActivity implements OnClickListener {
 
     public static String VenueImageIndex;
 
@@ -25,14 +23,14 @@ public class VenueActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_venue);
 
-        setUpToolbar();
+        setupToolbar();
         displayImage();
-        setListAdapter();
-        setOnClickListeners();
+//        setListAdapter();
+        addOnClickListeners();
 
     }
 
-    private void setOnClickListeners() {
+    private void addOnClickListeners() {
 
         ImageView facebook = (ImageView) findViewById(R.id.facebook);
         ImageView twitter = (ImageView) findViewById(R.id.twitter);
@@ -50,20 +48,17 @@ public class VenueActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-    private void setUpToolbar() {
+    private void setupToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setToolbarListener(toolbar);
-    }
-
-    private void setToolbarListener(Toolbar t) {
-        t.setNavigationOnClickListener(new View.OnClickListener() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
+
     }
 
     private void displayImage() {
@@ -73,9 +68,10 @@ public class VenueActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void setListAdapter() {
-        UpcomingListAdapter adapter = new UpcomingListAdapter(this);
-        ListView list = (ListView) findViewById(R.id.upcoming_list);
-        list.setAdapter(adapter);
+        // TODO: 19/04/2016 make venue act adapter 
+//        ArtistActAdapter adapter = new ArtistActAdapter(this);
+//        ListView list = (ListView) findViewById(R.id.upcoming_list);
+//        list.setAdapter(adapter);
     }
 
     @Override
@@ -93,7 +89,6 @@ public class VenueActivity extends AppCompatActivity implements View.OnClickList
         switch (item.getItemId()) {
 
             case R.id.tb_search:
-                Log.d(MainActivity.DEBUG_TAG, "Action Bar: Search");
                 break;
 
             case R.id.tb_home:
@@ -107,8 +102,6 @@ public class VenueActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-
-        Log.d(MainActivity.DEBUG_TAG, "Clicked on artist social media icon...");
 
         v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.onclick));
 

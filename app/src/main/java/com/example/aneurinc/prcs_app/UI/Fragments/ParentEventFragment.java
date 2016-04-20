@@ -16,7 +16,7 @@ import com.example.aneurinc.prcs_app.Database.MapToObject;
 import com.example.aneurinc.prcs_app.Datamodel.ParentEvent;
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.Activities.ParentEventActivity;
-import com.example.aneurinc.prcs_app.UI.CustomAdapters.ParentEventGridAdapter;
+import com.example.aneurinc.prcs_app.UI.CustomAdapters.ParentEventFragAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,26 +27,16 @@ import java.util.Map;
  */
 public class ParentEventFragment extends Fragment implements AdapterView.OnItemClickListener {
 
-    private GridView gridView;
     private List<ParentEvent> parentEventList = new ArrayList<>();
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_event, container, false);
-        executeAsyncTask();
-        gridView = (GridView)view.findViewById(R.id.event_grid_view);
-        gridView.setOnItemClickListener(this);
-
+        getParentEvents();
         return view;
     }
 
-    private void executeAsyncTask() {
+    private void getParentEvents() {
         ReadParentEvents task = new ReadParentEvents();
         task.execute();
     }
@@ -55,7 +45,7 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         Intent i = new Intent(getActivity(), ParentEventActivity.class);
-        i.putExtra(ParentEventActivity.EventImageIndex, position);
+        i.putExtra(ParentEventActivity.PARENT_EVENT_ID, parentEventList.get(position).getParentEventID());
         startActivity(i);
 
     }
@@ -83,7 +73,9 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
 
         @Override
         protected void onPostExecute(List<ParentEvent> parentEvents) {
-            gridView.setAdapter(new ParentEventGridAdapter(getActivity(), parentEventList));
+            GridView gridView = (GridView) getActivity().findViewById(R.id.event_grid_view);
+            gridView.setAdapter(new ParentEventFragAdapter(getActivity(), parentEventList));
+            gridView.setOnItemClickListener(ParentEventFragment.this);
         }
     }
 

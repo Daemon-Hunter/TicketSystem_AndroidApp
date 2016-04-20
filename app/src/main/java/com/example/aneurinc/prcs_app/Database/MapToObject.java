@@ -229,7 +229,7 @@ public class MapToObject {
         try {
             APIConnection eventConn = new APIConnection(DatabaseTable.CHILD_EVENT);
             eventMap = eventConn.readSingle(childEventID);
-            event = ConvertEvent(eventMap);
+            event = ConvertChildEvent(eventMap);
 
         } catch (Exception ex) {
 
@@ -242,7 +242,7 @@ public class MapToObject {
     }
 
 
-    public static ChildEvent ConvertEvent(Map<String, String> eventMap) {
+    public static ChildEvent ConvertChildEvent(Map<String, String> eventMap) {
         Integer eventID, venueID, lineupID;
         String description, name;
         Date startTime, endTime;
@@ -360,7 +360,6 @@ public class MapToObject {
         List<Map<String, String>> allReviews;
         List<Map<String, String>> allEvents;
 
-
         eventID = Integer.parseInt(eventMap.get("PARENT_EVENT_ID"));
         name = eventMap.get("PARENT_EVENT_NAME");
         description = eventMap.get("PARENT_EVENT_DESCRIPTION");
@@ -390,14 +389,13 @@ public class MapToObject {
             allEvents = MapToObject.getListOfReviews(DatabaseTable.CHILD_EVENT);
             for (Map<String, String> currEvent : allEvents) {
                 if (eventID.equals(Integer.parseInt(currEvent.get("PARENT_EVENT_ID")))) {
-                    childEvents.add(ConvertEvent(currEvent));
+                    childEvents.add(ConvertChildEvent(currEvent));
                 }
 
             }
         } catch (Exception ex) {
             System.out.println("No child events for this parent event");
         }
-
 
         ParentEvent parentEvent = new ParentEvent(eventID, social, name, description, reviewsList, childEvents);
 

@@ -1,7 +1,10 @@
 package com.example.aneurinc.prcs_app.Utility;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.util.Log;
+import android.view.Display;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -196,7 +199,21 @@ public final class Validator {
         return formattedPrice;
     }
 
-    public static Bitmap scaleDown(Bitmap image, int xy) {
-        return Bitmap.createScaledBitmap(image, xy, xy, true);
+    public static Bitmap scaleDown(Bitmap image, int width, int height) {
+        return Bitmap.createScaledBitmap(image, width, height, true);
+    }
+
+    public static int getScreenWidth(Activity context) {
+        Display display = context.getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        return size.x;
+    }
+
+    public static int getScreenHeight(Activity context) {
+        Display display = context.getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        return size.y;
     }
 }

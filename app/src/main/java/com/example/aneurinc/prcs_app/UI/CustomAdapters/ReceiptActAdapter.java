@@ -15,12 +15,12 @@ import java.text.DecimalFormat;
 /**
  * Created by aneurinc on 03/04/2016.
  */
-public class InvoiceListAdapter extends ArrayAdapter<String> {
+public class ReceiptActAdapter extends ArrayAdapter<String> {
 
 
     private final Activity context;
 
-    public InvoiceListAdapter(Activity c) {
+    public ReceiptActAdapter(Activity c) {
 
         super(c, R.layout.list_invoice, Constants.ticketType);
 
@@ -44,7 +44,7 @@ public class InvoiceListAdapter extends ArrayAdapter<String> {
             viewHolder = new ViewHolder();
             viewHolder.ticketType = (TextView) convertView.findViewById(R.id.ticket_type);
             viewHolder.ticketCost = (TextView) convertView.findViewById(R.id.ticket_cost);
-            viewHolder.ticketQty = (TextView) convertView.findViewById(R.id.ticketType);
+            viewHolder.ticketQty = (TextView) convertView.findViewById(R.id.parent_event_date);
 
             // store the holder with the view
             convertView.setTag(viewHolder);
@@ -88,7 +88,7 @@ public class InvoiceListAdapter extends ArrayAdapter<String> {
         int parentQtyVal = Integer.parseInt(parentQtyStr);
 
         // get reference to ticket row qty text view and convert to int
-        TextView rowQty = (TextView) rowView.findViewById(R.id.ticketType);
+        TextView rowQty = (TextView) rowView.findViewById(R.id.parent_event_date);
         String rowQtyStr = rowQty.getText().toString();
         int rowQtyVal = Integer.parseInt(rowQtyStr);
 

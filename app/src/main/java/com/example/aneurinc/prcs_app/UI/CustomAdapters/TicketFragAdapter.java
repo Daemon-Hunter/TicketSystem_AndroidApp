@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by aneurinc on 11/04/2016.
  */
-public class UserTicketListAdapter extends ArrayAdapter<String> {
+public class TicketFragAdapter extends ArrayAdapter<String> {
 
     // TODO get event name, event image and venue name
 
@@ -26,7 +26,7 @@ public class UserTicketListAdapter extends ArrayAdapter<String> {
     private String[] cost;
     private String[] type;
 
-    public UserTicketListAdapter(Activity context, List<ITicket> tickets) {
+    public TicketFragAdapter(Activity context, List<ITicket> tickets) {
 
         super(context, R.layout.list_row_my_ticket, Constants.eventName);
         mContext = context;
@@ -61,9 +61,9 @@ public class UserTicketListAdapter extends ArrayAdapter<String> {
             viewHolder = new ViewHolder();
             viewHolder.eventName = (TextView) convertView.findViewById(R.id.event_name);
             viewHolder.ticketCost = (TextView) convertView.findViewById(R.id.event_cost);
-            viewHolder.ticketType = (TextView) convertView.findViewById(R.id.ticketType);
+            viewHolder.ticketType = (TextView) convertView.findViewById(R.id.parent_event_date);
             viewHolder.venueName = (TextView) convertView.findViewById(R.id.event_venue);
-            viewHolder.eventImage = (ImageView) convertView.findViewById(R.id.event_image);
+            viewHolder.eventImage = (ImageView) convertView.findViewById(R.id.parent_event_image);
 
             // store the holder with the view
             convertView.setTag(viewHolder);

@@ -17,11 +17,11 @@ import java.text.DecimalFormat;
 /**
  * Created by aneurinc on 11/03/2016.
  */
-public class TicketTypeListAdapter extends ArrayAdapter<String> {
+public class TicketActAdapter extends ArrayAdapter<String> {
 
     private final Activity context;
 
-    public TicketTypeListAdapter(Activity context) {
+    public TicketActAdapter(Activity context) {
 
         super(context, R.layout.list_row_ticket_type, Constants.ticketType);
 
@@ -43,7 +43,7 @@ public class TicketTypeListAdapter extends ArrayAdapter<String> {
             viewHolder = new ViewHolder();
             viewHolder.ticketType = (TextView) convertView.findViewById(R.id.ticket_type);
             viewHolder.ticketCost = (TextView) convertView.findViewById(R.id.ticket_cost);
-            viewHolder.ticketQty = (TextView) convertView.findViewById(R.id.ticketType);
+            viewHolder.ticketQty = (TextView) convertView.findViewById(R.id.parent_event_date);
             viewHolder.plus = (ImageView) convertView.findViewById(R.id.plus);
             viewHolder.minus = (ImageView) convertView.findViewById(R.id.minus);
 
@@ -78,7 +78,7 @@ public class TicketTypeListAdapter extends ArrayAdapter<String> {
             public void onClick(View v) {
 
                 v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.onclick));
-                TextView ticketQty = (TextView) row.findViewById(R.id.ticketType);
+                TextView ticketQty = (TextView) row.findViewById(R.id.parent_event_date);
                 int qty = Integer.valueOf(ticketQty.getText().toString());
                 qty++;
                 ticketQty.setText(Integer.toString(qty));
@@ -92,7 +92,7 @@ public class TicketTypeListAdapter extends ArrayAdapter<String> {
             public void onClick(View v) {
 
                 v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.onclick));
-                TextView ticketQty = (TextView) row.findViewById(R.id.ticketType);
+                TextView ticketQty = (TextView) row.findViewById(R.id.parent_event_date);
                 int qty = Integer.valueOf(ticketQty.getText().toString());
 
                 if (qty > 0) {
