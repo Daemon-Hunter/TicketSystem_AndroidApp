@@ -9,11 +9,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.Tickets.ITicket;
 import com.example.aneurinc.prcs_app.UI.Utilities.Constants;
-import com.example.aneurinc.prcs_app.Utility.Validator;
+import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
 
 import java.util.List;
+
+import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.formatPrice;
 
 /**
  * Created by aneurinc on 11/04/2016.
@@ -75,7 +76,7 @@ public class TicketFragAdapter extends ArrayAdapter<String> {
 
         viewHolder.eventName.setText("Event Name");
         viewHolder.eventImage.setImageResource(Constants.eventImages[position]);
-        viewHolder.ticketCost.setText(Validator.formatPrice(Double.parseDouble(cost[position])));
+        viewHolder.ticketCost.setText(formatPrice(Double.parseDouble(cost[position])));
         viewHolder.ticketType.setText(type[position]);
         viewHolder.venueName.setText("Venue Name");
 

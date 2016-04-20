@@ -8,14 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.example.aneurinc.prcs_app.Database.APIConnection;
-import com.example.aneurinc.prcs_app.Database.DatabaseTable;
-import com.example.aneurinc.prcs_app.Database.MapToObject;
+
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.Tickets.ITicket;
 import com.example.aneurinc.prcs_app.UI.CustomAdapters.TicketFragAdapter;
+import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -49,14 +48,9 @@ public class TicketFragment extends Fragment {
         @Override
         protected List<ITicket> doInBackground(Void... params) {
 
-            APIConnection connection = new APIConnection(DatabaseTable.TICKET);
-            List<Map<String, String>> listOfMaps = connection.readAll();
 
-            for (Map<String, String> currMap : listOfMaps) {
-                tickets.add(MapToObject.ConvertTicket(currMap));
-            }
 
-            return tickets;
+            return new LinkedList<>();
         }
 
         @Override

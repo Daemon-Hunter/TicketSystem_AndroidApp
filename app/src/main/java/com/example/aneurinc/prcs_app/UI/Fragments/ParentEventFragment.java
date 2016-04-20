@@ -10,24 +10,21 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
-import com.example.aneurinc.prcs_app.Database.APIConnection;
-import com.example.aneurinc.prcs_app.Database.DatabaseTable;
-import com.example.aneurinc.prcs_app.Database.MapToObject;
-import com.example.aneurinc.prcs_app.Datamodel.ParentEvent;
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.Activities.ParentEventActivity;
 import com.example.aneurinc.prcs_app.UI.CustomAdapters.ParentEventFragAdapter;
+import com.google.jkellaway.androidapp_datamodel.datamodel.IParentEvent;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by aneurinc on 02/03/2016.
  */
 public class ParentEventFragment extends Fragment implements AdapterView.OnItemClickListener {
 
-    private List<ParentEvent> parentEventList = new ArrayList<>();
+    private List<IParentEvent> parentEventList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,7 +47,7 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
 
     }
 
-    private class ReadParentEvents extends AsyncTask<Void, Void, List<ParentEvent>> {
+    private class ReadParentEvents extends AsyncTask<Void, Void, List<IParentEvent>> {
 
         @Override
         protected void onPreExecute() {
@@ -59,20 +56,13 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
         }
 
         @Override
-        protected List<ParentEvent> doInBackground(Void... params) {
+        protected List<IParentEvent> doInBackground(Void... params) {
 
-            APIConnection connection = new APIConnection(DatabaseTable.PARENT_EVENT);
-            List<Map<String, String>> listOfMaps = connection.readAll();
-
-            for (Map<String, String> currMap : listOfMaps) {
-                parentEventList.add(MapToObject.ConvertParentEvent(currMap));
-            }
-
-            return parentEventList;
+            return new LinkedList<IParentEvent>();
         }
 
         @Override
-        protected void onPostExecute(List<ParentEvent> parentEvents) {
+        protected void onPostExecute(List<IParentEvent> parentEvents) {
             GridView gridView = (GridView) getActivity().findViewById(R.id.event_grid_view);
             gridView.setAdapter(new ParentEventFragAdapter(getActivity(), parentEventList));
             gridView.setOnItemClickListener(ParentEventFragment.this);

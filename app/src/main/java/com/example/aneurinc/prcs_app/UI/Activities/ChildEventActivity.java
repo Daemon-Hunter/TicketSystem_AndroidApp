@@ -15,19 +15,16 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.aneurinc.prcs_app.Database.APIConnection;
-import com.example.aneurinc.prcs_app.Database.DatabaseTable;
-import com.example.aneurinc.prcs_app.Datamodel.ChildEvent;
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.CustomAdapters.ChildEventActAdapter;
-import com.example.aneurinc.prcs_app.Utility.Validator;
-
-import static com.example.aneurinc.prcs_app.Database.MapToObject.ConvertChildEvent;
+import com.example.aneurinc.prcs_app.UI.Utilities.ImageUtils;
+import com.google.jkellaway.androidapp_datamodel.datamodel.ChildEvent;
+import com.google.jkellaway.androidapp_datamodel.datamodel.IChildEvent;
 
 public class ChildEventActivity extends AppCompatActivity implements OnClickListener {
 
     public static String CHILD_EVENT_ID;
-    private ChildEvent childEvent;
+    private IChildEvent childEvent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,9 +86,9 @@ public class ChildEventActivity extends AppCompatActivity implements OnClickList
         address.setText((CharSequence) childEvent.getVenue());
         desc.setText(childEvent.getChildEventDescription());
 
-        int width = Validator.getScreenWidth(this) / 4;
-        int height = Validator.getScreenHeight(this) / 4;
-        Bitmap scaledImage = Validator.scaleDown(childEvent.getImage(), width, height);
+        int width = ImageUtils.getScreenWidth(this) / 4;
+        int height = ImageUtils.getScreenHeight(this) / 4;
+        Bitmap scaledImage = ImageUtils.scaleDown(childEvent.getImage(0), width, height);
         image.setImageBitmap(scaledImage);
 
     }
@@ -135,7 +132,7 @@ public class ChildEventActivity extends AppCompatActivity implements OnClickList
         }
     }
 
-    private class ReadChildEvent extends AsyncTask<Void, Void, ChildEvent> {
+    private class ReadChildEvent extends AsyncTask<Void, Void, IChildEvent> {
 
         @Override
         protected void onPreExecute() {
@@ -143,16 +140,14 @@ public class ChildEventActivity extends AppCompatActivity implements OnClickList
         }
 
         @Override
-        protected void onPostExecute(ChildEvent childEvent) {
+        protected void onPostExecute(IChildEvent childEvent) {
             displayChildEvent();
         }
 
         @Override
-        protected ChildEvent doInBackground(Void... params) {
-            APIConnection conn = new APIConnection(DatabaseTable.CHILD_EVENT);
+        protected IChildEvent doInBackground(Void... params) {
             int index = getIntent().getExtras().getInt(CHILD_EVENT_ID);
-            childEvent = ConvertChildEvent(conn.readSingle(index));
-            return childEvent;
+            return new ChildEvent();
         }
     }
 }

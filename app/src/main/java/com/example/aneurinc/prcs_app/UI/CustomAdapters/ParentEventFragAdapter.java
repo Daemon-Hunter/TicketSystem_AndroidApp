@@ -10,9 +10,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.aneurinc.prcs_app.Datamodel.ParentEvent;
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.Utility.Validator;
+import com.example.aneurinc.prcs_app.UI.Utilities.ImageUtils;
+import com.google.jkellaway.androidapp_datamodel.datamodel.IParentEvent;
 
 import java.util.List;
 
@@ -25,21 +25,21 @@ public class ParentEventFragAdapter extends BaseAdapter {
     private Bitmap[] image;
     private String[] title;
 
-    public ParentEventFragAdapter(Activity a, List<ParentEvent> eventList) {
+    public ParentEventFragAdapter(Activity a, List<IParentEvent> eventList) {
         context = a;
         updateGridList(eventList);
 
     }
 
-    public void updateGridList(List<ParentEvent> events) {
+    public void updateGridList(List<IParentEvent> events) {
 
         title = new String[events.size()];
         image = new Bitmap[events.size()];
         int i = 0;
 
-        for (ParentEvent currEvent : events) {
+        for (IParentEvent currEvent : events) {
             title[i] = currEvent.getParentEventName();
-            image[i] = currEvent.getImage();
+            image[i] = currEvent.getImage(0);
             i++;
         }
 
@@ -88,7 +88,7 @@ public class ParentEventFragAdapter extends BaseAdapter {
             // get width of single grid
             int xy = context.findViewById(R.id.event_grid_view).getWidth() / 3;
             // resize image to fit single grid
-            viewHolder.gridImage.setImageBitmap(Validator.scaleDown(image[position], xy, xy));
+            viewHolder.gridImage.setImageBitmap(ImageUtils.scaleDown(image[position], xy, xy));
         }
 
         viewHolder.gridText.setText(title[position]);

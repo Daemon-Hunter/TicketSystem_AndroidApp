@@ -10,15 +10,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.example.aneurinc.prcs_app.Database.APIConnection;
-import com.example.aneurinc.prcs_app.Database.DatabaseTable;
-import com.example.aneurinc.prcs_app.Database.MapToObject;
-import com.example.aneurinc.prcs_app.Datamodel.Venue;
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.Activities.VenueActivity;
 import com.example.aneurinc.prcs_app.UI.CustomAdapters.VenueFragAdapter;
+import com.google.jkellaway.androidapp_datamodel.datamodel.IVenue;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +25,7 @@ import java.util.Map;
  */
 public class VenueFragment extends Fragment implements AdapterView.OnItemClickListener {
 
-    private List<Venue> venues = new ArrayList<>();
+    private List<IVenue> venues = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,7 +47,7 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
         getActivity().startActivity(intent);
     }
 
-    private class ReadVenues extends AsyncTask<Void, Void, List<Venue>> {
+    private class ReadVenues extends AsyncTask<Void, Void, List<IVenue>> {
 
         @Override
         protected void onPreExecute() {
@@ -58,20 +56,13 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
         }
 
         @Override
-        protected List<Venue> doInBackground(Void... params) {
+        protected List<IVenue> doInBackground(Void... params) {
 
-            APIConnection connection = new APIConnection(DatabaseTable.VENUE);
-            List<Map<String, String>> listOfMaps = connection.readAll();
-
-            for (Map<String, String> currMap : listOfMaps) {
-                venues.add((Venue)MapToObject.ConvertVenue(currMap));
-            }
-
-            return venues;
+            return new LinkedList<>();
         }
 
         @Override
-        protected void onPostExecute(List<Venue> venues) {
+        protected void onPostExecute(List<IVenue> venues) {
             ListView list = (ListView) getActivity().findViewById(R.id.venue_list);
             list.setAdapter(new VenueFragAdapter(getActivity(), venues));
             list.setOnItemClickListener(VenueFragment.this);

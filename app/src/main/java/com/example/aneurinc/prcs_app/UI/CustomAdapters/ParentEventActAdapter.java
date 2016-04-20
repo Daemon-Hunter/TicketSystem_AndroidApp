@@ -9,12 +9,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.aneurinc.prcs_app.Datamodel.ChildEvent;
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.Utilities.Constants;
-import com.example.aneurinc.prcs_app.Utility.Validator;
+import com.example.aneurinc.prcs_app.UI.Utilities.ImageUtils;
+import com.google.jkellaway.androidapp_datamodel.datamodel.IChildEvent;
 
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by aneurinc on 16/04/2016.
@@ -27,13 +28,13 @@ public class ParentEventActAdapter extends ArrayAdapter<String> {
     private String[] venue;
     private String[] date;
 
-    public ParentEventActAdapter(Activity context, LinkedList<ChildEvent> childEvents) {
+    public ParentEventActAdapter(Activity context, List<IChildEvent> childEvents) {
         super(context, R.layout.list_row_child_event, Constants.eventName);
         mContext = context;
         updateChildEventsList(childEvents);
     }
 
-    private void updateChildEventsList(LinkedList<ChildEvent> childEvents) {
+    private void updateChildEventsList(List<IChildEvent> childEvents) {
 
         int i = 0;
         int n = childEvents.size();
@@ -42,8 +43,8 @@ public class ParentEventActAdapter extends ArrayAdapter<String> {
         venue = new String[n];
         date = new String[n];
 
-        for (ChildEvent c : childEvents) {
-            image[i] = c.getImage();
+        for (IChildEvent c : childEvents) {
+            image[i] = c.getImage(0);
             name[i] = c.getChildEventName();
             venue[i] = c.getVenue().toString();
             date[i] = c.getChildEventStartDateTime().toString();
@@ -82,9 +83,9 @@ public class ParentEventActAdapter extends ArrayAdapter<String> {
         int colorPos = position % Constants.rowColour.length;
         convertView.setBackgroundColor(Constants.rowColour[colorPos]);
 
-        int width = Validator.getScreenWidth(mContext) / 5;
-        int height = Validator.getScreenHeight(mContext) / 5;
-        Bitmap scaledImage = Validator.scaleDown(image[position], width, height);
+        int width = ImageUtils.getScreenWidth(mContext) / 5;
+        int height = ImageUtils.getScreenHeight(mContext) / 5;
+        Bitmap scaledImage = ImageUtils.scaleDown(image[position], width, height);
 
         viewHolder.childEventImage.setImageBitmap(scaledImage);
         viewHolder.childEventName.setText(name[position]);

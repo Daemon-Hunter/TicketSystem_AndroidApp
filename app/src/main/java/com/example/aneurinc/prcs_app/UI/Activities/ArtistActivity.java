@@ -13,18 +13,18 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.aneurinc.prcs_app.Database.APIConnection;
-import com.example.aneurinc.prcs_app.Database.DatabaseTable;
-import com.example.aneurinc.prcs_app.Datamodel.Artist;
+
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.CustomAdapters.ArtistActAdapter;
+import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
+import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
+import com.google.jkellaway.androidapp_datamodel.datamodel.IArtist;
 
-import static com.example.aneurinc.prcs_app.Database.MapToObject.ConvertArtist;
 
 public class ArtistActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static String EventImageIndex;
-    public static Artist artist;
+    public static IArtist artist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +77,7 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
 
         artistName.setText(artist.getArtistName());
         artistDescription.setText(artist.getDescription());
-        artistImage.setImageBitmap(artist.getImage());
+        artistImage.setImageBitmap(artist.getImage(0));
 
     }
 
@@ -137,7 +137,7 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    private class ReadArtist extends AsyncTask<Void, Void, Artist> {
+    private class ReadArtist extends AsyncTask<Void, Void, IArtist> {
 
         @Override
         protected void onPreExecute() {
@@ -146,19 +146,14 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         @Override
-        protected Artist doInBackground(Void... voids) {
-
-            APIConnection connection = new APIConnection(DatabaseTable.ARTIST);
+        protected IArtist doInBackground(Void... voids) {
             int index = getIntent().getExtras().getInt(EventImageIndex);
 
-            artist =  ConvertArtist(connection.readSingle(index));
-
-
-            return artist;
+            return (IArtist)APIHandle.getSingle(index, DatabaseTable.ARTIST);
         }
 
         @Override
-        protected void onPostExecute(Artist anArtist) {
+        protected void onPostExecute(IArtist anArtist) {
             displayInfo();
         }
     }

@@ -4,30 +4,30 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
-import com.example.aneurinc.prcs_app.Database.APIConnection;
-import com.example.aneurinc.prcs_app.Database.DatabaseTable;
-import com.example.aneurinc.prcs_app.Database.MapToObject;
-import com.example.aneurinc.prcs_app.Datamodel.Artist;
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.Activities.ArtistActivity;
 import com.example.aneurinc.prcs_app.UI.CustomAdapters.ArtistFragAdapter;
+import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
+import com.google.jkellaway.androidapp_datamodel.datamodel.Artist;
+import com.google.jkellaway.androidapp_datamodel.datamodel.IArtist;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by aneurinc on 02/03/2016.
  */
 public class ArtistFragment extends Fragment implements AdapterView.OnItemClickListener {
 
-    private List<Artist> artistList = new ArrayList<>();
+    private List<IArtist> artistList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,7 +51,7 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
         getActivity().startActivity(i);
     }
 
-    private class ReadArtists extends AsyncTask<Void, Void, List<Artist>> {
+    private class ReadArtists extends AsyncTask<Void, Void, List<IArtist>> {
 
         @Override
         protected void onPreExecute() {
@@ -60,23 +60,18 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
         }
 
         @Override
-        protected List<Artist> doInBackground(Void... voids) {
+        protected List<IArtist> doInBackground(Void... voids) {
+            List<IArtist> a = APIHandle.getArtistAmount(21,0);
 
-            APIConnection connection = new APIConnection(DatabaseTable.ARTIST);
-            List<Map<String, String>> listOfMaps = connection.readAll();
-
-            for (Map<String, String> currMap : listOfMaps) {
-                artistList.add(MapToObject.ConvertArtist(currMap));
-            }
-
-            return artistList;
+            Log.d("ArtistFragment", a.get(0).getArtistName());
+            return a;
         }
 
         @Override
-        protected void onPostExecute(List<Artist> artists) {
+        protected void onPostExecute(List<IArtist> artists) {
 
             GridView gridView = (GridView) getActivity().findViewById(R.id.artist_grid_view);
-            gridView.setAdapter(new ArtistFragAdapter(getActivity(), artistList));
+            gridView.setAdapter(new ArtistFragAdapter(getActivity(), artists));
             gridView.setOnItemClickListener(ArtistFragment.this);
 
         }

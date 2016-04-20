@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/datamodel/Datamodel.iml" filepath="$PROJECT_DIR$/datamodel/Datamodel.iml" />
       <module fileurl="file://$PROJECT_DIR$/PRCS_App.iml" filepath="$PROJECT_DIR$/PRCS_App.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/TicketSystem_AndroidApp.iml" filepath="$PROJECT_DIR$/.idea/TicketSystem_AndroidApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/TicketSystem_AndroidApp.iml" filepath="$PROJECT_DIR$/TicketSystem_AndroidApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/TicketSystem_AndroidApp.iml" filepath="$PROJECT_DIR$/.idea/TicketSystem_AndroidApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

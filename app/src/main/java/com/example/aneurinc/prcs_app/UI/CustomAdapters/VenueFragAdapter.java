@@ -12,11 +12,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.aneurinc.prcs_app.Datamodel.Venue;
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.Activities.MapActivity;
 import com.example.aneurinc.prcs_app.UI.Utilities.Constants;
-import com.example.aneurinc.prcs_app.Utility.Validator;
+import com.example.aneurinc.prcs_app.UI.Utilities.ImageUtils;
+import com.google.jkellaway.androidapp_datamodel.datamodel.IVenue;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class VenueFragAdapter extends ArrayAdapter<String> implements OnClickLis
     private String[] city;
     private Bitmap[] image;
 
-    public VenueFragAdapter(Activity c, List<Venue> venues) {
+    public VenueFragAdapter(Activity c, List<IVenue> venues) {
         super(c, R.layout.list_row_venue, Constants.venueNames);
 
         context = c;
@@ -38,17 +38,17 @@ public class VenueFragAdapter extends ArrayAdapter<String> implements OnClickLis
         updateVenueList(venues);
     }
 
-    private void updateVenueList(List<Venue> venues) {
+    private void updateVenueList(List<IVenue> venues) {
 
         name = new String[venues.size()];
         city = new String[venues.size()];
         image = new Bitmap[venues.size()];
         int i = 0;
 
-        for (Venue v : venues) {
+        for (IVenue v : venues) {
             name[i] = v.getVenueName();
             city[i] = v.getVenueAddress();
-            image[i] = v.getImage();
+            image[i] = v.getImage(0);
             i++;
         }
     }
@@ -81,7 +81,7 @@ public class VenueFragAdapter extends ArrayAdapter<String> implements OnClickLis
             // get width of single grid
             int xy = context.findViewById(R.id.venue_list).getWidth() / 4;
             // resize image to fit single grid
-            viewHolder.venueImage.setImageBitmap(Validator.scaleDown(image[position], xy, xy));
+            viewHolder.venueImage.setImageBitmap(ImageUtils.scaleDown(image[position], xy, xy));
         }
 
         viewHolder.venueName.setText(name[position]);

@@ -16,27 +16,30 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.aneurinc.prcs_app.Database.APIConnection;
-import com.example.aneurinc.prcs_app.Database.DatabaseTable;
-import com.example.aneurinc.prcs_app.Datamodel.ChildEvent;
-import com.example.aneurinc.prcs_app.Datamodel.ParentEvent;
+
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.CustomAdapters.ParentEventActAdapter;
-import com.example.aneurinc.prcs_app.Utility.Validator;
+import com.example.aneurinc.prcs_app.UI.Utilities.ImageUtils;
+import com.google.jkellaway.androidapp_datamodel.database.APIConnection;
+import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
+import com.google.jkellaway.androidapp_datamodel.database.MapToObject;
+import com.google.jkellaway.androidapp_datamodel.datamodel.ChildEvent;
+import com.google.jkellaway.androidapp_datamodel.datamodel.IChildEvent;
+import com.google.jkellaway.androidapp_datamodel.datamodel.IParentEvent;
 
 import java.util.LinkedList;
-
-import static com.example.aneurinc.prcs_app.Database.MapToObject.ConvertParentEvent;
+import java.util.List;
 
 public class ParentEventActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     public static String PARENT_EVENT_ID;
-    private ParentEvent parentEvent;
-    private LinkedList<ChildEvent> parentChildEvents = new LinkedList<>();
+    private IParentEvent parentEvent;
+    private List<IChildEvent> parentChildEvents = new LinkedList<>();
     private Activity mContext = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parent_event);
 
@@ -67,10 +70,10 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
         TextView name = (TextView) findViewById(R.id.parent_event_name);
         TextView date = (TextView) findViewById(R.id.parent_event_date);
         TextView desc = (TextView) findViewById(R.id.parent_event_description);
-        int height = Validator.getScreenHeight(this) / 4;
-        int width = Validator.getScreenHeight(this) / 4;
+        int height = ImageUtils.getScreenHeight(this) / 4;
+        int width = ImageUtils.getScreenHeight(this) / 4;
 
-        Bitmap scaledImage = Validator.scaleDown(parentEvent.getImage(), width, height);
+        Bitmap scaledImage = ImageUtils.scaleDown(parentEvent.getImage(0), width, height);
         image.setImageBitmap(scaledImage);
         name.setText(parentEvent.getParentEventName());
         desc.setText(parentEvent.getParentEventDescription());
@@ -112,7 +115,7 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
 
     }
 
-    private class ReadParentEvent extends AsyncTask<Void, Void, ParentEvent> {
+    private class ReadParentEvent extends AsyncTask<Void, Void, IParentEvent> {
 
         @Override
         protected void onPreExecute() {
@@ -120,14 +123,13 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
         }
 
         @Override
-        protected ParentEvent doInBackground(Void... params) {
+        protected IParentEvent doInBackground(Void... params) {
 
             // TODO: 18/04/2016 get all children for this parent to display in list
 
-            APIConnection conn = new APIConnection(DatabaseTable.PARENT_EVENT);
             int index = getIntent().getExtras().getInt(PARENT_EVENT_ID);
 
-            parentEvent = ConvertParentEvent(conn.readSingle(index));
+            parentEvent = MapToObject.ConvertParentEvent(APIConnection.readSingle(index, DatabaseTable.PARENT_EVENT));
 
             // list always empty...
             parentChildEvents = parentEvent.getChildEvents();
@@ -139,7 +141,7 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
         }
 
         @Override
-        protected void onPostExecute(ParentEvent parentEvent) {
+        protected void onPostExecute(IParentEvent parentEvent) {
 
             if (parentChildEvents.size() > 0 && parentChildEvents != null) {
                 ListView list = (ListView) mContext.findViewById(R.id.child_events_list);
