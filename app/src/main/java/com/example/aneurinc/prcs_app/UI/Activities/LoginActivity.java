@@ -61,7 +61,6 @@ public class LoginActivity extends AppCompatActivity implements OnEditorActionLi
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
 
         mPasswordView = (EditText) findViewById(R.id.password);
-        //mPasswordView.setOnEditorActionListener(this);
         mPasswordView.setOnEditorActionListener(this);
 
         Button mEmailSignInButton = (Button) findViewById(R.id.btn_confirm);

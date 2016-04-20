@@ -9,6 +9,15 @@
     android:paddingRight="10dp"
     tools:context=".UI.Activities.MainActivity">
 
+    <ProgressBar
+        android:id="@+id/artist_progress"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone" />
+
     <!--grid view of all artists-->
     <GridView
         android:id="@+id/artist_grid_view"
