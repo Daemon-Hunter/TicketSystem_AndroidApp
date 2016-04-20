@@ -20,7 +20,6 @@ import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.CustomAdapters.ParentEventActAdapter;
 import com.example.aneurinc.prcs_app.UI.Utilities.ImageUtils;
 import com.google.jkellaway.androidapp_datamodel.database.APIConnection;
-import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.database.MapToObject;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IChildEvent;
@@ -124,15 +123,11 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
         @Override
         protected IParentEvent doInBackground(Void... params) {
 
-            // TODO: 18/04/2016 get all children for this parent to display in list
+            // TODO: get child events for list
 
             int index = getIntent().getExtras().getInt(PARENT_EVENT_ID);
 
             parentEvent = MapToObject.ConvertParentEvent(APIConnection.readSingle(index, DatabaseTable.PARENT_EVENT));
-
-            parentChildEvents = APIHandle.getChildEventFromParent(parentEvent.getParentEventID());
-
-            Log.d(MainActivity.DEBUG_TAG, String.format("Number of child events = %d", parentChildEvents.size()));
 
             return parentEvent;
 

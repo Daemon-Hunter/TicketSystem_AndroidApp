@@ -72,6 +72,12 @@ public class LoginActivity extends AppCompatActivity implements OnEditorActionLi
         setClickableSpan();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setClickableSpan();
+    }
+
     private void setClickableSpan() {
 
         TextView tvSignIn = (TextView) findViewById(R.id.tv_go_to_register);

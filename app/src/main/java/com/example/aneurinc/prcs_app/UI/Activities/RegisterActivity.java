@@ -28,27 +28,16 @@ import android.widget.TextView.OnEditorActionListener;
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.CustomViews.CustomClickableSpan;
 
-/**
- * A login screen that offers login via email/password.
- */
 public class RegisterActivity extends AppCompatActivity implements OnEditorActionListener, OnClickListener {
 
-
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "@", "qqqqq"
-    };
-
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
     private UserLoginTask mAuthTask = null;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
+    private AutoCompleteTextView mForenameView;
+    private AutoCompleteTextView mSurnameView;
+    private AutoCompleteTextView mAddress;
+    private AutoCompleteTextView mPostcode;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
@@ -57,15 +46,17 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
 
+        // Set up the registration form.
+        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        mForenameView = (AutoCompleteTextView) findViewById(R.id.forename);
+        mSurnameView = (AutoCompleteTextView) findViewById(R.id.surname);
+        mAddress = (AutoCompleteTextView) findViewById(R.id.address);
+        mPostcode = (AutoCompleteTextView) findViewById(R.id.postcode);
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(this);
-
         Button mEmailSignInButton = (Button) findViewById(R.id.btn_confirm);
         mEmailSignInButton.setOnClickListener(this);
-
         mLoginFormView = findViewById(R.id.form);
         mProgressView = findViewById(R.id.progress);
 
@@ -87,30 +78,45 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
     }
 
     /**
-     * Attempts to sign in or register the account specified by the login form.
+     * Attempts to register the account specified by the registration form.
      * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
+     * errors are presented and no actual registration attempt is made.
      */
-    private void attemptLogin() {
+    private void attemptRegistration() {
         if (mAuthTask != null) {
             return;
         }
 
         // Reset errors.
         mEmailView.setError(null);
+        mForenameView.setError(null);
+        mSurnameView.setError(null);
+        mAddress.setError(null);
+        mPostcode.setError(null);
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
+        String forename = mForenameView.getText().toString();
+        String surname = mSurnameView.getText().toString();
+        String address = mAddress.getText().toString();
+        String postcode = mAddress.getText().toString();
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
+        // check for a valid forename, if the user entered one.
+        if (TextUtils.isEmpty(forename)) {
+            mForenameView.setError(getString(R.string.error_field_required));
+            focusView = mForenameView;
+            cancel = true;
+        }
+
+        // check for a valid surname, if the user entered one.
+        if (TextUtils.isEmpty(surname)) {
+            mSurnameView.setError(getString(R.string.error_field_required));
+            focusView = mSurnameView;
             cancel = true;
         }
 
@@ -125,13 +131,42 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
             cancel = true;
         }
 
+        // Check for a valid password, if the user entered one.
+        if (TextUtils.isEmpty(password)) {
+            mPasswordView.setError(getString(R.string.error_field_required));
+            focusView = mPasswordView;
+            cancel = true;
+        } else if (!isPasswordValid(password)) {
+            mPasswordView.setError(getString(R.string.error_invalid_password));
+            focusView = mPasswordView;
+            cancel = true;
+        }
+
+        // check for a valid address, if the user entered one.
+        if (TextUtils.isEmpty(address)) {
+            mAddress.setError(getString(R.string.error_field_required));
+            focusView = mAddress;
+            cancel = true;
+        }
+
+        // check for a valid postcode, if the user entered one.
+        if (TextUtils.isEmpty(postcode)) {
+            mPostcode.setError(getString(R.string.error_field_required));
+            focusView = mPostcode;
+            cancel = true;
+        } else if (postcode.length() < 7 | postcode.length() > 8) {
+            mPostcode.setError(getString(R.string.error_invalid_postcode));
+            focusView = mPostcode;
+            cancel = true;
+        }
+
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
+            // There was an error; don't attempt register and focus the first
             // form field with an error.
             focusView.requestFocus();
         } else {
             // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
+            // perform the user register attempt.
             showProgress(true);
             mAuthTask = new UserLoginTask(this, email, password);
             mAuthTask.execute((Void) null);
@@ -146,6 +181,11 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
         return password.length() > 4;
+    }
+
+    private boolean isPostcodeValid(String postcode) {
+        //// TODO: 20/04/2016 replace with regex
+        return postcode.length() < 7 | postcode.length() > 8;
     }
 
     /**
@@ -189,7 +229,7 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
         switch (v.getId()) {
             case R.id.btn_confirm:
                 closeKeyboard();
-                attemptLogin();
+                attemptRegistration();
                 break;
             default:
                 break;
@@ -207,7 +247,7 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
     @Override
     public boolean onEditorAction(TextView v, int id, KeyEvent event) {
         if (id == R.id.login || id == EditorInfo.IME_NULL) {
-            attemptLogin();
+            attemptRegistration();
             return true;
         }
         return false;
@@ -236,20 +276,13 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+            // TODO: add to database
 
             try {
                 // Simulate network access.
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
                 return false;
-            }
-
-            for (String dc : DUMMY_CREDENTIALS) {
-                if (DUMMY_CREDENTIALS[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return DUMMY_CREDENTIALS[1].equals(mPassword);
-                }
             }
 
             // TODO: register the new account here.

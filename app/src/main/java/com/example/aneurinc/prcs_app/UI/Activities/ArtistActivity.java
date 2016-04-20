@@ -23,7 +23,7 @@ import com.google.jkellaway.androidapp_datamodel.datamodel.IArtist;
 
 public class ArtistActivity extends AppCompatActivity implements View.OnClickListener {
 
-    public static String EventImageIndex;
+    public static String ARTIST_ID;
     public static IArtist artist;
 
     @Override
@@ -147,7 +147,7 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
 
         @Override
         protected IArtist doInBackground(Void... voids) {
-            int index = getIntent().getExtras().getInt(EventImageIndex);
+            int index = getIntent().getExtras().getInt(ARTIST_ID);
 
             return (IArtist)APIHandle.getSingle(index, DatabaseTable.ARTIST);
         }

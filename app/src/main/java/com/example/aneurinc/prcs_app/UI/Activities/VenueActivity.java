@@ -16,7 +16,7 @@ import com.example.aneurinc.prcs_app.UI.Utilities.Constants;
 
 public class VenueActivity extends AppCompatActivity implements OnClickListener {
 
-    public static String VenueImageIndex;
+    public static String VENUE_ID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +62,7 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener 
     }
 
     private void displayImage() {
-        int imageIndex = getIntent().getExtras().getInt(VenueImageIndex);
+        int imageIndex = getIntent().getExtras().getInt(VENUE_ID);
         ImageView venueImage = (ImageView) findViewById(R.id.venue_image);
         venueImage.setImageResource(Constants.venueImages[imageIndex]);
     }

@@ -1,5 +1,6 @@
 package com.example.aneurinc.prcs_app.UI.Activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
@@ -24,7 +25,6 @@ import com.google.jkellaway.androidapp_datamodel.datamodel.IChildEvent;
 public class ChildEventActivity extends AppCompatActivity implements OnClickListener {
 
     public static String CHILD_EVENT_ID;
-    private IChildEvent childEvent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +42,7 @@ public class ChildEventActivity extends AppCompatActivity implements OnClickList
     }
 
     private void readChildEvent() {
-        ReadChildEvent task = new ReadChildEvent();
+        ReadChildEvent task = new ReadChildEvent(this);
         task.execute();
     }
 
@@ -70,27 +70,6 @@ public class ChildEventActivity extends AppCompatActivity implements OnClickList
         ChildEventActAdapter adapter = new ChildEventActAdapter(this);
         ListView list = (ListView) findViewById(R.id.lineup_list);
         list.setAdapter(adapter);
-    }
-
-    private void displayChildEvent() {
-
-        TextView name = (TextView) findViewById(R.id.child_event_name);
-        TextView date = (TextView) findViewById(R.id.child_event_date);
-        TextView address = (TextView) findViewById(R.id.child_event_address);
-        TextView desc = (TextView) findViewById(R.id.child_event_description);
-        ImageView image = (ImageView) findViewById(R.id.child_event_image);
-
-        name.setText(childEvent.getChildEventName());
-        date.setText(childEvent.getChildEventStartDateTime() + " - "
-                + childEvent.getChildEventEndDateTime());
-        address.setText((CharSequence) childEvent.getVenue());
-        desc.setText(childEvent.getChildEventDescription());
-
-        int width = ImageUtils.getScreenWidth(this) / 4;
-        int height = ImageUtils.getScreenHeight(this) / 4;
-        Bitmap scaledImage = ImageUtils.scaleDown(childEvent.getImage(0), width, height);
-        image.setImageBitmap(scaledImage);
-
     }
 
     @Override
@@ -134,20 +113,42 @@ public class ChildEventActivity extends AppCompatActivity implements OnClickList
 
     private class ReadChildEvent extends AsyncTask<Void, Void, IChildEvent> {
 
+        private final Activity mContext;
+
+        public ReadChildEvent(Activity context) {
+            mContext = context;
+        }
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
         }
 
         @Override
-        protected void onPostExecute(IChildEvent childEvent) {
-            displayChildEvent();
+        protected IChildEvent doInBackground(Void... params) {
+            return new ChildEvent();
         }
 
         @Override
-        protected IChildEvent doInBackground(Void... params) {
-            int index = getIntent().getExtras().getInt(CHILD_EVENT_ID);
-            return new ChildEvent();
+        protected void onPostExecute(IChildEvent childEvent) {
+
+            TextView name = (TextView) mContext.findViewById(R.id.child_event_name);
+            TextView date = (TextView) mContext.findViewById(R.id.child_event_date);
+            TextView address = (TextView) mContext.findViewById(R.id.child_event_address);
+            TextView desc = (TextView) mContext.findViewById(R.id.child_event_description);
+            ImageView image = (ImageView) mContext.findViewById(R.id.child_event_image);
+
+            name.setText(childEvent.getChildEventName());
+            date.setText(childEvent.getChildEventStartDateTime() + " - "
+                    + childEvent.getChildEventEndDateTime());
+            address.setText((CharSequence) childEvent.getVenue());
+            desc.setText(childEvent.getChildEventDescription());
+
+            int width = ImageUtils.getScreenWidth(mContext) / 4;
+            int height = ImageUtils.getScreenHeight(mContext) / 4;
+            Bitmap scaledImage = ImageUtils.scaleDown(childEvent.getImage(0), width, height);
+            image.setImageBitmap(scaledImage);
+
         }
     }
 }

@@ -2,6 +2,7 @@ package com.example.aneurinc.prcs_app.UI.Fragments;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
 
     private List<IParentEvent> parentEventList = new ArrayList<>();
     private ProgressBar mProgressBar;
+    private Activity mContext;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,7 +41,7 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
     }
 
     private void getParentEvents() {
-        ReadParentEvents task = new ReadParentEvents();
+        ReadParentEvents task = new ReadParentEvents(mContext);
         task.execute();
     }
 
@@ -68,6 +70,12 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
 
     private class ReadParentEvents extends AsyncTask<Void, Void, List<IParentEvent>> {
 
+        private Activity mContext;
+
+        public ReadParentEvents(Activity context) {
+            mContext = context;
+        }
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -83,8 +91,8 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
         @Override
         protected void onPostExecute(List<IParentEvent> parentEvents) {
             showProgress(false);
-            GridView gridView = (GridView) getActivity().findViewById(R.id.event_grid_view);
-            gridView.setAdapter(new ParentEventFragAdapter(getActivity(), parentEvents));
+            GridView gridView = (GridView) mContext.findViewById(R.id.event_grid_view);
+            gridView.setAdapter(new ParentEventFragAdapter(mContext, parentEvents));
             gridView.setOnItemClickListener(ParentEventFragment.this);
         }
 

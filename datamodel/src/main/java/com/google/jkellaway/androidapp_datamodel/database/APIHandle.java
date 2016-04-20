@@ -65,13 +65,14 @@ public final class APIHandle {
         for (Map<String, String> parentEventMap : parentEventMapList) {
             parentEvent = ConvertParentEvent(parentEventMap);
             parentEvent.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(parentEvent.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
+            parentEvent.addChildEventList(getChildEventFromParent(parentEvent.getParentEventID()));
 
             parentEventList.add(parentEvent);
         }
         return parentEventList;
     }
 
-    public static List<IChildEvent> getChildEventFromParent(int parentID){
+    private static List<IChildEvent> getChildEventFromParent(int parentID){
         List<Map<String, String>> childEventMapList = APIConnection.getChildEventsViaParent(parentID);
         List<IChildEvent> childEventList = new LinkedList<>();
 
