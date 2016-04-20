@@ -20,7 +20,6 @@ import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IParentEvent;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -72,20 +71,26 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            // TODO display something like display a progress bar
+            showProgress(true);
         }
 
         @Override
         protected List<IParentEvent> doInBackground(Void... params) {
-
-            return APIHandle.getParentAmount(21, 0);
+            parentEventList = APIHandle.getParentAmount(15, 0);
+            return parentEventList;
         }
 
         @Override
         protected void onPostExecute(List<IParentEvent> parentEvents) {
+            showProgress(false);
             GridView gridView = (GridView) getActivity().findViewById(R.id.event_grid_view);
             gridView.setAdapter(new ParentEventFragAdapter(getActivity(), parentEvents));
             gridView.setOnItemClickListener(ParentEventFragment.this);
+        }
+
+        @Override
+        protected void onCancelled() {
+            showProgress(false);
         }
     }
 

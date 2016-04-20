@@ -5,25 +5,15 @@
  */
 package com.google.jkellaway.androidapp_datamodel.database;
 
-import android.util.Log;
-
-import com.google.jkellaway.androidapp_datamodel.bookings.Order;
-import com.google.jkellaway.androidapp_datamodel.datamodel.Artist;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IArtist;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IChildEvent;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IParentEvent;
-import com.google.jkellaway.androidapp_datamodel.datamodel.ParentEvent;
+import com.google.jkellaway.androidapp_datamodel.people.IAdmin;
+import com.google.jkellaway.androidapp_datamodel.reviews.IReview;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import com.google.jkellaway.androidapp_datamodel.datamodel.SocialMedia;
-import com.google.jkellaway.androidapp_datamodel.people.Customer;
-import com.google.jkellaway.androidapp_datamodel.people.IAdmin;
-import com.google.jkellaway.androidapp_datamodel.reviews.IReview;
-import com.google.jkellaway.androidapp_datamodel.reviews.Review;
 
 import static com.google.jkellaway.androidapp_datamodel.database.MapToObject.ConvertAdmin;
 import static com.google.jkellaway.androidapp_datamodel.database.MapToObject.ConvertArtist;
@@ -75,14 +65,13 @@ public final class APIHandle {
         for (Map<String, String> parentEventMap : parentEventMapList) {
             parentEvent = ConvertParentEvent(parentEventMap);
             parentEvent.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(parentEvent.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
-            parentEvent.addChildEventList(getChildEventFromParent(parentEvent.getParentEventID()));
 
             parentEventList.add(parentEvent);
         }
         return parentEventList;
     }
 
-    private static List<IChildEvent> getChildEventFromParent(int parentID){
+    public static List<IChildEvent> getChildEventFromParent(int parentID){
         List<Map<String, String>> childEventMapList = APIConnection.getChildEventsViaParent(parentID);
         List<IChildEvent> childEventList = new LinkedList<>();
 

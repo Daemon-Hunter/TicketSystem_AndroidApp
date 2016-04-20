@@ -16,14 +16,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.CustomAdapters.ParentEventActAdapter;
 import com.example.aneurinc.prcs_app.UI.Utilities.ImageUtils;
 import com.google.jkellaway.androidapp_datamodel.database.APIConnection;
+import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.database.MapToObject;
-import com.google.jkellaway.androidapp_datamodel.datamodel.ChildEvent;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IChildEvent;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IParentEvent;
 
@@ -131,8 +130,7 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
 
             parentEvent = MapToObject.ConvertParentEvent(APIConnection.readSingle(index, DatabaseTable.PARENT_EVENT));
 
-            // list always empty...
-            parentChildEvents = parentEvent.getChildEvents();
+            parentChildEvents = APIHandle.getChildEventFromParent(parentEvent.getParentEventID());
 
             Log.d(MainActivity.DEBUG_TAG, String.format("Number of child events = %d", parentChildEvents.size()));
 
