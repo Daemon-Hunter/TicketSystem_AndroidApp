@@ -10,6 +10,8 @@ import android.util.Log;
 import com.google.jkellaway.androidapp_datamodel.bookings.Order;
 import com.google.jkellaway.androidapp_datamodel.datamodel.Artist;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IArtist;
+import com.google.jkellaway.androidapp_datamodel.datamodel.IChildEvent;
+import com.google.jkellaway.androidapp_datamodel.datamodel.IParentEvent;
 import com.google.jkellaway.androidapp_datamodel.datamodel.ParentEvent;
 
 import java.util.ArrayList;
@@ -26,6 +28,8 @@ import com.google.jkellaway.androidapp_datamodel.reviews.Review;
 import static com.google.jkellaway.androidapp_datamodel.database.MapToObject.ConvertAdmin;
 import static com.google.jkellaway.androidapp_datamodel.database.MapToObject.ConvertArtist;
 import static com.google.jkellaway.androidapp_datamodel.database.MapToObject.ConvertArtistReview;
+import static com.google.jkellaway.androidapp_datamodel.database.MapToObject.ConvertChildEvent;
+import static com.google.jkellaway.androidapp_datamodel.database.MapToObject.ConvertParentEvent;
 import static com.google.jkellaway.androidapp_datamodel.database.MapToObject.ConvertSocialMedia;
 
 /**
@@ -51,24 +55,41 @@ public final class APIHandle {
     }
 
     public static List<IArtist> getArtistAmount(Integer amount, Integer lastID) {
-        Log.d("API Handle","getArtists");
         List<IArtist> artistList = new LinkedList<>();
         List<Map<String, String>> artistMapList = APIConnection.readAmount(DatabaseTable.ARTIST, amount, lastID);
         IArtist artist;
-        Log.d("API Handle",artistMapList.toString());
 
         for (Map<String, String> artistMap : artistMapList) {
-            Log.d("API Handle", "In loop");
             artist = ConvertArtist(artistMap);
-            Log.d("API Handle", artist.toString());
             artist.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(artist.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
             artistList.add(artist);
-            Log.d("API Handle", artistList.toString());
         }
-
-        Log.d("Handle after loop", "%d "+ artistList.size());
-
         return artistList;
+    }
+
+    public static List<IParentEvent> getParentAmount(Integer amount, Integer lastID) {
+        List<IParentEvent> parentEventList = new LinkedList<>();
+        List<Map<String, String>> parentEventMapList = APIConnection.readAmount(DatabaseTable.PARENT_EVENT, amount, lastID);
+        IParentEvent parentEvent;
+
+        for (Map<String, String> parentEventMap : parentEventMapList) {
+            parentEvent = ConvertParentEvent(parentEventMap);
+            parentEvent.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(parentEvent.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
+            parentEvent.addChildEventList(getChildEventFromParent(parentEvent.getParentEventID()));
+
+            parentEventList.add(parentEvent);
+        }
+        return parentEventList;
+    }
+
+    private static List<IChildEvent> getChildEventFromParent(int parentID){
+        List<Map<String, String>> childEventMapList = APIConnection.getChildEventsViaParent(parentID);
+        List<IChildEvent> childEventList = new LinkedList<>();
+
+        for (Map<String, String> childEventMap : childEventMapList){
+            childEventList.add(ConvertChildEvent(childEventMap));
+        }
+        return childEventList;
     }
 
     private static List<IReview> getObjectsReviews(Integer objectID, DatabaseTable table){

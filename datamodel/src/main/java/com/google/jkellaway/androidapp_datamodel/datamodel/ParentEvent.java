@@ -30,6 +30,7 @@ public class ParentEvent implements IParentEvent {
     private List<IReview> reviews;
     private List<IObserver> observers;
     private SocialMedia socialMedia;
+    private Integer socialMediaID;
     private String description;
     private DatabaseTable table;
     private int ID;
@@ -48,17 +49,17 @@ public class ParentEvent implements IParentEvent {
         reviewFactory = new ParentEventReviewFactory();
     }
     
-    public ParentEvent(Integer ID, SocialMedia social, String name, String description,
-                        LinkedList<IReview> reviewsList, List<IChildEvent> events)
+    public ParentEvent(Integer ID, Integer social, String name, String description)
     {
         this.ID = ID;
         this.name = name;
         this.description = description;
-        this.socialMedia = social;
-        this.reviews = reviewsList;
+        this.socialMedia = new SocialMedia();
+        this.reviews = new LinkedList<>();
         this.table = DatabaseTable.PARENT_EVENT;
-        this.childEvents = events;
+        this.childEvents = new LinkedList<>();
         this.reviewFactory = new ParentEventReviewFactory();
+        this.socialMediaID = social;
 
     }
 
@@ -77,6 +78,12 @@ public class ParentEvent implements IParentEvent {
             throw new NullPointerException("Null child event");
         }
         return childEvents.add(childEvent);
+    }
+
+    @Override
+    public Boolean addChildEventList(List<IChildEvent> childEvents) {
+        this.childEvents = childEvents;
+        return this.childEvents == childEvents;
     }
 
     @Override
@@ -145,7 +152,7 @@ public class ParentEvent implements IParentEvent {
 
     @Override
     public Integer getSocialId() {
-        return socialMedia.getSocialId();
+        return socialMediaID;
     }
 
     /**
@@ -156,6 +163,7 @@ public class ParentEvent implements IParentEvent {
 
     @Override
     public Boolean setSocialId(Integer id) {
+        this.socialMediaID = id;
         return socialMedia.setSocialId(id);
     }
 

@@ -13,6 +13,7 @@ import android.widget.GridView;
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.Activities.ParentEventActivity;
 import com.example.aneurinc.prcs_app.UI.CustomAdapters.ParentEventFragAdapter;
+import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IParentEvent;
 
 import java.util.ArrayList;
@@ -58,13 +59,13 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
         @Override
         protected List<IParentEvent> doInBackground(Void... params) {
 
-            return new LinkedList<IParentEvent>();
+            return APIHandle.getParentAmount(21, 0);
         }
 
         @Override
         protected void onPostExecute(List<IParentEvent> parentEvents) {
             GridView gridView = (GridView) getActivity().findViewById(R.id.event_grid_view);
-            gridView.setAdapter(new ParentEventFragAdapter(getActivity(), parentEventList));
+            gridView.setAdapter(new ParentEventFragAdapter(getActivity(), parentEvents));
             gridView.setOnItemClickListener(ParentEventFragment.this);
         }
     }

@@ -246,7 +246,7 @@ public final class APIConnection {
 
 
         List<Map<String,String>> listOfEntities = new ArrayList<>();
-        String urlToGet = URI + "get" +  DBTableToString(table) + "reveiws/" + objectID.toString();
+        String urlToGet = URI + "functions/get" +  DBTableToString(table) + "reveiws/" + objectID.toString();
         try {
             URL url = new URL(urlToGet);
             // Connect
@@ -267,6 +267,42 @@ public final class APIConnection {
                 for (String anObjArray : objArray) {
                     Map<String, String> tempMap = splitJSONString(anObjArray);
                     listOfEntities.add(tempMap);
+                }
+            }
+        }
+        catch(IOException e)
+        {
+            System.err.println(e.toString());
+        }
+        return listOfEntities;
+    }
+
+    public static List<Map<String,String>> getChildEventsViaParent(Integer parentEventID)
+    {
+        List<Map<String,String>> listOfEntities = new ArrayList<>();
+        String urlToGet = URI + "functions/getChild_EventsViaParent/" + parentEventID.toString();
+        try {
+            URL url = new URL(urlToGet);
+            // Connect
+            HttpURLConnection connection = (HttpURLConnection)   url.openConnection();
+            connection.setRequestMethod("GET");
+            // to return in JSON Format
+            connection.setRequestProperty("Accept", "application/JSON");
+            try (BufferedReader in = new BufferedReader (
+                    new InputStreamReader(connection.getInputStream()))) {
+
+                // inputValues of the JSON
+                String inputLine = in.readLine();
+                inputLine = inputLine.replaceAll("\\[", "");
+                inputLine = inputLine.replaceAll("\\]", "");
+
+                if(!inputLine.isEmpty()) {
+                    String[] objArray = inputLine.split("\\},");
+                    // Loops though the array and puts it into a Map
+                    for (String anObjArray : objArray) {
+                        Map<String, String> tempMap = splitJSONString(anObjArray);
+                        listOfEntities.add(tempMap);
+                    }
                 }
             }
         }

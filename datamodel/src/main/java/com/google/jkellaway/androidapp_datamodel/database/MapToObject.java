@@ -226,7 +226,7 @@ public final class MapToObject {
         return new Ticket(ticketID, event, price, desc, remaining, type);
     }
 
-    public static IChildEvent ConvertChildEvent(Map<String, String> eventMap, IVenue venue, List<IArtist> artists, List<Integer> artistIDs, IParentEvent parentEvent) {
+    public static IChildEvent ConvertChildEvent(Map<String, String> eventMap) {
 
         Integer eventID, venueID, lineupID;
         String description, name;
@@ -247,7 +247,7 @@ public final class MapToObject {
         } catch (ParseException e) {
             System.err.println(e.toString());
         }
-        return new ChildEvent(eventID, name, description, startTime, endTime, venue, artists, cancelled, artistIDs, parentEvent);
+        return new ChildEvent(eventID, name, description, startTime, endTime, cancelled);
     }
 
     public static IBooking ConvertCustomerBooking(Map<String, String> bookingMap, ITicket ticket, IOrder order) {
@@ -300,16 +300,13 @@ public final class MapToObject {
     public static IParentEvent ConvertParentEvent(Map<String, String> eventMap) {
         Integer eventID, socialMediaID;
         String name, description;
-        SocialMedia social = new SocialMedia();
-        LinkedList<IReview> reviewsList = new LinkedList<>();
-        LinkedList<IChildEvent> childEvents = new LinkedList<>();
 
         eventID = Integer.parseInt(eventMap.get("PARENT_EVENT_ID"));
         name = eventMap.get("PARENT_EVENT_NAME");
         description = eventMap.get("PARENT_EVENT_DESCRIPTION");
         socialMediaID = Integer.parseInt(eventMap.get("SOCIAL_MEDIA_ID"));
 
-        return new ParentEvent(eventID, social, name, description, reviewsList, childEvents);
+        return new ParentEvent(eventID, socialMediaID, name, description);
     }
 
     public static IAdmin ConvertAdmin(Map<String, String> adminMap){

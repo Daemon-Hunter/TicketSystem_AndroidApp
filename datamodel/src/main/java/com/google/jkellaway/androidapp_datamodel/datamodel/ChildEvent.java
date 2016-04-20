@@ -42,11 +42,9 @@ public class ChildEvent implements IChildEvent {
      * @param description
      * @param startTime
      * @param endTime
-     * @param venue
      * @param cancelled
      */
-    public ChildEvent(Integer ID, String name, String description, Date startTime, Date endTime, IVenue venue,
-                      List<IArtist> artists, Boolean cancelled, List<Integer> artistIDs, IParentEvent parentEvent) {
+    public ChildEvent(Integer ID, String name, String description, Date startTime, Date endTime, Boolean cancelled) {
         childEventID = ID;
         childEventName = name;
         childEventDescription = description;
