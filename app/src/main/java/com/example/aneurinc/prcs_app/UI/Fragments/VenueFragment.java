@@ -13,6 +13,7 @@ import android.widget.ListView;
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.Activities.VenueActivity;
 import com.example.aneurinc.prcs_app.UI.CustomAdapters.VenueFragAdapter;
+import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IVenue;
 
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
         @Override
         protected List<IVenue> doInBackground(Void... params) {
 
-            return new LinkedList<>();
+            return APIHandle.getVenueAmount(21, 0);
         }
 
         @Override

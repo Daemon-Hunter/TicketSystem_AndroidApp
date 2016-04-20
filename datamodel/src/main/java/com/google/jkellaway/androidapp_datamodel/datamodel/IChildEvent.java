@@ -40,5 +40,9 @@ public interface IChildEvent extends IDbSubject, ISocial {
     public Boolean removeArtistIDs(Integer artistID);
     public Boolean addArtistID(Integer artistID);
 
+    public void setParentEvent(IParentEvent parentEvent);
+
+    public void setVenueID(Integer venue);
+
     public void setSocialMedia(SocialMedia socialMedia);
 }

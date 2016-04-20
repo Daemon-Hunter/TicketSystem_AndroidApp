@@ -24,12 +24,13 @@ public class ChildEvent implements IChildEvent {
     private List<Integer> artistIDs;
     private List<IArtist> artists;
     private IParentEvent parentEvent;
+    private IVenue venue;
+    private Integer venueID;
     
     private Integer childEventID;
     private String childEventName, childEventDescription;
     private Date startDateTime, endDateTime;
     private Boolean cancelled;
-    private IVenue venue;
     private List<IObserver> observers;
     private final DatabaseTable table;
 
@@ -50,12 +51,8 @@ public class ChildEvent implements IChildEvent {
         childEventDescription = description;
         startDateTime = startTime;
         endDateTime = endTime;
-        this.venue = venue;
-        this.artists = artists;
         this.cancelled = cancelled;
         table = DatabaseTable.CHILD_EVENT;
-        this.artistIDs = artistIDs;
-        this.parentEvent = parentEvent;
         this.artists = new LinkedList<>();
     }
     
@@ -213,6 +210,16 @@ public class ChildEvent implements IChildEvent {
     @Override
     public Boolean addArtistID(Integer artistID) {
         return artistIDs.add(artistID);
+    }
+
+    @Override
+    public void setParentEvent(IParentEvent parentEvent) {
+        this.parentEvent = parentEvent;
+    }
+
+    @Override
+    public void setVenueID(Integer venue) {
+        this.venueID = venue;
     }
 
     @Override

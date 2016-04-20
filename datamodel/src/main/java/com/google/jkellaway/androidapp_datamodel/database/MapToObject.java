@@ -187,9 +187,9 @@ public final class MapToObject {
         return factory.createReview(eventID, customerID, rating, dateTime, body, verified);
     }
 
-    public static IVenue ConvertVenue(Map<String, String> venueMap, SocialMedia social, List<IReview> reviews) {
+    public static IVenue ConvertVenue(Map<String, String> venueMap) {
 
-        Integer venueID, capSeating, capStanding, parking;
+        Integer venueID, capSeating, capStanding, parking, socialMediaID;
         String description, facilities, phoneNumber, email, address, postcode, name;
         Boolean disabledAccess;
 
@@ -204,12 +204,13 @@ public final class MapToObject {
         address = venueMap.get("VENUE_ADDRESS");
         postcode = venueMap.get("VENUE_ADDRESS");
         name = venueMap.get("VENUE_NAME");
+        socialMediaID = Integer.parseInt(venueMap.get("SOCIAL_MEDIA_ID"));
 
         disabledAccess = venueMap.get("VENUE_DISABLED_ACCESS").equals("true");
 
 
-        return new Venue(venueID, social, description, capSeating, capStanding, disabledAccess,
-                facilities, parking, phoneNumber, email, address, postcode, name, reviews);
+        return new Venue(venueID, socialMediaID, description, capSeating, capStanding, disabledAccess,
+                facilities, parking, phoneNumber, email, address, postcode, name);
     }
 
     public static ITicket ConvertTicket(Map<String, String> ticketMap, ChildEvent event) {
@@ -228,7 +229,7 @@ public final class MapToObject {
 
     public static IChildEvent ConvertChildEvent(Map<String, String> eventMap) {
 
-        Integer eventID, venueID, lineupID;
+        Integer eventID, venueID;
         String description, name;
         Date startTime = new Date();
         Date endTime = new Date();
@@ -236,6 +237,7 @@ public final class MapToObject {
 
 
         eventID = Integer.parseInt(eventMap.get("CHILD_EVENT_ID"));
+        venueID = Integer.parseInt(eventMap.get("VENUE_ID"));
         name = eventMap.get("CHILD_EVENT_NAME");
         description = eventMap.get("CHILD_EVENT_DESCRIPTION");
 
