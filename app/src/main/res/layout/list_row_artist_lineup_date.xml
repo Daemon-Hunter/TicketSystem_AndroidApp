@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <RelativeLayout
+        android:id="@+id/calendar_layout_container"
+        android:layout_width="75dp"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true">
+
+        <ImageView
+            android:id="@+id/calendar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerInParent="true"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/performance_date"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@id/calendar_layout_container"
+        android:layout_marginLeft="10dp"
+        android:textSize="22sp"
+        android:textStyle="italic"
+        android:textColor="@android:color/white"
+        android:padding="10dp"/>
+
+</RelativeLayout>
