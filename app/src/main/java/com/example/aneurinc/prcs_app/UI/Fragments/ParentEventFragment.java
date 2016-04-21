@@ -17,7 +17,6 @@ import android.widget.ProgressBar;
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.Activities.ParentEventActivity;
 import com.example.aneurinc.prcs_app.UI.CustomAdapters.ParentEventFragAdapter;
-import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IParentEvent;
 import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
@@ -31,7 +30,6 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
 
     private List<IParentEvent> parentEventList = new ArrayList<>();
     private ProgressBar mProgressBar;
-    private Activity mContext;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,7 +40,7 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
     }
 
     private void getParentEvents() {
-        ReadParentEvents task = new ReadParentEvents(mContext);
+        ReadParentEvents task = new ReadParentEvents(getActivity());
         task.execute();
     }
 

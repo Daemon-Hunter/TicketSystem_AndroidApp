@@ -154,7 +154,7 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
             mPostcode.setError(getString(R.string.error_field_required));
             focusView = mPostcode;
             cancel = true;
-        } else if (postcode.length() < 7 | postcode.length() > 8) {
+        } else if (!isPostcodeValid(postcode)) {
             mPostcode.setError(getString(R.string.error_invalid_postcode));
             focusView = mPostcode;
             cancel = true;
@@ -185,7 +185,7 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
 
     private boolean isPostcodeValid(String postcode) {
         //// TODO: 20/04/2016 replace with regex
-        return postcode.length() < 7 | postcode.length() > 8;
+        return postcode.length() == 7 | postcode.length() == 8;
     }
 
     /**

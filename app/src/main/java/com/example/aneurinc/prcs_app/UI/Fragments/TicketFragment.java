@@ -28,7 +28,6 @@ public class TicketFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_ticket, container, false);
         mProgressBar = (ProgressBar) view.getRootView().findViewById(R.id.ticket_progress);
         getTickets();
@@ -41,7 +40,6 @@ public class TicketFragment extends Fragment {
     }
 
     private void showProgress(final boolean show) {
-
         int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
         mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
         mProgressBar.animate().setDuration(shortAnimTime).alpha(
@@ -51,7 +49,6 @@ public class TicketFragment extends Fragment {
                 mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
             }
         });
-
     }
 
     private class ReadTickets extends AsyncTask<Void, Void, List<ITicket>> {
