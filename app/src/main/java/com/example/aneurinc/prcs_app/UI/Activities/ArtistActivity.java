@@ -145,7 +145,7 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
 
         @Override
         protected IArtist doInBackground(Void... voids) {
-            artist = UserWrapper.getInstance().getArtistEvent(getIntent().getExtras().getInt(ARTIST_ID));
+            artist = UserWrapper.getInstance().getArtist(getIntent().getExtras().getInt(ARTIST_ID));
             return artist;
         }
 

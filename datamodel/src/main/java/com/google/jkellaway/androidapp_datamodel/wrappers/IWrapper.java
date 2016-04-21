@@ -17,17 +17,20 @@ import java.util.List;
  */
 public interface IWrapper {
 
-    public List<IParentEvent> getParentEvents();
-    public IParentEvent       getParentEvent(Integer id);
-    public Boolean            removeParentEvent(IParentEvent pEvent);
+    List<IParentEvent> getParentEvents();
+    IParentEvent       getParentEvent(Integer id);
+    Boolean            removeParentEvent(IParentEvent pEvent);
+    List<IParentEvent> refreshParentEvents();
 
 
-    public List<IVenue> getVenues();
-    public IVenue       getVenueEvent(Integer id);
-    public Boolean      removeVenue(IVenue venue);
+    List<IVenue> getVenues();
+    IVenue       getVenue(Integer id);
+    Boolean      removeVenue(IVenue venue);
+    List<IVenue> refreshVenues();
 
 
-    public List<IArtist>  getArtists();
-    public IArtist        getArtistEvent(Integer id);
-    public Boolean        removeArtist(IArtist artist);
+    List<IArtist>  getArtists();
+    IArtist        getArtist(Integer id);
+    Boolean        removeArtist(IArtist artist);
+    List<IArtist> refreshArtists();
 }

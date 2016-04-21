@@ -33,7 +33,7 @@ public class UserWrapper implements IUserWrapper {
     
     
     private UserWrapper(){}
-    
+
     private UserWrapper(IUser user){
         this.currentUser = user;
     }
@@ -88,6 +88,12 @@ public class UserWrapper implements IUserWrapper {
     }
 
     @Override
+    public List<IParentEvent> refreshParentEvents() {
+        parentEventArray = new ArrayList<>(APIHandle.getParentAmount(amountToLoad, 0));
+        return new ArrayList(parentEventArray);
+    }
+
+    @Override
     public List<IVenue> getVenues() {
         if (venueArray != null){
             return new ArrayList(venueArray);
@@ -99,7 +105,7 @@ public class UserWrapper implements IUserWrapper {
     }
 
     @Override
-    public IVenue getVenueEvent(Integer id) {
+    public IVenue getVenue(Integer id) {
         for (IVenue venue : venueArray){
             if(venue.getVenueID().equals(id));
                 return venue;
@@ -116,6 +122,12 @@ public class UserWrapper implements IUserWrapper {
     }
 
     @Override
+    public List<IVenue> refreshVenues() {
+        venueArray = new ArrayList<>(APIHandle.getVenueAmount(amountToLoad, 0));
+        return new ArrayList(venueArray);
+    }
+
+    @Override
     public List<IArtist> getArtists() {
         if (artistArray != null){
             return new LinkedList(artistArray);
@@ -127,7 +139,7 @@ public class UserWrapper implements IUserWrapper {
     }
 
     @Override
-    public IArtist getArtistEvent(Integer id) {
+    public IArtist getArtist(Integer id) {
         for (IArtist artist : artistArray){
             if(artist.getArtistID().equals(id));
             return artist;
@@ -141,5 +153,11 @@ public class UserWrapper implements IUserWrapper {
             throw new IllegalArgumentException("Cannot remove a null artist.");
         }
         return artistArray.remove(artist);
+    }
+
+    @Override
+    public List<IArtist> refreshArtists() {
+        artistArray = APIHandle.getArtistAmount(amountToLoad, 0);
+        return new ArrayList<>(artistArray);
     }
 }
