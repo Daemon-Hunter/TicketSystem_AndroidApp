@@ -105,7 +105,7 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
             Log.d(MainActivity.DEBUG_TAG, "doInBackground: size " + parentEventList.size());
 
             if (parentEventList.size() > 0) {
-                parentEventList.addAll(UserWrapper.getInstance().refreshParentEvents());
+                parentEventList.addAll(UserWrapper.getInstance().loadMoreParentEvents());
             } else {
                 parentEventList = UserWrapper.getInstance().getParentEvents();
             }

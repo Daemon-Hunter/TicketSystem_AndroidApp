@@ -23,7 +23,7 @@ public class UserWrapper implements IUserWrapper {
 
     private static UserWrapper wrapper;
 
-    private Integer amountToLoad = 9;
+    private Integer amountToLoad = 3;
 
     private List<IParentEvent>  parentEventArray;
     private List<IVenue>        venueArray;
@@ -72,9 +72,9 @@ public class UserWrapper implements IUserWrapper {
 
     @Override
     public List<IParentEvent> loadMoreParentEvents() {
-        int lowestID = 0;
+        int lowestID = 99999999;
         for (IParentEvent parentEvent : parentEventArray){
-            if (parentEvent.getParentEventID() < lowestID || lowestID == 0)
+            if (parentEvent.getParentEventID() < lowestID)
                 lowestID = parentEvent.getParentEventID();
         }
         List<IParentEvent> newData = APIHandle.getParentAmount(amountToLoad, lowestID);
