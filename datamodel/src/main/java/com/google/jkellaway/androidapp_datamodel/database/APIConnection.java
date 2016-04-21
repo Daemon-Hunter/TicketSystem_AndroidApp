@@ -137,7 +137,7 @@ public final class APIConnection {
             try {
                 URL url = new URL(urlToGet);
                 // Connect
-                HttpURLConnection connection = (HttpURLConnection)   url.openConnection();
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
                 // to return in JSON Format
                 connection.setRequestProperty("Accept", "application/JSON");

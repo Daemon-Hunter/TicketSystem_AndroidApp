@@ -5,26 +5,16 @@
  */
 package com.google.jkellaway.androidapp_datamodel.database;
 
-import android.util.Log;
-
-import com.google.jkellaway.androidapp_datamodel.bookings.Order;
-import com.google.jkellaway.androidapp_datamodel.datamodel.Artist;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IArtist;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IChildEvent;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IParentEvent;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IVenue;
-import com.google.jkellaway.androidapp_datamodel.datamodel.ParentEvent;
+import com.google.jkellaway.androidapp_datamodel.people.IAdmin;
+import com.google.jkellaway.androidapp_datamodel.reviews.IReview;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import com.google.jkellaway.androidapp_datamodel.datamodel.SocialMedia;
-import com.google.jkellaway.androidapp_datamodel.people.Customer;
-import com.google.jkellaway.androidapp_datamodel.people.IAdmin;
-import com.google.jkellaway.androidapp_datamodel.reviews.IReview;
-import com.google.jkellaway.androidapp_datamodel.reviews.Review;
 
 import static com.google.jkellaway.androidapp_datamodel.database.MapToObject.ConvertAdmin;
 import static com.google.jkellaway.androidapp_datamodel.database.MapToObject.ConvertArtist;
@@ -36,12 +26,8 @@ import static com.google.jkellaway.androidapp_datamodel.database.MapToObject.Con
 
 /**
  *
- * @author Dominic
  */
 public final class APIHandle {
-
-    // Artists and Child Events can request each other
-
     public static Object getSingle(int id, DatabaseTable table){
         return MapToObject.ConvertArtist(APIConnection.readSingle(id, table));
     }

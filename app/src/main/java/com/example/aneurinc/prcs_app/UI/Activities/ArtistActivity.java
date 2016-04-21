@@ -13,12 +13,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.CustomAdapters.ArtistActAdapter;
-import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
-import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IArtist;
+import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
 
 public class ArtistActivity extends AppCompatActivity implements View.OnClickListener {
@@ -147,9 +145,8 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
 
         @Override
         protected IArtist doInBackground(Void... voids) {
-            int index = getIntent().getExtras().getInt(ARTIST_ID);
-
-            return (IArtist)APIHandle.getSingle(index, DatabaseTable.ARTIST);
+            artist = UserWrapper.getInstance().getArtistEvent(getIntent().getExtras().getInt(ARTIST_ID));
+            return artist;
         }
 
         @Override

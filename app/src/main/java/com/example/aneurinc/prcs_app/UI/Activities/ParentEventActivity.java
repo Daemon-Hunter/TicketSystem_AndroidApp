@@ -24,6 +24,7 @@ import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.database.MapToObject;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IChildEvent;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IParentEvent;
+import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -32,7 +33,6 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
 
     public static String PARENT_EVENT_ID;
     private IParentEvent parentEvent;
-    private List<IChildEvent> parentChildEvents = new LinkedList<>();
     private Activity mContext = this;
 
     @Override
@@ -108,7 +108,7 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         Intent i = new Intent(this, ChildEventActivity.class);
-        i.putExtra(ChildEventActivity.CHILD_EVENT_ID, parentChildEvents.get(position).getChildEventID());
+        i.putExtra(ChildEventActivity.CHILD_EVENT_ID, parentEvent.getChildEvent(position).getChildEventID());
         startActivity(i);
 
     }
@@ -125,9 +125,7 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
 
             // TODO: get child events for list
 
-            int index = getIntent().getExtras().getInt(PARENT_EVENT_ID);
-
-            parentEvent = MapToObject.ConvertParentEvent(APIConnection.readSingle(index, DatabaseTable.PARENT_EVENT));
+            parentEvent = UserWrapper.getInstance().getParentEvent(getIntent().getExtras().getInt(PARENT_EVENT_ID));
 
             return parentEvent;
 
@@ -136,9 +134,9 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
         @Override
         protected void onPostExecute(IParentEvent parentEvent) {
 
-            if (parentChildEvents.size() > 0 && parentChildEvents != null) {
+            if (parentEvent.getChildEvents().size() > 0 && parentEvent.getChildEvents() != null) {
                 ListView list = (ListView) mContext.findViewById(R.id.child_events_list);
-                list.setAdapter(new ParentEventActAdapter(mContext, parentChildEvents));
+                list.setAdapter(new ParentEventActAdapter(mContext, parentEvent.getChildEvents()));
                 list.setOnItemClickListener(ParentEventActivity.this);
             }
 

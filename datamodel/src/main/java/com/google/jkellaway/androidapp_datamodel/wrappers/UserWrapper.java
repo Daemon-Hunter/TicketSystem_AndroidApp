@@ -65,9 +65,18 @@ public class UserWrapper implements IUserWrapper {
             return new ArrayList(parentEventArray);
         } else {
             //parentEventArray = APIHandle.getParentAmount(amountToLoad, parentEventArray.get(parentEventArray.size()).getParentEventID());
-            parentEventArray = APIHandle.getParentAmount(amountToLoad, 0);
+            parentEventArray = new ArrayList<>(APIHandle.getParentAmount(amountToLoad, 0));
             return new ArrayList(parentEventArray);
         }
+    }
+
+    @Override
+    public IParentEvent getParentEvent(Integer id) {
+        for (IParentEvent parentEvent : parentEventArray){
+            if(parentEvent.getParentEventID().equals(id));
+            return parentEvent;
+        }
+        throw new NullPointerException("No item in the list has this id :/.");
     }
 
     @Override
@@ -84,9 +93,18 @@ public class UserWrapper implements IUserWrapper {
             return new ArrayList(venueArray);
         } else {
             //venueArray = APIHandle.getVenueAmount(amountToLoad, venueArray.get(venueArray.size()).getVenueID());
-            venueArray = APIHandle.getVenueAmount(amountToLoad, 0);
+            venueArray = new ArrayList<>(APIHandle.getVenueAmount(amountToLoad, 0));
             return new ArrayList(venueArray);
         }
+    }
+
+    @Override
+    public IVenue getVenueEvent(Integer id) {
+        for (IVenue venue : venueArray){
+            if(venue.getVenueID().equals(id));
+                return venue;
+        }
+        throw new NullPointerException("No item in the list has this id :/.");
     }
 
     @Override
@@ -104,8 +122,17 @@ public class UserWrapper implements IUserWrapper {
         } else {
             //artistArray = APIHandle.getArtistAmount(amountToLoad, artistArray.get(artistArray.size() - 1).getArtistID());
             artistArray = APIHandle.getArtistAmount(amountToLoad, 0);
-            return new LinkedList<>(artistArray);
+            return new ArrayList<>(artistArray);
         }
+    }
+
+    @Override
+    public IArtist getArtistEvent(Integer id) {
+        for (IArtist artist : artistArray){
+            if(artist.getArtistID().equals(id));
+            return artist;
+        }
+        throw new NullPointerException("No item in the list has this id :/.");
     }
 
     @Override

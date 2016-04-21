@@ -18,13 +18,16 @@ import java.util.List;
 public interface IWrapper {
 
     public List<IParentEvent> getParentEvents();
+    public IParentEvent       getParentEvent(Integer id);
     public Boolean            removeParentEvent(IParentEvent pEvent);
 
 
     public List<IVenue> getVenues();
+    public IVenue       getVenueEvent(Integer id);
     public Boolean      removeVenue(IVenue venue);
 
 
     public List<IArtist>  getArtists();
-    public Boolean       removeArtist(IArtist artist);
+    public IArtist        getArtistEvent(Integer id);
+    public Boolean        removeArtist(IArtist artist);
 }
