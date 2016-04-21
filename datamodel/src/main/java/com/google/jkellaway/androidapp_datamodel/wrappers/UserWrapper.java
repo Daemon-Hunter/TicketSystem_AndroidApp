@@ -77,8 +77,9 @@ public class UserWrapper implements IUserWrapper {
             if (parentEvent.getParentEventID() < lowestID || lowestID == 0)
                 lowestID = parentEvent.getParentEventID();
         }
-        parentEventArray.addAll(APIHandle.getParentAmount(amountToLoad, lowestID));
-        return new ArrayList(parentEventArray);
+        List<IParentEvent> newData = APIHandle.getParentAmount(amountToLoad, lowestID);
+        parentEventArray.addAll(newData);
+        return new ArrayList(newData);
     }
 
     @Override
@@ -131,8 +132,9 @@ public class UserWrapper implements IUserWrapper {
             if (venue.getVenueID() < lowestID || lowestID == 0)
                 lowestID = venue.getVenueID();
         }
-        venueArray.addAll(APIHandle.getVenueAmount(amountToLoad, lowestID));
-        return new ArrayList(venueArray);
+        List<IVenue> newData = APIHandle.getVenueAmount(amountToLoad, lowestID);
+        venueArray.addAll(newData);
+        return new ArrayList(newData);
     }
 
     @Override
@@ -167,8 +169,9 @@ public class UserWrapper implements IUserWrapper {
             if (artist.getArtistID() < lowestID || lowestID == 0)
                 lowestID = artist.getArtistID();
         }
-        artistArray.addAll(APIHandle.getArtistAmount(amountToLoad, lowestID));
-        return new ArrayList(artistArray);
+        List<IArtist> newData = APIHandle.getArtistAmount(amountToLoad, lowestID);
+        artistArray.addAll(newData);
+        return new ArrayList(newData);
     }
 
     @Override
