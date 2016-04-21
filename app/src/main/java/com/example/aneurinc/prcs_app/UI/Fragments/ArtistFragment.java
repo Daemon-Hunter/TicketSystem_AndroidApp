@@ -23,6 +23,7 @@ import com.example.aneurinc.prcs_app.UI.CustomAdapters.ArtistFragAdapter;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IArtist;
 import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -99,7 +100,11 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
 
         @Override
         protected List<IArtist> doInBackground(Void... voids) {
-            artistList = UserWrapper.getInstance().getArtists();
+            try {
+                artistList = UserWrapper.getInstance().getArtists();
+            } catch (IOException e) {
+                //TODO handle exception
+            }
             return artistList;
         }
 

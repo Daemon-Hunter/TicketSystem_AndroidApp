@@ -23,6 +23,7 @@ import com.example.aneurinc.prcs_app.UI.CustomAdapters.ParentEventFragAdapter;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IParentEvent;
 import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,10 +105,14 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
 
             Log.d(MainActivity.DEBUG_TAG, "doInBackground: size " + parentEventList.size());
 
-            if (parentEventList.size() > 0) {
-                parentEventList.addAll(UserWrapper.getInstance().loadMoreParentEvents());
-            } else {
-                parentEventList = UserWrapper.getInstance().getParentEvents();
+            try {
+                if (parentEventList.size() > 0) {
+                    parentEventList.addAll(UserWrapper.getInstance().loadMoreParentEvents());
+                } else {
+                    parentEventList = UserWrapper.getInstance().getParentEvents();
+                }
+            }catch (IOException e){
+                //TODO handle exception
             }
 
             return parentEventList;

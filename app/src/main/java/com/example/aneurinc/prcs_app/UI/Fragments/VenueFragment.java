@@ -20,6 +20,7 @@ import com.example.aneurinc.prcs_app.UI.CustomAdapters.VenueFragAdapter;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IVenue;
 import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -81,7 +82,11 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
 
         @Override
         protected List<IVenue> doInBackground(Void... params) {
-            venues = UserWrapper.getInstance().getVenues();
+            try {
+                venues = UserWrapper.getInstance().getVenues();
+            } catch (IOException e) {
+                //TODO handle exception
+            }
             return venues;
         }
 

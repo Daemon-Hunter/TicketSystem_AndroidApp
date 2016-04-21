@@ -12,11 +12,18 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  *
@@ -130,41 +137,8 @@ public final class APIConnection {
        }
     }
        
-    public static List<Map<String,String>> readAll(DatabaseTable table)
-    {
-            List<Map<String,String>> listOfEntities = new ArrayList<>();
-            String urlToGet = URI +  DBTableToString(table);
-            try {
-                URL url = new URL(urlToGet);
-                // Connect
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("GET");
-                // to return in JSON Format
-                connection.setRequestProperty("Accept", "application/JSON");
-                try (BufferedReader in = new BufferedReader (
-                    new InputStreamReader(connection.getInputStream()))) {
-
-                    // inputValues of the JSON
-                    String inputLine = in.readLine();
-                    inputLine = inputLine.replaceAll("\\[", "");
-                    inputLine = inputLine.replaceAll("\\]", "");
-                    if(!inputLine.isEmpty()) {
-                        String[] objArray = inputLine.split("\\},");
-                        // Loops though the array and puts it into a Map
-                        for (String anObjArray : objArray) {
-                            Map<String, String> tempMap = splitJSONString(anObjArray);
-                            listOfEntities.add(tempMap);
-                        }
-                    }
-                }  
-            }
-            catch(IOException e)
-            {
-                System.err.println(e.toString());
-            }
-         
-           
-            return listOfEntities;
+    public static List<Map<String,String>> readAll(DatabaseTable table) throws IOException {
+            return Connection(URI +  DBTableToString(table));
     }
 
     // Accepts the ID and the table to use in the method
@@ -205,113 +179,78 @@ public final class APIConnection {
        return map;
     }
 
-    public static List<Map<String,String>> readAmount(DatabaseTable table, Integer amount, Integer lastID)
-    {
-        List<Map<String,String>> listOfEntities = new ArrayList<>();
-        String urlToGet = URI + "functions/get" +  DBTableToString(table) + "amount/" + amount.toString() + "/" + lastID.toString();
-        try {
-            URL url = new URL(urlToGet);
-            // Connect
-            HttpURLConnection connection = (HttpURLConnection)   url.openConnection();
-            connection.setRequestMethod("GET");
-            // to return in JSON Format
-            connection.setRequestProperty("Accept", "application/JSON");
-            try (BufferedReader in = new BufferedReader (
-                    new InputStreamReader(connection.getInputStream()))) {
-
-                // inputValues of the JSON
-                String inputLine = in.readLine();
-                inputLine = inputLine.replaceAll("\\[", "");
-                inputLine = inputLine.replaceAll("\\]", "");
-                if(!inputLine.isEmpty()) {
-                    String[] objArray = inputLine.split("\\},");
-                    // Loops though the array and puts it into a Map
-                    for (String anObjArray : objArray) {
-                        Map<String, String> tempMap = splitJSONString(anObjArray);
-                        listOfEntities.add(tempMap);
-                    }
-                }
-            }
-        }
-        catch(IOException e)
-        {
-            System.err.println(e.toString());
-        }
-        return listOfEntities;
+    public static List<Map<String,String>> readAmount(DatabaseTable table, Integer amount, Integer lastID) throws IOException {
+        return Connection(URI + "functions/get" +  DBTableToString(table) + "amount/" + amount.toString() + "/" + lastID.toString());
     }
 
-    public static List<Map<String,String>> readObjectsReviews(DatabaseTable table, Integer objectID)
-    {
-
+    public static List<Map<String,String>> readObjectsReviews(DatabaseTable table, Integer objectID) throws IOException {
         if (table != DatabaseTable.ARTIST && table != DatabaseTable.PARENT_EVENT && table != DatabaseTable.VENUE)
             throw new IllegalArgumentException("Table must be ARTIST/PARENT_EVENT/VENUE.");
 
-
-        List<Map<String,String>> listOfEntities = new ArrayList<>();
-        String urlToGet = URI + "functions/get" +  DBTableToString(table) + "reveiws/" + objectID.toString();
-        try {
-            URL url = new URL(urlToGet);
-            // Connect
-            HttpURLConnection connection = (HttpURLConnection)   url.openConnection();
-            connection.setRequestMethod("GET");
-            // to return in JSON Format
-            connection.setRequestProperty("Accept", "application/JSON");
-            try (BufferedReader in = new BufferedReader (
-                    new InputStreamReader(connection.getInputStream()))) {
-
-                // inputValues of the JSON
-                String inputLine = in.readLine();
-                inputLine = inputLine.replaceAll("\\[", "");
-                inputLine = inputLine.replaceAll("\\]", "");
-                if(!inputLine.isEmpty()) {
-                    String[] objArray = inputLine.split("\\},");
-                    // Loops though the array and puts it into a Map
-                    for (String anObjArray : objArray) {
-                        Map<String, String> tempMap = splitJSONString(anObjArray);
-                        listOfEntities.add(tempMap);
-                    }
-                }
-            }
-        }
-        catch(IOException e)
-        {
-            System.err.println(e.toString());
-        }
-        return listOfEntities;
+        return Connection(URI + "functions/get" +  DBTableToString(table) + "reviews/" + objectID.toString());
     }
 
-    public static List<Map<String,String>> getChildEventsViaParent(Integer parentEventID)
-    {
-        List<Map<String,String>> listOfEntities = new ArrayList<>();
-        String urlToGet = URI + "functions/getChild_EventsViaParent/" + parentEventID.toString();
+    public static List<Map<String,String>> getChildEventsViaParent(Integer parentEventID) throws IOException {
+        return Connection(URI + "functions/getChild_EventsViaParent/" + parentEventID.toString());
+    }
+
+    public static List<Map<String,String>> search(String searchText, DatabaseTable table) throws IOException {
+        return Connection(URI + "functions/search" + DBTableToString(table) + searchText);
+    }
+
+    private static List<Map<String, String>> Connection (String urlText) throws IOException {
+
+        URL url = null;
         try {
-            URL url = new URL(urlToGet);
-            // Connect
-            HttpURLConnection connection = (HttpURLConnection)   url.openConnection();
-            connection.setRequestMethod("GET");
-            // to return in JSON Format
-            connection.setRequestProperty("Accept", "application/JSON");
-            try (BufferedReader in = new BufferedReader (
-                    new InputStreamReader(connection.getInputStream()))) {
+            url = new URL(urlText);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        // Connect
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+        // to return in JSON Format
+        connection.setRequestProperty("Accept", "application/JSON");
+        try (BufferedReader in = new BufferedReader(
+                new InputStreamReader(connection.getInputStream()))) {
 
-                // inputValues of the JSON
-                String inputLine = in.readLine();
-                inputLine = inputLine.replaceAll("\\[", "");
-                inputLine = inputLine.replaceAll("\\]", "");
+            List<Map<String,String>> listOfEntities = JSONBreakDown(in.readLine());
+            return listOfEntities;
+        }
 
-                if(!inputLine.isEmpty()) {
-                    String[] objArray = inputLine.split("\\},");
-                    // Loops though the array and puts it into a Map
-                    for (String anObjArray : objArray) {
-                        Map<String, String> tempMap = splitJSONString(anObjArray);
-                        listOfEntities.add(tempMap);
+
+    }
+
+    private static List<Map<String,String>> JSONBreakDown(String JSONString){
+
+        JSONString = JSONString.replaceAll("\\[", "").replaceAll("\\]", "");
+
+        final List<Map<String,String>> listOfEntities = new ArrayList<>();
+
+        int threads = Runtime.getRuntime().availableProcessors();
+        ExecutorService service = Executors.newFixedThreadPool(threads);
+        List<Future<Map<String, String>>> futures = new LinkedList<>();
+
+        if(!JSONString.isEmpty()) {
+            String[] objArray = JSONString.split("\\},");
+            // Loops though the array and puts it into a Map
+            for (final String anObjArray : objArray) {
+                Callable<Map<String, String>> callable = new Callable<Map<String, String>>() {
+                    @Override
+                    public Map<String, String> call() throws Exception {
+                        return splitJSONString(anObjArray);
                     }
+                };
+                futures.add(service.submit(callable));
+            }
+
+            for (Future<Map<String, String>> future : futures){
+                try {
+                    listOfEntities.add(future.get());
+                } catch (InterruptedException | ExecutionException e){
+                    System.err.println(e.toString());
                 }
             }
-        }
-        catch(IOException e)
-        {
-            System.err.println(e.toString());
         }
         return listOfEntities;
     }

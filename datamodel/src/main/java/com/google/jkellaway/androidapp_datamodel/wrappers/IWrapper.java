@@ -9,6 +9,8 @@ import com.google.jkellaway.androidapp_datamodel.datamodel.Artist;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IArtist;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IParentEvent;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IVenue;
+
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -17,23 +19,23 @@ import java.util.List;
  */
 public interface IWrapper {
 
-    List<IParentEvent> getParentEvents();
-    List<IParentEvent> loadMoreParentEvents();
+    List<IParentEvent> getParentEvents() throws IOException;
+    List<IParentEvent> loadMoreParentEvents() throws IOException;
     IParentEvent       getParentEvent(Integer id);
     Boolean            removeParentEvent(IParentEvent pEvent);
-    List<IParentEvent> refreshParentEvents();
+    List<IParentEvent> refreshParentEvents() throws IOException;
 
 
-    List<IVenue> getVenues();
+    List<IVenue> getVenues() throws IOException;
     IVenue       getVenue(Integer id);
-    List<IVenue> loadMoreVenues();
+    List<IVenue> loadMoreVenues() throws IOException;
     Boolean      removeVenue(IVenue venue);
-    List<IVenue> refreshVenues();
+    List<IVenue> refreshVenues() throws IOException;
 
 
-    List<IArtist>  getArtists();
-    List<IArtist> loadMoreArtists();
+    List<IArtist>  getArtists() throws IOException;
+    List<IArtist> loadMoreArtists() throws IOException;
     IArtist        getArtist(Integer id);
     Boolean        removeArtist(IArtist artist);
-    List<IArtist> refreshArtists();
+    List<IArtist> refreshArtists() throws IOException;
 }

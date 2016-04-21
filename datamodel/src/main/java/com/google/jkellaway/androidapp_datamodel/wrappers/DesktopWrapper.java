@@ -10,6 +10,8 @@ import com.google.jkellaway.androidapp_datamodel.datamodel.Artist;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IArtist;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IParentEvent;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IVenue;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -96,7 +98,7 @@ public class DesktopWrapper implements IDesktopWrapper {
     }
 
     @Override
-    public List<IParentEvent> loadMoreParentEvents() {
+    public List<IParentEvent> loadMoreParentEvents() throws IOException {
         return null;
     }
 
@@ -129,7 +131,7 @@ public class DesktopWrapper implements IDesktopWrapper {
     }
 
     @Override
-    public List<IVenue> loadMoreVenues() {
+    public List<IVenue> loadMoreVenues() throws IOException {
         return null;
     }
 
@@ -147,7 +149,7 @@ public class DesktopWrapper implements IDesktopWrapper {
     }
 
     @Override
-    public List<IArtist> getArtists() {
+    public List<IArtist> getArtists() throws IOException {
         if (artistArray == null) {
             artistArray = APIHandle.getArtistAmount(21, 0);
         }
@@ -155,7 +157,7 @@ public class DesktopWrapper implements IDesktopWrapper {
     }
 
     @Override
-    public List<IArtist> loadMoreArtists() {
+    public List<IArtist> loadMoreArtists() throws IOException {
         return null;
     }
 

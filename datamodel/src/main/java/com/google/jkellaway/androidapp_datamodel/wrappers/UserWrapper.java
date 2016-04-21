@@ -11,6 +11,7 @@ import com.google.jkellaway.androidapp_datamodel.datamodel.IParentEvent;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IVenue;
 import com.google.jkellaway.androidapp_datamodel.people.IUser;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,7 +24,7 @@ public class UserWrapper implements IUserWrapper {
 
     private static UserWrapper wrapper;
 
-    private Integer amountToLoad = 3;
+    private Integer amountToLoad = 9;
 
     private List<IParentEvent>  parentEventArray;
     private List<IVenue>        venueArray;
@@ -60,7 +61,7 @@ public class UserWrapper implements IUserWrapper {
     }
 
     @Override
-    public List<IParentEvent> getParentEvents() {
+    public List<IParentEvent> getParentEvents() throws IOException {
         if (parentEventArray != null){
             return new ArrayList(parentEventArray);
         } else {
@@ -71,7 +72,7 @@ public class UserWrapper implements IUserWrapper {
     }
 
     @Override
-    public List<IParentEvent> loadMoreParentEvents() {
+    public List<IParentEvent> loadMoreParentEvents() throws IOException {
         int lowestID = 99999999;
         for (IParentEvent parentEvent : parentEventArray){
             if (parentEvent.getParentEventID() < lowestID)
@@ -100,13 +101,13 @@ public class UserWrapper implements IUserWrapper {
     }
 
     @Override
-    public List<IParentEvent> refreshParentEvents() {
+    public List<IParentEvent> refreshParentEvents() throws IOException {
         parentEventArray = new ArrayList<>(APIHandle.getParentAmount(amountToLoad, 0));
         return new ArrayList(parentEventArray);
     }
 
     @Override
-    public List<IVenue> getVenues() {
+    public List<IVenue> getVenues() throws IOException {
         if (venueArray != null){
             return new ArrayList(venueArray);
         } else {
@@ -126,7 +127,7 @@ public class UserWrapper implements IUserWrapper {
     }
 
     @Override
-    public List<IVenue> loadMoreVenues() {
+    public List<IVenue> loadMoreVenues() throws IOException {
         int lowestID = 0;
         for (IVenue venue : venueArray){
             if (venue.getVenueID() < lowestID || lowestID == 0)
@@ -146,13 +147,13 @@ public class UserWrapper implements IUserWrapper {
     }
 
     @Override
-    public List<IVenue> refreshVenues() {
+    public List<IVenue> refreshVenues() throws IOException {
         venueArray = new ArrayList<>(APIHandle.getVenueAmount(amountToLoad, 0));
         return new ArrayList(venueArray);
     }
 
     @Override
-    public List<IArtist> getArtists() {
+    public List<IArtist> getArtists() throws IOException {
         if (artistArray != null){
             return new LinkedList(artistArray);
         } else {
@@ -163,7 +164,7 @@ public class UserWrapper implements IUserWrapper {
     }
 
     @Override
-    public List<IArtist> loadMoreArtists() {
+    public List<IArtist> loadMoreArtists() throws IOException {
         int lowestID = 0;
         for (IArtist artist : artistArray){
             if (artist.getArtistID() < lowestID || lowestID == 0)
@@ -192,7 +193,7 @@ public class UserWrapper implements IUserWrapper {
     }
 
     @Override
-    public List<IArtist> refreshArtists() {
+    public List<IArtist> refreshArtists() throws IOException {
         artistArray = APIHandle.getArtistAmount(amountToLoad, 0);
         return new ArrayList<>(artistArray);
     }
