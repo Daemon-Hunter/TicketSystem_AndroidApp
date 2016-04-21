@@ -2,7 +2,6 @@ package com.example.aneurinc.prcs_app.UI.Fragments;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,8 +18,9 @@ import com.example.aneurinc.prcs_app.UI.Activities.ArtistActivity;
 import com.example.aneurinc.prcs_app.UI.CustomAdapters.ArtistFragAdapter;
 import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IArtist;
+import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,7 +28,7 @@ import java.util.List;
  */
 public class ArtistFragment extends Fragment implements AdapterView.OnItemClickListener {
 
-    private List<IArtist> artistList = new LinkedList<>();
+    private List<IArtist> artistList;
     private ProgressBar mProgressBar;
 
     @Override
@@ -44,7 +44,7 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
     }
 
     private void readArtists() {
-        ReadArtists task = new ReadArtists(getActivity());
+        ReadArtists task = new ReadArtists();
         task.execute();
     }
 
@@ -52,7 +52,7 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         Intent i = new Intent(getActivity(), ArtistActivity.class);
-        i.putExtra(ArtistActivity.ARTIST_ID, artistList.get(position).getArtistID());
+        i.putExtra(ArtistActivity.EventImageIndex, artistList.get(position).getArtistID());
         getActivity().startActivity(i);
     }
 
@@ -72,30 +72,28 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
 
     private class ReadArtists extends AsyncTask<Void, Void, List<IArtist>> {
 
-        private final Activity mContext;
-
-        public ReadArtists(Activity context) {
-            mContext = context;
-        }
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            showProgress(true);
+
+            mProgressBar.setVisibility(View.VISIBLE);
+
         }
 
         @Override
         protected List<IArtist> doInBackground(Void... voids) {
-            artistList = APIHandle.getArtistAmount(6, 0);
+            artistList = UserWrapper.getInstance().getArtists();
             return artistList;
         }
 
         @Override
         protected void onPostExecute(List<IArtist> artists) {
+
             showProgress(false);
-            GridView gridView = (GridView) mContext.findViewById(R.id.artist_grid_view);
-            gridView.setAdapter(new ArtistFragAdapter(mContext, artists));
+            GridView gridView = (GridView) getActivity().findViewById(R.id.artist_grid_view);
+            gridView.setAdapter(new ArtistFragAdapter(getActivity(), artists));
             gridView.setOnItemClickListener(ArtistFragment.this);
+
         }
 
         @Override

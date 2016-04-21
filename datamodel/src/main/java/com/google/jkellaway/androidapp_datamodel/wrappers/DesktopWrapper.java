@@ -86,21 +86,9 @@ public class DesktopWrapper implements IDesktopWrapper {
         return adminArray.remove(admin);
     }
 
-        @Override
-    public Boolean addParentEvent(IParentEvent pEvent) {
-        if (parentEventArray == null){
-            parentEventArray = new ArrayList();
-        }
-        if (pEvent == null){
-            throw new IllegalArgumentException("Cannot set user to null.");
-        }
-        return this.parentEventArray.add(pEvent);
-    }
 
-    @Override
-    public IParentEvent getParentEvent(Integer index) {
-        return parentEventArray.get(index);
-    }
+
+
 
     @Override
     public List<IParentEvent> getParentEvents() {
@@ -116,22 +104,6 @@ public class DesktopWrapper implements IDesktopWrapper {
     }
 
     @Override
-    public Boolean addVenue(IVenue venue) {
-        if (venueArray == null){
-            venueArray = new ArrayList();
-        }
-        if (venue == null){
-            throw new IllegalArgumentException("Cannot add null venue.");
-        }
-        return venueArray.add(venue);
-    }
-
-    @Override
-    public IVenue getVenue(Integer index) {
-        return venueArray.get(index);
-    }
-
-    @Override
     public List<IVenue> getVenues() {
         return new ArrayList(venueArray);
     }
@@ -142,22 +114,6 @@ public class DesktopWrapper implements IDesktopWrapper {
             throw new IllegalArgumentException("Cannot remove a null venue.");
         }
         return venueArray.remove(venue);
-    }
-
-    @Override
-    public Boolean addArtist(IArtist artist) {
-        if (artistArray == null){
-            artistArray = new ArrayList();
-        }
-        if(artist == null){
-            throw new IllegalArgumentException("Cannot add a null artist.");
-        }
-        return artistArray.add(artist);
-    }
-
-    @Override
-    public IArtist getArtist(Integer artistID) {
-        return artistArray.get(artistID);
     }
 
     @Override

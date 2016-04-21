@@ -19,6 +19,7 @@ import com.example.aneurinc.prcs_app.UI.Activities.ParentEventActivity;
 import com.example.aneurinc.prcs_app.UI.CustomAdapters.ParentEventFragAdapter;
 import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IParentEvent;
+import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +85,7 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
 
         @Override
         protected List<IParentEvent> doInBackground(Void... params) {
-            parentEventList = APIHandle.getParentAmount(15, 0);
+            parentEventList = UserWrapper.getInstance().getParentEvents();
             return parentEventList;
         }
 

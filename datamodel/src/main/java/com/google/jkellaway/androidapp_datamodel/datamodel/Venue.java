@@ -37,6 +37,7 @@ public class Venue implements IVenue {
     private IReviewFactory reviewFactory;
     private List<IReview> reviews;
     private List<IObserver> observers;
+    private Integer socialMediaID;
     private SocialMedia socialMedia;
     private String description;
     private DatabaseTable table;
@@ -101,7 +102,6 @@ public class Venue implements IVenue {
      * For use when creating venues that already exist in the database.
      * ID is given and assigned.
      * @param id
-     * @param social
      * @param description
      * @param capSeating
      * @param capStanding
@@ -112,18 +112,17 @@ public class Venue implements IVenue {
      * @param email
      * @param address
      * @param postcode
-     * @param name 
-     * @param reviewsList
+     * @param name
      */
-    public Venue(Integer id, SocialMedia social, String description, Integer capSeating, Integer capStanding, 
+    public Venue(Integer id, Integer socialMediaID, String description, Integer capSeating, Integer capStanding,
             Boolean access, String facilities, Integer parking, String phoneNo, String email, String address, 
-            String postcode, String name, List<IReview> reviewsList)
+            String postcode, String name)
     {
         this.ID = id;
         this.name = name;
         this.description = description;
-        this.socialMedia = social;
-        this.reviews = reviewsList;
+        this.socialMedia = new SocialMedia();
+        this.reviews = new LinkedList<>();
         this.table = DatabaseTable.VENUE;
         
         // Initialize all other variables with method arguments
@@ -137,6 +136,7 @@ public class Venue implements IVenue {
         this.address     = address;
         this.postcode    = postcode;
         reviewFactory    = new VenueReviewFactory();
+        this.socialMediaID = socialMediaID;
     }
 
 @Override
@@ -401,7 +401,7 @@ public class Venue implements IVenue {
 
     @Override
     public Integer getSocialId() {
-        return socialMedia.getSocialId();
+        return socialMediaID;
     }
 
     /**
@@ -412,6 +412,7 @@ public class Venue implements IVenue {
 
     @Override
     public Boolean setSocialId(Integer id) {
+        socialMediaID = id;
         return socialMedia.setSocialId(id);
     }
 
