@@ -71,6 +71,17 @@ public class UserWrapper implements IUserWrapper {
     }
 
     @Override
+    public List<IParentEvent> loadMoreParentEvents() {
+        int lowestID = 0;
+        for (IParentEvent parentEvent : parentEventArray){
+            if (parentEvent.getParentEventID() < lowestID || lowestID == 0)
+                lowestID = parentEvent.getParentEventID();
+        }
+        parentEventArray.addAll(APIHandle.getParentAmount(amountToLoad, lowestID));
+        return new ArrayList(parentEventArray);
+    }
+
+    @Override
     public IParentEvent getParentEvent(Integer id) {
         for (IParentEvent parentEvent : parentEventArray){
             if(parentEvent.getParentEventID().equals(id));
@@ -114,6 +125,17 @@ public class UserWrapper implements IUserWrapper {
     }
 
     @Override
+    public List<IVenue> loadMoreVenues() {
+        int lowestID = 0;
+        for (IVenue venue : venueArray){
+            if (venue.getVenueID() < lowestID || lowestID == 0)
+                lowestID = venue.getVenueID();
+        }
+        venueArray.addAll(APIHandle.getVenueAmount(amountToLoad, lowestID));
+        return new ArrayList(venueArray);
+    }
+
+    @Override
     public Boolean removeVenue(IVenue venue) {
         if(venue == null){
             throw new IllegalArgumentException("Cannot remove a null venue.");
@@ -136,6 +158,17 @@ public class UserWrapper implements IUserWrapper {
             artistArray = APIHandle.getArtistAmount(amountToLoad, 0);
             return new ArrayList<>(artistArray);
         }
+    }
+
+    @Override
+    public List<IArtist> loadMoreArtists() {
+        int lowestID = 0;
+        for (IArtist artist : artistArray){
+            if (artist.getArtistID() < lowestID || lowestID == 0)
+                lowestID = artist.getArtistID();
+        }
+        artistArray.addAll(APIHandle.getArtistAmount(amountToLoad, lowestID));
+        return new ArrayList(artistArray);
     }
 
     @Override

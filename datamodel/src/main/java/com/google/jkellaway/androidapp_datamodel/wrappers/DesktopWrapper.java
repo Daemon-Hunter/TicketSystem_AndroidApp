@@ -96,6 +96,11 @@ public class DesktopWrapper implements IDesktopWrapper {
     }
 
     @Override
+    public List<IParentEvent> loadMoreParentEvents() {
+        return null;
+    }
+
+    @Override
     public IParentEvent getParentEvent(Integer id) {
         return null;
     }
@@ -124,6 +129,11 @@ public class DesktopWrapper implements IDesktopWrapper {
     }
 
     @Override
+    public List<IVenue> loadMoreVenues() {
+        return null;
+    }
+
+    @Override
     public Boolean removeVenue(IVenue venue) {
         if(venue == null){
             throw new IllegalArgumentException("Cannot remove a null venue.");
@@ -142,6 +152,11 @@ public class DesktopWrapper implements IDesktopWrapper {
             artistArray = APIHandle.getArtistAmount(21, 0);
         }
         return new ArrayList(artistArray);
+    }
+
+    @Override
+    public List<IArtist> loadMoreArtists() {
+        return null;
     }
 
     @Override
