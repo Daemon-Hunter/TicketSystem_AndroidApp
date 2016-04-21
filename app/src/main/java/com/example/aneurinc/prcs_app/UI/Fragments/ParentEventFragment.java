@@ -7,14 +7,17 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 
 import com.example.aneurinc.prcs_app.R;
+import com.example.aneurinc.prcs_app.UI.Activities.MainActivity;
 import com.example.aneurinc.prcs_app.UI.Activities.ParentEventActivity;
 import com.example.aneurinc.prcs_app.UI.CustomAdapters.ParentEventFragAdapter;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IParentEvent;
@@ -26,7 +29,7 @@ import java.util.List;
 /**
  * Created by aneurinc on 02/03/2016.
  */
-public class ParentEventFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class ParentEventFragment extends Fragment implements AdapterView.OnItemClickListener, AbsListView.OnScrollListener {
 
     private List<IParentEvent> parentEventList = new ArrayList<>();
     private ProgressBar mProgressBar;
@@ -67,6 +70,21 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
 
     }
 
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+        Log.d(MainActivity.DEBUG_TAG, "onScrollStateChanged: ");
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+        if (firstVisibleItem + visibleItemCount >= totalItemCount) {
+            Log.d(MainActivity.DEBUG_TAG, "onScroll: End has been reached");
+            getParentEvents();
+
+        }
+    }
+
     private class ReadParentEvents extends AsyncTask<Void, Void, List<IParentEvent>> {
 
         private Activity mContext;
@@ -83,7 +101,15 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
 
         @Override
         protected List<IParentEvent> doInBackground(Void... params) {
-            parentEventList = UserWrapper.getInstance().getParentEvents();
+
+            Log.d(MainActivity.DEBUG_TAG, "doInBackground: size " + parentEventList.size());
+
+            if (parentEventList.size() > 0) {
+                parentEventList.addAll(UserWrapper.getInstance().refreshParentEvents());
+            } else {
+                parentEventList = UserWrapper.getInstance().getParentEvents();
+            }
+
             return parentEventList;
         }
 
@@ -93,6 +119,7 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
             GridView gridView = (GridView) mContext.findViewById(R.id.event_grid_view);
             gridView.setAdapter(new ParentEventFragAdapter(mContext, parentEvents));
             gridView.setOnItemClickListener(ParentEventFragment.this);
+            gridView.setOnScrollListener(ParentEventFragment.this);
         }
 
         @Override

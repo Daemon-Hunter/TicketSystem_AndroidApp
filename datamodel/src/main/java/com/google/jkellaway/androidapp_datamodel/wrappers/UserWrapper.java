@@ -6,14 +6,14 @@
 package com.google.jkellaway.androidapp_datamodel.wrappers;
 
 import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
-import com.google.jkellaway.androidapp_datamodel.datamodel.Artist;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IArtist;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IParentEvent;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IVenue;
+import com.google.jkellaway.androidapp_datamodel.people.IUser;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import com.google.jkellaway.androidapp_datamodel.people.IUser;
 
 /**
  *
@@ -23,7 +23,7 @@ public class UserWrapper implements IUserWrapper {
 
     private static UserWrapper wrapper;
 
-    private Integer amountToLoad = 12;
+    private Integer amountToLoad = 9;
 
     private List<IParentEvent>  parentEventArray;
     private List<IVenue>        venueArray;

@@ -70,6 +70,10 @@ public class LoginActivity extends AppCompatActivity implements OnEditorActionLi
         mProgressView = findViewById(R.id.progress);
 
         setClickableSpan();
+
+        //// TODO: 21/04/2016 REMOVE THIS 
+        mPasswordView.setText("qqqqq");
+        mEmailView.setText("@");
     }
 
     @Override

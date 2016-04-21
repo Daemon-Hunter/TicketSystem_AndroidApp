@@ -8,7 +8,8 @@
         android:id="@+id/grid_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="-3dp"/>
+        android:layout_marginTop="-3dp"
+        android:background="@android:color/white"/>
 
     <TextView
         android:id="@+id/grid_text"

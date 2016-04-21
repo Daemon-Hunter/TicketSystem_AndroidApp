@@ -7,15 +7,18 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.Activities.ArtistActivity;
+import com.example.aneurinc.prcs_app.UI.Activities.MainActivity;
 import com.example.aneurinc.prcs_app.UI.CustomAdapters.ArtistFragAdapter;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IArtist;
 import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
@@ -25,7 +28,7 @@ import java.util.List;
 /**
  * Created by aneurinc on 02/03/2016.
  */
-public class ArtistFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class ArtistFragment extends Fragment implements AdapterView.OnItemClickListener, AbsListView.OnScrollListener {
 
     private List<IArtist> artistList;
     private ProgressBar mProgressBar;
@@ -66,6 +69,20 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
         });
     }
 
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+        Log.d(MainActivity.DEBUG_TAG, "onScrollStateChanged: ");
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+        if (firstVisibleItem + visibleItemCount >= totalItemCount) {
+            Log.d(MainActivity.DEBUG_TAG, "onScroll: End has been reached");
+        }
+
+    }
+
     private class ReadArtists extends AsyncTask<Void, Void, List<IArtist>> {
 
         private Activity mContext;
@@ -92,6 +109,7 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
             GridView gridView = (GridView) mContext.findViewById(R.id.artist_grid_view);
             gridView.setAdapter(new ArtistFragAdapter(mContext, artists));
             gridView.setOnItemClickListener(ArtistFragment.this);
+            gridView.setOnScrollListener(ArtistFragment.this);
         }
 
         @Override
