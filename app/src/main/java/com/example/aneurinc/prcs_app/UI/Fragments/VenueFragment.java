@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.example.aneurinc.prcs_app.R;
+import com.example.aneurinc.prcs_app.UI.Activities.MainActivity;
 import com.example.aneurinc.prcs_app.UI.Activities.VenueActivity;
 import com.example.aneurinc.prcs_app.UI.CustomAdapters.VenueFragAdapter;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IVenue;
@@ -30,6 +32,7 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
 
     private List<IVenue> venues;
     private ProgressBar mProgressBar;
+    private ReadVenues mTask;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,8 +44,8 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
     }
 
     private void getVenues() {
-        ReadVenues task = new ReadVenues(getActivity());
-        task.execute();
+        mTask = new ReadVenues(getActivity());
+        mTask.execute();
     }
 
     @Override
@@ -65,6 +68,43 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
         });
 
     }
+    @Override
+    public void onPause() {
+        Log.d(MainActivity.DEBUG_TAG, "onPause: ");
+
+        if (isTaskRunning()) {
+            mTask.cancel(true);
+        }
+
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        Log.d(MainActivity.DEBUG_TAG, "onStop: ");
+
+        if (isTaskRunning()) {
+            mTask.cancel(true);
+        }
+
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        Log.d(MainActivity.DEBUG_TAG, "onDestroy: ");
+
+        if (isTaskRunning()) {
+            mTask.cancel(true);
+        }
+
+        super.onDestroy();
+    }
+
+    private boolean isTaskRunning() {
+        return mTask != null && mTask.getStatus() == AsyncTask.Status.RUNNING;
+    }
+
 
     private class ReadVenues extends AsyncTask<Void, Void, List<IVenue>> {
 
@@ -93,14 +133,18 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
         @Override
         protected void onPostExecute(List<IVenue> venues) {
             showProgress(false);
-            ListView list = (ListView) mContext.findViewById(R.id.venue_list);
-            list.setAdapter(new VenueFragAdapter(mContext, venues));
-            list.setOnItemClickListener(VenueFragment.this);
+            if (venues != null && !venues.isEmpty()) {
+                Log.d(MainActivity.DEBUG_TAG, "onPostExecute: ");
+                ListView list = (ListView) mContext.findViewById(R.id.venue_list);
+                list.setAdapter(new VenueFragAdapter(mContext, venues));
+                list.setOnItemClickListener(VenueFragment.this);
+            }
         }
 
         @Override
         protected void onCancelled() {
-            showProgress(false);
+            super.onCancelled();
+            mTask.cancel(true);
         }
     }
 }

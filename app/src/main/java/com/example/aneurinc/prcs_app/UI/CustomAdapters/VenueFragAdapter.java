@@ -2,7 +2,6 @@ package com.example.aneurinc.prcs_app.UI.CustomAdapters;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,42 +24,24 @@ import java.util.List;
  */
 public class VenueFragAdapter extends ArrayAdapter<String> implements OnClickListener {
 
-    private final Activity context;
-    private String[] name;
-    private String[] city;
-    private Bitmap[] image;
+    private final Activity mContext;
+    private List<IVenue> mVenues;
 
     public VenueFragAdapter(Activity c, List<IVenue> venues) {
         super(c, R.layout.list_row_venue, Constants.venueNames);
-
-        context = c;
-
-        updateVenueList(venues);
-    }
-
-    private void updateVenueList(List<IVenue> venues) {
-
-        name = new String[venues.size()];
-        city = new String[venues.size()];
-        image = new Bitmap[venues.size()];
-        int i = 0;
-
-        for (IVenue v : venues) {
-            name[i] = v.getVenueName();
-            city[i] = v.getVenueAddress();
-            image[i] = v.getImage(0);
-            i++;
-        }
+        mVenues = venues;
+        mContext = c;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder viewHolder;
+        IVenue currVenue = mVenues.get(position);
 
         if (convertView == null) {
 
-            LayoutInflater inflater = context.getLayoutInflater();
+            LayoutInflater inflater = mContext.getLayoutInflater();
             convertView = inflater.inflate(R.layout.list_row_venue, null);
 
             viewHolder = new ViewHolder();
@@ -77,16 +58,16 @@ public class VenueFragAdapter extends ArrayAdapter<String> implements OnClickLis
 
         }
 
-        if (image[position] != null) {
+        if (currVenue.getImage(0) != null) {
             // get width of single grid
-            int xy = context.findViewById(R.id.venue_list).getWidth() / 4;
+            int xy = mContext.findViewById(R.id.venue_list).getWidth() / 4;
             // resize image to fit single grid
-            viewHolder.venueImage.setImageBitmap(ImageUtils.scaleDown(image[position], xy, xy));
+            viewHolder.venueImage.setImageBitmap(ImageUtils.scaleDown(currVenue.getImage(0), xy, xy));
         }
 
-        viewHolder.venueName.setText(name[position]);
+        viewHolder.venueName.setText(currVenue.getVenueName());
         // TODO change address to city!
-        viewHolder.venueCity.setText(city[position]);
+        viewHolder.venueCity.setText(currVenue.getVenueAddress());
         viewHolder.venueMap.setImageResource(R.drawable.google_maps_icon);
         viewHolder.venueMap.setOnClickListener(this);
 
@@ -98,13 +79,13 @@ public class VenueFragAdapter extends ArrayAdapter<String> implements OnClickLis
 
     @Override
     public void onClick(View v) {
-        v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.onclick));
-        context.startActivity(new Intent(context, MapActivity.class));
+        v.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.onclick));
+        mContext.startActivity(new Intent(mContext, MapActivity.class));
     }
 
     @Override
     public int getCount() {
-        return name.length;
+        return mVenues.size();
     }
 
     static class ViewHolder {

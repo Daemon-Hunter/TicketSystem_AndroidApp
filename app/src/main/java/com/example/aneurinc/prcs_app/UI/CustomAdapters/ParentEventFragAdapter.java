@@ -2,7 +2,6 @@ package com.example.aneurinc.prcs_app.UI.CustomAdapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,38 +20,22 @@ import java.util.List;
  */
 public class ParentEventFragAdapter extends BaseAdapter {
 
-    private Activity context;
-    private Bitmap[] image;
-    private String[] title;
+    private Activity mContext;
+    private List<IParentEvent> mParentEvents;
 
-    public ParentEventFragAdapter(Activity a, List<IParentEvent> eventList) {
-        context = a;
-        updateGridList(eventList);
-
-    }
-
-    public void updateGridList(List<IParentEvent> events) {
-
-        title = new String[events.size()];
-        image = new Bitmap[events.size()];
-        int i = 0;
-
-        for (IParentEvent currEvent : events) {
-            title[i] = currEvent.getParentEventName();
-            image[i] = currEvent.getImage(0);
-            i++;
-        }
-
+    public ParentEventFragAdapter(Activity context, List<IParentEvent> parentEvents) {
+        mContext = context;
+        mParentEvents = parentEvents;
     }
 
     @Override
     public int getCount() {
-        return title.length;
+        return mParentEvents.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return mParentEvents.get(position);
     }
 
     @Override
@@ -64,10 +47,11 @@ public class ParentEventFragAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder viewHolder;
+        IParentEvent currParentEvent = (IParentEvent) getItem(position);
 
         if (convertView == null) {
 
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.grid_single, null);
 
             // set up view holder
@@ -84,14 +68,14 @@ public class ParentEventFragAdapter extends BaseAdapter {
 
         }
 
-        if (image[position] != null) {
+        if (currParentEvent.getImage(0) != null) {
             // get width of single grid
-            int xy = context.findViewById(R.id.event_grid_view).getWidth() / 3;
+            int xy = mContext.findViewById(R.id.event_grid_view).getWidth() / 3;
             // resize image to fit single grid
-            viewHolder.gridImage.setImageBitmap(ImageUtils.scaleDown(image[position], xy, xy));
+            viewHolder.gridImage.setImageBitmap(ImageUtils.scaleDown(currParentEvent.getImage(0), xy, xy));
         }
 
-        viewHolder.gridText.setText(title[position]);
+        viewHolder.gridText.setText(currParentEvent.getParentEventName());
 
         return convertView;
     }

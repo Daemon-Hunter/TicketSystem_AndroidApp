@@ -6,7 +6,6 @@ package com.example.aneurinc.prcs_app.UI.CustomAdapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,43 +16,27 @@ import android.widget.TextView;
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.Utilities.ImageUtils;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IArtist;
-import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
 
 import java.util.List;
 
 public class ArtistFragAdapter extends BaseAdapter {
 
-    private Activity context;
-    private String[] title;
-    private Bitmap[] image;
+    private Activity mContext;
+    private List<IArtist> mArtistList;
 
     public ArtistFragAdapter(Activity c, List<IArtist> artistList) {
-        context = c;
-        updateGridList(artistList);
-    }
-
-    public void updateGridList(List<IArtist> artists) {
-
-        title = new String[artists.size()];
-        image = new Bitmap[artists.size()];
-        int i = 0;
-
-        for (IArtist currArtist : artists) {
-            image[i] = currArtist.getImage(0);
-            title[i] = currArtist.getArtistName();
-            i++;
-        }
-
+        mContext = c;
+        mArtistList = artistList;
     }
 
     @Override
     public int getCount() {
-        return title.length;
+        return mArtistList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return mArtistList.get(position);
     }
 
     @Override
@@ -65,10 +48,11 @@ public class ArtistFragAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder viewHolder;
+        IArtist currArtist = (IArtist) getItem(position);
 
         if (convertView == null) {
 
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.grid_single, null);
 
             // set up view holder
@@ -85,14 +69,14 @@ public class ArtistFragAdapter extends BaseAdapter {
 
         }
 
-        if (image[position] != null) {
+        if (currArtist.getImage(position) != null) {
             // get width of single grid
-            int xy = context.findViewById(R.id.artist_grid_view).getWidth() / 3;
+            int xy = mContext.findViewById(R.id.artist_grid_view).getWidth() / 3;
             // resize image to fit single grid
-            viewHolder.gridImage.setImageBitmap(ImageUtils.scaleDown(image[position], xy, xy));
+            viewHolder.gridImage.setImageBitmap(ImageUtils.scaleDown(currArtist.getImage(position), xy, xy));
         }
 
-        viewHolder.gridText.setText(title[position]);
+        viewHolder.gridText.setText(currArtist.getArtistName());
 
         return convertView;
     }

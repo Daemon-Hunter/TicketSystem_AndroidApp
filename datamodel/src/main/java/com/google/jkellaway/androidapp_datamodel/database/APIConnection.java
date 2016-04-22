@@ -260,7 +260,12 @@ public final class APIConnection {
         // Initializes of map which stores keys and values
         Map<String,String> map = new HashMap<>();
         // split up the string into the different columns
-        String[] splitArray = input.split(",");
+        String[] splitArray = input.split(",\"");
+
+        for (int i = 1; i < splitArray.length; i++) {
+            splitArray[i] = "\"" + splitArray[i];
+        }
+
         // remove the beginning brace
         splitArray[0] = splitArray[0].replaceAll("\\{", "");
         // remove the end brace

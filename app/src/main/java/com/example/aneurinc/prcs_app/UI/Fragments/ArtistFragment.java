@@ -33,6 +33,7 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
 
     private List<IArtist> artistList;
     private ProgressBar mProgressBar;
+    private ReadArtists mTask;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,9 +47,46 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
         return view;
     }
 
+    @Override
+    public void onPause() {
+        Log.d(MainActivity.DEBUG_TAG, "onPause: ");
+
+        if (isTaskRunning()) {
+            mTask.cancel(true);
+        }
+
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        Log.d(MainActivity.DEBUG_TAG, "onStop: ");
+
+        if (isTaskRunning()) {
+            mTask.cancel(true);
+        }
+
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        Log.d(MainActivity.DEBUG_TAG, "onDestroy: ");
+
+        if (isTaskRunning()) {
+            mTask.cancel(true);
+        }
+
+        super.onDestroy();
+    }
+
+    private boolean isTaskRunning() {
+        return mTask != null && mTask.getStatus() == AsyncTask.Status.RUNNING;
+    }
+
     private void readArtists() {
-        ReadArtists task = new ReadArtists(getActivity());
-        task.execute();
+        mTask = new ReadArtists(getActivity());
+        mTask.execute();
     }
 
     @Override
@@ -72,14 +110,13 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
 
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
-        Log.d(MainActivity.DEBUG_TAG, "onScrollStateChanged: ");
     }
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
         if (firstVisibleItem + visibleItemCount >= totalItemCount) {
-            Log.d(MainActivity.DEBUG_TAG, "onScroll: End has been reached");
+            //// TODO: 22/04/2016 add refresh
         }
 
     }
@@ -111,15 +148,18 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
         @Override
         protected void onPostExecute(List<IArtist> artists) {
             showProgress(false);
-            GridView gridView = (GridView) mContext.findViewById(R.id.artist_grid_view);
-            gridView.setAdapter(new ArtistFragAdapter(mContext, artists));
-            gridView.setOnItemClickListener(ArtistFragment.this);
-            gridView.setOnScrollListener(ArtistFragment.this);
+            if (artists != null && !artists.isEmpty()) {
+                GridView gridView = (GridView) mContext.findViewById(R.id.artist_grid_view);
+                gridView.setAdapter(new ArtistFragAdapter(mContext, artists));
+                gridView.setOnItemClickListener(ArtistFragment.this);
+                gridView.setOnScrollListener(ArtistFragment.this);
+            }
         }
 
         @Override
         protected void onCancelled() {
-            showProgress(false);
+            super.onCancelled();
+            mTask.cancel(true);
         }
     }
 

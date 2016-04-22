@@ -34,6 +34,7 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
 
     private List<IParentEvent> parentEventList = new ArrayList<>();
     private ProgressBar mProgressBar;
+    private ReadParentEvents mTask;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,8 +45,8 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
     }
 
     private void getParentEvents() {
-        ReadParentEvents task = new ReadParentEvents(getActivity());
-        task.execute();
+        mTask = new ReadParentEvents(getActivity());
+        mTask.execute();
     }
 
     @Override
@@ -72,15 +73,51 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
     }
 
     @Override
+    public void onPause() {
+        Log.d(MainActivity.DEBUG_TAG, "onPause: ");
+
+        if (isTaskRunning()) {
+            mTask.cancel(true);
+        }
+
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        Log.d(MainActivity.DEBUG_TAG, "onStop: ");
+
+        if (isTaskRunning()) {
+            mTask.cancel(true);
+        }
+
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        Log.d(MainActivity.DEBUG_TAG, "onDestroy: ");
+
+        if (isTaskRunning()) {
+            mTask.cancel(true);
+        }
+
+        super.onDestroy();
+    }
+
+    private boolean isTaskRunning() {
+        return mTask != null && mTask.getStatus() == AsyncTask.Status.RUNNING;
+    }
+
+
+    @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
-        Log.d(MainActivity.DEBUG_TAG, "onScrollStateChanged: ");
     }
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
         if (firstVisibleItem + visibleItemCount >= totalItemCount) {
-            Log.d(MainActivity.DEBUG_TAG, "onScroll: End has been reached");
             getParentEvents();
 
         }
@@ -103,8 +140,6 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
         @Override
         protected List<IParentEvent> doInBackground(Void... params) {
 
-            Log.d(MainActivity.DEBUG_TAG, "doInBackground: size " + parentEventList.size());
-
             try {
                 if (parentEventList.size() > 0) {
                     parentEventList.addAll(UserWrapper.getInstance().loadMoreParentEvents());
@@ -121,15 +156,18 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
         @Override
         protected void onPostExecute(List<IParentEvent> parentEvents) {
             showProgress(false);
-            GridView gridView = (GridView) mContext.findViewById(R.id.event_grid_view);
-            gridView.setAdapter(new ParentEventFragAdapter(mContext, parentEvents));
-            gridView.setOnItemClickListener(ParentEventFragment.this);
-            gridView.setOnScrollListener(ParentEventFragment.this);
+            if (parentEvents != null && !parentEvents.isEmpty()) {
+                GridView gridView = (GridView) mContext.findViewById(R.id.event_grid_view);
+                gridView.setAdapter(new ParentEventFragAdapter(mContext, parentEvents));
+                gridView.setOnItemClickListener(ParentEventFragment.this);
+                gridView.setOnScrollListener(ParentEventFragment.this);
+            }
         }
 
         @Override
         protected void onCancelled() {
-            showProgress(false);
+            super.onCancelled();
+            mTask.cancel(true);
         }
     }
 
