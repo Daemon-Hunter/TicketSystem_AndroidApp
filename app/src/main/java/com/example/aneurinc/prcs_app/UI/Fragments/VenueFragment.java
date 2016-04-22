@@ -1,7 +1,6 @@
 package com.example.aneurinc.prcs_app.UI.Fragments;
 
 import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -28,11 +27,12 @@ import java.util.List;
 /**
  * Created by aneurinc on 06/03/2016.
  */
-public class VenueFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class VenueFragment extends Fragment implements AdapterView.OnItemClickListener, Animator.AnimatorListener {
 
     private List<IVenue> venues;
     private ProgressBar mProgressBar;
     private ReadVenues mTask;
+    private static final int ANIM_TIME = 200;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,49 +56,52 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
     }
 
     private void showProgress(final boolean show) {
-
-        int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
         mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
-        mProgressBar.animate().setDuration(shortAnimTime).alpha(
-                show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
-            }
-        });
+        mProgressBar.animate().setDuration(ANIM_TIME).alpha(show ? 1 : 0).setListener(this);
+    }
+
+    @Override
+    public void onAnimationStart(Animator animation) {
+        mProgressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onAnimationEnd(Animator animation) {
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onAnimationCancel(Animator animation) {
 
     }
+
+    @Override
+    public void onAnimationRepeat(Animator animation) {
+
+    }
+
     @Override
     public void onPause() {
-        Log.d(MainActivity.DEBUG_TAG, "onPause: ");
-
-        if (isTaskRunning()) {
-            mTask.cancel(true);
-        }
-
+        handleQuit();
         super.onPause();
     }
 
     @Override
     public void onStop() {
-        Log.d(MainActivity.DEBUG_TAG, "onStop: ");
-
-        if (isTaskRunning()) {
-            mTask.cancel(true);
-        }
-
+        handleQuit();
         super.onStop();
     }
 
     @Override
     public void onDestroy() {
-        Log.d(MainActivity.DEBUG_TAG, "onDestroy: ");
+        handleQuit();
+        super.onDestroy();
+    }
 
+    private void handleQuit() {
         if (isTaskRunning()) {
             mTask.cancel(true);
         }
-
-        super.onDestroy();
     }
 
     private boolean isTaskRunning() {
@@ -116,7 +119,7 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
 
         @Override
         protected void onPreExecute() {
-            super.onPreExecute();
+            Log.d(MainActivity.DEBUG_TAG, "onPreExecute: Venue Thread started");
             showProgress(true);
         }
 
@@ -132,18 +135,21 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
 
         @Override
         protected void onPostExecute(List<IVenue> venues) {
-            if (venues != null && !venues.isEmpty()) {
+
+            if (mContext != null && isAdded()) {
                 showProgress(false);
-                ListView list = (ListView) mContext.findViewById(R.id.venue_list);
-                list.setAdapter(new VenueFragAdapter(mContext, venues));
-                list.setOnItemClickListener(VenueFragment.this);
+                if (venues != null && !venues.isEmpty()) {
+                    ListView list = (ListView) mContext.findViewById(R.id.venue_list);
+                    list.setAdapter(new VenueFragAdapter(mContext, venues));
+                    list.setOnItemClickListener(VenueFragment.this);
+                }
             }
         }
 
         @Override
         protected void onCancelled() {
-            super.onCancelled();
-            mTask.cancel(true);
+            Log.d(MainActivity.DEBUG_TAG, "onCancelled: Venue Thread cancelled");
+            showProgress(false);
         }
     }
 }

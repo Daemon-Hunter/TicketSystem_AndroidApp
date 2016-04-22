@@ -1,7 +1,6 @@
 package com.example.aneurinc.prcs_app.UI.Fragments;
 
 import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -29,11 +28,12 @@ import java.util.List;
 /**
  * Created by aneurinc on 02/03/2016.
  */
-public class ArtistFragment extends Fragment implements AdapterView.OnItemClickListener, AbsListView.OnScrollListener {
+public class ArtistFragment extends Fragment implements AdapterView.OnItemClickListener, AbsListView.OnScrollListener, Animator.AnimatorListener {
 
     private List<IArtist> artistList;
     private ProgressBar mProgressBar;
     private ReadArtists mTask;
+    private static final int ANIM_TIME = 200;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,35 +49,26 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
 
     @Override
     public void onPause() {
-        Log.d(MainActivity.DEBUG_TAG, "onPause: ");
-
-        if (isTaskRunning()) {
-            mTask.cancel(true);
-        }
-
+        handleQuit();
         super.onPause();
     }
 
     @Override
     public void onStop() {
-        Log.d(MainActivity.DEBUG_TAG, "onStop: ");
-
-        if (isTaskRunning()) {
-            mTask.cancel(true);
-        }
-
+        handleQuit();
         super.onStop();
     }
 
     @Override
     public void onDestroy() {
-        Log.d(MainActivity.DEBUG_TAG, "onDestroy: ");
+        handleQuit();
+        super.onDestroy();
+    }
 
+    private void handleQuit() {
         if (isTaskRunning()) {
             mTask.cancel(true);
         }
-
-        super.onDestroy();
     }
 
     private boolean isTaskRunning() {
@@ -97,15 +88,28 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
     }
 
     private void showProgress(final boolean show) {
-        int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
         mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
-        mProgressBar.animate().setDuration(shortAnimTime).alpha(
-                show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
-            }
-        });
+        mProgressBar.animate().setDuration(ANIM_TIME).alpha(show ? 1 : 0).setListener(this);
+    }
+
+    @Override
+    public void onAnimationStart(Animator animation) {
+        mProgressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onAnimationEnd(Animator animation) {
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onAnimationCancel(Animator animation) {
+
+    }
+
+    @Override
+    public void onAnimationRepeat(Animator animation) {
+
     }
 
     @Override
@@ -125,13 +129,13 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
 
         private Activity mContext;
 
-        public ReadArtists(Activity mContext) {
-            this.mContext = mContext;
+        public ReadArtists(Activity context) {
+            mContext = context;
         }
 
         @Override
         protected void onPreExecute() {
-            super.onPreExecute();
+            Log.d(MainActivity.DEBUG_TAG, "onPreExecute: Artist Thread started");
             showProgress(true);
         }
 
@@ -147,19 +151,22 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
 
         @Override
         protected void onPostExecute(List<IArtist> artists) {
-            if (artists != null && !artists.isEmpty()) {
+
+            if (mContext != null && isAdded()) {
                 showProgress(false);
-                GridView gridView = (GridView) mContext.findViewById(R.id.artist_grid_view);
-                gridView.setAdapter(new ArtistFragAdapter(mContext, artists));
-                gridView.setOnItemClickListener(ArtistFragment.this);
-                gridView.setOnScrollListener(ArtistFragment.this);
+                if (artists != null && !artists.isEmpty()) {
+                    GridView gridView = (GridView) mContext.findViewById(R.id.artist_grid_view);
+                    gridView.setAdapter(new ArtistFragAdapter(mContext, artists));
+                    gridView.setOnItemClickListener(ArtistFragment.this);
+                    gridView.setOnScrollListener(ArtistFragment.this);
+                }
             }
         }
 
         @Override
         protected void onCancelled() {
-            super.onCancelled();
-            mTask.cancel(true);
+            Log.d(MainActivity.DEBUG_TAG, "onCancelled: Artist Thread cancelled");
+            showProgress(false);
         }
     }
 

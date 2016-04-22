@@ -20,6 +20,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/featured_lineup"
         android:background="@android:color/white"
-        android:fadeScrollbars="false" />
+        android:fadeScrollbars="false"/>
 
 </RelativeLayout>

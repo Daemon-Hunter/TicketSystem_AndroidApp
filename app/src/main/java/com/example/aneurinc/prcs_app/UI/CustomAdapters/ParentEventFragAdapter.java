@@ -5,7 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,12 +18,13 @@ import java.util.List;
 /**
  * Created by Dominic on 15/04/2016.
  */
-public class ParentEventFragAdapter extends BaseAdapter {
+public class ParentEventFragAdapter extends ArrayAdapter<IParentEvent> {
 
     private Activity mContext;
     private List<IParentEvent> mParentEvents;
 
     public ParentEventFragAdapter(Activity context, List<IParentEvent> parentEvents) {
+        super(context, R.layout.grid_single);
         mContext = context;
         mParentEvents = parentEvents;
     }
@@ -34,7 +35,7 @@ public class ParentEventFragAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public IParentEvent getItem(int position) {
         return mParentEvents.get(position);
     }
 
@@ -47,7 +48,7 @@ public class ParentEventFragAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder viewHolder;
-        IParentEvent currParentEvent = (IParentEvent) getItem(position);
+        IParentEvent currParentEvent = getItem(position);
 
         if (convertView == null) {
 

@@ -19,7 +19,7 @@ import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.form
 /**
  * Created by aneurinc on 11/04/2016.
  */
-public class TicketFragAdapter extends ArrayAdapter<String> {
+public class TicketFragAdapter extends ArrayAdapter<ITicket> {
 
     // TODO get event name, event image and venue name
 
@@ -33,7 +33,8 @@ public class TicketFragAdapter extends ArrayAdapter<String> {
         mTickets = tickets;
     }
 
-    public Object getTicket(int position) {
+    @Override
+    public ITicket getItem(int position) {
         return mTickets.get(position);
     }
 
@@ -41,7 +42,7 @@ public class TicketFragAdapter extends ArrayAdapter<String> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder viewHolder;
-        ITicket currTicket = (ITicket) getTicket(position);
+        ITicket currTicket = getItem(position);
 
         if (convertView == null) {
 

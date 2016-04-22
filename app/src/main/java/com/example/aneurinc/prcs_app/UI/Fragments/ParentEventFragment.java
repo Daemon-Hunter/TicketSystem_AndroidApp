@@ -1,7 +1,6 @@
 package com.example.aneurinc.prcs_app.UI.Fragments;
 
 import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -30,11 +29,12 @@ import java.util.List;
 /**
  * Created by aneurinc on 02/03/2016.
  */
-public class ParentEventFragment extends Fragment implements AdapterView.OnItemClickListener, AbsListView.OnScrollListener {
+public class ParentEventFragment extends Fragment implements AdapterView.OnItemClickListener, AbsListView.OnScrollListener, Animator.AnimatorListener {
 
     private List<IParentEvent> parentEventList = new ArrayList<>();
     private ProgressBar mProgressBar;
     private ReadParentEvents mTask;
+    private static final int ANIM_TIME = 200;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,50 +59,52 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
     }
 
     private void showProgress(final boolean show) {
-
-        int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
         mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
-        mProgressBar.animate().setDuration(shortAnimTime).alpha(
-                show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
-            }
-        });
+        mProgressBar.animate().setDuration(ANIM_TIME).alpha(show ? 1 : 0).setListener(this);
+    }
+
+    @Override
+    public void onAnimationStart(Animator animation) {
+        mProgressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onAnimationEnd(Animator animation) {
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onAnimationCancel(Animator animation) {
+
+    }
+
+    @Override
+    public void onAnimationRepeat(Animator animation) {
 
     }
 
     @Override
     public void onPause() {
-        Log.d(MainActivity.DEBUG_TAG, "onPause: ");
-
-        if (isTaskRunning()) {
-            mTask.cancel(true);
-        }
-
+        handleQuit();
         super.onPause();
     }
 
     @Override
     public void onStop() {
-        Log.d(MainActivity.DEBUG_TAG, "onStop: ");
-
-        if (isTaskRunning()) {
-            mTask.cancel(true);
-        }
-
+        handleQuit();
         super.onStop();
     }
 
     @Override
     public void onDestroy() {
-        Log.d(MainActivity.DEBUG_TAG, "onDestroy: ");
+        handleQuit();
+        super.onDestroy();
+    }
 
+    private void handleQuit() {
         if (isTaskRunning()) {
             mTask.cancel(true);
         }
-
-        super.onDestroy();
     }
 
     private boolean isTaskRunning() {
@@ -118,8 +120,7 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
         if (firstVisibleItem + visibleItemCount >= totalItemCount) {
-            getParentEvents();
-
+            // TODO: 22/04/2016 add refresh
         }
     }
 
@@ -133,7 +134,7 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
 
         @Override
         protected void onPreExecute() {
-            super.onPreExecute();
+            Log.d(MainActivity.DEBUG_TAG, "onPreExecute: Event Thread started");
             showProgress(true);
         }
 
@@ -141,33 +142,38 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
         protected List<IParentEvent> doInBackground(Void... params) {
 
             try {
-                if (parentEventList.size() > 0) {
-                    parentEventList.addAll(UserWrapper.getInstance().loadMoreParentEvents());
-                } else {
+                if (parentEventList.isEmpty()) {
                     parentEventList = UserWrapper.getInstance().getParentEvents();
+                } else {
+                    parentEventList.addAll(UserWrapper.getInstance().loadMoreParentEvents());
                 }
-            }catch (IOException e){
+            } catch (IOException e) {
                 //TODO handle exception
             }
 
             return parentEventList;
         }
 
+
         @Override
         protected void onPostExecute(List<IParentEvent> parentEvents) {
-            if (parentEvents != null && !parentEvents.isEmpty()) {
+
+            if (mContext != null && isAdded()) {
                 showProgress(false);
-                GridView gridView = (GridView) mContext.findViewById(R.id.event_grid_view);
-                gridView.setAdapter(new ParentEventFragAdapter(mContext, parentEvents));
-                gridView.setOnItemClickListener(ParentEventFragment.this);
-                gridView.setOnScrollListener(ParentEventFragment.this);
+
+                if (!parentEvents.isEmpty()) {
+                    GridView gridView = (GridView) mContext.findViewById(R.id.event_grid_view);
+                    gridView.setAdapter(new ParentEventFragAdapter(mContext, parentEvents));
+                    gridView.setOnItemClickListener(ParentEventFragment.this);
+                    gridView.setOnScrollListener(ParentEventFragment.this);
+                }
             }
         }
 
         @Override
         protected void onCancelled() {
-            super.onCancelled();
-            mTask.cancel(true);
+            Log.d(MainActivity.DEBUG_TAG, "onCancelled: Event Thread cancelled");
+            showProgress(false);
         }
     }
 

@@ -9,7 +9,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,13 +19,14 @@ import com.google.jkellaway.androidapp_datamodel.datamodel.IArtist;
 
 import java.util.List;
 
-public class ArtistFragAdapter extends BaseAdapter {
+public class ArtistFragAdapter extends ArrayAdapter<IArtist> {
 
     private Activity mContext;
     private List<IArtist> mArtistList;
 
-    public ArtistFragAdapter(Activity c, List<IArtist> artistList) {
-        mContext = c;
+    public ArtistFragAdapter(Activity context, List<IArtist> artistList) {
+        super(context, R.layout.grid_single);
+        mContext = context;
         mArtistList = artistList;
     }
 
@@ -35,7 +36,7 @@ public class ArtistFragAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public IArtist getItem(int position) {
         return mArtistList.get(position);
     }
 
@@ -48,7 +49,7 @@ public class ArtistFragAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder viewHolder;
-        IArtist currArtist = (IArtist) getItem(position);
+        IArtist currArtist = getItem(position);
 
         if (convertView == null) {
 
@@ -69,11 +70,11 @@ public class ArtistFragAdapter extends BaseAdapter {
 
         }
 
-        if (currArtist.getImage(position) != null) {
+        if (currArtist.getImage(0) != null) {
             // get width of single grid
             int xy = mContext.findViewById(R.id.artist_grid_view).getWidth() / 3;
             // resize image to fit single grid
-            viewHolder.gridImage.setImageBitmap(ImageUtils.scaleDown(currArtist.getImage(position), xy, xy));
+            viewHolder.gridImage.setImageBitmap(ImageUtils.scaleDown(currArtist.getImage(0), xy, xy));
         }
 
         viewHolder.gridText.setText(currArtist.getArtistName());
