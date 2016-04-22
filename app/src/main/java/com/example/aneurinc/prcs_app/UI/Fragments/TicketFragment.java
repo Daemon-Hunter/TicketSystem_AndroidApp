@@ -113,8 +113,8 @@ public class TicketFragment extends Fragment {
 
         @Override
         protected void onPostExecute(List<ITicket> tickets) {
-            showProgress(false);
             if (tickets != null && !tickets.isEmpty()) {
+                showProgress(false);
                 ListView list = (ListView) mContext.findViewById(R.id.my_tickets_list);
                 list.setAdapter(new TicketFragAdapter(mContext, tickets));
             }

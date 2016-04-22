@@ -28,6 +28,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private LatLng location;
     private String strAddress;
 
+    public String LOCATION_ADDRESS;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

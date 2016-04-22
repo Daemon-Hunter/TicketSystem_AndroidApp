@@ -24,34 +24,24 @@ public class TicketFragAdapter extends ArrayAdapter<String> {
     // TODO get event name, event image and venue name
 
     private final Activity mContext;
-    private String[] cost;
-    private String[] type;
+    private List<ITicket> mTickets;
 
     public TicketFragAdapter(Activity context, List<ITicket> tickets) {
 
-        super(context, R.layout.list_row_my_ticket, Constants.eventName);
+        super(context, R.layout.list_row_my_ticket);
         mContext = context;
-        updateTicketList(tickets);
+        mTickets = tickets;
     }
 
-    private void updateTicketList(List<ITicket> tickets) {
-
-        int i = 0;
-        int n = tickets.size();
-        cost = new String[n];
-        type = new String[n];
-
-        for (ITicket t : tickets) {
-            cost[i] = t.getPrice().toString();
-            type[i] = t.getType();
-            i++;
-        }
+    public Object getTicket(int position) {
+        return mTickets.get(position);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder viewHolder;
+        ITicket currTicket = (ITicket) getTicket(position);
 
         if (convertView == null) {
 
@@ -74,10 +64,12 @@ public class TicketFragAdapter extends ArrayAdapter<String> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
+        // TODO: 22/04/2016 get event name, event image and venue name
+
         viewHolder.eventName.setText("Event Name");
         viewHolder.eventImage.setImageResource(Constants.eventImages[position]);
-        viewHolder.ticketCost.setText(formatPrice(Double.parseDouble(cost[position])));
-        viewHolder.ticketType.setText(type[position]);
+        viewHolder.ticketCost.setText(formatPrice(Double.parseDouble(currTicket.getPrice().toString())));
+        viewHolder.ticketType.setText(currTicket.getType());
         viewHolder.venueName.setText("Venue Name");
 
         return convertView;
@@ -85,7 +77,7 @@ public class TicketFragAdapter extends ArrayAdapter<String> {
 
     @Override
     public int getCount() {
-        return type.length;
+        return mTickets.size();
     }
 
     static class ViewHolder {

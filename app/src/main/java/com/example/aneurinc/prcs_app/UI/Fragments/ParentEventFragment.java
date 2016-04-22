@@ -155,8 +155,8 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
 
         @Override
         protected void onPostExecute(List<IParentEvent> parentEvents) {
-            showProgress(false);
             if (parentEvents != null && !parentEvents.isEmpty()) {
+                showProgress(false);
                 GridView gridView = (GridView) mContext.findViewById(R.id.event_grid_view);
                 gridView.setAdapter(new ParentEventFragAdapter(mContext, parentEvents));
                 gridView.setOnItemClickListener(ParentEventFragment.this);

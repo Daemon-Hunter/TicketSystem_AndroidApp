@@ -28,7 +28,7 @@ public class VenueFragAdapter extends ArrayAdapter<String> implements OnClickLis
     private List<IVenue> mVenues;
 
     public VenueFragAdapter(Activity c, List<IVenue> venues) {
-        super(c, R.layout.list_row_venue, Constants.venueNames);
+        super(c, R.layout.list_row_venue);
         mVenues = venues;
         mContext = c;
     }
@@ -80,6 +80,8 @@ public class VenueFragAdapter extends ArrayAdapter<String> implements OnClickLis
     @Override
     public void onClick(View v) {
         v.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.onclick));
+        Intent i =  new Intent(mContext, MapActivity.class);
+//        i.putExtra()
         mContext.startActivity(new Intent(mContext, MapActivity.class));
     }
 

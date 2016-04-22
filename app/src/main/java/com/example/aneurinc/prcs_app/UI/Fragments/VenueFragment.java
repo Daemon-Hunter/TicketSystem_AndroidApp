@@ -132,9 +132,8 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
 
         @Override
         protected void onPostExecute(List<IVenue> venues) {
-            showProgress(false);
             if (venues != null && !venues.isEmpty()) {
-                Log.d(MainActivity.DEBUG_TAG, "onPostExecute: ");
+                showProgress(false);
                 ListView list = (ListView) mContext.findViewById(R.id.venue_list);
                 list.setAdapter(new VenueFragAdapter(mContext, venues));
                 list.setOnItemClickListener(VenueFragment.this);

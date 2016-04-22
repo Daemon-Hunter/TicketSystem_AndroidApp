@@ -147,8 +147,8 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
 
         @Override
         protected void onPostExecute(List<IArtist> artists) {
-            showProgress(false);
             if (artists != null && !artists.isEmpty()) {
+                showProgress(false);
                 GridView gridView = (GridView) mContext.findViewById(R.id.artist_grid_view);
                 gridView.setAdapter(new ArtistFragAdapter(mContext, artists));
                 gridView.setOnItemClickListener(ArtistFragment.this);
