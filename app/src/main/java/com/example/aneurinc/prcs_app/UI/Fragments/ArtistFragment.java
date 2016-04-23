@@ -29,7 +29,8 @@ import java.util.List;
 /**
  * Created by aneurinc on 02/03/2016.
  */
-public class ArtistFragment extends Fragment implements AdapterView.OnItemClickListener, AbsListView.OnScrollListener, Animator.AnimatorListener {
+public class ArtistFragment extends Fragment implements AdapterView.OnItemClickListener,
+        AbsListView.OnScrollListener, Animator.AnimatorListener {
 
     private List<IArtist> artistList;
     private ProgressBar mProgressBar;

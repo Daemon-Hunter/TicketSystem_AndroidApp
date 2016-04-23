@@ -117,7 +117,7 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener 
             case R.id.spotify:
                 break;
             case R.id.map:
-                startActivity(new Intent(this, MapActivity.class));
+//                startActivity(new Intent(this, MapActivity.class));
                 break;
         }
     }

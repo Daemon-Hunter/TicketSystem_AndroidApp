@@ -83,5 +83,6 @@
     <string name="prompt_address">Address</string>
     <string name="prompt_postcode">Postcode</string>
     <string name="error_invalid_postcode">Postcode incorrect length.</string>
+    <string name="title_activity_maps">Map</string>
 
 </resources>

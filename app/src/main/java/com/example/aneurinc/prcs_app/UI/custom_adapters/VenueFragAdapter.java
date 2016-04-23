@@ -1,7 +1,7 @@
 package com.example.aneurinc.prcs_app.UI.custom_adapters;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.activities.MapActivity;
+import com.example.aneurinc.prcs_app.UI.activities.MainActivity;
 import com.example.aneurinc.prcs_app.UI.utilities.Constants;
 import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IVenue;
@@ -72,6 +72,7 @@ public class VenueFragAdapter extends ArrayAdapter<IVenue> implements OnClickLis
         }
 
         mAddress = currVenue.getVenueAddress();
+
         viewHolder.venueName.setText(currVenue.getVenueName());
         // TODO change address to city!
         viewHolder.venueCity.setText(mAddress);
@@ -94,9 +95,9 @@ public class VenueFragAdapter extends ArrayAdapter<IVenue> implements OnClickLis
 
         v.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.onclick));
 
-        Intent i = new Intent(mContext, MapActivity.class);
-        i.putExtra(mAddress, MapActivity.LOCATION_ADDRESS);
-        mContext.startActivity(i);
+//        Intent i = new Intent(mContext, MapActivity.class);
+//        i.putExtra(mAddress, MapActivity.LOCATION_ADDRESS);
+//        mContext.startActivity(i);
 
     }
 
