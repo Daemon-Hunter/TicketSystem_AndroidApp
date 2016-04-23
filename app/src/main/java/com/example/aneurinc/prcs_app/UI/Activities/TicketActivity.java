@@ -1,4 +1,4 @@
-package com.example.aneurinc.prcs_app.UI.Activities;
+package com.example.aneurinc.prcs_app.UI.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,9 +14,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.Utilities.Constants;
-import com.example.aneurinc.prcs_app.UI.CustomViews.CustomDialog;
-import com.example.aneurinc.prcs_app.UI.CustomAdapters.TicketActAdapter;
+import com.example.aneurinc.prcs_app.UI.utilities.Constants;
+import com.example.aneurinc.prcs_app.UI.custom_views.CustomDialog;
+import com.example.aneurinc.prcs_app.UI.custom_adapters.TicketActAdapter;
 
 public class TicketActivity extends AppCompatActivity implements OnClickListener {
 

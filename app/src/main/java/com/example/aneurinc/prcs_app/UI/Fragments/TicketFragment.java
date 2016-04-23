@@ -1,4 +1,4 @@
-package com.example.aneurinc.prcs_app.UI.Fragments;
+package com.example.aneurinc.prcs_app.UI.fragments;
 
 import android.animation.Animator;
 import android.app.Activity;
@@ -13,8 +13,9 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.Activities.MainActivity;
-import com.example.aneurinc.prcs_app.UI.CustomAdapters.TicketFragAdapter;
+import com.example.aneurinc.prcs_app.UI.activities.MainActivity;
+import com.example.aneurinc.prcs_app.UI.custom_adapters.TicketFragAdapter;
+import com.example.aneurinc.prcs_app.UI.custom_listeners.OnSwipeTouchListener;
 import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
 
 import java.util.LinkedList;
@@ -28,13 +29,30 @@ public class TicketFragment extends Fragment implements Animator.AnimatorListene
     private ProgressBar mProgressBar;
     private ReadTickets mTask;
     private static final int ANIM_TIME = 200;
+    private MainActivity mMainActivity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ticket, container, false);
+
+        if (getActivity() instanceof MainActivity) {
+            mMainActivity = (MainActivity) getActivity();
+        }
+
+        setSwipe(view);
+
         mProgressBar = (ProgressBar) view.getRootView().findViewById(R.id.ticket_progress);
         getTickets();
         return view;
+    }
+
+    private void setSwipe(View v) {
+        v.setOnTouchListener(new OnSwipeTouchListener(getActivity()) {
+            @Override
+            public void onSwipeRight() {
+                mMainActivity.switchFragment(new ArtistFragment(), FragmentType.VENUE);
+            }
+        });
     }
 
     private void getTickets() {
@@ -123,6 +141,7 @@ public class TicketFragment extends Fragment implements Animator.AnimatorListene
                 if (tickets != null && !tickets.isEmpty()) {
                     ListView list = (ListView) mContext.findViewById(R.id.my_tickets_list);
                     list.setAdapter(new TicketFragAdapter(mContext, tickets));
+                    setSwipe(list);
                 }
             }
         }

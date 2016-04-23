@@ -1,4 +1,4 @@
-package com.example.aneurinc.prcs_app.UI.Fragments;
+package com.example.aneurinc.prcs_app.UI.fragments;
 
 import android.animation.Animator;
 import android.app.Activity;
@@ -15,9 +15,10 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.Activities.MainActivity;
-import com.example.aneurinc.prcs_app.UI.Activities.VenueActivity;
-import com.example.aneurinc.prcs_app.UI.CustomAdapters.VenueFragAdapter;
+import com.example.aneurinc.prcs_app.UI.activities.MainActivity;
+import com.example.aneurinc.prcs_app.UI.activities.VenueActivity;
+import com.example.aneurinc.prcs_app.UI.custom_adapters.VenueFragAdapter;
+import com.example.aneurinc.prcs_app.UI.custom_listeners.OnSwipeTouchListener;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IVenue;
 import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
@@ -33,14 +34,36 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
     private ProgressBar mProgressBar;
     private ReadVenues mTask;
     private static final int ANIM_TIME = 200;
+    private MainActivity mMainActivity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_venue, container, false);
+
+        if (getActivity() instanceof MainActivity) {
+            mMainActivity = (MainActivity) getActivity();
+        }
+
+        setSwipe(view);
+
         mProgressBar = (ProgressBar) view.getRootView().findViewById(R.id.venue_progress);
         getVenues();
         return view;
+    }
+
+    private void setSwipe(View v) {
+        v.setOnTouchListener(new OnSwipeTouchListener(getActivity()) {
+            @Override
+            public void onSwipeRight() {
+                mMainActivity.switchFragment(new ArtistFragment(), FragmentType.ARTIST);
+            }
+
+            @Override
+            public void onSwipeLeft() {
+                mMainActivity.switchFragment(new TicketFragment(), FragmentType.TICKET);
+            }
+        });
     }
 
     private void getVenues() {
@@ -142,6 +165,7 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
                     ListView list = (ListView) mContext.findViewById(R.id.venue_list);
                     list.setAdapter(new VenueFragAdapter(mContext, venues));
                     list.setOnItemClickListener(VenueFragment.this);
+                    setSwipe(list);
                 }
             }
         }

@@ -1,4 +1,4 @@
-package com.example.aneurinc.prcs_app.UI.Utilities;
+package com.example.aneurinc.prcs_app.UI.utilities;
 
 import com.example.aneurinc.prcs_app.R;
 

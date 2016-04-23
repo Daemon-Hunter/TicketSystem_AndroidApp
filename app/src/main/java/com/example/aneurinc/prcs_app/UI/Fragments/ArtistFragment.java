@@ -1,4 +1,4 @@
-package com.example.aneurinc.prcs_app.UI.Fragments;
+package com.example.aneurinc.prcs_app.UI.fragments;
 
 import android.animation.Animator;
 import android.app.Activity;
@@ -16,9 +16,10 @@ import android.widget.GridView;
 import android.widget.ProgressBar;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.Activities.ArtistActivity;
-import com.example.aneurinc.prcs_app.UI.Activities.MainActivity;
-import com.example.aneurinc.prcs_app.UI.CustomAdapters.ArtistFragAdapter;
+import com.example.aneurinc.prcs_app.UI.activities.ArtistActivity;
+import com.example.aneurinc.prcs_app.UI.activities.MainActivity;
+import com.example.aneurinc.prcs_app.UI.custom_adapters.ArtistFragAdapter;
+import com.example.aneurinc.prcs_app.UI.custom_listeners.OnSwipeTouchListener;
 import com.google.jkellaway.androidapp_datamodel.datamodel.IArtist;
 import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
@@ -34,17 +35,38 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
     private ProgressBar mProgressBar;
     private ReadArtists mTask;
     private static final int ANIM_TIME = 200;
+    private MainActivity mMainActivity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_artist, container, false);
 
+        if (getActivity() instanceof MainActivity) {
+            mMainActivity = (MainActivity) getActivity();
+        }
+
         mProgressBar = (ProgressBar) view.getRootView().findViewById(R.id.artist_progress);
 
         readArtists();
 
+        setSwipe(view);
+
         return view;
+    }
+
+    private void setSwipe(View v) {
+        v.setOnTouchListener(new OnSwipeTouchListener(getActivity()) {
+            @Override
+            public void onSwipeLeft() {
+                mMainActivity.switchFragment(new VenueFragment(), FragmentType.VENUE);
+            }
+
+            @Override
+            public void onSwipeRight() {
+                mMainActivity.switchFragment(new ParentEventFragment(), FragmentType.PARENT_EVENT);
+            }
+        });
     }
 
     @Override
@@ -159,6 +181,7 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
                     gridView.setAdapter(new ArtistFragAdapter(mContext, artists));
                     gridView.setOnItemClickListener(ArtistFragment.this);
                     gridView.setOnScrollListener(ArtistFragment.this);
+                    setSwipe(gridView);
                 }
             }
         }
