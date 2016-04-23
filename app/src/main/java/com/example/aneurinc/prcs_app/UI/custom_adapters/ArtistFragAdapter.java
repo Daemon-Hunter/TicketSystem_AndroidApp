@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
-import com.google.jkellaway.androidapp_datamodel.datamodel.IArtist;
+import com.google.jkellaway.androidapp_datamodel.events.IArtist;
 
 import java.util.List;
 
@@ -77,7 +77,7 @@ public class ArtistFragAdapter extends ArrayAdapter<IArtist> {
             viewHolder.gridImage.setImageBitmap(ImageUtils.scaleDown(currArtist.getImage(0), xy, xy));
         }
 
-        viewHolder.gridText.setText(currArtist.getArtistName());
+        viewHolder.gridText.setText(currArtist.getName());
 
         return convertView;
     }
