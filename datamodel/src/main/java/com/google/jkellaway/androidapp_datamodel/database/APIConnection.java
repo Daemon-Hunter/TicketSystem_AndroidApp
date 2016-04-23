@@ -5,6 +5,9 @@
  */
 package com.google.jkellaway.androidapp_datamodel.database;
 
+import com.google.jkellaway.androidapp_datamodel.events.IArtist;
+import com.google.jkellaway.androidapp_datamodel.people.IAdmin;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -195,7 +198,23 @@ public final class APIConnection {
     }
 
     public static List<Map<String,String>> search(String searchText, DatabaseTable table) throws IOException {
-        return Connection(URI + "functions/search" + DBTableToString(table) + searchText);
+        return Connection(URI + "functions/search" + DBTableToString(table) + "/" + searchText);
+    }
+
+    public static List<Map<String,String>> comparePassword(String email, String password) throws IOException {
+        return Connection(URI + "functions/comparepasswords/" + email + "/" + password);
+    }
+
+    public static List<Map<String, String>> getChildeventIDsForVenue(Integer venueID) throws IOException {
+        return Connection(URI + "functions/getVenueEventIDs/" + venueID.toString());
+    }
+
+    public static List<Map<String, String>> getArtistsViaContract(Integer childEventID) throws IOException {
+        return Connection(URI + "functions/getArtistsViaContract/" + childEventID.toString());
+    }
+
+    public static List<Map<String, String>> getChildEventsViaContract(Integer artistID) throws IOException {
+        return Connection(URI + "functions/getChild_EventsViaContract/" + artistID.toString());
     }
 
     private static List<Map<String, String>> Connection (String urlText) throws IOException {
@@ -217,8 +236,6 @@ public final class APIConnection {
             List<Map<String,String>> listOfEntities = JSONBreakDown(in.readLine());
             return listOfEntities;
         }
-
-
     }
 
     private static List<Map<String,String>> JSONBreakDown(String JSONString){
@@ -231,7 +248,9 @@ public final class APIConnection {
         ExecutorService service = Executors.newFixedThreadPool(threads);
         List<Future<Map<String, String>>> futures = new LinkedList<>();
 
-        if(!JSONString.isEmpty()) {
+        if(JSONString.equals(null)){
+            return null;
+        }else if(!JSONString.isEmpty()) {
             String[] objArray = JSONString.split("\\},");
             // Loops though the array and puts it into a Map
             for (final String anObjArray : objArray) {

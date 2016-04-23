@@ -5,7 +5,7 @@
  */
 package com.google.jkellaway.androidapp_datamodel.tickets;
 
-import com.google.jkellaway.androidapp_datamodel.datamodel.ChildEvent;
+import com.google.jkellaway.androidapp_datamodel.events.ChildEvent;
 
 /**
  *

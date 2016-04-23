@@ -24,6 +24,7 @@ public class Customer extends User implements IHaveReviews, ICustomer {
 
     private List<IReview> reviews;
     private List<IOrder> orders;
+    private List<Integer> orderIDs;
     
     
     
@@ -37,13 +38,12 @@ public class Customer extends User implements IHaveReviews, ICustomer {
      * @param postcode 
      */
     public Customer(Integer ID, String firstName, String lastName,
-                    String email, String address, String postcode,
-                    List<IReview> reviews, List<IOrder> orders){
+                    String email, String address, String postcode){
 
         super(ID, firstName, lastName, email, address, postcode);
         this.table = DatabaseTable.CUSTOMER;
-        this.reviews = reviews;
-        this.orders = orders;
+        this.orders = new LinkedList<>();
+        this.orderIDs = new LinkedList<>();
     }
     
     /**

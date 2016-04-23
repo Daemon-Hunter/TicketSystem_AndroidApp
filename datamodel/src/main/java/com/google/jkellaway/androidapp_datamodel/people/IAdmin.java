@@ -11,5 +11,5 @@ package com.google.jkellaway.androidapp_datamodel.people;
  */
 public interface IAdmin extends IPerson {
     
-    public int getAdminID();
+    public int getID();
 }

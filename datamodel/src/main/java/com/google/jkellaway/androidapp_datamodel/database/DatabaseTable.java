@@ -5,8 +5,6 @@
  */
 package com.google.jkellaway.androidapp_datamodel.database;
 
-import com.google.jkellaway.androidapp_datamodel.datamodel.Artist;
-
 /**
  *
  * @author 10512691
@@ -14,6 +12,7 @@ import com.google.jkellaway.androidapp_datamodel.datamodel.Artist;
 public enum DatabaseTable {
     ADMIN,
     ARTIST ,
+    ARTIST_TYPE,
     ARTIST_REVIEW, 
     BOOKING, 
     CHILD_EVENT,

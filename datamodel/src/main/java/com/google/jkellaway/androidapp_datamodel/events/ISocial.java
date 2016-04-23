@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.google.jkellaway.androidapp_datamodel.datamodel;
+package com.google.jkellaway.androidapp_datamodel.events;
 
 import android.graphics.Bitmap;
 import com.google.jkellaway.androidapp_datamodel.utilities.observer.IDbSubject;

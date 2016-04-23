@@ -3,11 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.google.jkellaway.androidapp_datamodel.datamodel;
+package com.google.jkellaway.androidapp_datamodel.events;
 
 import android.graphics.Bitmap;
 
+import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
+
+import java.io.IOException;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,7 +24,6 @@ import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
  */
 public class ChildEvent implements IChildEvent {
 
-    private List<Integer> artistIDs;
     private List<IArtist> artists;
     private IParentEvent parentEvent;
     private IVenue venue;
@@ -68,7 +70,6 @@ public class ChildEvent implements IChildEvent {
                 this.artists = artists;
                 this.cancelled = false;
                 this.table = DatabaseTable.CHILD_EVENT;
-                this.artistIDs = new LinkedList<>();
                 this.artists = new LinkedList<>();
                 this.parentEvent = parentEvent;
             } else {
@@ -86,37 +87,37 @@ public class ChildEvent implements IChildEvent {
     }
     
     @Override
-    public Integer getChildEventID() {
+    public Integer getID() {
         return childEventID;
     }
 
     @Override
-    public String getChildEventName() {
+    public String getName() {
         return childEventName;
     }
 
     @Override
-    public String getChildEventDescription() {
+    public String getDescription() {
         return childEventDescription;
     }
 
     @Override
-    public Date getChildEventStartDateTime() {
+    public Date getStartDateTime() {
         return (Date) startDateTime.clone();
     }
 
     @Override
-    public Date getChildEventEndDateTime() {
+    public Date getEndDateTime() {
         return (Date) endDateTime.clone();
     }
 
     @Override
-    public Boolean getChildEventCancelled() {
+    public Boolean getCancelled() {
         return cancelled;
     }
 
     @Override
-    public Boolean setChildEventName(String name) {
+    public Boolean setName(String name) {
         if (name == null) {
             throw new NullPointerException("Null name!");
         } else if (Validator.nameValidator(name)) {
@@ -128,7 +129,7 @@ public class ChildEvent implements IChildEvent {
     }
 
     @Override
-    public Boolean setChildEventDescription(String description) {
+    public Boolean setDescription(String description) {
         if (description == null) {
             throw new NullPointerException("Null description");
         } else if (Validator.descriptionValidator(description)) {
@@ -140,7 +141,7 @@ public class ChildEvent implements IChildEvent {
     }
 
     @Override
-    public Boolean setChildEventStartDateTime(Date startDateTime) {
+    public Boolean setStartDateTime(Date startDateTime) {
         if (startDateTime == null) {
             throw new NullPointerException("start time is null");
         } else {
@@ -150,7 +151,7 @@ public class ChildEvent implements IChildEvent {
     }
 
     @Override
-    public Boolean setChildEventEndDateTime(Date endDateTime) {
+    public Boolean setEndDateTime(Date endDateTime) {
         if (endDateTime == null) {
             throw new NullPointerException("end time is null");
         } else {
@@ -160,7 +161,7 @@ public class ChildEvent implements IChildEvent {
     }
 
     @Override
-    public Boolean setChildEventCancelled(Boolean cancelled) {
+    public Boolean setCancelled(Boolean cancelled) {
         if (cancelled == null) {
             throw new NullPointerException("Cannot set 'cancelled' flag to null");
         } else {
@@ -169,52 +170,19 @@ public class ChildEvent implements IChildEvent {
         return this.cancelled.equals(cancelled);
     }
 
-
     @Override
-    public List<IArtist> getArtistList() {
+    public List<IArtist> getArtistList() throws IOException {
         if (artists == null) {
-            throw new NullPointerException("Null lineup. cannot get artist list");
+            artists = APIHandle.getArtistsViaContract(this.childEventID);
+            return new LinkedList<>(artists);
         } else {
             return new LinkedList<>(artists);
         }
     }
 
     @Override
-    public Boolean addArtist(IArtist artist) {
-        
-        if (artists == null) {
-            artists = new LinkedList<>();
-        }
-        if (artist == null) {
-            throw new NullPointerException("Cannot add null to the artist list");
-        } else {
-            if (artists.contains(artist)) {
-                throw new IllegalArgumentException("Artist already in contract!");
-            } else {
-                artists.add(artist);
-            }
-        }
-        return artists.contains(artist);
-    }
-
-    @Override
-    public List<Integer> getArtistIDs() {
-        return new LinkedList<>(artistIDs);
-    }
-
-    @Override
-    public Boolean removeArtistIDs(Integer artistID) {
-        return artistIDs.remove(artistID);
-    }
-
-    @Override
-    public Boolean addArtistID(Integer artistID) {
-        return artistIDs.add(artistID);
-    }
-
-    @Override
-    public void setParentEvent(IParentEvent parentEvent) {
-        this.parentEvent = parentEvent;
+    public IParentEvent getParentEvent() {
+        return this.parentEvent;
     }
 
     @Override
@@ -225,25 +193,6 @@ public class ChildEvent implements IChildEvent {
     @Override
     public void setSocialMedia(SocialMedia socialMedia) {
         this.setSocialMedia(socialMedia);
-    }
-
-    @Override
-    public Boolean removeArtist(IArtist artist) {
-        if (artists == null) {
-            artists = new LinkedList<>();
-            throw new NullPointerException("No Artists in the lineup");
-        } else {
-            if (artist == null) {
-                throw new NullPointerException("cannot remove a null artist");
-            } else {
-                if (!artists.contains(artist)) {
-                    throw new IllegalArgumentException("Artist list doesn't contain artist");
-                } else {
-                    artists.remove(artist);
-                    return !artists.contains(artist);
-                }
-            }
-        }
     }
 
     @Override

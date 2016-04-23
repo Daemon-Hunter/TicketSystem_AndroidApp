@@ -14,21 +14,18 @@ import com.google.jkellaway.androidapp_datamodel.bookings.GuestBooking;
 import com.google.jkellaway.androidapp_datamodel.bookings.IBooking;
 import com.google.jkellaway.androidapp_datamodel.bookings.IOrder;
 import com.google.jkellaway.androidapp_datamodel.bookings.Order;
-import com.google.jkellaway.androidapp_datamodel.datamodel.Artist;
-import com.google.jkellaway.androidapp_datamodel.datamodel.ChildEvent;
-import com.google.jkellaway.androidapp_datamodel.datamodel.IArtist;
-import com.google.jkellaway.androidapp_datamodel.datamodel.IChildEvent;
-import com.google.jkellaway.androidapp_datamodel.datamodel.IParentEvent;
-import com.google.jkellaway.androidapp_datamodel.datamodel.ISocial;
-import com.google.jkellaway.androidapp_datamodel.datamodel.IVenue;
-import com.google.jkellaway.androidapp_datamodel.datamodel.ParentEvent;
-import com.google.jkellaway.androidapp_datamodel.datamodel.SocialMedia;
-import com.google.jkellaway.androidapp_datamodel.datamodel.Venue;
+import com.google.jkellaway.androidapp_datamodel.events.Artist;
+import com.google.jkellaway.androidapp_datamodel.events.ChildEvent;
+import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
+import com.google.jkellaway.androidapp_datamodel.events.IParentEvent;
+import com.google.jkellaway.androidapp_datamodel.events.IVenue;
+import com.google.jkellaway.androidapp_datamodel.events.ParentEvent;
+import com.google.jkellaway.androidapp_datamodel.events.SocialMedia;
+import com.google.jkellaway.androidapp_datamodel.events.Venue;
 import com.google.jkellaway.androidapp_datamodel.people.Admin;
 import com.google.jkellaway.androidapp_datamodel.people.Customer;
 import com.google.jkellaway.androidapp_datamodel.people.Guest;
 import com.google.jkellaway.androidapp_datamodel.people.IAdmin;
-import com.google.jkellaway.androidapp_datamodel.people.ICustomer;
 import com.google.jkellaway.androidapp_datamodel.people.IUser;
 import com.google.jkellaway.androidapp_datamodel.reviews.ArtistReviewFactory;
 import com.google.jkellaway.androidapp_datamodel.reviews.IReview;
@@ -56,7 +53,7 @@ import static java.lang.Integer.parseInt;
 public final class MapToObject {
     private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
 
-    public static ICustomer ConvertCustomer(Map<String, String> custMap, List<IReview> reviews, List<IOrder> orders) {
+    public static IUser ConvertCustomer(Map<String, String> custMap) {
         String firstName, lastName, address, email, postcode;
         int ID = Integer.parseInt(custMap.get("CUSTOMER_ID"));
 
@@ -66,7 +63,7 @@ public final class MapToObject {
         email = custMap.get("CUSTOMER_EMAIL");
         postcode = custMap.get("CUSTOMER_POSTCODE");
 
-        return new Customer(ID, firstName, lastName, email, address, postcode, reviews, orders);
+        return new Customer(ID, firstName, lastName, email, address, postcode);
     }
 
     public static Artist ConvertArtist(Map<String, String> artistMap) {
@@ -78,11 +75,16 @@ public final class MapToObject {
         String[] tempArr = tags.split("#");
         String description = artistMap.get("ARTIST_DESCRIPTION");
         Integer socialID = Integer.parseInt(artistMap.get("SOCIAL_MEDIA_ID"));
+        Integer type = Integer.parseInt(artistMap.get("ARTIST_TYPE_ID"));
 
         LinkedList<String> listOfTags = new LinkedList<>();
         listOfTags.addAll(Arrays.asList(tempArr));
 
-        return new Artist(ID, name, description, listOfTags, socialID);
+        return new Artist(ID, name, description, listOfTags, socialID, type);
+    }
+
+    public static String ConvertArtistType(Map<String, String> artistTypeMap) {
+        return artistTypeMap.get("ARTIST_TYPE");
     }
 
     public static SocialMedia ConvertSocialMedia(Map<String, String> socialMap) {

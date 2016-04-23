@@ -20,7 +20,7 @@ import com.example.aneurinc.prcs_app.UI.activities.ArtistActivity;
 import com.example.aneurinc.prcs_app.UI.activities.MainActivity;
 import com.example.aneurinc.prcs_app.UI.custom_adapters.ArtistFragAdapter;
 import com.example.aneurinc.prcs_app.UI.custom_listeners.OnSwipeTouchListener;
-import com.google.jkellaway.androidapp_datamodel.datamodel.IArtist;
+import com.google.jkellaway.androidapp_datamodel.events.IArtist;
 import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
 import java.io.IOException;
@@ -106,7 +106,7 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent i = new Intent(getActivity(), ArtistActivity.class);
-        i.putExtra(ArtistActivity.ARTIST_ID, artistList.get(position).getArtistID());
+        i.putExtra(ArtistActivity.ARTIST_ID, artistList.get(position).getID());
         getActivity().startActivity(i);
     }
 

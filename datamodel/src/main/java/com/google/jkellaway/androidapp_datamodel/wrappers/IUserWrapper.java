@@ -7,11 +7,14 @@ package com.google.jkellaway.androidapp_datamodel.wrappers;
 
 import com.google.jkellaway.androidapp_datamodel.people.IUser;
 
+import java.io.IOException;
+
 /**
  *
  * @author 10467841
  */
 public interface IUserWrapper extends IWrapper {
-    public Boolean setUser(IUser user);
-    public IUser   getUser();
+
+    IUser loginUser(String email, String password) throws IOException;
+    IUser   getUser();
 }

@@ -19,7 +19,10 @@ import android.widget.TextView;
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.custom_adapters.ParentEventActAdapter;
 import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
-import com.google.jkellaway.androidapp_datamodel.datamodel.IParentEvent;
+import com.google.jkellaway.androidapp_datamodel.events.IParentEvent;
+import com.example.aneurinc.prcs_app.UI.custom_adapters.ParentEventActAdapter;
+import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
+import com.google.jkellaway.androidapp_datamodel.events.IParentEvent;
 import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
 public class ParentEventActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
@@ -66,8 +69,8 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
 
         Bitmap scaledImage = ImageUtils.scaleDown(parentEvent.getImage(0), width, height);
         image.setImageBitmap(scaledImage);
-        name.setText(parentEvent.getParentEventName());
-        desc.setText(parentEvent.getParentEventDescription());
+        name.setText(parentEvent.getName());
+        desc.setText(parentEvent.getDescription());
 
     }
 
@@ -101,7 +104,7 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         Intent i = new Intent(this, ChildEventActivity.class);
-        i.putExtra(ChildEventActivity.CHILD_EVENT_ID, parentEvent.getChildEvent(position).getChildEventID());
+        i.putExtra(ChildEventActivity.CHILD_EVENT_ID, parentEvent.getChildEvent(position).getID());
         startActivity(i);
 
     }

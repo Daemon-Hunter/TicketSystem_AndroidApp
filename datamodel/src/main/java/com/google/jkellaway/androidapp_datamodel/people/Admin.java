@@ -52,7 +52,7 @@ public class Admin implements IAdmin {
     }
     
     @Override
-    public int getAdminID() {
+    public int getID() {
         if (ID == null) {
             throw new NullPointerException("Null ID");
         } else {

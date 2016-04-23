@@ -6,9 +6,9 @@
 package com.google.jkellaway.androidapp_datamodel.wrappers;
 
 import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
-import com.google.jkellaway.androidapp_datamodel.datamodel.IArtist;
-import com.google.jkellaway.androidapp_datamodel.datamodel.IParentEvent;
-import com.google.jkellaway.androidapp_datamodel.datamodel.IVenue;
+import com.google.jkellaway.androidapp_datamodel.events.IArtist;
+import com.google.jkellaway.androidapp_datamodel.events.IParentEvent;
+import com.google.jkellaway.androidapp_datamodel.events.IVenue;
 import com.google.jkellaway.androidapp_datamodel.people.IUser;
 
 import java.io.IOException;
@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  *
- * @author 10512691
+ * @author 10467841
  */
 public class UserWrapper implements IUserWrapper {
 
@@ -45,14 +45,11 @@ public class UserWrapper implements IUserWrapper {
         }
         return wrapper;
     }
-    
+
     @Override
-    public Boolean setUser(IUser user) {
-        if (user == null){
-            throw new IllegalArgumentException("Cannot set user to null.");
-        }
-        this.currentUser = user;
-        return (this.currentUser == user);
+    public IUser loginUser(String email, String password) throws IOException, IllegalArgumentException {
+        currentUser = APIHandle.isPasswordtrue(email, password);
+        return currentUser;
     }
 
     @Override
@@ -65,7 +62,6 @@ public class UserWrapper implements IUserWrapper {
         if (parentEventArray != null){
             return new ArrayList(parentEventArray);
         } else {
-            //parentEventArray = APIHandle.getParentAmount(amountToLoad, parentEventArray.get(parentEventArray.size()).getParentEventID());
             parentEventArray = new ArrayList<>(APIHandle.getParentAmount(amountToLoad, 0));
             return new ArrayList(parentEventArray);
         }
@@ -75,8 +71,8 @@ public class UserWrapper implements IUserWrapper {
     public List<IParentEvent> loadMoreParentEvents() throws IOException {
         int lowestID = 99999999;
         for (IParentEvent parentEvent : parentEventArray){
-            if (parentEvent.getParentEventID() < lowestID)
-                lowestID = parentEvent.getParentEventID();
+            if (parentEvent.getID() < lowestID)
+                lowestID = parentEvent.getID();
         }
         List<IParentEvent> newData = APIHandle.getParentAmount(amountToLoad, lowestID);
         parentEventArray.addAll(newData);
@@ -86,7 +82,7 @@ public class UserWrapper implements IUserWrapper {
     @Override
     public IParentEvent getParentEvent(Integer id) {
         for (IParentEvent parentEvent : parentEventArray){
-            if(parentEvent.getParentEventID().equals(id));
+            if(parentEvent.getID().equals(id));
             return parentEvent;
         }
         throw new NullPointerException("No item in the list has this id :/.");
@@ -107,11 +103,16 @@ public class UserWrapper implements IUserWrapper {
     }
 
     @Override
+    public List<IParentEvent> searchParentEvents(String searchString) throws IOException {
+        return new LinkedList<>(APIHandle.searchParentEvents(searchString));
+    }
+
+    @Override
     public List<IVenue> getVenues() throws IOException {
         if (venueArray != null){
             return new ArrayList(venueArray);
         } else {
-            //venueArray = APIHandle.getVenueAmount(amountToLoad, venueArray.get(venueArray.size()).getVenueID());
+            //venueArray = APIHandle.getVenueAmount(amountToLoad, venueArray.get(venueArray.size()).getID());
             venueArray = new ArrayList<>(APIHandle.getVenueAmount(amountToLoad, 0));
             return new ArrayList(venueArray);
         }
@@ -120,7 +121,7 @@ public class UserWrapper implements IUserWrapper {
     @Override
     public IVenue getVenue(Integer id) {
         for (IVenue venue : venueArray){
-            if(venue.getVenueID().equals(id));
+            if(venue.getID().equals(id));
                 return venue;
         }
         throw new NullPointerException("No item in the list has this id :/.");
@@ -130,8 +131,8 @@ public class UserWrapper implements IUserWrapper {
     public List<IVenue> loadMoreVenues() throws IOException {
         int lowestID = 0;
         for (IVenue venue : venueArray){
-            if (venue.getVenueID() < lowestID || lowestID == 0)
-                lowestID = venue.getVenueID();
+            if (venue.getID() < lowestID || lowestID == 0)
+                lowestID = venue.getID();
         }
         List<IVenue> newData = APIHandle.getVenueAmount(amountToLoad, lowestID);
         venueArray.addAll(newData);
@@ -153,11 +154,16 @@ public class UserWrapper implements IUserWrapper {
     }
 
     @Override
+    public List<IVenue> searchVenues(String searchString) throws IOException {
+        return APIHandle.searchVenues(searchString);
+    }
+
+    @Override
     public List<IArtist> getArtists() throws IOException {
         if (artistArray != null){
             return new LinkedList(artistArray);
         } else {
-            //artistArray = APIHandle.getArtistAmount(amountToLoad, artistArray.get(artistArray.size() - 1).getArtistID());
+            //artistArray = APIHandle.getArtistAmount(amountToLoad, artistArray.get(artistArray.size() - 1).getID());
             artistArray = APIHandle.getArtistAmount(amountToLoad, 0);
             return new ArrayList<>(artistArray);
         }
@@ -167,8 +173,8 @@ public class UserWrapper implements IUserWrapper {
     public List<IArtist> loadMoreArtists() throws IOException {
         int lowestID = 0;
         for (IArtist artist : artistArray){
-            if (artist.getArtistID() < lowestID || lowestID == 0)
-                lowestID = artist.getArtistID();
+            if (artist.getID() < lowestID || lowestID == 0)
+                lowestID = artist.getID();
         }
         List<IArtist> newData = APIHandle.getArtistAmount(amountToLoad, lowestID);
         artistArray.addAll(newData);
@@ -178,7 +184,7 @@ public class UserWrapper implements IUserWrapper {
     @Override
     public IArtist getArtist(Integer id) {
         for (IArtist artist : artistArray){
-            if(artist.getArtistID().equals(id));
+            if(artist.getID().equals(id));
             return artist;
         }
         throw new NullPointerException("No item in the list has this id :/.");
@@ -196,5 +202,16 @@ public class UserWrapper implements IUserWrapper {
     public List<IArtist> refreshArtists() throws IOException {
         artistArray = APIHandle.getArtistAmount(amountToLoad, 0);
         return new ArrayList<>(artistArray);
+    }
+
+    @Override
+    public List<IArtist> searchArtists(String searchString) throws IOException {
+        return APIHandle.searchArtists(searchString);
+    }
+
+    @Override
+    public Boolean setAmountToLoad(Integer amountToLoad) {
+        this.amountToLoad = amountToLoad;
+        return amountToLoad == amountToLoad;
     }
 }

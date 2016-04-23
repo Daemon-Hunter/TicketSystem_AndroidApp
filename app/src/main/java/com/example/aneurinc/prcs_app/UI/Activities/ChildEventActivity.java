@@ -19,8 +19,8 @@ import android.widget.TextView;
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.custom_adapters.ChildEventActAdapter;
 import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
-import com.google.jkellaway.androidapp_datamodel.datamodel.ChildEvent;
-import com.google.jkellaway.androidapp_datamodel.datamodel.IChildEvent;
+import com.google.jkellaway.androidapp_datamodel.events.ChildEvent;
+import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
 
 public class ChildEventActivity extends AppCompatActivity implements OnClickListener {
 
@@ -138,11 +138,11 @@ public class ChildEventActivity extends AppCompatActivity implements OnClickList
             TextView desc = (TextView) mContext.findViewById(R.id.child_event_description);
             ImageView image = (ImageView) mContext.findViewById(R.id.child_event_image);
 
-            name.setText(childEvent.getChildEventName());
-            date.setText(childEvent.getChildEventStartDateTime() + " - "
-                    + childEvent.getChildEventEndDateTime());
+            name.setText(childEvent.getName());
+            date.setText(childEvent.getStartDateTime() + " - "
+                    + childEvent.getEndDateTime());
             address.setText((CharSequence) childEvent.getVenue());
-            desc.setText(childEvent.getChildEventDescription());
+            desc.setText(childEvent.getDescription());
 
             int width = ImageUtils.getScreenWidth(mContext) / 4;
             int height = ImageUtils.getScreenHeight(mContext) / 4;

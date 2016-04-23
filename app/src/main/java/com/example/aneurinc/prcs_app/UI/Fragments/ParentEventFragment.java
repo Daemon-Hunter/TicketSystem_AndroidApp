@@ -20,7 +20,7 @@ import com.example.aneurinc.prcs_app.UI.activities.MainActivity;
 import com.example.aneurinc.prcs_app.UI.activities.ParentEventActivity;
 import com.example.aneurinc.prcs_app.UI.custom_adapters.ParentEventFragAdapter;
 import com.example.aneurinc.prcs_app.UI.custom_listeners.OnSwipeTouchListener;
-import com.google.jkellaway.androidapp_datamodel.datamodel.IParentEvent;
+import com.google.jkellaway.androidapp_datamodel.events.IParentEvent;
 import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
 import java.io.IOException;
@@ -73,7 +73,7 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         Intent i = new Intent(getActivity(), ParentEventActivity.class);
-        i.putExtra(ParentEventActivity.PARENT_EVENT_ID, parentEventList.get(position).getParentEventID());
+        i.putExtra(ParentEventActivity.PARENT_EVENT_ID, parentEventList.get(position).getID());
         startActivity(i);
 
     }
