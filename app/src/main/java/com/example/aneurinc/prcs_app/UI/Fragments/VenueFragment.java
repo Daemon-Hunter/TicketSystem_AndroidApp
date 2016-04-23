@@ -19,7 +19,7 @@ import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.Activities.MainActivity;
 import com.example.aneurinc.prcs_app.UI.Activities.VenueActivity;
 import com.example.aneurinc.prcs_app.UI.CustomAdapters.VenueFragAdapter;
-import com.google.jkellaway.androidapp_datamodel.datamodel.IVenue;
+import com.google.jkellaway.androidapp_datamodel.events.IVenue;
 import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
 import java.io.IOException;

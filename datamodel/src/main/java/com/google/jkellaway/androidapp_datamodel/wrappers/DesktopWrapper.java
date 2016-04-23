@@ -6,14 +6,12 @@
 package com.google.jkellaway.androidapp_datamodel.wrappers;
 
 import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
-import com.google.jkellaway.androidapp_datamodel.datamodel.Artist;
-import com.google.jkellaway.androidapp_datamodel.datamodel.IArtist;
-import com.google.jkellaway.androidapp_datamodel.datamodel.IParentEvent;
-import com.google.jkellaway.androidapp_datamodel.datamodel.IVenue;
+import com.google.jkellaway.androidapp_datamodel.events.IArtist;
+import com.google.jkellaway.androidapp_datamodel.events.IParentEvent;
+import com.google.jkellaway.androidapp_datamodel.events.IVenue;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import com.google.jkellaway.androidapp_datamodel.people.IAdmin;
 import com.google.jkellaway.androidapp_datamodel.people.IUser;
@@ -121,6 +119,11 @@ public class DesktopWrapper implements IDesktopWrapper {
     }
 
     @Override
+    public List<IParentEvent> searchParentEvents(String string) throws IOException {
+        return null;
+    }
+
+    @Override
     public List<IVenue> getVenues() {
         return new ArrayList(venueArray);
     }
@@ -145,6 +148,11 @@ public class DesktopWrapper implements IDesktopWrapper {
 
     @Override
     public List<IVenue> refreshVenues() {
+        return null;
+    }
+
+    @Override
+    public List<IVenue> searchVenues(String string) throws IOException {
         return null;
     }
 
@@ -176,6 +184,16 @@ public class DesktopWrapper implements IDesktopWrapper {
 
     @Override
     public List<IArtist> refreshArtists() {
+        return null;
+    }
+
+    @Override
+    public List<IArtist> searchArtists(String string) throws IOException {
+        return null;
+    }
+
+    @Override
+    public Boolean setAmountToLoad(Integer amountToLoad) {
         return null;
     }
 }

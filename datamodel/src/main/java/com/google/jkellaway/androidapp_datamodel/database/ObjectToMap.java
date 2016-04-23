@@ -25,7 +25,7 @@ public class ObjectToMap {
     public static Map<String,String> ConvertCustomer(Customer aCustomer)
     {
         Map<String,String> returnMap = new HashMap<>();
-        returnMap.put("CUSTOMER_ID",Integer.toString(aCustomer.getCustomerID()));
+        returnMap.put("CUSTOMER_ID",Integer.toString(aCustomer.getID()));
         returnMap.put("CUSTOMER_FIRST_NAME",aCustomer.getFirstName());
         returnMap.put("CUSTOMER_LAST_NAME",aCustomer.getLastName());
         returnMap.put("CUSTOMER_EMAIL",aCustomer.getEmail());

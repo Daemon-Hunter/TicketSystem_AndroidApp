@@ -12,9 +12,8 @@ import android.widget.TextView;
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.Utilities.Constants;
 import com.example.aneurinc.prcs_app.UI.Utilities.ImageUtils;
-import com.google.jkellaway.androidapp_datamodel.datamodel.IChildEvent;
+import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -45,9 +44,9 @@ public class ParentEventActAdapter extends ArrayAdapter<String> {
 
         for (IChildEvent c : childEvents) {
             image[i] = c.getImage(0);
-            name[i] = c.getChildEventName();
+            name[i] = c.getName();
             venue[i] = c.getVenue().toString();
-            date[i] = c.getChildEventStartDateTime().toString();
+            date[i] = c.getStartDateTime().toString();
             i++;
         }
 

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.google.jkellaway.androidapp_datamodel.datamodel;
+package com.google.jkellaway.androidapp_datamodel.events;
 
 import com.google.jkellaway.androidapp_datamodel.reviews.IReviewable;
 
@@ -15,11 +15,11 @@ import java.util.List;
  * @author 10467841
  */
 public interface IParentEvent extends ISocial, IReviewable {
-    public Integer getParentEventID();
-    public String getParentEventName();
-    public String getParentEventDescription();
-    public Boolean setParentEventName(String name);
-    public Boolean setParentEventDescription(String description);
+    public Integer getID();
+    public String getName();
+    public String getDescription();
+    public Boolean setName(String name);
+    public Boolean setDescription(String description);
 
     public void setSocialMedia(SocialMedia socialMedia);
     

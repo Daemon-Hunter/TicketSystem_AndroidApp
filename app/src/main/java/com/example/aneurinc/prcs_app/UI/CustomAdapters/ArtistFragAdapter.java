@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.Utilities.ImageUtils;
-import com.google.jkellaway.androidapp_datamodel.datamodel.IArtist;
+import com.google.jkellaway.androidapp_datamodel.events.IArtist;
 
 import java.util.List;
 
@@ -69,14 +69,14 @@ public class ArtistFragAdapter extends BaseAdapter {
 
         }
 
-        if (currArtist.getImage(position) != null) {
+        if (currArtist.getImage(0) != null) {
             // get width of single grid
             int xy = mContext.findViewById(R.id.artist_grid_view).getWidth() / 3;
             // resize image to fit single grid
-            viewHolder.gridImage.setImageBitmap(ImageUtils.scaleDown(currArtist.getImage(position), xy, xy));
+            viewHolder.gridImage.setImageBitmap(ImageUtils.scaleDown(currArtist.getImage(0), xy, xy));
         }
 
-        viewHolder.gridText.setText(currArtist.getArtistName());
+        viewHolder.gridText.setText(currArtist.getName());
 
         return convertView;
     }

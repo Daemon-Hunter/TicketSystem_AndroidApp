@@ -15,7 +15,7 @@ import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.Activities.MapActivity;
 import com.example.aneurinc.prcs_app.UI.Utilities.Constants;
 import com.example.aneurinc.prcs_app.UI.Utilities.ImageUtils;
-import com.google.jkellaway.androidapp_datamodel.datamodel.IVenue;
+import com.google.jkellaway.androidapp_datamodel.events.IVenue;
 
 import java.util.List;
 
@@ -65,9 +65,9 @@ public class VenueFragAdapter extends ArrayAdapter<String> implements OnClickLis
             viewHolder.venueImage.setImageBitmap(ImageUtils.scaleDown(currVenue.getImage(0), xy, xy));
         }
 
-        viewHolder.venueName.setText(currVenue.getVenueName());
+        viewHolder.venueName.setText(currVenue.getName());
         // TODO change address to city!
-        viewHolder.venueCity.setText(currVenue.getVenueAddress());
+        viewHolder.venueCity.setText(currVenue.getAddress());
         viewHolder.venueMap.setImageResource(R.drawable.google_maps_icon);
         viewHolder.venueMap.setOnClickListener(this);
 

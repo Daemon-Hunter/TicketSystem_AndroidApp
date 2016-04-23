@@ -155,7 +155,7 @@ public abstract class User implements IUser {
     }
     
     @Override
-    public Integer getCustomerID() {
+    public Integer getID() {
         if (ID == null) {
             throw new NullPointerException("ID is null");
         } else {

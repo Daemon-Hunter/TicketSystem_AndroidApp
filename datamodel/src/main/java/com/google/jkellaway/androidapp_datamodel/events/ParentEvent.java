@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.google.jkellaway.androidapp_datamodel.datamodel;
+package com.google.jkellaway.androidapp_datamodel.events;
 
 import android.graphics.Bitmap;
 
@@ -106,17 +106,17 @@ public class ParentEvent implements IParentEvent {
     }
 
     @Override
-    public Integer getParentEventID() {
+    public Integer getID() {
         return ID;
     }
 
     @Override
-    public String getParentEventName() {
+    public String getName() {
         return name;
     }
 
     @Override
-    public String getParentEventDescription() {
+    public String getDescription() {
         if (description == null) {
             throw new NullPointerException("Parent Event description is null");
         } else {
@@ -125,7 +125,7 @@ public class ParentEvent implements IParentEvent {
     }
 
     @Override
-    public Boolean setParentEventName(String name) {
+    public Boolean setName(String name) {
         if (name == null){
             throw new IllegalArgumentException("Name cannot be null.");
         } else {
@@ -135,7 +135,7 @@ public class ParentEvent implements IParentEvent {
     }
 
     @Override
-    public Boolean setParentEventDescription(String description) {
+    public Boolean setDescription(String description) {
         if (description == null){
             throw new IllegalArgumentException("Description cannot be null");
         } else {

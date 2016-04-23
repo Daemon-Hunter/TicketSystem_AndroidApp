@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.CustomAdapters.ArtistActAdapter;
-import com.google.jkellaway.androidapp_datamodel.datamodel.IArtist;
+import com.google.jkellaway.androidapp_datamodel.events.IArtist;
 import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
 
@@ -73,7 +73,7 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
         TextView artistName = (TextView) findViewById(R.id.artist_name);
         TextView artistDescription = (TextView) findViewById(R.id.artist_description);
 
-        artistName.setText(artist.getArtistName());
+        artistName.setText(artist.getName());
         artistDescription.setText(artist.getDescription());
         artistImage.setImageBitmap(artist.getImage(0));
 

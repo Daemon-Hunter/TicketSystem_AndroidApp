@@ -5,13 +5,12 @@
  */
 package com.google.jkellaway.androidapp_datamodel.database;
 
-import android.renderscript.ScriptGroup;
-
-import com.google.jkellaway.androidapp_datamodel.datamodel.IArtist;
-import com.google.jkellaway.androidapp_datamodel.datamodel.IChildEvent;
-import com.google.jkellaway.androidapp_datamodel.datamodel.IParentEvent;
-import com.google.jkellaway.androidapp_datamodel.datamodel.IVenue;
+import com.google.jkellaway.androidapp_datamodel.events.IArtist;
+import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
+import com.google.jkellaway.androidapp_datamodel.events.IParentEvent;
+import com.google.jkellaway.androidapp_datamodel.events.IVenue;
 import com.google.jkellaway.androidapp_datamodel.people.IAdmin;
+import com.google.jkellaway.androidapp_datamodel.people.IUser;
 import com.google.jkellaway.androidapp_datamodel.reviews.IReview;
 
 import java.io.IOException;
@@ -26,8 +25,10 @@ import java.util.concurrent.Future;
 
 import static com.google.jkellaway.androidapp_datamodel.database.MapToObject.ConvertAdmin;
 import static com.google.jkellaway.androidapp_datamodel.database.MapToObject.ConvertArtist;
+import static com.google.jkellaway.androidapp_datamodel.database.MapToObject.ConvertArtistType;
 import static com.google.jkellaway.androidapp_datamodel.database.MapToObject.ConvertArtistReview;
 import static com.google.jkellaway.androidapp_datamodel.database.MapToObject.ConvertChildEvent;
+import static com.google.jkellaway.androidapp_datamodel.database.MapToObject.ConvertCustomer;
 import static com.google.jkellaway.androidapp_datamodel.database.MapToObject.ConvertParentEvent;
 import static com.google.jkellaway.androidapp_datamodel.database.MapToObject.ConvertSocialMedia;
 import static com.google.jkellaway.androidapp_datamodel.database.MapToObject.ConvertVenue;
@@ -36,6 +37,47 @@ import static com.google.jkellaway.androidapp_datamodel.database.MapToObject.Con
  *
  */
 public final class APIHandle {
+
+    public static List<IChildEvent> getChildEventsOfVenue(Integer venueID) throws IOException {
+        List<IChildEvent> childEventList = new LinkedList<>();
+        List<Map<String, String>> childEventMapList = APIConnection.getChildeventIDsForVenue(venueID);
+
+        int threads = Runtime.getRuntime().availableProcessors();
+        ExecutorService service = Executors.newFixedThreadPool(threads);
+        List<Future<IChildEvent>> futures = new LinkedList<>();
+
+        for (final Map<String, String> childEvent : childEventMapList){
+            Callable<IChildEvent> callable = new Callable<IChildEvent>() {
+                @Override
+                public IChildEvent call() throws Exception {
+                    return ConvertChildEvent(childEvent);
+                }
+            };
+            futures.add(service.submit(callable));
+        }
+
+        service.shutdown();
+
+        for (Future<IChildEvent> future : futures){
+            try {
+                childEventList.add(future.get());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+        return childEventList;
+    }
+
+    public static IUser isPasswordtrue(String email, String password) throws IOException, IllegalArgumentException {
+        Map<String, String> customer = APIConnection.comparePassword(email, password).get(0);
+        if (customer != null)
+            return ConvertCustomer(customer);
+        else
+            throw new IllegalArgumentException("Email or password is wrong");
+    }
+
     public static Object getSingle(int id, DatabaseTable table){
         Map<String, String> objMap = APIConnection.readSingle(id, table);
         switch (table){
@@ -43,7 +85,7 @@ public final class APIHandle {
             case ARTIST: MapToObject.ConvertArtist(objMap);break;
             //case BOOKING: MapToObject.ConvertCustomerBooking(objMap);break;
             case CHILD_EVENT: MapToObject.ConvertChildEvent(objMap);break;
-            //case CUSTOMER: MapToObject.ConvertCustomer(objMap);break;
+            case CUSTOMER: MapToObject.ConvertCustomer(objMap);break;
             //case GUEST_BOOKING: MapToObject.ConvertGuestBooking(objMap);break;
             //case ORDER: MapToObject.ConvertOrder(objMap);break;
             case PARENT_EVENT: MapToObject.ConvertParentEvent(objMap);break;
@@ -95,6 +137,72 @@ public final class APIHandle {
             }
         }
         return parentEventList;
+    }
+
+    public static List<IVenue> searchVenues(String search) throws IOException {
+        List<IVenue> venueList = new LinkedList<>();
+        List<Map<String, String>> venueMapList = APIConnection.search(search, DatabaseTable.VENUE);
+
+        int threads = Runtime.getRuntime().availableProcessors();
+        ExecutorService service = Executors.newFixedThreadPool(threads);
+        List<Future<IVenue>> futures = new LinkedList<>();
+
+        for (final Map<String, String> venue : venueMapList){
+            Callable<IVenue> callable = new Callable<IVenue>() {
+                @Override
+                public IVenue call() throws Exception {
+                    return ConvertVenue(venue);
+                }
+            };
+            futures.add(service.submit(callable));
+        }
+
+        service.shutdown();
+
+        for (Future<IVenue> future : futures){
+            try {
+                venueList.add(future.get());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+        return venueList;
+    }
+
+    public static List<IArtist> searchArtists(String search) throws IOException {
+        List<IArtist> artistList = new LinkedList<>();
+        List<Map<String, String>> artistMapList = APIConnection.search(search, DatabaseTable.ARTIST);
+
+        int threads = Runtime.getRuntime().availableProcessors();
+        ExecutorService service = Executors.newFixedThreadPool(threads);
+        List<Future<IArtist>> futures = new LinkedList<>();
+
+        for (final Map<String, String> artistMap : artistMapList){
+            Callable<IArtist> callable = new Callable<IArtist>() {
+                @Override
+                public IArtist call() throws Exception {
+                    IArtist artist = ConvertArtist(artistMap);
+                    artist.setType(ConvertArtistType(APIConnection.readSingle(artist.getTypeID(), DatabaseTable.ARTIST_TYPE)));
+                    return artist;
+                }
+            };
+            futures.add(service.submit(callable));
+        }
+
+        service.shutdown();
+
+        for (Future<IArtist> future : futures){
+            try {
+                artistList.add(future.get());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+        return artistList;
     }
 
     public static List<IArtist> getArtistAmount(Integer amount, Integer lastID) throws IOException {
@@ -154,7 +262,7 @@ public final class APIHandle {
                     IParentEvent parentEvent;
                     parentEvent = ConvertParentEvent(parentEventMap);
                     parentEvent.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(parentEvent.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
-                    parentEvent.addChildEventList(getChildEventFromParent(parentEvent.getParentEventID()));
+                    parentEvent.addChildEventList(getChildEventFromParent(parentEvent.getID()));
                     return parentEvent;
                 }
             };
@@ -175,7 +283,6 @@ public final class APIHandle {
 
         return parentEventList;
     }
-
 
     private static List<IChildEvent> getChildEventFromParent(int parentID) throws IOException {
         List<Map<String, String>> childEventMapList = APIConnection.getChildEventsViaParent(parentID);
@@ -209,8 +316,6 @@ public final class APIHandle {
 
         return childEventList;
     }
-
-
 
     private static List<IReview> getObjectsReviews(Integer objectID, DatabaseTable table) throws IOException {
         List<IReview> reviewList = new LinkedList<>();
@@ -258,53 +363,69 @@ public final class APIHandle {
         return venueList;
     }
 
-//    private static Customer populateCustomer(Map<String, String> cust, List<Order> order, List<Review> reviews){
-//
-//    }
-    
-    //Returns All artists from the database
-    // Don't use in competed product!
-//    public static List<Artist> getAllArtists()
-//    {
-//        List<Artist> listOfArtists = new LinkedList();
-//
-//        List<Map<String,String>> listOfMaps = APIConnection.readAll(DatabaseTable.ARTIST);
-//
-//        for(Map<String, String> currMap : listOfMaps)
-//            listOfArtists.add(MapToObject.ConvertArtist(currMap));
-//
-//        return listOfArtists;
-//    }
-//
-//
-//    public static List<ParentEvent> getAllParentEvents()
-//    {
-//      List<ParentEvent> listOfEvents = new LinkedList();
-//      List<Map<String,String>> listOfMaps = APIConnection.readAll(DatabaseTable.PARENT_EVENT);
-//
-//      for(Map<String,String> currEvent : listOfMaps)
-//      {
-//          listOfEvents.add(MapToObject.ConvertParentEvent(currEvent));
-//      }
+    public static List<IChildEvent> getChildEventsViaContract(Integer artistID) throws IOException {
+        List<IChildEvent> childEventList = new LinkedList<>();
+        List<Map<String, String>> childEventMapList = APIConnection.getChildEventsViaContract(artistID);
 
 
-//      return listOfEvents;
-//    }
-//
-//    public static List<Customer> getAllCustomers()
-//    {
-//        List<Customer> listOfCustomers = new LinkedList();
-//        List<Map<String,String>> listOfMaps = APIConnection.readAll(DatabaseTable.CUSTOMER);
-//
-//        for(Map<String,String> currCustomer : listOfMaps)
-//        {
-//            listOfCustomers.add(MapToObject.ConvertCustomer(currCustomer));
-//        }
-//
-//        return listOfCustomers;
-//    }
-    
-    
-    
+        int threads = Runtime.getRuntime().availableProcessors();
+        ExecutorService service = Executors.newFixedThreadPool(threads);
+        List<Future<IChildEvent>> futures = new LinkedList<>();
+
+        for (final Map<String, String> childEventMap : childEventMapList) {
+            Callable<IChildEvent> callable = new Callable<IChildEvent>() {
+                @Override
+                public IChildEvent call() throws Exception {
+                    return ConvertChildEvent(childEventMap);
+                }
+            };
+            futures.add(service.submit(callable));
+        }
+
+        service.shutdown();
+
+        for (Future<IChildEvent> future : futures){
+            try {
+                childEventList.add(future.get());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+        return childEventList;
+    }
+
+    public static List<IArtist> getArtistsViaContract(Integer childEventID) throws IOException {
+        List<IArtist> artistList = new LinkedList<>();
+        List<Map<String, String>> artistMapList = APIConnection.getChildEventsViaContract(childEventID);
+
+
+        int threads = Runtime.getRuntime().availableProcessors();
+        ExecutorService service = Executors.newFixedThreadPool(threads);
+        List<Future<IArtist>> futures = new LinkedList<>();
+
+        for (final Map<String, String> artistMap : artistMapList) {
+            Callable<IArtist> callable = new Callable<IArtist>() {
+                @Override
+                public IArtist call() throws Exception {
+                    return ConvertArtist(artistMap);
+                }
+            };
+            futures.add(service.submit(callable));
+        }
+
+        service.shutdown();
+
+        for (Future<IArtist> future : futures){
+            try {
+                artistList.add(future.get());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+        return artistList;
+    }
 }
-    

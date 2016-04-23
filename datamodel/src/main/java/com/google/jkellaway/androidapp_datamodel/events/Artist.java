@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.google.jkellaway.androidapp_datamodel.datamodel;
+package com.google.jkellaway.androidapp_datamodel.events;
 
 import android.graphics.Bitmap;
 
+import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.reviews.ArtistReviewFactory;
 import com.google.jkellaway.androidapp_datamodel.reviews.IReview;
@@ -14,6 +15,7 @@ import com.google.jkellaway.androidapp_datamodel.reviews.IReviewFactory;
 import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
 import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,8 +28,6 @@ import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.idVa
  */
 public class Artist implements IArtist {
 
-
-    private List<Integer> childEventIDs;
     private List<IChildEvent> childEvents;
     private List<IReview> reviews;
 
@@ -40,6 +40,8 @@ public class Artist implements IArtist {
     private DatabaseTable table;
     private int ID;
     private String name;
+    private String type;
+    private Integer typeID;
 
     /*
         Inherits:
@@ -57,7 +59,6 @@ public class Artist implements IArtist {
         this.table = DatabaseTable.ARTIST;
         tags = new LinkedList<>();
         reviewFactory = new ArtistReviewFactory();
-        childEventIDs = new LinkedList<>();
         childEvents = new LinkedList<>();
     }
 
@@ -73,11 +74,10 @@ public class Artist implements IArtist {
         // Initialise default values for rest of attributes
         this.tags = tags;
         reviewFactory = new ArtistReviewFactory();
-        this.childEventIDs = childEventIDs;
         this.childEvents = new LinkedList<>();
     }
 
-    public Artist(Integer ID, String name, String description, LinkedList<String> tags, Integer socialMediaID) {
+    public Artist(Integer ID, String name, String description, LinkedList<String> tags, Integer socialMediaID, Integer typeID) {
         this.ID = ID;
         this.name = name;
         this.description = description;
@@ -85,21 +85,21 @@ public class Artist implements IArtist {
         this.reviews = new LinkedList<>();
         this.table = DatabaseTable.ARTIST;
         this.socialMediaID = socialMediaID;
+        this.typeID = typeID;
 
         // Initialise default values for rest of attributes
         this.tags = tags;
         reviewFactory = new ArtistReviewFactory();
-        this.childEventIDs = new LinkedList<>();
         this.childEvents = new LinkedList<>();
     }
 
     @Override
-    public List<String> getArtistTags() {
+    public List<String> getTags() {
         return tags;
     }
 
     @Override
-    public Boolean addArtistTag(String tag) {
+    public Boolean addTag(String tag) {
         if (tag == null) {
             throw new NullPointerException();
         } else {
@@ -113,24 +113,24 @@ public class Artist implements IArtist {
     }
 
     @Override
-    public Boolean removeArtistTag(String tag) {
+    public Boolean removeTag(String tag) {
         
         return tags.remove(tag);
             
     }
 
     @Override
-    public Integer getArtistID() {
+    public Integer getID() {
         return ID;
     }
 
     @Override
-    public String getArtistName() {
+    public String getName() {
         return name;
     }
 
     @Override
-    public void setArtist(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -149,38 +149,42 @@ public class Artist implements IArtist {
     }
 
     @Override
+    public String getType() {
+        if (type == null) {
+            throw new NullPointerException("Artist type is null");
+        } else {
+            return type;
+        }
+    }
+
+    @Override
+    public Boolean setType(String type) {
+        if (type == null) {
+            throw new NullPointerException("Artist type is null");
+        } else {
+            this.type = type;
+            return this.type == type;
+        }
+    }
+
+    @Override
+    public Integer getTypeID() {
+        return typeID;
+    }
+
+    @Override
     public void setSocialMedia(SocialMedia socialMedia) {
         this.socialMedia = socialMedia;
     }
 
     @Override
-    public List<IChildEvent> getChildEvents() {
-        return new LinkedList<>(childEvents);
-    }
-
-    @Override
-    public Boolean removeChildEvent(IChildEvent childEvent) {
-        return childEvents.remove(childEvent);
-    }
-
-    @Override
-    public Boolean addChildEvent(IChildEvent childEvent) {
-        return childEvents.add(childEvent);
-    }
-
-    @Override
-    public List<Integer> getChildEventIDs() {
-        return new LinkedList<>(childEventIDs);
-    }
-
-    @Override
-    public Boolean removeChildEventID(Integer childEventID) {
-        return childEventIDs.remove(childEventID);
-    }
-
-    @Override
-    public Boolean addChildEventID(Integer childEventID) {
-        return childEventIDs.add(childEventID);
+    public List<IChildEvent> getChildEvents() throws IOException {
+        if (childEvents == null) {
+            childEvents = APIHandle.getChildEventsViaContract(this.ID);
+            return new LinkedList<>(childEvents);
+        } else {
+            return new LinkedList<>(childEvents);
+        }
     }
 
     @Override

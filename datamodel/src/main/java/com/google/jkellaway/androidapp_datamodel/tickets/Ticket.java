@@ -8,7 +8,7 @@
 package com.google.jkellaway.androidapp_datamodel.tickets;
 
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
-import com.google.jkellaway.androidapp_datamodel.datamodel.ChildEvent;
+import com.google.jkellaway.androidapp_datamodel.events.ChildEvent;
 import java.util.LinkedList;
 import java.util.List;
 import static com.google.jkellaway.androidapp_datamodel.utilities.Blacklist.contains;

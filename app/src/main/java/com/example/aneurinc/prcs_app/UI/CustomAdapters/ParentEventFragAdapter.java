@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.Utilities.ImageUtils;
-import com.google.jkellaway.androidapp_datamodel.datamodel.IParentEvent;
+import com.google.jkellaway.androidapp_datamodel.events.IParentEvent;
 
 import java.util.List;
 
@@ -75,7 +75,7 @@ public class ParentEventFragAdapter extends BaseAdapter {
             viewHolder.gridImage.setImageBitmap(ImageUtils.scaleDown(currParentEvent.getImage(0), xy, xy));
         }
 
-        viewHolder.gridText.setText(currParentEvent.getParentEventName());
+        viewHolder.gridText.setText(currParentEvent.getName());
 
         return convertView;
     }
