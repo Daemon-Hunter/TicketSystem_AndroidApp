@@ -1,4 +1,4 @@
-package com.example.aneurinc.prcs_app.UI.Activities;
+package com.example.aneurinc.prcs_app.UI.activities;
 
 import android.content.Intent;
 import android.location.Address;
@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.CustomViews.CustomInfoWindow;
+import com.example.aneurinc.prcs_app.UI.custom_views.CustomInfoWindow;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;

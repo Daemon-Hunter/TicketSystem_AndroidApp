@@ -1,8 +1,4 @@
-package com.example.aneurinc.prcs_app.UI.CustomAdapters;
-
-/**
- * Created by Dominic on 14/04/2016.
- */
+package com.example.aneurinc.prcs_app.UI.custom_adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,30 +10,33 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.Utilities.ImageUtils;
-import com.google.jkellaway.androidapp_datamodel.datamodel.IArtist;
+import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
+import com.google.jkellaway.androidapp_datamodel.datamodel.IParentEvent;
 
 import java.util.List;
 
-public class ArtistFragAdapter extends ArrayAdapter<IArtist> {
+/**
+ * Created by Dominic on 15/04/2016.
+ */
+public class ParentEventFragAdapter extends ArrayAdapter<IParentEvent> {
 
     private Activity mContext;
-    private List<IArtist> mArtistList;
+    private List<IParentEvent> mParentEvents;
 
-    public ArtistFragAdapter(Activity context, List<IArtist> artistList) {
+    public ParentEventFragAdapter(Activity context, List<IParentEvent> parentEvents) {
         super(context, R.layout.grid_single);
         mContext = context;
-        mArtistList = artistList;
+        mParentEvents = parentEvents;
     }
 
     @Override
     public int getCount() {
-        return mArtistList.size();
+        return mParentEvents.size();
     }
 
     @Override
-    public IArtist getItem(int position) {
-        return mArtistList.get(position);
+    public IParentEvent getItem(int position) {
+        return mParentEvents.get(position);
     }
 
     @Override
@@ -49,7 +48,7 @@ public class ArtistFragAdapter extends ArrayAdapter<IArtist> {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder viewHolder;
-        IArtist currArtist = getItem(position);
+        IParentEvent currParentEvent = getItem(position);
 
         if (convertView == null) {
 
@@ -70,14 +69,14 @@ public class ArtistFragAdapter extends ArrayAdapter<IArtist> {
 
         }
 
-        if (currArtist.getImage(0) != null) {
+        if (currParentEvent.getImage(0) != null) {
             // get width of single grid
-            int xy = mContext.findViewById(R.id.artist_grid_view).getWidth() / 3;
+            int xy = mContext.findViewById(R.id.event_grid_view).getWidth() / 3;
             // resize image to fit single grid
-            viewHolder.gridImage.setImageBitmap(ImageUtils.scaleDown(currArtist.getImage(0), xy, xy));
+            viewHolder.gridImage.setImageBitmap(ImageUtils.scaleDown(currParentEvent.getImage(0), xy, xy));
         }
 
-        viewHolder.gridText.setText(currArtist.getArtistName());
+        viewHolder.gridText.setText(currParentEvent.getParentEventName());
 
         return convertView;
     }
@@ -86,6 +85,5 @@ public class ArtistFragAdapter extends ArrayAdapter<IArtist> {
         ImageView gridImage;
         TextView gridText;
     }
-
 
 }

@@ -1,4 +1,4 @@
-package com.example.aneurinc.prcs_app.UI.CustomAdapters;
+package com.example.aneurinc.prcs_app.UI.custom_adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,8 +13,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.Activities.ArtistActivity;
-import com.example.aneurinc.prcs_app.UI.Utilities.Constants;
+import com.example.aneurinc.prcs_app.UI.activities.ArtistActivity;
+import com.example.aneurinc.prcs_app.UI.utilities.Constants;
 
 /**
  * Created by aneurinc on 29/02/2016.

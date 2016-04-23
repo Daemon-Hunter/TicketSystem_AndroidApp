@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:paddingTop="10dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".UI.Activities.CheckoutActivity"
+    tools:context=".UI.activities.CheckoutActivity"
     tools:showIn="@layout/activity_checkout">
 
     <LinearLayout

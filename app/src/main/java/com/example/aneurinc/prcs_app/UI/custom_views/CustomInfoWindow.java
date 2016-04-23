@@ -1,7 +1,6 @@
-package com.example.aneurinc.prcs_app.UI.CustomViews;
+package com.example.aneurinc.prcs_app.UI.custom_views;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
