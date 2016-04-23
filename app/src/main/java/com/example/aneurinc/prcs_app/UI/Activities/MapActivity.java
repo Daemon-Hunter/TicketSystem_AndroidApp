@@ -6,6 +6,7 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +30,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private TextView mTextViewAddress;
 
     public static String LOCATION_ADDRESS;
+    
+    // // TODO: 23/04/2016 get intent!! 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +41,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         mTextViewAddress = (TextView) findViewById(R.id.venue_address);
 
+        Log.d(MainActivity.DEBUG_TAG, "onCreate: location address = " + LOCATION_ADDRESS);
+
         mLocation = geocodeAddress();
 
-        initMapFragment();
+        Log.d(MainActivity.DEBUG_TAG, "onCreate: mLocation = " + mLocation);
 
+        initMapFragment();
 
     }
 
@@ -119,7 +125,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
 
         // Add a marker to location and move the camera
-        googleMap.addMarker(new MarkerOptions().position(mLocation).title("Location Address:").snippet(LOCATION_ADDRESS));
+        googleMap.addMarker(new MarkerOptions().position(mLocation).title("Location Address:")
+                .snippet(LOCATION_ADDRESS));
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mLocation, ZOOM_VAL));
         googleMap.setInfoWindowAdapter(new CustomInfoWindow(this, LOCATION_ADDRESS));
         mTextViewAddress.setText(LOCATION_ADDRESS);

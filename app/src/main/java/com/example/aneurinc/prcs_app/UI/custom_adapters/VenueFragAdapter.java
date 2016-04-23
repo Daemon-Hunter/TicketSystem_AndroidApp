@@ -1,7 +1,6 @@
 package com.example.aneurinc.prcs_app.UI.custom_adapters;
 
 import android.app.Activity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,10 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.activities.MainActivity;
 import com.example.aneurinc.prcs_app.UI.utilities.Constants;
 import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
-import com.google.jkellaway.androidapp_datamodel.datamodel.IVenue;
+import com.google.jkellaway.androidapp_datamodel.events.IVenue;
 
 import java.util.List;
 
@@ -71,9 +69,9 @@ public class VenueFragAdapter extends ArrayAdapter<IVenue> implements OnClickLis
             viewHolder.venueImage.setImageBitmap(ImageUtils.scaleDown(currVenue.getImage(0), xy, xy));
         }
 
-        mAddress = currVenue.getVenueAddress();
+        mAddress = currVenue.getAddress();
 
-        viewHolder.venueName.setText(currVenue.getVenueName());
+        viewHolder.venueName.setText(currVenue.getName());
         // TODO change address to city!
         viewHolder.venueCity.setText(mAddress);
 
