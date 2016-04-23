@@ -1,42 +1,42 @@
-package com.example.aneurinc.prcs_app.UI.CustomAdapters;
-
-/**
- * Created by Dominic on 14/04/2016.
- */
+package com.example.aneurinc.prcs_app.UI.custom_adapters;
 
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.Utilities.ImageUtils;
-import com.google.jkellaway.androidapp_datamodel.events.IArtist;
+import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
+import com.google.jkellaway.androidapp_datamodel.datamodel.IParentEvent;
 
 import java.util.List;
 
-public class ArtistFragAdapter extends BaseAdapter {
+/**
+ * Created by Dominic on 15/04/2016.
+ */
+public class ParentEventFragAdapter extends ArrayAdapter<IParentEvent> {
 
     private Activity mContext;
-    private List<IArtist> mArtistList;
+    private List<IParentEvent> mParentEvents;
 
-    public ArtistFragAdapter(Activity c, List<IArtist> artistList) {
-        mContext = c;
-        mArtistList = artistList;
+    public ParentEventFragAdapter(Activity context, List<IParentEvent> parentEvents) {
+        super(context, R.layout.grid_single);
+        mContext = context;
+        mParentEvents = parentEvents;
     }
 
     @Override
     public int getCount() {
-        return mArtistList.size();
+        return mParentEvents.size();
     }
 
     @Override
-    public Object getItem(int position) {
-        return mArtistList.get(position);
+    public IParentEvent getItem(int position) {
+        return mParentEvents.get(position);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class ArtistFragAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder viewHolder;
-        IArtist currArtist = (IArtist) getItem(position);
+        IParentEvent currParentEvent = getItem(position);
 
         if (convertView == null) {
 
@@ -69,14 +69,14 @@ public class ArtistFragAdapter extends BaseAdapter {
 
         }
 
-        if (currArtist.getImage(0) != null) {
+        if (currParentEvent.getImage(0) != null) {
             // get width of single grid
-            int xy = mContext.findViewById(R.id.artist_grid_view).getWidth() / 3;
+            int xy = mContext.findViewById(R.id.event_grid_view).getWidth() / 3;
             // resize image to fit single grid
-            viewHolder.gridImage.setImageBitmap(ImageUtils.scaleDown(currArtist.getImage(0), xy, xy));
+            viewHolder.gridImage.setImageBitmap(ImageUtils.scaleDown(currParentEvent.getImage(0), xy, xy));
         }
 
-        viewHolder.gridText.setText(currArtist.getName());
+        viewHolder.gridText.setText(currParentEvent.getParentEventName());
 
         return convertView;
     }
@@ -85,6 +85,5 @@ public class ArtistFragAdapter extends BaseAdapter {
         ImageView gridImage;
         TextView gridText;
     }
-
 
 }

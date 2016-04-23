@@ -1,4 +1,4 @@
-package com.example.aneurinc.prcs_app.UI.CustomAdapters;
+package com.example.aneurinc.prcs_app.UI.custom_adapters;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,20 +12,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.Activities.MapActivity;
-import com.example.aneurinc.prcs_app.UI.Utilities.Constants;
-import com.example.aneurinc.prcs_app.UI.Utilities.ImageUtils;
-import com.google.jkellaway.androidapp_datamodel.events.IVenue;
+import com.example.aneurinc.prcs_app.UI.activities.MapActivity;
+import com.example.aneurinc.prcs_app.UI.utilities.Constants;
+import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
+import com.google.jkellaway.androidapp_datamodel.datamodel.IVenue;
 
 import java.util.List;
 
 /**
  * Created by aneurinc on 21/03/2016.
  */
-public class VenueFragAdapter extends ArrayAdapter<String> implements OnClickListener {
+public class VenueFragAdapter extends ArrayAdapter<IVenue> implements OnClickListener {
 
     private final Activity mContext;
     private List<IVenue> mVenues;
+    private String mAddress;
 
     public VenueFragAdapter(Activity c, List<IVenue> venues) {
         super(c, R.layout.list_row_venue);
@@ -34,10 +35,15 @@ public class VenueFragAdapter extends ArrayAdapter<String> implements OnClickLis
     }
 
     @Override
+    public IVenue getItem(int position) {
+        return mVenues.get(position);
+    }
+
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder viewHolder;
-        IVenue currVenue = mVenues.get(position);
+        IVenue currVenue = getItem(position);
 
         if (convertView == null) {
 
@@ -65,10 +71,11 @@ public class VenueFragAdapter extends ArrayAdapter<String> implements OnClickLis
             viewHolder.venueImage.setImageBitmap(ImageUtils.scaleDown(currVenue.getImage(0), xy, xy));
         }
 
-        viewHolder.venueName.setText(currVenue.getName());
+        mAddress = currVenue.getVenueAddress();
+        viewHolder.venueName.setText(currVenue.getVenueName());
         // TODO change address to city!
-        viewHolder.venueCity.setText(currVenue.getAddress());
-        viewHolder.venueMap.setImageResource(R.drawable.google_maps_icon);
+        viewHolder.venueCity.setText(mAddress);
+
         viewHolder.venueMap.setOnClickListener(this);
 
         int colorPos = position % Constants.rowColour.length;
@@ -78,16 +85,19 @@ public class VenueFragAdapter extends ArrayAdapter<String> implements OnClickLis
     }
 
     @Override
-    public void onClick(View v) {
-        v.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.onclick));
-        Intent i =  new Intent(mContext, MapActivity.class);
-//        i.putExtra()
-        mContext.startActivity(new Intent(mContext, MapActivity.class));
+    public int getCount() {
+        return mVenues.size();
     }
 
     @Override
-    public int getCount() {
-        return mVenues.size();
+    public void onClick(View v) {
+
+        v.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.onclick));
+
+        Intent i = new Intent(mContext, MapActivity.class);
+        i.putExtra(mAddress, MapActivity.LOCATION_ADDRESS);
+        mContext.startActivity(i);
+
     }
 
     static class ViewHolder {

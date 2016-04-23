@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UI.Activities.MainActivity">
+    tools:context=".UI.activities.MainActivity">
 
     <ProgressBar
         android:id="@+id/venue_progress"
@@ -20,6 +20,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/featured_lineup"
         android:background="@android:color/white"
-        android:fadeScrollbars="false" />
+        android:fadeScrollbars="false"/>
 
 </RelativeLayout>

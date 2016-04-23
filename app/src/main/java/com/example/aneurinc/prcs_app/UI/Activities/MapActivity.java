@@ -1,4 +1,4 @@
-package com.example.aneurinc.prcs_app.UI.Activities;
+package com.example.aneurinc.prcs_app.UI.activities;
 
 import android.content.Intent;
 import android.location.Address;
@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.CustomViews.CustomInfoWindow;
+import com.example.aneurinc.prcs_app.UI.custom_views.CustomInfoWindow;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -25,10 +25,10 @@ import java.util.List;
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private final float ZOOM_VAL = 15.0f;
-    private LatLng location;
-    private String strAddress;
+    private LatLng mLocation;
+    private TextView mTextViewAddress;
 
-    public String LOCATION_ADDRESS;
+    public static String LOCATION_ADDRESS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,24 +36,23 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_map);
         setUpToolbar();
 
-        strAddress = "The Royal Albert Hall, Kensington Gore, London SW7 2AP";
+        mTextViewAddress = (TextView) findViewById(R.id.venue_address);
 
-        location = getLocationFromAddress();
+        mLocation = geocodeAddress();
 
         initMapFragment();
 
-        TextView tvAddress = (TextView) findViewById(R.id.venue_address);
-        tvAddress.setText(strAddress);
+
     }
 
-    private LatLng getLocationFromAddress() {
+    private LatLng geocodeAddress() {
 
         Geocoder coder = new Geocoder(this);
         List<Address> address;
         LatLng p1 = null;
 
         try {
-            address = coder.getFromLocationName(strAddress, 5);
+            address = coder.getFromLocationName(LOCATION_ADDRESS, 5);
             if (address == null) {
                 return null;
             }
@@ -120,8 +119,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
 
         // Add a marker to location and move the camera
-        googleMap.addMarker(new MarkerOptions().position(location).title("Location Address:").snippet(strAddress));
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, ZOOM_VAL));
-        googleMap.setInfoWindowAdapter(new CustomInfoWindow(this, strAddress));
+        googleMap.addMarker(new MarkerOptions().position(mLocation).title("Location Address:").snippet(LOCATION_ADDRESS));
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mLocation, ZOOM_VAL));
+        googleMap.setInfoWindowAdapter(new CustomInfoWindow(this, LOCATION_ADDRESS));
+        mTextViewAddress.setText(LOCATION_ADDRESS);
     }
 }

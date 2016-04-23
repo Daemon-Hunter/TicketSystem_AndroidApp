@@ -1,4 +1,4 @@
-package com.example.aneurinc.prcs_app.UI.Activities;
+package com.example.aneurinc.prcs_app.UI.activities;
 
 import android.app.SearchManager;
 import android.content.Intent;
@@ -20,21 +20,16 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.Fragments.ArtistFragment;
-import com.example.aneurinc.prcs_app.UI.Fragments.ParentEventFragment;
-import com.example.aneurinc.prcs_app.UI.Fragments.TicketFragment;
-import com.example.aneurinc.prcs_app.UI.Fragments.VenueFragment;
+import com.example.aneurinc.prcs_app.UI.fragments.ArtistFragment;
+import com.example.aneurinc.prcs_app.UI.fragments.FragmentType;
+import com.example.aneurinc.prcs_app.UI.fragments.ParentEventFragment;
+import com.example.aneurinc.prcs_app.UI.fragments.TicketFragment;
+import com.example.aneurinc.prcs_app.UI.fragments.VenueFragment;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     // debug tag
     public static final String DEBUG_TAG = "PRCS";
-
-    // fragment tags
-    private static final String E_TAG = "EVENTS";
-    private static final String A_TAG = "ARTISTS";
-    private static final String T_TAG = "TICKETS";
-    private static final String V_TAG = "VENUE";
 
     private static FragmentManager fragmentManager;
 
@@ -47,50 +42,70 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
         addOnClickListeners();
 
-        Button events = (Button) findViewById(R.id.btn_event);
-        createFragment(new ParentEventFragment(), E_TAG, events);
+        switchFragment(new ParentEventFragment(), FragmentType.PARENT_EVENT);
 
         fragmentManager = getSupportFragmentManager();
     }
 
-    public void createFragment(Fragment fragment, String tag, View v) {
+    public void switchFragment(Fragment fragment, FragmentType type) {
 
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
-        setCustomAnimation(transaction, v);
-        transaction.replace(R.id.contentFragmentMain, fragment, tag);
+        setCustomAnimation(transaction, type);
+        transaction.replace(R.id.main_content_fragment, fragment, type.toString());
         transaction.commit();
+
+        // update UI components
+        updateButtons(type);
+        updateToolbar(type);
 
     }
 
-    private void setCustomAnimation(FragmentTransaction t, View v) {
+    private void updateToolbar(FragmentType type) {
 
-        int id = v.getId();
+        TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
+
+        switch (type) {
+            case PARENT_EVENT:
+                toolbarTitle.setText(R.string.current_events);
+                break;
+            case ARTIST:
+                toolbarTitle.setText(R.string.current_artists);
+                break;
+            case VENUE:
+                toolbarTitle.setText(R.string.my_tickets);
+                break;
+            case TICKET:
+                toolbarTitle.setText(R.string.current_venues);
+        }
+    }
+
+    private void setCustomAnimation(FragmentTransaction trans, FragmentType type) {
 
         switch (getFragmentTag()) {
 
-            case E_TAG:
-                t.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_left);
+            case PARENT_EVENT:
+                trans.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_left);
                 break;
 
-            case A_TAG:
-                if (id == R.id.btn_venue || id == R.id.btn_tickets) {
-                    t.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_left);
+            case ARTIST:
+                if (type == FragmentType.VENUE || type == FragmentType.TICKET) {
+                    trans.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_left);
                 } else {
-                    t.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right);
+                    trans.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right);
                 }
                 break;
 
-            case V_TAG:
-                if (id == R.id.btn_tickets) {
-                    t.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_left);
+            case VENUE:
+                if (type == FragmentType.TICKET) {
+                    trans.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_left);
                 } else {
-                    t.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right);
+                    trans.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right);
                 }
                 break;
 
-            case T_TAG:
-                t.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right);
+            case TICKET:
+                trans.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right);
                 break;
 
             default:
@@ -99,27 +114,27 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     }
 
-    private String getFragmentTag() {
+    private FragmentType getFragmentTag() {
 
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag(E_TAG);
-
-        if (fragment != null && fragment.isVisible()) {
-            return E_TAG;
-        }
-
-        fragment = getSupportFragmentManager().findFragmentByTag(T_TAG);
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag(FragmentType.PARENT_EVENT.toString());
 
         if (fragment != null && fragment.isVisible()) {
-            return T_TAG;
+            return FragmentType.PARENT_EVENT;
         }
 
-        fragment = getSupportFragmentManager().findFragmentByTag(A_TAG);
+        fragment = getSupportFragmentManager().findFragmentByTag(FragmentType.TICKET.toString());
 
         if (fragment != null && fragment.isVisible()) {
-            return A_TAG;
+            return FragmentType.TICKET;
         }
 
-        return V_TAG;
+        fragment = getSupportFragmentManager().findFragmentByTag(FragmentType.ARTIST.toString());
+
+        if (fragment != null && fragment.isVisible()) {
+            return FragmentType.ARTIST;
+        }
+
+        return FragmentType.VENUE;
     }
 
     private void setupToolbar() {
@@ -164,17 +179,17 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     private void updateCurrentFragment() {
 
         switch (getFragmentTag()) {
-            case A_TAG:
-                updateButtons(R.id.btn_artist);
+            case ARTIST:
+                updateButtons(FragmentType.ARTIST);
                 break;
-            case V_TAG:
-                updateButtons(R.id.btn_venue);
+            case VENUE:
+                updateButtons(FragmentType.VENUE);
                 break;
-            case T_TAG:
-                updateButtons(R.id.btn_tickets);
+            case TICKET:
+                updateButtons(FragmentType.TICKET);
                 break;
-            case E_TAG:
-                updateButtons(R.id.btn_event);
+            case PARENT_EVENT:
+                updateButtons(FragmentType.PARENT_EVENT);
                 break;
             default:
                 break;
@@ -182,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     }
 
-    private void updateButtons(int btnID) {
+    private void updateButtons(FragmentType type) {
 
         Button btnEvents = (Button) findViewById(R.id.btn_event);
         Button btnArtists = (Button) findViewById(R.id.btn_artist);
@@ -202,7 +217,21 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         btnFollowing.setTextColor(Color.BLACK);
 
         // get selected button
-        Button selectedBtn = (Button) findViewById(btnID);
+        Button selectedBtn = null;
+
+        switch (type) {
+            case PARENT_EVENT:
+                selectedBtn = (Button) findViewById(R.id.btn_event);
+                break;
+            case ARTIST:
+                selectedBtn = (Button) findViewById(R.id.btn_artist);
+                break;
+            case VENUE:
+                selectedBtn = (Button) findViewById(R.id.btn_venue);
+                break;
+            case TICKET:
+                selectedBtn = (Button) findViewById(R.id.btn_tickets);
+        }
 
         // set to non-clickable and grey
         selectedBtn.setClickable(false);
@@ -241,37 +270,21 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     @Override
     public void onClick(View v) {
 
-        TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
-
         switch (v.getId()) {
-
             case R.id.btn_event:
-                createFragment(new ParentEventFragment(), E_TAG, v);
-                updateButtons(R.id.btn_event);
-                toolbarTitle.setText(R.string.current_events);
+                switchFragment(new ParentEventFragment(), FragmentType.PARENT_EVENT);
                 break;
-
             case R.id.btn_artist:
-                createFragment(new ArtistFragment(), A_TAG, v);
-                updateButtons(R.id.btn_artist);
-                toolbarTitle.setText(R.string.current_artists);
+                switchFragment(new ArtistFragment(), FragmentType.ARTIST);
                 break;
-
             case R.id.btn_tickets:
-                createFragment(new TicketFragment(),T_TAG, v);
-                updateButtons(R.id.btn_tickets);
-                toolbarTitle.setText(R.string.my_tickets);
+                switchFragment(new TicketFragment(), FragmentType.TICKET);
                 break;
-
             case R.id.btn_venue:
-                createFragment(new VenueFragment(), V_TAG, v);
-                updateButtons(R.id.btn_venue);
-                toolbarTitle.setText(R.string.current_venues);
+                switchFragment(new VenueFragment(), FragmentType.VENUE);
                 break;
-
             default:
                 break;
-
         }
     }
 }

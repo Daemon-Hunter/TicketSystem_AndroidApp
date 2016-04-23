@@ -1,4 +1,4 @@
-package com.example.aneurinc.prcs_app.UI.Activities;
+package com.example.aneurinc.prcs_app.UI.activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -26,7 +26,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.CustomViews.CustomClickableSpan;
+import com.example.aneurinc.prcs_app.UI.custom_views.CustomClickableSpan;
 
 public class RegisterActivity extends AppCompatActivity implements OnEditorActionListener, OnClickListener {
 

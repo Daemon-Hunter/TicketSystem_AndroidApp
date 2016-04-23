@@ -1,4 +1,4 @@
-package com.example.aneurinc.prcs_app.UI.CustomAdapters;
+package com.example.aneurinc.prcs_app.UI.custom_adapters;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.Utilities.Constants;
+import com.example.aneurinc.prcs_app.UI.utilities.Constants;
 
 import java.text.DecimalFormat;
 

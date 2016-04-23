@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".UI.Activities.ReceiptActivity">
+    tools:context=".UI.activities.ReceiptActivity">
 
     <include layout="@layout/toolbar"/>
 

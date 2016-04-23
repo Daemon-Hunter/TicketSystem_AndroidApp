@@ -1,4 +1,4 @@
-package com.example.aneurinc.prcs_app.UI.Activities;
+package com.example.aneurinc.prcs_app.UI.activities;
 
 import android.app.Activity;
 import android.content.Intent;

@@ -1,4 +1,4 @@
-package com.example.aneurinc.prcs_app.UI.CustomViews;
+package com.example.aneurinc.prcs_app.UI.custom_views;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -11,7 +11,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.Activities.CheckoutActivity;
+import com.example.aneurinc.prcs_app.UI.activities.CheckoutActivity;
 
 /**
  * Created by aneurinc on 06/04/2016.

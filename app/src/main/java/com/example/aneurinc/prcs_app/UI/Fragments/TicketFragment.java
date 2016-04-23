@@ -1,7 +1,6 @@
-package com.example.aneurinc.prcs_app.UI.Fragments;
+package com.example.aneurinc.prcs_app.UI.fragments;
 
 import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,8 +13,9 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.Activities.MainActivity;
-import com.example.aneurinc.prcs_app.UI.CustomAdapters.TicketFragAdapter;
+import com.example.aneurinc.prcs_app.UI.activities.MainActivity;
+import com.example.aneurinc.prcs_app.UI.custom_adapters.TicketFragAdapter;
+import com.example.aneurinc.prcs_app.UI.custom_listeners.OnSwipeTouchListener;
 import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
 
 import java.util.LinkedList;
@@ -24,17 +24,35 @@ import java.util.List;
 /**
  * Created by aneurinc on 01/03/2016.
  */
-public class TicketFragment extends Fragment {
+public class TicketFragment extends Fragment implements Animator.AnimatorListener {
 
     private ProgressBar mProgressBar;
     private ReadTickets mTask;
+    private static final int ANIM_TIME = 200;
+    private MainActivity mMainActivity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ticket, container, false);
+
+        if (getActivity() instanceof MainActivity) {
+            mMainActivity = (MainActivity) getActivity();
+        }
+
+        setSwipe(view);
+
         mProgressBar = (ProgressBar) view.getRootView().findViewById(R.id.ticket_progress);
         getTickets();
         return view;
+    }
+
+    private void setSwipe(View v) {
+        v.setOnTouchListener(new OnSwipeTouchListener(getActivity()) {
+            @Override
+            public void onSwipeRight() {
+                mMainActivity.switchFragment(new ArtistFragment(), FragmentType.VENUE);
+            }
+        });
     }
 
     private void getTickets() {
@@ -43,48 +61,52 @@ public class TicketFragment extends Fragment {
     }
 
     private void showProgress(final boolean show) {
-        int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
         mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
-        mProgressBar.animate().setDuration(shortAnimTime).alpha(
-                show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
-            }
-        });
+        mProgressBar.animate().setDuration(ANIM_TIME).alpha(show ? 1 : 0).setListener(this);
+    }
+
+    @Override
+    public void onAnimationStart(Animator animation) {
+        mProgressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onAnimationEnd(Animator animation) {
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onAnimationCancel(Animator animation) {
+
+    }
+
+    @Override
+    public void onAnimationRepeat(Animator animation) {
+
     }
 
     @Override
     public void onPause() {
-        Log.d(MainActivity.DEBUG_TAG, "onPause: ");
-
-        if (isTaskRunning()) {
-            mTask.cancel(true);
-        }
-
+        handleQuit();
         super.onPause();
     }
 
     @Override
     public void onStop() {
-        Log.d(MainActivity.DEBUG_TAG, "onStop: ");
-
-        if (isTaskRunning()) {
-            mTask.cancel(true);
-        }
-
+        handleQuit();
         super.onStop();
     }
 
     @Override
     public void onDestroy() {
-        Log.d(MainActivity.DEBUG_TAG, "onDestroy: ");
+        handleQuit();
+        super.onDestroy();
+    }
 
+    private void handleQuit() {
         if (isTaskRunning()) {
             mTask.cancel(true);
         }
-
-        super.onDestroy();
     }
 
     private boolean isTaskRunning() {
@@ -102,7 +124,7 @@ public class TicketFragment extends Fragment {
 
         @Override
         protected void onPreExecute() {
-            super.onPreExecute();
+            Log.d(MainActivity.DEBUG_TAG, "onPreExecute: Ticket Thread started");
             showProgress(true);
         }
 
@@ -113,17 +135,21 @@ public class TicketFragment extends Fragment {
 
         @Override
         protected void onPostExecute(List<ITicket> tickets) {
-            if (tickets != null && !tickets.isEmpty()) {
+
+            if (mContext != null && isAdded()) {
                 showProgress(false);
-                ListView list = (ListView) mContext.findViewById(R.id.my_tickets_list);
-                list.setAdapter(new TicketFragAdapter(mContext, tickets));
+                if (tickets != null && !tickets.isEmpty()) {
+                    ListView list = (ListView) mContext.findViewById(R.id.my_tickets_list);
+                    list.setAdapter(new TicketFragAdapter(mContext, tickets));
+                    setSwipe(list);
+                }
             }
         }
 
         @Override
         protected void onCancelled() {
-            super.onCancelled();
-            mTask.cancel(true);
+            Log.d(MainActivity.DEBUG_TAG, "onCancelled: Ticket Thread cancelled");
+            showProgress(false);
         }
     }
 }

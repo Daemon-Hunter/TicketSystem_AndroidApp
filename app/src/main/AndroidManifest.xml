@@ -17,7 +17,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".UI.Activities.SplashActivity"
+            android:name=".UI.activities.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
 
@@ -28,61 +28,64 @@
 
         </activity>
         <activity
-            android:name=".UI.Activities.ParentEventActivity"
+            android:name=".UI.activities.ParentEventActivity"
             android:label=""
-            android:parentActivityName=".UI.Activities.MainActivity"
+            android:parentActivityName=".UI.activities.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".UI.Activities.MainActivity"
-            android:label=""
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".UI.Activities.TicketActivity"
-            android:label=""
-            android:noHistory="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".UI.Activities.ArtistActivity"
+            android:name=".UI.activities.MainActivity"
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".UI.Activities.CheckoutActivity"
+            android:name=".UI.activities.TicketActivity"
             android:label=""
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".UI.Activities.ReceiptActivity"
+            android:name=".UI.activities.ArtistActivity"
+            android:label=""
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.activities.CheckoutActivity"
             android:label=""
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".UI.Activities.VenueActivity"
+            android:name=".UI.activities.ReceiptActivity"
+            android:label=""
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UI.activities.VenueActivity"
+            android:label=""
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <meta-data
+            android:name="com.google.android.maps.API_KEY"
+            android:value="@string/google_maps_key" />
+        <activity
+            android:name=".UI.activities.MapActivity"
             android:label=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".UI.Activities.MapActivity"
-            android:label=""
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".UI.Activities.LoginActivity"
+            android:name=".UI.activities.LoginActivity"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".UI.Activities.RegisterActivity"
+            android:name=".UI.activities.RegisterActivity"
             android:label="@string/title_activity_register"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".UI.Activities.ChildEventActivity"
+            android:name=".UI.activities.ChildEventActivity"
             android:label=""
             android:theme="@style/AppTheme.NoActionBar" />
     </application>

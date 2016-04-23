@@ -1,4 +1,4 @@
-package com.example.aneurinc.prcs_app.UI.Activities;
+package com.example.aneurinc.prcs_app.UI.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.CustomAdapters.ReceiptActAdapter;
+import com.example.aneurinc.prcs_app.UI.custom_adapters.ReceiptActAdapter;
 
 public class ReceiptActivity extends AppCompatActivity implements OnClickListener {
 

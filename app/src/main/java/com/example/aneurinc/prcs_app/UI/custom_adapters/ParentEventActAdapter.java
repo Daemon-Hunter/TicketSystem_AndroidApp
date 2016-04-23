@@ -1,4 +1,4 @@
-package com.example.aneurinc.prcs_app.UI.CustomAdapters;
+package com.example.aneurinc.prcs_app.UI.custom_adapters;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -13,6 +13,9 @@ import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.Utilities.Constants;
 import com.example.aneurinc.prcs_app.UI.Utilities.ImageUtils;
 import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
+import com.example.aneurinc.prcs_app.UI.utilities.Constants;
+import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
+import com.google.jkellaway.androidapp_datamodel.datamodel.IChildEvent;
 
 import java.util.List;
 
