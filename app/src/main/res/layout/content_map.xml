@@ -148,7 +148,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/venue_image"
-                android:text="The Royal Albert Hall"
                 android:textSize="20sp"
                 android:textColor="@android:color/white"
                 android:padding="10dp"/>
@@ -158,6 +157,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/venue_title"
+                android:layout_toRightOf="@id/venue_image"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
+                android:paddingBottom="10dp"/>
+
+            <TextView
+                android:id="@+id/venue_postcode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/venue_address"
                 android:layout_toRightOf="@id/venue_image"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"

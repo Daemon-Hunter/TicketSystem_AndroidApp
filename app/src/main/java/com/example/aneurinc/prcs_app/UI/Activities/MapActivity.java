@@ -7,6 +7,7 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +23,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.jkellaway.androidapp_datamodel.events.IVenue;
+import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
 import java.util.List;
 
@@ -31,13 +34,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private final float ZOOM_VAL = 13.0f;
     private LatLng mLocation;
     private String mAddress;
+    private IVenue mVenue;
     private GoogleMap mGoogleMap;
 
     private Button mRoadMapBtn;
     private Button mHybridBtn;
     private Button mSatelliteBtn;
 
-    public static String LOCATION_ADDRESS;
+    public static String VENUE_ID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +49,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_map);
         setUpToolbar();
 
-        // get string address from intent
-        mAddress = getIntent().getStringExtra(LOCATION_ADDRESS);
+        Log.d(MainActivity.DEBUG_TAG, "onCreate: ID before = " + getIntent().getExtras().getInt(VENUE_ID));
+
+        mVenue = UserWrapper.getInstance().getVenue(10);
+        mAddress = mVenue.getAddress() + " " + mVenue.getPostcode();
+
+        Log.d(MainActivity.DEBUG_TAG, "onCreate: ID after = " + mVenue.getID());
+
+        Log.d(MainActivity.DEBUG_TAG, "onCreate: venue postcode = " + mVenue.getPostcode());
 
         // set text view to string address
-        TextView mTextViewAddress = (TextView) findViewById(R.id.venue_address);
+        TextView mTextViewAddress = (TextView) findViewById(R.id.address);
         mTextViewAddress.setText(mAddress);
 
         // geocode string address to get latitude and longitude
@@ -153,12 +163,23 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         // Add a marker to location and move the camera
         googleMap.addMarker(new MarkerOptions()
                 .position(mLocation)
-                .title(getString(R.string.venue_address))
+                .title(mVenue.getName())
                 .snippet(mAddress))
                 .showInfoWindow();
 
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mLocation, ZOOM_VAL));
-        googleMap.setInfoWindowAdapter(new CustomInfoWindow(this, mAddress));
+        googleMap.setInfoWindowAdapter(new CustomInfoWindow(this, mVenue));
+
+        updateUI();
+    }
+
+    private void updateUI() {
+        TextView title = (TextView) findViewById(R.id.venue_title);
+        TextView address = (TextView) findViewById(R.id.venue_address);
+        TextView postcode = (TextView) findViewById(R.id.venue_postcode);
+        title.setText(mVenue.getName());
+        address.setText(mVenue.getAddress());
+        postcode.setText(mVenue.getPostcode());
     }
 
     private void updateButtons(Button b) {
@@ -222,6 +243,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 break;
         }
 
-        updateButtons((Button)v);
+        updateButtons((Button) v);
     }
 }

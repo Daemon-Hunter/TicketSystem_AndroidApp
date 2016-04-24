@@ -2,6 +2,7 @@ package com.example.aneurinc.prcs_app.UI.custom_adapters;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
+import com.example.aneurinc.prcs_app.UI.activities.MainActivity;
 import com.example.aneurinc.prcs_app.UI.activities.MapActivity;
 import com.example.aneurinc.prcs_app.UI.utilities.Constants;
 import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
@@ -75,9 +77,9 @@ public class VenueFragAdapter extends ArrayAdapter<IVenue> {
         viewHolder.venueMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(mContext, MapActivity.class);
-                i.putExtra(MapActivity.LOCATION_ADDRESS, currVenue.getAddress());
-                mContext.startActivity(i);
+                Intent intent = new Intent(mContext, MapActivity.class);
+                intent.putExtra(MapActivity.VENUE_ID, currVenue.getID());
+                mContext.startActivity(intent);
             }
         });
 
