@@ -70,7 +70,7 @@ public final class APIHandle {
         return childEventList;
     }
 
-    public static IUser isPasswordtrue(String email, String password) throws IOException, IllegalArgumentException {
+    public static IUser isPasswordTrue(String email, String password) throws IOException, IllegalArgumentException {
         Map<String, String> customer = APIConnection.comparePassword(email, password).get(0);
         if (customer != null)
             return ConvertCustomer(customer);
@@ -107,102 +107,43 @@ public final class APIHandle {
         return adminList;
     }
 
-    public static List<Object> searchObjects(String search, DatabaseTable table) throws IOException {
-        List<Object> parentEventList = new LinkedList<>();
-        List<Map<String, String>> parentEventMapList = APIConnection.search(search, table);
+    public static List<Object> searchObjects(String search, final DatabaseTable table) throws IOException {
+        List<Object> objectList = new LinkedList<>();
+        List<Map<String, String>> objectMapList = APIConnection.search(search, table);
 
         int threads = Runtime.getRuntime().availableProcessors();
         ExecutorService service = Executors.newFixedThreadPool(threads);
         List<Future<Object>> futures = new LinkedList<>();
 
-        for (final Map<String, String> parentEvent : parentEventMapList){
+        for (final Map<String, String> objectMap : objectMapList){
             Callable<Object> callable = new Callable<Object>() {
                 @Override
-                public IParentEvent call() throws Exception {
-                    return ConvertParentEvent(parentEvent);
+                public Object call() throws Exception {
+                    switch (table){
+                        case PARENT_EVENT: return ConvertParentEvent(objectMap);
+                        case VENUE: return ConvertVenue(objectMap);
+                        case ARTIST:
+                            IArtist artist = ConvertArtist(objectMap);
+                            artist.setType(ConvertArtistType(APIConnection.readSingle(artist.getTypeID(), DatabaseTable.ARTIST_TYPE)));
+                            return artist;
+                        default: throw new IllegalArgumentException();
+                    }
                 }
             };
             futures.add(service.submit(callable));
         }
-
         service.shutdown();
 
         for (Future<Object> future : futures){
             try {
-                parentEventList.add(future.get());
+                objectList.add(future.get());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
         }
-        return parentEventList;
-    }
-
-    public static List<IVenue> searchVenues(String search) throws IOException {
-        List<IVenue> venueList = new LinkedList<>();
-        List<Map<String, String>> venueMapList = APIConnection.search(search, DatabaseTable.VENUE);
-
-        int threads = Runtime.getRuntime().availableProcessors();
-        ExecutorService service = Executors.newFixedThreadPool(threads);
-        List<Future<IVenue>> futures = new LinkedList<>();
-
-        for (final Map<String, String> venue : venueMapList){
-            Callable<IVenue> callable = new Callable<IVenue>() {
-                @Override
-                public IVenue call() throws Exception {
-                    return ConvertVenue(venue);
-                }
-            };
-            futures.add(service.submit(callable));
-        }
-
-        service.shutdown();
-
-        for (Future<IVenue> future : futures){
-            try {
-                venueList.add(future.get());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
-        }
-        return venueList;
-    }
-
-    public static List<IArtist> searchArtists(String search) throws IOException {
-        List<IArtist> artistList = new LinkedList<>();
-        List<Map<String, String>> artistMapList = APIConnection.search(search, DatabaseTable.ARTIST);
-
-        int threads = Runtime.getRuntime().availableProcessors();
-        ExecutorService service = Executors.newFixedThreadPool(threads);
-        List<Future<IArtist>> futures = new LinkedList<>();
-
-        for (final Map<String, String> artistMap : artistMapList){
-            Callable<IArtist> callable = new Callable<IArtist>() {
-                @Override
-                public IArtist call() throws Exception {
-                    IArtist artist = ConvertArtist(artistMap);
-                    artist.setType(ConvertArtistType(APIConnection.readSingle(artist.getTypeID(), DatabaseTable.ARTIST_TYPE)));
-                    return artist;
-                }
-            };
-            futures.add(service.submit(callable));
-        }
-
-        service.shutdown();
-
-        for (Future<IArtist> future : futures){
-            try {
-                artistList.add(future.get());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
-        }
-        return artistList;
+        return objectList;
     }
 
     public static List<Object> getObjectAmount(Integer amount, Integer lastID, final DatabaseTable table) throws IOException {

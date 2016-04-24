@@ -49,7 +49,7 @@ public class UserWrapper implements IUserWrapper {
 
     @Override
     public IUser loginUser(String email, String password) throws IOException, IllegalArgumentException {
-        currentUser = APIHandle.isPasswordtrue(email, password);
+        currentUser = APIHandle.isPasswordTrue(email, password);
         return currentUser;
     }
 
@@ -61,10 +61,10 @@ public class UserWrapper implements IUserWrapper {
     @Override
     public LinkedList getParentEvents() throws IOException {
         if (parentEventArray != null){
-            return new LinkedList<IParentEvent>(parentEventArray);
+            return new LinkedList<>(parentEventArray);
         } else {
             parentEventArray = (List<IParentEvent>)(Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.PARENT_EVENT);
-            return new LinkedList<IParentEvent>(parentEventArray);
+            return new LinkedList<>(parentEventArray);
         }
     }
 
@@ -113,7 +113,8 @@ public class UserWrapper implements IUserWrapper {
         if (venueArray != null){
             return new ArrayList<IVenue>(venueArray);
         } else {
-            return (List<IVenue>)(Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.VENUE);
+            venueArray = (List<IVenue>)(Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.VENUE);
+            return venueArray;
         }
     }
 
@@ -148,12 +149,13 @@ public class UserWrapper implements IUserWrapper {
 
     @Override
     public List<IVenue> refreshVenues() throws IOException {
-        return (List<IVenue>)(Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.VENUE);
+        venueArray = (List<IVenue>)(Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.VENUE);
+        return new LinkedList<>(venueArray);
     }
 
     @Override
     public List<IVenue> searchVenues(String searchString) throws IOException {
-        return APIHandle.searchVenues(searchString);
+        return (List<IVenue>)(Object)APIHandle.searchObjects(searchString, DatabaseTable.VENUE);
     }
 
     @Override
@@ -203,7 +205,7 @@ public class UserWrapper implements IUserWrapper {
 
     @Override
     public List<IArtist> searchArtists(String searchString) throws IOException {
-        return APIHandle.searchArtists(searchString);
+        return (List<IArtist>) (Object)APIHandle.searchObjects(searchString, DatabaseTable.ARTIST);
     }
 
     @Override
