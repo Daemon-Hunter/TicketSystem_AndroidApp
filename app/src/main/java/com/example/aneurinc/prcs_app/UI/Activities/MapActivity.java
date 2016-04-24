@@ -2,21 +2,23 @@ package com.example.aneurinc.prcs_app.UI.activities;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.custom_views.CustomInfoWindow;
+import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -49,18 +51,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_map);
         setUpToolbar();
 
-        Log.d(MainActivity.DEBUG_TAG, "onCreate: ID before = " + getIntent().getExtras().getInt(VENUE_ID));
-
-        mVenue = UserWrapper.getInstance().getVenue(10);
-        mAddress = mVenue.getAddress() + " " + mVenue.getPostcode();
-
-        Log.d(MainActivity.DEBUG_TAG, "onCreate: ID after = " + mVenue.getID());
-
-        Log.d(MainActivity.DEBUG_TAG, "onCreate: venue postcode = " + mVenue.getPostcode());
-
-        // set text view to string address
-        TextView mTextViewAddress = (TextView) findViewById(R.id.address);
-        mTextViewAddress.setText(mAddress);
+        mVenue = UserWrapper.getInstance().getVenue(getIntent().getExtras().getInt(VENUE_ID));
+        mAddress = mVenue.getAddress();
 
         // geocode string address to get latitude and longitude
         mLocation = geocodeAddress(mAddress);
@@ -160,6 +152,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         mGoogleMap = googleMap;
 
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mLocation, ZOOM_VAL));
+        googleMap.setInfoWindowAdapter(new CustomInfoWindow(this, mVenue));
+
         // Add a marker to location and move the camera
         googleMap.addMarker(new MarkerOptions()
                 .position(mLocation)
@@ -167,19 +162,24 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 .snippet(mAddress))
                 .showInfoWindow();
 
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mLocation, ZOOM_VAL));
-        googleMap.setInfoWindowAdapter(new CustomInfoWindow(this, mVenue));
-
         updateUI();
     }
 
     private void updateUI() {
         TextView title = (TextView) findViewById(R.id.venue_title);
-        TextView address = (TextView) findViewById(R.id.venue_address);
-        TextView postcode = (TextView) findViewById(R.id.venue_postcode);
+        TextView phoneNo = (TextView) findViewById(R.id.venue_phone_no);
+        TextView email = (TextView) findViewById(R.id.venue_email);
+        TextView parking = (TextView) findViewById(R.id.venue_parking);
+        ImageView image = (ImageView) findViewById(R.id.venue_image);
+
         title.setText(mVenue.getName());
-        address.setText(mVenue.getAddress());
-        postcode.setText(mVenue.getPostcode());
+        phoneNo.setText(mVenue.getPhoneNumber());
+        email.setText(mVenue.getEmail());
+        parking.setText(mVenue.getParking() + " spaces");
+
+        int xy = ImageUtils.getScreenWidth(this) / 4;
+        Bitmap scaledImage = ImageUtils.scaleDown(mVenue.getImage(0), xy, xy);
+        image.setImageBitmap(scaledImage);
     }
 
     private void updateButtons(Button b) {
