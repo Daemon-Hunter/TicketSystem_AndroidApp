@@ -150,19 +150,23 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        mGoogleMap = googleMap;
+        if (googleMap != null) {
 
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mLocation, ZOOM_VAL));
-        googleMap.setInfoWindowAdapter(new CustomInfoWindow(this, mVenue));
+            mGoogleMap = googleMap;
 
-        // Add a marker to location and move the camera
-        googleMap.addMarker(new MarkerOptions()
-                .position(mLocation)
-                .title(mVenue.getName())
-                .snippet(mAddress))
-                .showInfoWindow();
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mLocation, ZOOM_VAL));
+            googleMap.setInfoWindowAdapter(new CustomInfoWindow(this, mVenue));
 
-        updateUI();
+            // Add a marker to location and move the camera
+            googleMap.addMarker(new MarkerOptions()
+                    .position(mLocation)
+                    .title(mVenue.getName())
+                    .snippet(mAddress))
+                    .showInfoWindow();
+
+            updateUI();
+        }
+
     }
 
     private void updateUI() {
@@ -177,7 +181,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         email.setText(mVenue.getEmail());
         parking.setText(mVenue.getParking() + " spaces");
 
-        int xy = ImageUtils.getScreenWidth(this) / 4;
+        int xy = ImageUtils.getScreenWidth(this) / 4 + 30;
         Bitmap scaledImage = ImageUtils.scaleDown(mVenue.getImage(0), xy, xy);
         image.setImageBitmap(scaledImage);
     }
