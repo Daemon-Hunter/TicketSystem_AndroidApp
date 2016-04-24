@@ -2,7 +2,7 @@ package com.example.aneurinc.prcs_app.UI.activities;
 
 import android.app.SearchManager;
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -199,6 +199,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     private void updateButtons(FragmentType type) {
 
+        Resources resources = getResources();
+
         // get reference to fragment buttons
         Button btnEvents = (Button) findViewById(R.id.btn_event);
         Button btnArtists = (Button) findViewById(R.id.btn_artist);
@@ -218,10 +220,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         btnVenues.setClickable(true);
 
         // set 4 buttons text to black
-        btnEvents.setTextColor(Color.BLACK);
-        btnArtists.setTextColor(Color.BLACK);
-        btnTickets.setTextColor(Color.BLACK);
-        btnVenues.setTextColor(Color.BLACK);
+        btnEvents.setTextColor(resources.getColor(R.color.colorGrey400));
+        btnArtists.setTextColor(resources.getColor(R.color.colorGrey400));
+        btnTickets.setTextColor(resources.getColor(R.color.colorGrey400));
+        btnVenues.setTextColor(resources.getColor(R.color.colorGrey400));
 
         // hide all underlines
         eventsUnderline.setVisibility(View.INVISIBLE);
@@ -229,34 +231,27 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         venueUnderline.setVisibility(View.INVISIBLE);
         ticketUnderline.setVisibility(View.INVISIBLE);
 
-        // get selected button and underline
-        Button selectedBtn = null;
-        View selectedUnderline = null;
-
         switch (type) {
             case PARENT_EVENT:
-                selectedBtn = btnEvents;
-                selectedUnderline = eventsUnderline;
+                btnEvents.setClickable(false);
+                btnEvents.setTextColor(resources.getColor(R.color.colorGrey600));
+                eventsUnderline.setVisibility(View.VISIBLE);
                 break;
             case ARTIST:
-                selectedBtn = btnArtists;
-                selectedUnderline = artistUnderline;
+                btnArtists.setClickable(false);
+                btnArtists.setTextColor(resources.getColor(R.color.colorGrey600));
+                artistUnderline.setVisibility(View.VISIBLE);
                 break;
             case VENUE:
-                selectedBtn = btnVenues;
-                selectedUnderline = venueUnderline;
+                btnVenues.setClickable(false);
+                btnVenues.setTextColor(resources.getColor(R.color.colorGrey600));
+                venueUnderline.setVisibility(View.VISIBLE);
                 break;
             case TICKET:
-                selectedBtn = btnTickets;
-                selectedUnderline = ticketUnderline;
+                btnTickets.setClickable(false);
+                btnTickets.setTextColor(resources.getColor(R.color.colorGrey600));
+                ticketUnderline.setVisibility(View.VISIBLE);
         }
-
-        // set to non-clickable and grey
-        selectedBtn.setClickable(false);
-        selectedBtn.setTextColor(Color.GRAY);
-
-        // set to visible
-        selectedUnderline.setVisibility(View.VISIBLE);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.example.aneurinc.prcs_app.UI.activities;
 
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.res.Resources;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
@@ -27,13 +28,13 @@ import java.util.List;
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,
         View.OnClickListener {
 
-    private final float ZOOM_VAL = 15.0f;
+    private final float ZOOM_VAL = 13.0f;
     private LatLng mLocation;
     private String mAddress;
     private GoogleMap mGoogleMap;
 
     private Button mRoadMapBtn;
-    private Button mHybridiBtn;
+    private Button mHybridBtn;
     private Button mSatelliteBtn;
 
     public static String LOCATION_ADDRESS;
@@ -58,7 +59,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         initMapFragment();
 
         mRoadMapBtn = (Button) findViewById(R.id.btn_road_map);
-        mHybridiBtn = (Button) findViewById(R.id.btn_hybrid);
+        mHybridBtn = (Button) findViewById(R.id.btn_hybrid);
         mSatelliteBtn = (Button) findViewById(R.id.btn_satellite);
 
         // add onclick listeners
@@ -68,7 +69,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private void addListeners() {
         mRoadMapBtn.setOnClickListener(this);
-        mHybridiBtn.setOnClickListener(this);
+        mHybridBtn.setOnClickListener(this);
         mSatelliteBtn.setOnClickListener(this);
     }
 
@@ -162,15 +163,26 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private void updateButtons(Button b) {
 
+        Resources resources = getResources();
+
         // set map type buttons to grey text
-        mRoadMapBtn.setTextColor(Color.GRAY);
-        mHybridiBtn.setTextColor(Color.GRAY);
-        mSatelliteBtn.setTextColor(Color.GRAY);
+        mRoadMapBtn.setTextColor(resources.getColor(R.color.colorGrey400));
+        mHybridBtn.setTextColor(resources.getColor(R.color.colorGrey400));
+        mSatelliteBtn.setTextColor(resources.getColor(R.color.colorGrey400));
 
         // get reference to button underline
         View roadMapUnderline = findViewById(R.id.btn_road_map_underline);
         View hybridUnderline = findViewById(R.id.btn_hybrid_underline);
         View satelliteUnderline = findViewById(R.id.btn_satellite_underline);
+
+        // get reference to containers
+        LinearLayout roadMapContainer = (LinearLayout) findViewById(R.id.road_map_container);
+        LinearLayout hybridContainer = (LinearLayout) findViewById(R.id.hybrid_container);
+        LinearLayout satelliteContainer = (LinearLayout) findViewById(R.id.satellite_container);
+
+        roadMapContainer.setBackgroundColor(resources.getColor(R.color.colorGrey200));
+        hybridContainer.setBackgroundColor(resources.getColor(R.color.colorGrey200));
+        satelliteContainer.setBackgroundColor(resources.getColor(R.color.colorGrey200));
 
         // set all underlines to invisible
         roadMapUnderline.setVisibility(View.INVISIBLE);
@@ -179,16 +191,19 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         switch (b.getId()) {
             case R.id.btn_road_map:
-                mRoadMapBtn.setTextColor(Color.WHITE);
+                mRoadMapBtn.setTextColor(resources.getColor(R.color.colorGrey600));
                 roadMapUnderline.setVisibility(View.VISIBLE);
+                roadMapContainer.setBackgroundColor(resources.getColor(R.color.colorGrey300));
                 break;
             case R.id.btn_hybrid:
-                mHybridiBtn.setTextColor(Color.WHITE);
+                mHybridBtn.setTextColor(resources.getColor(R.color.colorGrey600));
                 hybridUnderline.setVisibility(View.VISIBLE);
+                hybridContainer.setBackgroundColor(resources.getColor(R.color.colorGrey300));
                 break;
             case R.id.btn_satellite:
-                mSatelliteBtn.setTextColor(Color.WHITE);
+                mSatelliteBtn.setTextColor(resources.getColor(R.color.colorGrey600));
                 satelliteUnderline.setVisibility(View.VISIBLE);
+                satelliteContainer.setBackgroundColor(resources.getColor(R.color.colorGrey300));
                 break;
         }
     }
