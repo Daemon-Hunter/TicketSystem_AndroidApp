@@ -33,7 +33,7 @@ import java.util.List;
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,
         View.OnClickListener {
 
-    private final float ZOOM_VAL = 13.0f;
+    private static final float ZOOM_VAL = 16.0f;
     private LatLng mLocation;
     private String mAddress;
     private IVenue mVenue;
@@ -52,7 +52,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         setUpToolbar();
 
         mVenue = UserWrapper.getInstance().getVenue(getIntent().getExtras().getInt(VENUE_ID));
-        mAddress = mVenue.getAddress();
+        mAddress = mVenue.getAddress() + ", " + mVenue.getPostcode();
 
         // geocode string address to get latitude and longitude
         mLocation = geocodeAddress(mAddress);
@@ -151,19 +151,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
 
         if (googleMap != null) {
-
             mGoogleMap = googleMap;
-
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mLocation, ZOOM_VAL));
             googleMap.setInfoWindowAdapter(new CustomInfoWindow(this, mVenue));
-
-            // Add a marker to location and move the camera
-            googleMap.addMarker(new MarkerOptions()
-                    .position(mLocation)
-                    .title(mVenue.getName())
-                    .snippet(mAddress))
-                    .showInfoWindow();
-
+            googleMap.addMarker(new MarkerOptions().position(mLocation)).showInfoWindow();
             updateUI();
         }
 
