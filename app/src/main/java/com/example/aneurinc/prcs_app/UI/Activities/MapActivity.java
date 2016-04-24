@@ -1,6 +1,7 @@
 package com.example.aneurinc.prcs_app.UI.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -31,6 +32,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private String mAddress;
     private GoogleMap mGoogleMap;
 
+    private Button mRoadMapBtn;
+    private Button mHybridiBtn;
+    private Button mSatelliteBtn;
+
     public static String LOCATION_ADDRESS;
 
     @Override
@@ -52,20 +57,20 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         // initialise map fragment
         initMapFragment();
 
+        mRoadMapBtn = (Button) findViewById(R.id.btn_road_map);
+        mHybridiBtn = (Button) findViewById(R.id.btn_hybrid);
+        mSatelliteBtn = (Button) findViewById(R.id.btn_satellite);
+
         // add onclick listeners
         addListeners();
 
     }
 
     private void addListeners() {
-        Button roadMap = (Button) findViewById(R.id.btn_road_map);
-        Button hybrid = (Button) findViewById(R.id.btn_hybrid);
-        Button satellite = (Button) findViewById(R.id.btn_satellite);
-        roadMap.setOnClickListener(this);
-        hybrid.setOnClickListener(this);
-        satellite.setOnClickListener(this);
+        mRoadMapBtn.setOnClickListener(this);
+        mHybridiBtn.setOnClickListener(this);
+        mSatelliteBtn.setOnClickListener(this);
     }
-
 
 
     private LatLng geocodeAddress(String addressStr) {
@@ -155,6 +160,39 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         googleMap.setInfoWindowAdapter(new CustomInfoWindow(this, mAddress));
     }
 
+    private void updateButtons(Button b) {
+
+        // set map type buttons to grey text
+        mRoadMapBtn.setTextColor(Color.GRAY);
+        mHybridiBtn.setTextColor(Color.GRAY);
+        mSatelliteBtn.setTextColor(Color.GRAY);
+
+        // get reference to button underline
+        View roadMapUnderline = findViewById(R.id.btn_road_map_underline);
+        View hybridUnderline = findViewById(R.id.btn_hybrid_underline);
+        View satelliteUnderline = findViewById(R.id.btn_satellite_underline);
+
+        // set all underlines to invisible
+        roadMapUnderline.setVisibility(View.INVISIBLE);
+        hybridUnderline.setVisibility(View.INVISIBLE);
+        satelliteUnderline.setVisibility(View.INVISIBLE);
+
+        switch (b.getId()) {
+            case R.id.btn_road_map:
+                mRoadMapBtn.setTextColor(Color.WHITE);
+                roadMapUnderline.setVisibility(View.VISIBLE);
+                break;
+            case R.id.btn_hybrid:
+                mHybridiBtn.setTextColor(Color.WHITE);
+                hybridUnderline.setVisibility(View.VISIBLE);
+                break;
+            case R.id.btn_satellite:
+                mSatelliteBtn.setTextColor(Color.WHITE);
+                satelliteUnderline.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -168,5 +206,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 mGoogleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
                 break;
         }
+
+        updateButtons((Button)v);
     }
 }

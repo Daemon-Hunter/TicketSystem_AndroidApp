@@ -50,7 +50,7 @@ public class TicketFragment extends Fragment implements Animator.AnimatorListene
         v.setOnTouchListener(new OnSwipeTouchListener(getActivity()) {
             @Override
             public void onSwipeRight() {
-                mMainActivity.switchFragment(new ArtistFragment(), FragmentType.VENUE);
+                mMainActivity.switchFragment(new VenueFragment(), FragmentType.VENUE);
             }
         });
     }

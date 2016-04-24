@@ -71,7 +71,7 @@
                 android:clickable="false"
                 android:text="@string/hybrid"
                 android:textAllCaps="false"
-                android:textColor="@android:color/white"
+                android:textColor="@color/colorGrey400"
                 android:textSize="16sp"
                 android:background="@android:color/transparent"/>
 

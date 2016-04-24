@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     }
 
-    private FragmentType getFragmentTag() {
+    public FragmentType getFragmentTag() {
 
         Fragment fragment = getSupportFragmentManager().findFragmentByTag(FragmentType.PARENT_EVENT.toString());
 
