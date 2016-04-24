@@ -171,7 +171,7 @@ public final class MapToObject {
 
         ParentEventReviewFactory factory = new ParentEventReviewFactory();
 
-        Integer eventID = Integer.parseInt(reviewMap.get("PARENT_EVENT_ID	"));
+        Integer eventID = Integer.parseInt(reviewMap.get("PARENT_EVENT_ID"));
         Integer customerID = Integer.parseInt(reviewMap.get("CUSTOMER_ID"));
         Integer rating = Integer.parseInt(reviewMap.get("EVENT_REVIEW_RATING"));
         String body = reviewMap.get("EVENT_REVIEW_BODY");
@@ -204,7 +204,7 @@ public final class MapToObject {
         phoneNumber = venueMap.get("VENUE_PHONE_NUMBER");
         email = venueMap.get("VENUE_EMAIL");
         address = venueMap.get("VENUE_ADDRESS");
-        postcode = venueMap.get("VENUE_ADDRESS");
+        postcode = venueMap.get("VENUE_POSTCODE");
         name = venueMap.get("VENUE_NAME");
         socialMediaID = Integer.parseInt(venueMap.get("SOCIAL_MEDIA_ID"));
 
