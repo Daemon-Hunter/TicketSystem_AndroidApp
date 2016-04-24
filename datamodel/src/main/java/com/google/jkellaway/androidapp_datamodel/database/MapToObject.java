@@ -50,7 +50,7 @@ import static java.lang.Integer.parseInt;
  *
  *
  */
-public final class MapToObject {
+final class MapToObject {
     private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
 
     public static IUser ConvertCustomer(Map<String, String> custMap) {
