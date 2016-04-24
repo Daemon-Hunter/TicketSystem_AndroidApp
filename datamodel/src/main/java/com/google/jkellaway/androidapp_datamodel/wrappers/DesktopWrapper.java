@@ -6,12 +6,14 @@
 package com.google.jkellaway.androidapp_datamodel.wrappers;
 
 import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
+import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.events.IArtist;
 import com.google.jkellaway.androidapp_datamodel.events.IParentEvent;
 import com.google.jkellaway.androidapp_datamodel.events.IVenue;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import com.google.jkellaway.androidapp_datamodel.people.IAdmin;
 import com.google.jkellaway.androidapp_datamodel.people.IUser;
@@ -91,8 +93,8 @@ public class DesktopWrapper implements IDesktopWrapper {
 
 
     @Override
-    public List<IParentEvent> getParentEvents() {
-        return new ArrayList(parentEventArray);
+    public LinkedList getParentEvents() {
+        return new LinkedList(parentEventArray);
     }
 
     @Override
@@ -159,7 +161,7 @@ public class DesktopWrapper implements IDesktopWrapper {
     @Override
     public List<IArtist> getArtists() throws IOException {
         if (artistArray == null) {
-            artistArray = APIHandle.getArtistAmount(21, 0);
+            artistArray = (List<IArtist>)(Object)APIHandle.getObjectAmount(21, 0, DatabaseTable.ARTIST);
         }
         return new ArrayList(artistArray);
     }

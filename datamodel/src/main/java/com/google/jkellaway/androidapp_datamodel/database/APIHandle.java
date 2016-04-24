@@ -107,16 +107,16 @@ public final class APIHandle {
         return adminList;
     }
 
-    public static List<IParentEvent> searchParentEvents(String search) throws IOException {
-        List<IParentEvent> parentEventList = new LinkedList<>();
-        List<Map<String, String>> parentEventMapList = APIConnection.search(search, DatabaseTable.PARENT_EVENT);
+    public static List<Object> searchObjects(String search, DatabaseTable table) throws IOException {
+        List<Object> parentEventList = new LinkedList<>();
+        List<Map<String, String>> parentEventMapList = APIConnection.search(search, table);
 
         int threads = Runtime.getRuntime().availableProcessors();
         ExecutorService service = Executors.newFixedThreadPool(threads);
-        List<Future<IParentEvent>> futures = new LinkedList<>();
+        List<Future<Object>> futures = new LinkedList<>();
 
         for (final Map<String, String> parentEvent : parentEventMapList){
-            Callable<IParentEvent> callable = new Callable<IParentEvent>() {
+            Callable<Object> callable = new Callable<Object>() {
                 @Override
                 public IParentEvent call() throws Exception {
                     return ConvertParentEvent(parentEvent);
@@ -127,7 +127,7 @@ public final class APIHandle {
 
         service.shutdown();
 
-        for (Future<IParentEvent> future : futures){
+        for (Future<Object> future : futures){
             try {
                 parentEventList.add(future.get());
             } catch (InterruptedException e) {
@@ -205,25 +205,41 @@ public final class APIHandle {
         return artistList;
     }
 
-    public static List<IArtist> getArtistAmount(Integer amount, Integer lastID) throws IOException {
+    public static List<Object> getObjectAmount(Integer amount, Integer lastID, final DatabaseTable table) throws IOException {
 
-        List<IArtist> artistList = new LinkedList<>();
+        List<Object> objectList = new LinkedList<>();
 
         int threads = Runtime.getRuntime().availableProcessors();
         ExecutorService service = Executors.newFixedThreadPool(threads);
-        List<Future<IArtist>> futures = new LinkedList<>();
+        List<Future<Object>> futures = new LinkedList<>();
 
-        List<Map<String, String>> artistMapList = APIConnection.readAmount(DatabaseTable.ARTIST, amount, lastID);
+        List<Map<String, String>> objectMapList = APIConnection.readAmount(table, amount, lastID);
 
 
-        for (final Map<String, String> artistMap : artistMapList) {
-            Callable<IArtist> callable = new Callable<IArtist>() {
+        for (final Map<String, String> objectMap : objectMapList) {
+            Callable<Object> callable = new Callable<Object>() {
                 @Override
-                public IArtist call() throws Exception {
-                    IArtist artist;
-                    artist = ConvertArtist(artistMap);
-                    artist.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(artist.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
-                    return artist;
+                public Object call() throws Exception {
+                    switch (table){
+                        case ARTIST:
+                            IArtist artist;
+                            artist = ConvertArtist(objectMap);
+                            artist.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(artist.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
+                            return artist;
+                        case PARENT_EVENT:
+                            IParentEvent parentEvent;
+                            parentEvent = ConvertParentEvent(objectMap);
+                            parentEvent.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(parentEvent.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
+                            parentEvent.addChildEventList(getChildEventFromParent(parentEvent.getID()));
+                            return parentEvent;
+                        case VENUE:
+                            IVenue venue;
+                            venue = ConvertVenue(objectMap);
+                            venue.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(venue.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
+                            return venue;
+                        default: throw new IllegalArgumentException();
+                    }
+
                 }
             };
 
@@ -232,56 +248,14 @@ public final class APIHandle {
 
         service.shutdown();
 
-        for (Future<IArtist> future : futures){
+        for (Future<Object> future : futures){
             try {
-                artistList.add(future.get());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
+                objectList.add(future.get());
+            } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
         }
-
-
-        return artistList;
-    }
-
-    public static List<IParentEvent> getParentAmount(Integer amount, Integer lastID) throws IOException {
-        List<IParentEvent> parentEventList = new LinkedList<>();
-        List<Map<String, String>> parentEventMapList = APIConnection.readAmount(DatabaseTable.PARENT_EVENT, amount, lastID);
-
-
-        int threads = Runtime.getRuntime().availableProcessors();
-        ExecutorService service = Executors.newFixedThreadPool(threads);
-        List<Future<IParentEvent>> futures = new LinkedList<>();
-
-        for (final Map<String, String> parentEventMap : parentEventMapList) {
-            Callable<IParentEvent> callable = new Callable<IParentEvent>() {
-                @Override
-                public IParentEvent call() throws Exception {
-                    IParentEvent parentEvent;
-                    parentEvent = ConvertParentEvent(parentEventMap);
-                    parentEvent.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(parentEvent.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
-                    parentEvent.addChildEventList(getChildEventFromParent(parentEvent.getID()));
-                    return parentEvent;
-                }
-            };
-            futures.add(service.submit(callable));
-        }
-
-        service.shutdown();
-
-        for (Future<IParentEvent> future : futures){
-            try {
-                parentEventList.add(future.get());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return parentEventList;
+        return objectList;
     }
 
     private static List<IChildEvent> getChildEventFromParent(int parentID) throws IOException {
@@ -324,43 +298,6 @@ public final class APIHandle {
             reviewList.add(ConvertArtistReview(reviewsMap));
         }
         return reviewList;
-    }
-
-    public static List<IVenue> getVenueAmount(Integer amount, Integer lastID) throws IOException {
-        List<IVenue> venueList = new LinkedList<>();
-        List<Map<String, String>> venueMapList = APIConnection.readAmount(DatabaseTable.VENUE, amount, lastID);
-
-
-        int threads = Runtime.getRuntime().availableProcessors();
-        ExecutorService service = Executors.newFixedThreadPool(threads);
-        List<Future<IVenue>> futures = new LinkedList<>();
-
-        for (final Map<String, String> venueMap : venueMapList) {
-            Callable<IVenue> callable = new Callable<IVenue>() {
-                @Override
-                public IVenue call() throws Exception {
-                    IVenue venue;
-                    venue = ConvertVenue(venueMap);
-                    venue.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(venue.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
-                    return venue;
-                }
-            };
-            futures.add(service.submit(callable));
-        }
-
-        service.shutdown();
-
-        for (Future<IVenue> future : futures){
-            try {
-                venueList.add(future.get());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return venueList;
     }
 
     public static List<IChildEvent> getChildEventsViaContract(Integer artistID) throws IOException {

@@ -77,26 +77,6 @@ public class Order implements IOrder{
         return bookingList.get(bookingID);
     }
 
-    /**
-     * 
-     * @param booking
-     * @return 
-     */
-    @Override
-    public Boolean removeBooking(IBooking booking) {
-        return bookingList.remove(booking);
-    }
-
-    /**
-     * 
-     * @param booking
-     * @return 
-     */
-    @Override
-    public Boolean addBooking(IBooking booking) {
-        return bookingList.add(booking);
-    }
-
     @Override
     public DatabaseTable getTable() {
         return DatabaseTable.ORDER;
@@ -139,10 +119,5 @@ public class Order implements IOrder{
             observers.remove(o);
             return !observers.contains(o);
         }
-    }
-
-    @Override
-    public void addBookingList(List<IBooking> bookingList) {
-        this.bookingList.addAll(bookingList);
     }
 }

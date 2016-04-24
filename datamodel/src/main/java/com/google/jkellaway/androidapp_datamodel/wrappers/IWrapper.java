@@ -10,6 +10,7 @@ import com.google.jkellaway.androidapp_datamodel.events.IParentEvent;
 import com.google.jkellaway.androidapp_datamodel.events.IVenue;
 
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -18,7 +19,7 @@ import java.util.List;
  */
 public interface IWrapper {
 
-    List<IParentEvent> getParentEvents() throws IOException;
+    LinkedList getParentEvents() throws IOException;
     List<IParentEvent> loadMoreParentEvents() throws IOException;
     IParentEvent       getParentEvent(Integer id);
     Boolean            removeParentEvent(IParentEvent pEvent);
