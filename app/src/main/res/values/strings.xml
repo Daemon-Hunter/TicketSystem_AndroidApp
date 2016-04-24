@@ -84,5 +84,9 @@
     <string name="prompt_postcode">Postcode</string>
     <string name="error_invalid_postcode">Postcode incorrect length.</string>
     <string name="title_activity_maps">Map</string>
+    <string name="venue_address">Venue Address:</string>
+    <string name="road_map">Road Map</string>
+    <string name="hybrid">Hybrid</string>
+    <string name="satellite">Satellite</string>
 
 </resources>

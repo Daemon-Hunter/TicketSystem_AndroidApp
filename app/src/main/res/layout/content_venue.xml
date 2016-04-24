@@ -32,7 +32,7 @@
 
     <!--map image-->
     <ImageView
-        android:id="@+id/map"
+        android:id="@+id/venue_map"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_toRightOf="@id/venue_name"

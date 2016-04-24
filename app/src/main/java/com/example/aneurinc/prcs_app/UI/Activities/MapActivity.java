@@ -6,10 +6,10 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
@@ -23,15 +23,15 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,
+        View.OnClickListener {
 
     private final float ZOOM_VAL = 15.0f;
     private LatLng mLocation;
-    private TextView mTextViewAddress;
+    private String mAddress;
+    private GoogleMap mGoogleMap;
 
     public static String LOCATION_ADDRESS;
-    
-    // // TODO: 23/04/2016 get intent!! 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,34 +39,52 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_map);
         setUpToolbar();
 
-        mTextViewAddress = (TextView) findViewById(R.id.venue_address);
+        // get string address from intent
+        mAddress = getIntent().getStringExtra(LOCATION_ADDRESS);
 
-        Log.d(MainActivity.DEBUG_TAG, "onCreate: location address = " + LOCATION_ADDRESS);
+        // set text view to string address
+        TextView mTextViewAddress = (TextView) findViewById(R.id.venue_address);
+        mTextViewAddress.setText(mAddress);
 
-        mLocation = geocodeAddress();
+        // geocode string address to get latitude and longitude
+        mLocation = geocodeAddress(mAddress);
 
-        Log.d(MainActivity.DEBUG_TAG, "onCreate: mLocation = " + mLocation);
-
+        // initialise map fragment
         initMapFragment();
+
+        // add onclick listeners
+        addListeners();
 
     }
 
-    private LatLng geocodeAddress() {
+    private void addListeners() {
+        Button roadMap = (Button) findViewById(R.id.btn_road_map);
+        Button hybrid = (Button) findViewById(R.id.btn_hybrid);
+        Button satellite = (Button) findViewById(R.id.btn_satellite);
+        roadMap.setOnClickListener(this);
+        hybrid.setOnClickListener(this);
+        satellite.setOnClickListener(this);
+    }
+
+
+
+    private LatLng geocodeAddress(String addressStr) {
 
         Geocoder coder = new Geocoder(this);
         List<Address> address;
         LatLng p1 = null;
 
         try {
-            address = coder.getFromLocationName(LOCATION_ADDRESS, 5);
+            address = coder.getFromLocationName(addressStr, 5);
             if (address == null) {
                 return null;
             }
+
             Address location = address.get(0);
             location.getLatitude();
             location.getLongitude();
 
-            p1 = new LatLng(location.getLatitude(), location.getLongitude() );
+            p1 = new LatLng(location.getLatitude(), location.getLongitude());
 
         } catch (Exception ex) {
 
@@ -79,7 +97,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private void initMapFragment() {
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+                .findFragmentById(R.id.venue_map);
         mapFragment.getMapAsync(this);
     }
 
@@ -124,11 +142,31 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
+        mGoogleMap = googleMap;
+
         // Add a marker to location and move the camera
-        googleMap.addMarker(new MarkerOptions().position(mLocation).title("Location Address:")
-                .snippet(LOCATION_ADDRESS));
+        googleMap.addMarker(new MarkerOptions()
+                .position(mLocation)
+                .title(getString(R.string.venue_address))
+                .snippet(mAddress))
+                .showInfoWindow();
+
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mLocation, ZOOM_VAL));
-        googleMap.setInfoWindowAdapter(new CustomInfoWindow(this, LOCATION_ADDRESS));
-        mTextViewAddress.setText(LOCATION_ADDRESS);
+        googleMap.setInfoWindowAdapter(new CustomInfoWindow(this, mAddress));
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_road_map:
+                mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                break;
+            case R.id.btn_hybrid:
+                mGoogleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+                break;
+            case R.id.btn_satellite:
+                mGoogleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+                break;
+        }
     }
 }

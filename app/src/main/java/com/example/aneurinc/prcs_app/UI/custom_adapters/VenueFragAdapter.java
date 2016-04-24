@@ -1,16 +1,16 @@
 package com.example.aneurinc.prcs_app.UI.custom_adapters;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
+import com.example.aneurinc.prcs_app.UI.activities.MapActivity;
 import com.example.aneurinc.prcs_app.UI.utilities.Constants;
 import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
 import com.google.jkellaway.androidapp_datamodel.events.IVenue;
@@ -20,11 +20,10 @@ import java.util.List;
 /**
  * Created by aneurinc on 21/03/2016.
  */
-public class VenueFragAdapter extends ArrayAdapter<IVenue> implements OnClickListener {
+public class VenueFragAdapter extends ArrayAdapter<IVenue> {
 
     private final Activity mContext;
     private List<IVenue> mVenues;
-    private String mAddress;
 
     public VenueFragAdapter(Activity c, List<IVenue> venues) {
         super(c, R.layout.list_row_venue);
@@ -41,7 +40,7 @@ public class VenueFragAdapter extends ArrayAdapter<IVenue> implements OnClickLis
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder viewHolder;
-        IVenue currVenue = getItem(position);
+        final IVenue currVenue = getItem(position);
 
         if (convertView == null) {
 
@@ -52,7 +51,7 @@ public class VenueFragAdapter extends ArrayAdapter<IVenue> implements OnClickLis
             viewHolder.venueImage = (ImageView) convertView.findViewById(R.id.image);
             viewHolder.venueName = (TextView) convertView.findViewById(R.id.name);
             viewHolder.venueCity = (TextView) convertView.findViewById(R.id.city);
-            viewHolder.venueMap = (ImageView) convertView.findViewById(R.id.map);
+            viewHolder.venueMap = (ImageView) convertView.findViewById(R.id.venue_map);
 
             convertView.setTag(viewHolder);
 
@@ -69,13 +68,18 @@ public class VenueFragAdapter extends ArrayAdapter<IVenue> implements OnClickLis
             viewHolder.venueImage.setImageBitmap(ImageUtils.scaleDown(currVenue.getImage(0), xy, xy));
         }
 
-        mAddress = currVenue.getAddress();
-
         viewHolder.venueName.setText(currVenue.getName());
         // TODO change address to city!
-        viewHolder.venueCity.setText(mAddress);
+        viewHolder.venueCity.setText(currVenue.getAddress());
 
-        viewHolder.venueMap.setOnClickListener(this);
+        viewHolder.venueMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(mContext, MapActivity.class);
+                i.putExtra(MapActivity.LOCATION_ADDRESS, currVenue.getAddress());
+                mContext.startActivity(i);
+            }
+        });
 
         int colorPos = position % Constants.rowColour.length;
         convertView.setBackgroundColor(Constants.rowColour[colorPos]);
@@ -86,17 +90,6 @@ public class VenueFragAdapter extends ArrayAdapter<IVenue> implements OnClickLis
     @Override
     public int getCount() {
         return mVenues.size();
-    }
-
-    @Override
-    public void onClick(View v) {
-
-        v.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.onclick));
-
-//        Intent i = new Intent(mContext, MapActivity.class);
-//        i.putExtra(mAddress, MapActivity.LOCATION_ADDRESS);
-//        mContext.startActivity(i);
-
     }
 
     static class ViewHolder {

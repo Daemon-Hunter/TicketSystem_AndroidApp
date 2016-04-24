@@ -37,7 +37,7 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener 
         ImageView instagram = (ImageView) findViewById(R.id.instagram);
         ImageView soundcloud = (ImageView) findViewById(R.id.soundcloud);
         ImageView spotify = (ImageView) findViewById(R.id.spotify);
-        ImageView map = (ImageView) findViewById(R.id.map);
+        ImageView map = (ImageView) findViewById(R.id.venue_map);
 
         facebook.setOnClickListener(this);
         twitter.setOnClickListener(this);
@@ -116,7 +116,7 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener 
                 break;
             case R.id.spotify:
                 break;
-            case R.id.map:
+            case R.id.venue_map:
 //                startActivity(new Intent(this, MapActivity.class));
                 break;
         }

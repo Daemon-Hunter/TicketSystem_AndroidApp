@@ -73,10 +73,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 toolbarTitle.setText(R.string.current_artists);
                 break;
             case VENUE:
-                toolbarTitle.setText(R.string.my_tickets);
+                toolbarTitle.setText(R.string.current_venues);
                 break;
             case TICKET:
-                toolbarTitle.setText(R.string.current_venues);
+                toolbarTitle.setText(R.string.my_tickets);
         }
     }
 
@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         // get buttons
         Button btnEvents = (Button) findViewById(R.id.btn_event);
         Button btnArtists = (Button) findViewById(R.id.btn_artist);
-        Button btnTickets = (Button) findViewById(R.id.btn_tickets);
+        Button btnTickets = (Button) findViewById(R.id.btn_ticket);
         Button btnFollowing = (Button) findViewById(R.id.btn_venue);
 
         // set listeners
@@ -199,43 +199,64 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     private void updateButtons(FragmentType type) {
 
+        // get reference to fragment buttons
         Button btnEvents = (Button) findViewById(R.id.btn_event);
         Button btnArtists = (Button) findViewById(R.id.btn_artist);
-        Button btnTickets = (Button) findViewById(R.id.btn_tickets);
-        Button btnFollowing = (Button) findViewById(R.id.btn_venue);
+        Button btnTickets = (Button) findViewById(R.id.btn_ticket);
+        Button btnVenues = (Button) findViewById(R.id.btn_venue);
+
+        // get reference to fragment buttons underline
+        View eventsUnderline = findViewById(R.id.event_underline);
+        View artistUnderline = findViewById(R.id.artist_underline);
+        View venueUnderline = findViewById(R.id.venue_underline);
+        View ticketUnderline = findViewById(R.id.ticket_underline);
 
         // set 4 buttons to clickable
         btnEvents.setClickable(true);
         btnArtists.setClickable(true);
         btnTickets.setClickable(true);
-        btnFollowing.setClickable(true);
+        btnVenues.setClickable(true);
 
         // set 4 buttons text to black
         btnEvents.setTextColor(Color.BLACK);
         btnArtists.setTextColor(Color.BLACK);
         btnTickets.setTextColor(Color.BLACK);
-        btnFollowing.setTextColor(Color.BLACK);
+        btnVenues.setTextColor(Color.BLACK);
 
-        // get selected button
+        // hide all underlines
+        eventsUnderline.setVisibility(View.INVISIBLE);
+        artistUnderline.setVisibility(View.INVISIBLE);
+        venueUnderline.setVisibility(View.INVISIBLE);
+        ticketUnderline.setVisibility(View.INVISIBLE);
+
+        // get selected button and underline
         Button selectedBtn = null;
+        View selectedUnderline = null;
 
         switch (type) {
             case PARENT_EVENT:
-                selectedBtn = (Button) findViewById(R.id.btn_event);
+                selectedBtn = btnEvents;
+                selectedUnderline = eventsUnderline;
                 break;
             case ARTIST:
-                selectedBtn = (Button) findViewById(R.id.btn_artist);
+                selectedBtn = btnArtists;
+                selectedUnderline = artistUnderline;
                 break;
             case VENUE:
-                selectedBtn = (Button) findViewById(R.id.btn_venue);
+                selectedBtn = btnVenues;
+                selectedUnderline = venueUnderline;
                 break;
             case TICKET:
-                selectedBtn = (Button) findViewById(R.id.btn_tickets);
+                selectedBtn = btnTickets;
+                selectedUnderline = ticketUnderline;
         }
 
         // set to non-clickable and grey
         selectedBtn.setClickable(false);
         selectedBtn.setTextColor(Color.GRAY);
+
+        // set to visible
+        selectedUnderline.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -277,7 +298,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             case R.id.btn_artist:
                 switchFragment(new ArtistFragment(), FragmentType.ARTIST);
                 break;
-            case R.id.btn_tickets:
+            case R.id.btn_ticket:
                 switchFragment(new TicketFragment(), FragmentType.TICKET);
                 break;
             case R.id.btn_venue:

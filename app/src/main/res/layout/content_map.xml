@@ -3,21 +3,132 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/map"
+        android:id="@+id/venue_map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.75" />
+        android:layout_weight="70" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.25"
+        android:layout_weight="10">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="2dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="@color/colorGrey100">
+
+            <!--events button-->
+            <Button
+                android:id="@+id/btn_road_map"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="-10dp"
+                android:layout_marginTop="-5dp"
+                android:clickable="false"
+                android:text="@string/road_map"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:background="@android:color/transparent"/>
+
+            <View
+                android:id="@+id/btn_road_map_underline"
+                android:layout_width="wrap_content"
+                android:layout_height="3dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:background="@color/colorAccent" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="2dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="@color/colorGrey100">
+
+            <!--events button-->
+            <Button
+                android:id="@+id/btn_hybrid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="-10dp"
+                android:layout_marginTop="-5dp"
+                android:clickable="false"
+                android:text="@string/hybrid"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:background="@android:color/transparent"/>
+
+            <View
+                android:id="@+id/btn_hybrid_underline"
+                android:layout_width="wrap_content"
+                android:layout_height="3dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:background="@color/colorAccent"
+                android:visibility="invisible"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="2dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="@color/colorGrey100">
+
+            <!--events button-->
+            <Button
+                android:id="@+id/btn_satellite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="-10dp"
+                android:layout_marginTop="-5dp"
+                android:clickable="false"
+                android:text="@string/satellite"
+                android:textAllCaps="false"
+                android:textColor="@color/colorGrey400"
+                android:textSize="16sp"
+                android:background="@android:color/transparent"/>
+
+            <View
+                android:id="@+id/btn_satellite_underline"
+                android:layout_width="wrap_content"
+                android:layout_height="3dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:background="@color/colorAccent"
+                android:visibility="invisible"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="20"
         android:background="@color/colorBlue100">
 
         <RelativeLayout

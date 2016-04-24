@@ -89,7 +89,7 @@
 
         <activity
             android:name=".UI.activities.MapActivity"
-            android:label="@string/title_activity_maps"
+            android:label=""
             android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 

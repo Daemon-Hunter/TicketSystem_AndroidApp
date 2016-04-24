@@ -28,7 +28,8 @@ import java.util.List;
 /**
  * Created by aneurinc on 06/03/2016.
  */
-public class VenueFragment extends Fragment implements AdapterView.OnItemClickListener, Animator.AnimatorListener {
+public class VenueFragment extends Fragment implements AdapterView.OnItemClickListener,
+        Animator.AnimatorListener {
 
     private List<IVenue> venues;
     private ProgressBar mProgressBar;
@@ -72,7 +73,7 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
         Intent intent = new Intent(getActivity(), VenueActivity.class);
         intent.putExtra(VenueActivity.VENUE_ID, position);
         getActivity().startActivity(intent);
@@ -130,7 +131,6 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
     private boolean isTaskRunning() {
         return mTask != null && mTask.getStatus() == AsyncTask.Status.RUNNING;
     }
-
 
     private class ReadVenues extends AsyncTask<Void, Void, List<IVenue>> {
 
