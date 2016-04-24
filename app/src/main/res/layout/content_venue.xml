@@ -41,7 +41,7 @@
 
     <!--venue description-->
     <TextView
-        android:id="@+id/venue_description"
+        android:id="@+id/venue_phone_no"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/venue_name"
@@ -55,7 +55,7 @@
         android:id="@+id/sm_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/venue_description"
+        android:layout_below="@+id/venue_phone_no"
         android:gravity="center_horizontal"
         android:paddingTop="25dp"
         android:paddingBottom="20dp">

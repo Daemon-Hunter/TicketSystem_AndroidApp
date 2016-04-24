@@ -88,5 +88,8 @@
     <string name="road_map">Road Map</string>
     <string name="hybrid">Hybrid</string>
     <string name="satellite">Satellite</string>
+    <string name="phone_no">Phone No:</string>
+    <string name="email">Email:</string>
+    <string name="parking">Parking:</string>
 
 </resources>
