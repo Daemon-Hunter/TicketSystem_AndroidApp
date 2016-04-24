@@ -32,7 +32,7 @@ import java.util.concurrent.Future;
  *
  * @author 10512691
  */
-public final class APIConnection {
+final class APIConnection {
 
     // URL of the web API
     private static String URI = "http://xserve.uopnet.plymouth.ac.uk/Modules/INTPROJ/PRCS251G/api/";

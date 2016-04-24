@@ -222,9 +222,7 @@ public final class APIHandle {
         for (Future<IChildEvent> future : futures){
             try {
                 childEventList.add(future.get());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
+            } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
         }
