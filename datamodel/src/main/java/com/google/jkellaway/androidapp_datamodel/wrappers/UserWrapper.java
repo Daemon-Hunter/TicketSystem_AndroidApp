@@ -5,6 +5,8 @@
  */
 package com.google.jkellaway.androidapp_datamodel.wrappers;
 
+import android.util.Log;
+
 import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.database.ObjectToMap;
@@ -54,16 +56,17 @@ public class UserWrapper implements IUserWrapper {
 
     @Override
     public Boolean loginUser(String email, String password)  {
+        Boolean loggedIn = false;
         try {
             if (currentUser != null) {
                 currentUser = APIHandle.isPasswordTrue(email, password);
-                return true;
+                Log.e("DEBUG", "loginUser: "+ currentUser.getFirstName());
+                 loggedIn = true;
             }
-            return false;
         }
         catch (Exception e) {
-            return false;
         }
+        return loggedIn;
     }
 
     @Override

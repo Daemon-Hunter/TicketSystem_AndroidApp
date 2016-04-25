@@ -118,7 +118,7 @@
 
     <!-- event lineup list-->
     <ListView
-        android:id="@+id/upcoming_list"
+        android:id="@+id/artist_child_event_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/featured_lineup"

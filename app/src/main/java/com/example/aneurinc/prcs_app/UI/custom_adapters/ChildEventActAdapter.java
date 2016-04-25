@@ -67,7 +67,7 @@ public class ChildEventActAdapter extends ArrayAdapter<String> implements Adapte
                 case ARTIST_TYPE:
                     convertView = inflater.inflate(R.layout.list_row_artist_lineup, parent, false);
                     viewHolder.textView = (TextView) convertView.findViewById(R.id.item);
-                    viewHolder.imageView = (ImageView) convertView.findViewById(R.id.image);
+                    viewHolder.imageView = (ImageView) convertView.findViewById(R.id.artist_child_event_image);
                     break;
 
                 case DATE_TYPE:

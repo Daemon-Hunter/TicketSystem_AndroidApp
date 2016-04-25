@@ -5,7 +5,7 @@
     android:orientation="horizontal">
 
     <ImageView
-        android:id="@+id/image"
+        android:id="@+id/artist_child_event_image"
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_gravity="center_vertical" />

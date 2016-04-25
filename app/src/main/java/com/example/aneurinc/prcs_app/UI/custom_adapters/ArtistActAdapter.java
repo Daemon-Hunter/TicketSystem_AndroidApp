@@ -1,62 +1,69 @@
 package com.example.aneurinc.prcs_app.UI.custom_adapters;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.activities.ParentEventActivity;
+import com.example.aneurinc.prcs_app.UI.activities.MainActivity;
 import com.example.aneurinc.prcs_app.UI.utilities.Constants;
+import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
+import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
+
+import java.util.List;
 
 /**
  * Created by aneurinc on 19/03/2016.
  */
-public class ArtistActAdapter extends ArrayAdapter<String> implements AdapterView.OnItemClickListener {
+public class ArtistActAdapter extends ArrayAdapter<IChildEvent> {
 
     private final Activity mContext;
+    private List<IChildEvent> mChildEvents;
 
-    public ArtistActAdapter(Activity context) {
-
-        super(context, R.layout.list_row_upcoming, Constants.eventName);
-
+    public ArtistActAdapter(Activity context, List<IChildEvent> childEvents) {
+        super(context, R.layout.list_row_artist_child_events);
         mContext = context;
+        mChildEvents = childEvents;
+    }
 
-        ListView list = (ListView) context.findViewById(R.id.upcoming_list);
-        list.setOnItemClickListener(this);
+    @Override
+    public int getCount() {
+        return mChildEvents.size();
+    }
+
+    @Override
+    public IChildEvent getItem(int position) {
+        return mChildEvents.get(position);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder viewHolder;
+        IChildEvent currItem = getItem(position);
 
         if (convertView == null) {
-
             // inflate view
             LayoutInflater inflater = mContext.getLayoutInflater();
-            convertView = inflater.inflate(R.layout.list_row_upcoming, parent, false);
+            convertView = inflater.inflate(R.layout.list_row_artist_child_events, parent, false);
 
             // set up view holder
             viewHolder = new ViewHolder();
-            viewHolder.eventImage = (ImageView) convertView.findViewById(R.id.image);
-            viewHolder.eventName = (TextView) convertView.findViewById(R.id.name);
-            viewHolder.eventDate = (TextView) convertView.findViewById(R.id.date);
+            viewHolder.eventImage = (ImageView) convertView.findViewById(R.id.artist_child_event_image);
+            viewHolder.eventName = (TextView) convertView.findViewById(R.id.artist_child_event_name);
+            viewHolder.eventDate = (TextView) convertView.findViewById(R.id.artist_child_event_date);
 
             // store the holder with the view
             convertView.setTag(viewHolder);
-
         } else {
-
             // use view holder to save resources
             viewHolder = (ViewHolder) convertView.getTag();
-
         }
 
         // alternate colour of rows
@@ -64,18 +71,17 @@ public class ArtistActAdapter extends ArrayAdapter<String> implements AdapterVie
         convertView.setBackgroundColor(Constants.rowColour[colorPos]);
 
         // get view from view holder and update value
-        viewHolder.eventImage.setImageResource(Constants.eventImages[position]);
-        viewHolder.eventName.setText(Constants.eventName[position]);
-        viewHolder.eventDate.setText(Constants.dates[position]);
+
+        int xy = ImageUtils.getScreenWidth(mContext) / 10;
+
+        Log.d(MainActivity.DEBUG_TAG, "getView: xy value = " + xy);
+
+        Bitmap scaledImage = ImageUtils.scaleDown(currItem.getImage(0), xy, xy);
+        viewHolder.eventImage.setImageBitmap(scaledImage);
+        viewHolder.eventName.setText(currItem.getName());
+        viewHolder.eventDate.setText(currItem.getStartDateTime() + " - " + currItem.getEndDateTime());
 
         return convertView;
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent i = new Intent(getContext(), ParentEventActivity.class);
-        i.putExtra(ParentEventActivity.PARENT_EVENT_ID, position);
-        mContext.startActivity(i);
     }
 
     static class ViewHolder {

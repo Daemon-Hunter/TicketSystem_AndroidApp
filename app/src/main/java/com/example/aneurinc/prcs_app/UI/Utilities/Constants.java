@@ -48,7 +48,7 @@ public class Constants {
     };
 
 
-    //    artist names
+    //    mArtist names
     public static String[] artistName = {
 
             "Kevin Hart",
@@ -79,7 +79,7 @@ public class Constants {
     };
 
 
-    //    artist images
+    //    mArtist images
     public static Integer[] artistImages = {
 
             R.drawable.artist1, R.drawable.artist2, R.drawable.artist3,

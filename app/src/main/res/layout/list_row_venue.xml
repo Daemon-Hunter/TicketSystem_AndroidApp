@@ -12,7 +12,7 @@
         android:background="@android:color/white">
 
         <ImageView
-            android:id="@+id/image"
+            android:id="@+id/artist_child_event_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -27,7 +27,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/name"
+            android:id="@+id/artist_child_event_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"

@@ -48,8 +48,8 @@ public class VenueFragAdapter extends ArrayAdapter<IVenue> {
             convertView = inflater.inflate(R.layout.list_row_venue, null);
 
             viewHolder = new ViewHolder();
-            viewHolder.venueImage = (ImageView) convertView.findViewById(R.id.image);
-            viewHolder.venueName = (TextView) convertView.findViewById(R.id.name);
+            viewHolder.venueImage = (ImageView) convertView.findViewById(R.id.artist_child_event_image);
+            viewHolder.venueName = (TextView) convertView.findViewById(R.id.artist_child_event_name);
             viewHolder.venueCity = (TextView) convertView.findViewById(R.id.city);
             viewHolder.venueMap = (ImageView) convertView.findViewById(R.id.venue_map);
 

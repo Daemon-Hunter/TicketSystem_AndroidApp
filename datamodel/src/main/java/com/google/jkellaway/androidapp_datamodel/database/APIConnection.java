@@ -118,7 +118,6 @@ final class APIConnection {
               writer.write(createJsonString(mapToAdd));
               writer.close();
               os.close();
-           httpCode = connection.getResponseCode();
            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(),"UTF-8"));
 
                 String line;
@@ -130,7 +129,7 @@ final class APIConnection {
 
             br.close();
 
-           return httpCode;
+           return  connection.getResponseCode();
        }catch(IOException x)
        {
            return httpCode;

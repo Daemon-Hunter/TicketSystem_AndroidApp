@@ -1,6 +1,8 @@
 package com.example.aneurinc.prcs_app.UI.activities;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,27 +17,31 @@ import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.custom_adapters.ArtistActAdapter;
+import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
 import com.google.jkellaway.androidapp_datamodel.events.IArtist;
+import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
 import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
+
+import java.io.IOException;
+import java.util.List;
 
 
 public class ArtistActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static String ARTIST_ID;
-    public static IArtist artist;
+    public static IArtist mArtist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_artist);
-        executeAsyncTask();
+        getArtist();
         setUpToolbar();
-        setAdapter();
         addOnClickListeners();
     }
 
-    private void executeAsyncTask() {
-        ReadArtist task = new ReadArtist();
+    private void getArtist() {
+        ReadArtist task = new ReadArtist(this);
         task.execute();
     }
 
@@ -73,16 +79,12 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
         TextView artistName = (TextView) findViewById(R.id.artist_name);
         TextView artistDescription = (TextView) findViewById(R.id.artist_description);
 
-        artistName.setText(artist.getName());
-        artistDescription.setText(artist.getDescription());
-        artistImage.setImageBitmap(artist.getImage(0));
+        int xy = ImageUtils.getScreenWidth(this) / 3;
+        Bitmap scaledImage = ImageUtils.scaleDown(mArtist.getImage(0), xy, xy);
 
-    }
-
-    private void setAdapter() {
-        ArtistActAdapter adapter = new ArtistActAdapter(this);
-        ListView list = (ListView) findViewById(R.id.upcoming_list);
-        list.setAdapter(adapter);
+        artistName.setText(mArtist.getName());
+        artistImage.setImageBitmap(scaledImage);
+        artistDescription.setText(mArtist.getDescription());
     }
 
     @Override
@@ -137,6 +139,12 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
 
     private class ReadArtist extends AsyncTask<Void, Void, IArtist> {
 
+        private Activity mContext;
+
+        public ReadArtist(Activity context) {
+            mContext = context;
+        }
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -145,12 +153,24 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
 
         @Override
         protected IArtist doInBackground(Void... voids) {
-            artist = UserWrapper.getInstance().getArtist(getIntent().getExtras().getInt(ARTIST_ID));
-            return artist;
+            mArtist = UserWrapper.getInstance().getArtist(getIntent().getExtras().getInt(ARTIST_ID));
+            return mArtist;
         }
 
         @Override
-        protected void onPostExecute(IArtist anArtist) {
+        protected void onPostExecute(IArtist artist) {
+
+            ListView artistEventsListView = (ListView) mContext.findViewById(R.id
+                    .artist_child_event_list);
+            List<IChildEvent> artistEventsList = null;
+
+            try {
+                artistEventsList = artist.getChildEvents();
+            } catch (IOException e) {
+
+            }
+
+            artistEventsListView.setAdapter(new ArtistActAdapter(mContext, artistEventsList));
             displayInfo();
         }
     }

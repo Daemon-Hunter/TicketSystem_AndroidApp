@@ -5,6 +5,8 @@
  */
 package com.google.jkellaway.androidapp_datamodel.database;
 
+import android.util.Log;
+
 import com.google.jkellaway.androidapp_datamodel.events.IArtist;
 import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
 import com.google.jkellaway.androidapp_datamodel.events.IParentEvent;
@@ -47,6 +49,7 @@ public final class APIHandle {
         if (customer != null)
             return ConvertCustomer(customer);
         else
+        Log.e("ERROR","CANNOT LOG IN");
             throw new IllegalArgumentException("Email or password is wrong");
     }
 

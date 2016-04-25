@@ -29,7 +29,7 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
 
         @Override
         public boolean onDown(MotionEvent e) {
-            return true;
+            return false;
         }
 
         @Override
@@ -48,7 +48,6 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
                     }
                     result = true;
                 }
-                result = true;
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
@@ -61,5 +60,4 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
 
     public void onSwipeLeft() {
     }
-
 }

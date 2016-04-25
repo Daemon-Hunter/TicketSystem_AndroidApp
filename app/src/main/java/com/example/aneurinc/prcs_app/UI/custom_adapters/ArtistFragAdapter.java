@@ -40,10 +40,6 @@ public class ArtistFragAdapter extends ArrayAdapter<IArtist> {
         return mArtistList.get(position);
     }
 
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {

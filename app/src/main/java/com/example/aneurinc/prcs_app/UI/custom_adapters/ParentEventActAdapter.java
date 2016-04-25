@@ -13,50 +13,38 @@ import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.utilities.Constants;
 import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
 import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
-import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
 
 import java.util.List;
 
 /**
  * Created by aneurinc on 16/04/2016.
  */
-public class ParentEventActAdapter extends ArrayAdapter<String> {
+public class ParentEventActAdapter extends ArrayAdapter<IChildEvent> {
 
     private final Activity mContext;
-    private Bitmap[] image;
-    private String[] name;
-    private String[] venue;
-    private String[] date;
+    private List<IChildEvent> mChildEventsList;
 
     public ParentEventActAdapter(Activity context, List<IChildEvent> childEvents) {
-        super(context, R.layout.list_row_child_event, Constants.eventName);
+        super(context, R.layout.list_row_child_event);
         mContext = context;
-        updateChildEventsList(childEvents);
+        mChildEventsList = childEvents;
     }
 
-    private void updateChildEventsList(List<IChildEvent> childEvents) {
+    @Override
+    public IChildEvent getItem(int position) {
+        return mChildEventsList.get(position);
+    }
 
-        int i = 0;
-        int n = childEvents.size();
-        image = new Bitmap[n];
-        name = new String[n];
-        venue = new String[n];
-        date = new String[n];
-
-        for (IChildEvent c : childEvents) {
-            image[i] = c.getImage(0);
-            name[i] = c.getName();
-            venue[i] = c.getVenue().toString();
-            date[i] = c.getStartDateTime().toString();
-            i++;
-        }
-
+    @Override
+    public int getCount() {
+        return mChildEventsList.size();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder viewHolder;
+        IChildEvent currChildEvent = getItem(position);
 
         if (convertView == null) {
 
@@ -83,14 +71,14 @@ public class ParentEventActAdapter extends ArrayAdapter<String> {
         int colorPos = position % Constants.rowColour.length;
         convertView.setBackgroundColor(Constants.rowColour[colorPos]);
 
-        int width = ImageUtils.getScreenWidth(mContext) / 5;
-        int height = ImageUtils.getScreenHeight(mContext) / 5;
-        Bitmap scaledImage = ImageUtils.scaleDown(image[position], width, height);
+        int xy = ImageUtils.getScreenWidth(mContext) / 5;
+        Bitmap scaledImage = ImageUtils.scaleDown(currChildEvent.getImage(0), xy, xy);
 
         viewHolder.childEventImage.setImageBitmap(scaledImage);
-        viewHolder.childEventName.setText(name[position]);
-        viewHolder.childEventVenue.setText(venue[position]);
-        viewHolder.childEventDate.setText(date[position]);
+        viewHolder.childEventName.setText(currChildEvent.getName());
+        viewHolder.childEventVenue.setText(currChildEvent.getVenue().toString());
+        viewHolder.childEventDate.setText(currChildEvent.getStartDateTime().toString() + " - " +
+                currChildEvent.getEndDateTime().toString());
 
         return convertView;
 

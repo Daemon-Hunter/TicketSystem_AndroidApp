@@ -55,11 +55,8 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
 
     private void displayParentEvent() {
 
-        // // TODO: 18/04/2016 get date from api - get first and last date of child events matching parent id
-
         ImageView image = (ImageView) findViewById(R.id.parent_event_image);
         TextView name = (TextView) findViewById(R.id.parent_event_name);
-        TextView date = (TextView) findViewById(R.id.parent_event_date);
         TextView desc = (TextView) findViewById(R.id.parent_event_description);
         int height = ImageUtils.getScreenHeight(this) / 4;
         int width = ImageUtils.getScreenHeight(this) / 4;
@@ -116,10 +113,7 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
         @Override
         protected IParentEvent doInBackground(Void... params) {
 
-            // TODO: get child events for list
-
             parentEvent = UserWrapper.getInstance().getParentEvent(getIntent().getExtras().getInt(PARENT_EVENT_ID));
-
             return parentEvent;
 
         }
@@ -127,7 +121,7 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
         @Override
         protected void onPostExecute(IParentEvent parentEvent) {
 
-            if (parentEvent.getChildEvents().size() > 0 && parentEvent.getChildEvents() != null) {
+            if (!parentEvent.getChildEvents().isEmpty() && parentEvent.getChildEvents() != null) {
                 ListView list = (ListView) mContext.findViewById(R.id.child_events_list);
                 list.setAdapter(new ParentEventActAdapter(mContext, parentEvent.getChildEvents()));
                 list.setOnItemClickListener(ParentEventActivity.this);

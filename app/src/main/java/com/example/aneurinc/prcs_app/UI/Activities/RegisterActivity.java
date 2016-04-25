@@ -14,6 +14,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -171,9 +172,9 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
             // Show a progress spinner, and kick off a background task to
             // perform the user register attempt.
             showProgress(true);
-            Customer cust = new Customer(forename,surname,email,address,postcode);
+            Customer cust = new Customer(forename, surname, email, address, postcode);
 
-            mAuthTask = new UserLoginTask(this,  cust, password);
+            mAuthTask = new UserLoginTask(this, cust, password);
             mAuthTask.execute((Void) null);
         }
     }
@@ -189,14 +190,8 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
     }
 
     private boolean isPostcodeValid(String postcode) {
-        if (postcode.length() > 7 && postcode.length() < 9)
-        {
+//        return postcode.length() == 7 || postcode.length() == 8;
         return true;
-        }
-        else
-        {
-        return false;
-        }
     }
 
     /**
@@ -250,7 +245,7 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
     private void closeKeyboard() {
         View view = this.getCurrentFocus();
         if (view != null) {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
@@ -283,21 +278,14 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
         UserLoginTask(Activity context, Customer cust, String pass) {
             mContext = context;
             mPassword = pass;
-             mCustomer = cust;
+            mCustomer = cust;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-           httpCode = UserWrapper.getInstance().registerUser(mCustomer,mPassword);
-
-
-            if(httpCode == 201)
-            {
-                return  true;
-            }
-            else {
-                return false;
-            }
+            httpCode = UserWrapper.getInstance().registerUser(mCustomer, mPassword);
+            Log.d(MainActivity.DEBUG_TAG, "doInBackground: " + Integer.toString(httpCode));
+            return httpCode == 201;
         }
 
         @Override
@@ -310,15 +298,20 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
                 startActivity(new Intent(mContext, LoginActivity.class));
             } else {
                 switch (httpCode) {
-                    case 409 :Toast.makeText(mContext, "An account with this email already " +
-                            "has an account, pleae log in instead" , Toast.LENGTH_LONG).show();break;
+                    case 409:
+                        Toast.makeText(mContext, "An account with this email already " +
+                                "has an account, please log in instead", Toast.LENGTH_LONG).show();
+                        break;
 
-                    case 502:Toast.makeText(mContext, "Could not register an account at this time" +
-                            "- Server unreachable" , Toast.LENGTH_LONG).show();break;
-                    default : Toast.makeText(mContext, "Could not register an account at this time" +
-                            "please try again", Toast.LENGTH_LONG).show();break;
+                    case 502:
+                        Toast.makeText(mContext, "Could not register an account at this time" +
+                                "- Server unreachable", Toast.LENGTH_LONG).show();
+                        break;
 
-
+                    default:
+                        Toast.makeText(mContext, "Could not register an account at this time" +
+                                "please try again", Toast.LENGTH_LONG).show();
+                        break;
                 }
             }
         }
