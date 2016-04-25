@@ -1,4 +1,4 @@
-package com.example.aneurinc.prcs_app.UI.Fragments;
+package com.example.aneurinc.prcs_app.UI.fragments;
 
 import android.animation.Animator;
 import android.app.Activity;
@@ -15,8 +15,8 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.Activities.MainActivity;
-import com.example.aneurinc.prcs_app.UI.Activities.VenueActivity;
+import com.example.aneurinc.prcs_app.UI.activities.MainActivity;
+import com.example.aneurinc.prcs_app.UI.activities.VenueActivity;
 import com.example.aneurinc.prcs_app.UI.custom_adapters.VenueFragAdapter;
 import com.example.aneurinc.prcs_app.UI.custom_listeners.OnSwipeTouchListener;
 import com.google.jkellaway.androidapp_datamodel.events.IVenue;
