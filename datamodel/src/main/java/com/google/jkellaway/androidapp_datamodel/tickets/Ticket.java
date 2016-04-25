@@ -7,8 +7,10 @@
 
 package com.google.jkellaway.androidapp_datamodel.tickets;
 
+import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.events.ChildEvent;
+import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
 import com.google.jkellaway.androidapp_datamodel.utilities.observer.IDbSubject;
 import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
 
@@ -25,12 +27,13 @@ import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.desc
 public class Ticket implements ITicket, IDbSubject {
 
     private Integer         ticketID;
-    private ChildEvent      event;
+    private IChildEvent     childEvent;
     private Double          price;
     private String          description;
     private Integer         amountRemaining;
     private String          type;
     private List<IObserver> observers;
+    private Integer         childEventID;
     private DatabaseTable   table;
 
     /**
@@ -46,11 +49,12 @@ public class Ticket implements ITicket, IDbSubject {
     public Ticket(Integer ID, Integer childEventID, Double price, String desc,
                   Integer remaining, String type) {
         ticketID = ID;
-        this.event = event;
+        this.childEventID = childEventID;
         this.price = price;
         description = desc;
         amountRemaining = remaining;
         this.type = type;
+        this.table = DatabaseTable.TICKET;
     }
 
     public Ticket(ChildEvent event, Double price, String desc, Integer remaining,
@@ -58,7 +62,7 @@ public class Ticket implements ITicket, IDbSubject {
         if (event == null) {
             throw new NullPointerException("Cannot make a ticket for a null event");
         } else {
-            this.event = event;
+            this.childEvent = event;
         }
 
         if (0 <= price) {
@@ -117,17 +121,18 @@ public class Ticket implements ITicket, IDbSubject {
     }
 
     @Override
-    public ChildEvent getEvent() {
-        return event;
+    public IChildEvent getEvent() {
+        childEvent = (IChildEvent)APIHandle.getSingle(this.childEventID, DatabaseTable.CHILD_EVENT);
+        return childEvent;
     }
 
     @Override
-    public Boolean setEvent(ChildEvent event) {
+    public Boolean setEvent(IChildEvent event) {
         if (event == null) {
             throw new NullPointerException("Cannot set event to null");
         } else {
-            this.event = event;
-            return this.event.equals(event);
+            this.childEvent = event;
+            return this.childEvent.equals(event);
         }
     }
 

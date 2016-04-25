@@ -5,7 +5,7 @@
  */
 package com.google.jkellaway.androidapp_datamodel.tickets;
 
-import com.google.jkellaway.androidapp_datamodel.events.ChildEvent;
+import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
 import com.google.jkellaway.androidapp_datamodel.utilities.observer.IDbSubject;
 
 /**
@@ -16,8 +16,8 @@ public interface ITicket extends IDbSubject {
     
     public Integer getID();
     
-    public ChildEvent getEvent();
-    public Boolean    setEvent(ChildEvent event);
+    public IChildEvent getEvent();
+    public Boolean    setEvent(IChildEvent event);
     
     public Double getPrice();
     public Boolean setPrice(Double price);
