@@ -5,12 +5,15 @@
  */
 package com.google.jkellaway.androidapp_datamodel.bookings;
 
+import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
+import com.google.jkellaway.androidapp_datamodel.people.IUser;
+import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import com.google.jkellaway.androidapp_datamodel.people.IUser;
-import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
 
 /**
  *
@@ -19,6 +22,7 @@ import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
 public class Order implements IOrder{
    
     private Integer orderID;
+    private Integer userID;
     private IUser user;
     private List<IBooking> bookingList;
     protected LinkedList<IObserver> observers;
@@ -35,9 +39,15 @@ public class Order implements IOrder{
         if (bList != null){
             this.bookingList = bList;
         } else {
-            this.bookingList = new ArrayList();
+            this.bookingList = new LinkedList<>();
         }
-        
+
+    }
+
+    public Order(Integer ID, Integer userID){
+        this.orderID = ID;
+        this.userID = userID;
+        this.bookingList = new LinkedList<>();
     }
     
     /**
@@ -55,6 +65,7 @@ public class Order implements IOrder{
      */
     @Override
     public IUser getUser() {
+        user = (IUser)APIHandle.getSingle(userID, DatabaseTable.CUSTOMER);
         return user;
     }
 
@@ -63,7 +74,8 @@ public class Order implements IOrder{
      * @return 
      */
     @Override
-    public List<IBooking> getBookingList() {
+    public List<IBooking> getBookingList() throws IOException {
+        bookingList = (List<IBooking>)(Object)APIHandle.getObjectsFromObject(this.orderID, DatabaseTable.BOOKING, DatabaseTable.ORDER);
         return new ArrayList(bookingList);
     }
 

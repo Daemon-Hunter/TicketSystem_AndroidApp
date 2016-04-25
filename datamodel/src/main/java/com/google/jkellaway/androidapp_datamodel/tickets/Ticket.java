@@ -9,12 +9,14 @@ package com.google.jkellaway.androidapp_datamodel.tickets;
 
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.events.ChildEvent;
-import java.util.LinkedList;
-import java.util.List;
-import static com.google.jkellaway.androidapp_datamodel.utilities.Blacklist.contains;
-import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.descriptionValidator;
 import com.google.jkellaway.androidapp_datamodel.utilities.observer.IDbSubject;
 import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
+
+import java.util.LinkedList;
+import java.util.List;
+
+import static com.google.jkellaway.androidapp_datamodel.utilities.Blacklist.contains;
+import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.descriptionValidator;
 
 /**
  *
@@ -35,13 +37,13 @@ public class Ticket implements ITicket, IDbSubject {
      * Use this constructor when creating a new ticket object.
      * Use the constructor when creating an object from the database.
      * @param ID Unique number for the ticket given by the database.
-     * @param event The event the ticket is for.
+     * @param childEventID The event the ticket is for.
      * @param price Price of the ticket.
      * @param desc Description of the ticket.
      * @param remaining Number remaining (total number of tickets at time of construction).
      * @param type The ticket type (standing / seating / weekend etc.)
      */
-    public Ticket(Integer ID, ChildEvent event, Double price, String desc,
+    public Ticket(Integer ID, Integer childEventID, Double price, String desc,
                   Integer remaining, String type) {
         ticketID = ID;
         this.event = event;

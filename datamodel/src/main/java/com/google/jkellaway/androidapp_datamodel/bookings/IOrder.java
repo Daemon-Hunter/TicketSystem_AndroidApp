@@ -5,9 +5,11 @@
  */
 package com.google.jkellaway.androidapp_datamodel.bookings;
 
-import java.util.List;
 import com.google.jkellaway.androidapp_datamodel.people.IUser;
 import com.google.jkellaway.androidapp_datamodel.utilities.observer.IDbSubject;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  *
@@ -18,6 +20,6 @@ public interface IOrder extends IDbSubject {
     
     public Integer getOrderID();
     public IUser getUser();
-    public List<IBooking> getBookingList();
+    public List<IBooking> getBookingList() throws IOException;
     public IBooking getBooking(Integer bookingID);
 }

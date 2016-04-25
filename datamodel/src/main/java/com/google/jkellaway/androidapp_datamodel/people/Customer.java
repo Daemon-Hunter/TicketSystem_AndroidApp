@@ -6,14 +6,14 @@
 package com.google.jkellaway.androidapp_datamodel.people;
 
 import com.google.jkellaway.androidapp_datamodel.bookings.IOrder;
-import com.google.jkellaway.androidapp_datamodel.bookings.Order;
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
-import java.util.LinkedList;
-import java.util.List;
 import com.google.jkellaway.androidapp_datamodel.reviews.IHaveReviews;
 import com.google.jkellaway.androidapp_datamodel.reviews.IReview;
-import com.google.jkellaway.androidapp_datamodel.reviews.Review;
 import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
+
+import java.util.LinkedList;
+import java.util.List;
+
 import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.idValidator;
 
 /**
@@ -24,7 +24,6 @@ public class Customer extends User implements IHaveReviews, ICustomer {
 
     private List<IReview> reviews;
     private List<IOrder> orders;
-    private List<Integer> orderIDs;
     
     
     
@@ -43,7 +42,6 @@ public class Customer extends User implements IHaveReviews, ICustomer {
         super(ID, firstName, lastName, email, address, postcode);
         this.table = DatabaseTable.CUSTOMER;
         this.orders = new LinkedList<>();
-        this.orderIDs = new LinkedList<>();
     }
     
     /**

@@ -248,7 +248,7 @@ public class Venue implements IVenue {
 
     @Override
     public List<IChildEvent> getChildEvents() throws IOException {
-        this.childEvents = APIHandle.getChildEventsOfVenue(this.ID);
+        this.childEvents = (List<IChildEvent>)(Object)APIHandle.getObjectsFromObject(this.ID, DatabaseTable.CHILD_EVENT, DatabaseTable.VENUE);
         return this.childEvents;
     }
 

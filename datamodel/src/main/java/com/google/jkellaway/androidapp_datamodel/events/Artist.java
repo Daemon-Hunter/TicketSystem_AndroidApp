@@ -180,7 +180,7 @@ public class Artist implements IArtist {
     @Override
     public List<IChildEvent> getChildEvents() throws IOException {
         if (childEvents == null) {
-            childEvents = APIHandle.getChildEventsViaContract(this.ID);
+            childEvents = (List<IChildEvent>) (Object)APIHandle.getObjectsFromObject(this.ID, DatabaseTable.CHILD_EVENT, DatabaseTable.ARTIST);
             return new LinkedList<>(childEvents);
         } else {
             return new LinkedList<>(childEvents);

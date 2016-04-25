@@ -9,13 +9,13 @@ import android.graphics.Bitmap;
 
 import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
+import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
+import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
 
 import java.io.IOException;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
-import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
 
 /**
  * The child of a parent event, containing lineup and venue details, as well
@@ -173,7 +173,7 @@ public class ChildEvent implements IChildEvent {
     @Override
     public List<IArtist> getArtistList() throws IOException {
         if (artists == null) {
-            artists = APIHandle.getArtistsViaContract(this.childEventID);
+            artists = (List<IArtist>) (Object)APIHandle.getObjectsFromObject(this.childEventID, DatabaseTable.ARTIST, DatabaseTable.CHILD_EVENT);
             return new LinkedList<>(artists);
         } else {
             return new LinkedList<>(artists);

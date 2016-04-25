@@ -6,13 +6,12 @@
 package com.google.jkellaway.androidapp_datamodel.bookings;
 
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
-import java.util.Date;
-import java.util.LinkedList;
-
 import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
-import com.google.jkellaway.androidapp_datamodel.tickets.Ticket;
 import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
 import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
+
+import java.util.Date;
+import java.util.LinkedList;
 
 /**
  *
@@ -23,6 +22,7 @@ public abstract class Booking implements IBooking {
     protected ITicket  ticket;
     protected IOrder order;
 
+    protected Integer ticketID;
     protected DatabaseTable table;
     protected Integer bookingID;
     protected Integer ticketQuantity;
@@ -47,13 +47,12 @@ public abstract class Booking implements IBooking {
     /**
      * Use this constructor when creating an object from the database.
      * @param ID
-     * @param newTicket
      * @param ticketQty
      * @param dateTime 
      */
-    public Booking(Integer ID, ITicket newTicket, Integer ticketQty, Date dateTime) {
+    public Booking(Integer ID, Integer ticketID,  Integer ticketQty, Date dateTime) {
         this.bookingID = ID;
-        this.ticket = newTicket;
+        this.ticketID = ticketID;
         this.ticketQuantity = ticketQty;
         // Store a copy of the time, as the variable could be externally changed
         // after construction -> externally mutable object

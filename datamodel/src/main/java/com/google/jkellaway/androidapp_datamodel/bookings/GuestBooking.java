@@ -6,11 +6,11 @@
 package com.google.jkellaway.androidapp_datamodel.bookings;
 
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
-import java.util.Date;
 import com.google.jkellaway.androidapp_datamodel.people.Guest;
 import com.google.jkellaway.androidapp_datamodel.people.IUser;
 import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
-import com.google.jkellaway.androidapp_datamodel.tickets.Ticket;
+
+import java.util.Date;
 
 /**
  *
@@ -24,15 +24,14 @@ public class GuestBooking extends Booking {
      * Use this constructor when creating object from the database.
      * ID is known.
      * @param ID
-     * @param ticket
      * @param ticketQty
      * @param dateTime
      * @param guest 
      */
-    public GuestBooking (Integer ID, ITicket ticket, Integer ticketQty, Date dateTime,
+    public GuestBooking (Integer ID, Integer ticketID, Integer ticketQty, Date dateTime,
                          IUser guest)
     {
-        super(ID, ticket, ticketQty, dateTime);
+        super(ID, ticketID, ticketQty, dateTime);
         this.guest = guest;
         table = DatabaseTable.GUEST_BOOKING;
     }
