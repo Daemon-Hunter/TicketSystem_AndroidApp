@@ -69,6 +69,22 @@ public final class APIHandle {
         return MapToObject.ConvertArtist(APIConnection.readSingle(id, table));
     }
 
+    public  static  int addSingle(DatabaseTable table, Map<String,String> mapToAdd)
+    {
+        int responseCode = 500;
+       try {
+           responseCode = APIConnection.add(mapToAdd, table);
+       }catch (Exception ex) {
+           return responseCode;
+       }
+
+
+
+
+        return responseCode;
+    }
+
+
     public static List<IAdmin> getAdmins() throws IOException {
 
         List<IAdmin> adminList = new LinkedList<>();

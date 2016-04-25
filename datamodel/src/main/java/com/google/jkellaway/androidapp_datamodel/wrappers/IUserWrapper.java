@@ -5,6 +5,7 @@
  */
 package com.google.jkellaway.androidapp_datamodel.wrappers;
 
+import com.google.jkellaway.androidapp_datamodel.people.Customer;
 import com.google.jkellaway.androidapp_datamodel.people.IUser;
 
 import java.io.IOException;
@@ -17,4 +18,5 @@ public interface IUserWrapper extends IWrapper {
 
     IUser loginUser(String email, String password) throws IOException;
     IUser   getUser();
+    Integer registerUser(Customer cust, String password);
 }

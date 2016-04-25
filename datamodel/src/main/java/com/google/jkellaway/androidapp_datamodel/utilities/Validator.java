@@ -12,7 +12,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import android.graphics.Bitmap;
 
 /**
  *
@@ -175,6 +174,7 @@ public final class Validator {
     }
 
     public static Boolean postcodeValidator(String postcode) {
+        // TODO: 25/04/2016 REGEX FOR HERE; 
         return true; 
     }
 

@@ -7,15 +7,20 @@ package com.google.jkellaway.androidapp_datamodel.wrappers;
 
 import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
+import com.google.jkellaway.androidapp_datamodel.database.ObjectToMap;
 import com.google.jkellaway.androidapp_datamodel.events.IArtist;
 import com.google.jkellaway.androidapp_datamodel.events.IParentEvent;
 import com.google.jkellaway.androidapp_datamodel.events.IVenue;
+import com.google.jkellaway.androidapp_datamodel.people.Customer;
 import com.google.jkellaway.androidapp_datamodel.people.IUser;
+import com.google.jkellaway.androidapp_datamodel.utilities.HashString;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -56,6 +61,17 @@ public class UserWrapper implements IUserWrapper {
     @Override
     public IUser getUser() {
         return this.currentUser;
+    }
+
+    @Override
+    public Integer registerUser(Customer cust, String password) {
+        Map<String,String> unregisterdUser = new HashMap<>();
+        int responseCode = 500;
+        unregisterdUser = ObjectToMap.ConvertCustomer(cust);
+        String pass = HashString.Convert(password);
+        unregisterdUser.put("CUSTOMER_PASSWORD",pass);
+        responseCode = APIHandle.addSingle(DatabaseTable.CUSTOMER,unregisterdUser);
+        return responseCode;
     }
 
     @Override

@@ -98,8 +98,9 @@ final class APIConnection {
 
     }
     
-       public static String add(Map<String,String> mapToAdd, DatabaseTable table)
+       public static int add(Map<String,String> mapToAdd, DatabaseTable table)
     {
+        int httpCode = 500;
        String urlToPost = URI + DBTableToString(table);  // URL of where to add to the table.
        try{
            URL url = new URL(urlToPost);
@@ -117,6 +118,7 @@ final class APIConnection {
               writer.write(createJsonString(mapToAdd));
               writer.close();
               os.close();
+           httpCode = connection.getResponseCode();
            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(),"UTF-8"));
 
                 String line;
@@ -128,12 +130,10 @@ final class APIConnection {
 
             br.close();
 
-           return sb.toString();
+           return httpCode;
        }catch(IOException x)
        {
-           System.err.println("NOPE");
-           System.err.println(x.getMessage());
-           return "";
+           return httpCode;
        }
     }
        
