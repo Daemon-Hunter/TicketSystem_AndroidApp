@@ -55,16 +55,12 @@ public class UserWrapper implements IUserWrapper {
     }
 
     @Override
-    public Boolean loginUser(String email, String password)  {
+    public Boolean loginUser(String email, String password) throws IOException, IllegalArgumentException {
         Boolean loggedIn = false;
-        try {
-            if (currentUser != null) {
-                currentUser = APIHandle.isPasswordTrue(email, password);
-                Log.e("DEBUG", "loginUser: "+ currentUser.getFirstName());
-                 loggedIn = true;
-            }
-        }
-        catch (Exception e) {
+        if (currentUser != null) {
+            currentUser = APIHandle.isPasswordTrue(email, password);
+            Log.e("DEBUG", "loginUser: "+ currentUser.getFirstName());
+             loggedIn = true;
         }
         return loggedIn;
     }

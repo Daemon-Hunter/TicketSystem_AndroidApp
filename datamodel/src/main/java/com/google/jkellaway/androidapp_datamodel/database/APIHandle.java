@@ -58,14 +58,14 @@ public final class APIHandle {
         switch (table){
             case ADMIN: MapToObject.ConvertAdmin(objMap);break;
             case ARTIST: MapToObject.ConvertArtist(objMap);break;
-            //case BOOKING: MapToObject.ConvertCustomerBooking(objMap);break;
+            case BOOKING: MapToObject.ConvertCustomerBooking(objMap);break;
             case CHILD_EVENT: MapToObject.ConvertChildEvent(objMap);break;
             case CUSTOMER: MapToObject.ConvertCustomer(objMap);break;
-            //case GUEST_BOOKING: MapToObject.ConvertGuestBooking(objMap);break;
-            //case ORDER: MapToObject.ConvertOrder(objMap);break;
+            case GUEST_BOOKING: MapToObject.ConvertGuestBooking(objMap);break;
+            case ORDER: MapToObject.ConvertOrder(objMap);break;
             case PARENT_EVENT: MapToObject.ConvertParentEvent(objMap);break;
             case SOCIAL_MEDIA: MapToObject.ConvertSocialMedia(objMap);break;
-            //case TICKET: MapToObject.ConvertTicket(objMap);break;
+            case TICKET: MapToObject.ConvertTicket(objMap);break;
             case VENUE: MapToObject.ConvertVenue(objMap);break;
             default: throw new IllegalArgumentException("These tables are not supported");
         }
