@@ -53,9 +53,17 @@ public class UserWrapper implements IUserWrapper {
     }
 
     @Override
-    public IUser loginUser(String email, String password) throws IOException, IllegalArgumentException {
-        currentUser = APIHandle.isPasswordTrue(email, password);
-        return currentUser;
+    public Boolean loginUser(String email, String password)  {
+        try {
+            if (currentUser != null) {
+                currentUser = APIHandle.isPasswordTrue(email, password);
+                return true;
+            }
+            return false;
+        }
+        catch (Exception e) {
+            return false;
+        }
     }
 
     @Override

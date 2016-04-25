@@ -27,6 +27,8 @@ import android.widget.TextView.OnEditorActionListener;
 
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.custom_views.CustomClickableSpan;
+import com.google.jkellaway.androidapp_datamodel.utilities.HashString;
+import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
 /**
  * A login screen that offers login via email/password.
@@ -246,24 +248,8 @@ public class LoginActivity extends AppCompatActivity implements OnEditorActionLi
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String dc : DUMMY_CREDENTIALS) {
-                if (DUMMY_CREDENTIALS[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return DUMMY_CREDENTIALS[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            return false;
+            String pass = HashString.Convert(mPassword);
+                return UserWrapper.getInstance().loginUser(mEmail,pass);
         }
 
         @Override
