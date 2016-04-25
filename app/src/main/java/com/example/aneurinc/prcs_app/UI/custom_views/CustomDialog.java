@@ -11,7 +11,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.activities.CheckoutActivity;
+import com.example.aneurinc.prcs_app.UI.Activities.CheckoutActivity;
 
 /**
  * Created by aneurinc on 06/04/2016.

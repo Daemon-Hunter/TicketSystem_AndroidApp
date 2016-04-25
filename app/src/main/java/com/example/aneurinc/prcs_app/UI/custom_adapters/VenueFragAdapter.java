@@ -2,7 +2,6 @@ package com.example.aneurinc.prcs_app.UI.custom_adapters;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.activities.MainActivity;
-import com.example.aneurinc.prcs_app.UI.activities.MapActivity;
-import com.example.aneurinc.prcs_app.UI.utilities.Constants;
-import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
+import com.example.aneurinc.prcs_app.UI.Activities.MapActivity;
+import com.example.aneurinc.prcs_app.UI.Utilities.Constants;
+import com.example.aneurinc.prcs_app.UI.Utilities.ImageUtils;
 import com.google.jkellaway.androidapp_datamodel.events.IVenue;
 
 import java.util.List;

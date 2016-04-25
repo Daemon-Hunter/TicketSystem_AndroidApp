@@ -1,4 +1,4 @@
-package com.example.aneurinc.prcs_app.UI.activities;
+package com.example.aneurinc.prcs_app.UI.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,10 +18,7 @@ import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.custom_adapters.ParentEventActAdapter;
-import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
-import com.google.jkellaway.androidapp_datamodel.events.IParentEvent;
-import com.example.aneurinc.prcs_app.UI.custom_adapters.ParentEventActAdapter;
-import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
+import com.example.aneurinc.prcs_app.UI.Utilities.ImageUtils;
 import com.google.jkellaway.androidapp_datamodel.events.IParentEvent;
 import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 

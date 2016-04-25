@@ -1,4 +1,4 @@
-package com.example.aneurinc.prcs_app.UI.activities;
+package com.example.aneurinc.prcs_app.UI.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +12,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.utilities.Constants;
+import com.example.aneurinc.prcs_app.UI.Utilities.*;
 
 public class VenueActivity extends AppCompatActivity implements OnClickListener {
 

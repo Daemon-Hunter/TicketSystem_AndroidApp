@@ -8,7 +8,7 @@ import android.text.style.ClickableSpan;
 import android.view.View;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.activities.RegisterActivity;
+import com.example.aneurinc.prcs_app.UI.Activities.RegisterActivity;
 
 public class CustomClickableSpan extends ClickableSpan {
 

@@ -1,4 +1,4 @@
-package com.example.aneurinc.prcs_app.UI.activities;
+package com.example.aneurinc.prcs_app.UI.Activities;
 
 import android.app.SearchManager;
 import android.content.Intent;
@@ -20,11 +20,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.fragments.ArtistFragment;
-import com.example.aneurinc.prcs_app.UI.fragments.FragmentType;
-import com.example.aneurinc.prcs_app.UI.fragments.ParentEventFragment;
-import com.example.aneurinc.prcs_app.UI.fragments.TicketFragment;
-import com.example.aneurinc.prcs_app.UI.fragments.VenueFragment;
+import com.example.aneurinc.prcs_app.UI.Fragments.ArtistFragment;
+import com.example.aneurinc.prcs_app.UI.Fragments.FragmentType;
+import com.example.aneurinc.prcs_app.UI.Fragments.ParentEventFragment;
+import com.example.aneurinc.prcs_app.UI.Fragments.TicketFragment;
+import com.example.aneurinc.prcs_app.UI.Fragments.VenueFragment;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener {
 

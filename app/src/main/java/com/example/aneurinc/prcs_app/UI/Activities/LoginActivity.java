@@ -1,4 +1,4 @@
-package com.example.aneurinc.prcs_app.UI.activities;
+package com.example.aneurinc.prcs_app.UI.Activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
