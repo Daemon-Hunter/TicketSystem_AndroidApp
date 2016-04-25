@@ -118,7 +118,7 @@ public final class Validator {
 //            return 2 <= name.length() 
 //                    && name.length() <= 20;
 //        } else 
-        return false;
+        return true;
     }
 
     /**
