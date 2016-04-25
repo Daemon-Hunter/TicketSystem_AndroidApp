@@ -24,9 +24,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.custom_views.CustomClickableSpan;
+import com.google.jkellaway.androidapp_datamodel.people.Customer;
+import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
 public class RegisterActivity extends AppCompatActivity implements OnEditorActionListener, OnClickListener {
 
@@ -168,7 +171,9 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
             // Show a progress spinner, and kick off a background task to
             // perform the user register attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(this, email, password);
+            Customer cust = new Customer(forename,surname,email,address,postcode);
+
+            mAuthTask = new UserLoginTask(this,  cust, password);
             mAuthTask.execute((Void) null);
         }
     }
@@ -184,8 +189,14 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
     }
 
     private boolean isPostcodeValid(String postcode) {
-        //// TODO: 20/04/2016 replace with regex
-        return postcode.length() == 7 | postcode.length() == 8;
+        if (postcode.length() > 7 && postcode.length() < 9)
+        {
+        return true;
+        }
+        else
+        {
+        return false;
+        }
     }
 
     /**
@@ -265,28 +276,28 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final Activity mContext;
-        private final String mEmail;
         private final String mPassword;
+        private final Customer mCustomer;
+        private int httpCode;
 
-        UserLoginTask(Activity context, String email, String password) {
+        UserLoginTask(Activity context, Customer cust, String pass) {
             mContext = context;
-            mEmail = email;
-            mPassword = password;
+            mPassword = pass;
+             mCustomer = cust;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: add to database
+           httpCode = UserWrapper.getInstance().registerUser(mCustomer,mPassword);
 
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
+
+            if(httpCode == 201)
+            {
+                return  true;
+            }
+            else {
                 return false;
             }
-
-            // TODO: register the new account here.
-            return false;
         }
 
         @Override
@@ -296,10 +307,19 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
 
             if (success) {
                 finish();
-                startActivity(new Intent(mContext, MainActivity.class));
+                startActivity(new Intent(mContext, LoginActivity.class));
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                switch (httpCode) {
+                    case 409 :Toast.makeText(mContext, "An account with this email already " +
+                            "has an account, pleae log in instead" , Toast.LENGTH_LONG).show();break;
+
+                    case 502:Toast.makeText(mContext, "Could not register an account at this time" +
+                            "- Server unreachable" , Toast.LENGTH_LONG).show();break;
+                    default : Toast.makeText(mContext, "Could not register an account at this time" +
+                            "please try again", Toast.LENGTH_LONG).show();break;
+
+
+                }
             }
         }
 
