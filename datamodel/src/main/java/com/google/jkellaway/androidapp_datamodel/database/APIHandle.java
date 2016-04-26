@@ -12,8 +12,10 @@ import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
 import com.google.jkellaway.androidapp_datamodel.events.IParentEvent;
 import com.google.jkellaway.androidapp_datamodel.events.IVenue;
 import com.google.jkellaway.androidapp_datamodel.people.IAdmin;
+import com.google.jkellaway.androidapp_datamodel.people.ICustomer;
 import com.google.jkellaway.androidapp_datamodel.people.IUser;
 import com.google.jkellaway.androidapp_datamodel.reviews.IReview;
+import com.google.jkellaway.androidapp_datamodel.utilities.HashString;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -38,6 +40,7 @@ import static com.google.jkellaway.androidapp_datamodel.database.MapToObject.Con
 import static com.google.jkellaway.androidapp_datamodel.database.MapToObject.ConvertSocialMedia;
 import static com.google.jkellaway.androidapp_datamodel.database.MapToObject.ConvertTicket;
 import static com.google.jkellaway.androidapp_datamodel.database.MapToObject.ConvertVenue;
+import static com.google.jkellaway.androidapp_datamodel.utilities.HashString.Encrypt;
 
 /**
  *
@@ -45,7 +48,7 @@ import static com.google.jkellaway.androidapp_datamodel.database.MapToObject.Con
 public final class APIHandle {
 
     public static IUser isPasswordTrue(String email, String password) throws IOException, IllegalArgumentException {
-        Map<String, String> customer = APIConnection.comparePassword(email, password).get(0);
+        Map<String, String> customer = APIConnection.comparePassword(email, Encrypt(password)).get(0);
         if (customer != null)
             return ConvertCustomer(customer);
         else
@@ -58,33 +61,24 @@ public final class APIHandle {
         switch (table){
             case ADMIN: MapToObject.ConvertAdmin(objMap);break;
             case ARTIST: MapToObject.ConvertArtist(objMap);break;
-            //case BOOKING: MapToObject.ConvertCustomerBooking(objMap);break;
+            case BOOKING: MapToObject.ConvertCustomerBooking(objMap);break;
             case CHILD_EVENT: MapToObject.ConvertChildEvent(objMap);break;
             case CUSTOMER: MapToObject.ConvertCustomer(objMap);break;
-            //case GUEST_BOOKING: MapToObject.ConvertGuestBooking(objMap);break;
-            //case ORDER: MapToObject.ConvertOrder(objMap);break;
+            case GUEST_BOOKING: MapToObject.ConvertGuestBooking(objMap);break;
+            case ORDER: MapToObject.ConvertOrder(objMap);break;
             case PARENT_EVENT: MapToObject.ConvertParentEvent(objMap);break;
             case SOCIAL_MEDIA: MapToObject.ConvertSocialMedia(objMap);break;
-            //case TICKET: MapToObject.ConvertTicket(objMap);break;
+            case TICKET: MapToObject.ConvertTicket(objMap);break;
             case VENUE: MapToObject.ConvertVenue(objMap);break;
             default: throw new IllegalArgumentException("These tables are not supported");
         }
         return MapToObject.ConvertArtist(APIConnection.readSingle(id, table));
     }
 
-    public  static  int addSingle(DatabaseTable table, Map<String,String> mapToAdd)
-    {
-        int responseCode = 500;
-       try {
-           responseCode = APIConnection.add(mapToAdd, table);
-       }catch (Exception ex) {
-           return responseCode;
-       }
-
-
-
-
-        return responseCode;
+    public static int registerUser(IUser newUser, String password) throws IOException {
+        Map<String, String> customerMap = ObjectToMap.ConvertCustomer(newUser);
+        customerMap.put("CUSTOMER_PASSWORD", Encrypt(password));
+        return APIConnection.add(customerMap, DatabaseTable.CUSTOMER);
     }
 
 

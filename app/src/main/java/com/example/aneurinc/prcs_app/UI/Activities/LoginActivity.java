@@ -30,6 +30,8 @@ import com.example.aneurinc.prcs_app.UI.custom_views.CustomClickableSpan;
 import com.google.jkellaway.androidapp_datamodel.utilities.HashString;
 import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
+import java.io.IOException;
+
 /**
  * A login screen that offers login via email/password.
  */
@@ -248,8 +250,13 @@ public class LoginActivity extends AppCompatActivity implements OnEditorActionLi
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            String pass = HashString.Convert(mPassword);
+            String pass = HashString.Encrypt(mPassword);
+            try {
                 return UserWrapper.getInstance().loginUser(mEmail,pass);
+            } catch (IOException e) {
+                return false;
+                //TODO handle IOException
+            }
         }
 
         @Override

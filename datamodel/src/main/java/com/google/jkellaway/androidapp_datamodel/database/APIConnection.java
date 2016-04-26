@@ -98,12 +98,15 @@ final class APIConnection {
 
     }
     
-       public static int add(Map<String,String> mapToAdd, DatabaseTable table)
-    {
-        int httpCode = 500;
-       String urlToPost = URI + DBTableToString(table);  // URL of where to add to the table.
-       try{
-           URL url = new URL(urlToPost);
+       public static int add(Map<String,String> mapToAdd, DatabaseTable table) throws IOException {
+           int httpCode = 500;
+           String urlToPost = URI + DBTableToString(table);  // URL of where to add to the table.
+           URL url = null;
+           try {
+               url = new URL(urlToPost);
+           } catch (MalformedURLException e) {
+               e.printStackTrace();
+           }
            //Connect
            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
            connection.setRequestProperty("Content-Type", "application/json");
@@ -112,29 +115,25 @@ final class APIConnection {
            connection.setRequestMethod("POST");
            connection.connect();
 
-            //WRITE
-              OutputStream os = connection.getOutputStream();
-              BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-              writer.write(createJsonString(mapToAdd));
-              writer.close();
-              os.close();
-           BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(),"UTF-8"));
+           //WRITE
+           OutputStream os = connection.getOutputStream();
+           BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+           writer.write(createJsonString(mapToAdd));
+           writer.close();
+           os.close();
+           BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
 
-                String line;
-                StringBuilder sb = new StringBuilder();         
+           String line;
+           StringBuilder sb = new StringBuilder();
 
-            while ((line = br.readLine()) != null) {  
-                sb.append(line); 
-            }       
+           while ((line = br.readLine()) != null) {
+               sb.append(line);
+           }
 
-            br.close();
+           br.close();
 
-           return  connection.getResponseCode();
-       }catch(IOException x)
-       {
-           return httpCode;
+           return connection.getResponseCode();
        }
-    }
        
     public static List<Map<String,String>> readAll(DatabaseTable table) throws IOException {
             return Connection(URI +  DBTableToString(table));

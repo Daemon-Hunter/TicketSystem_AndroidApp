@@ -32,6 +32,8 @@ import com.example.aneurinc.prcs_app.UI.custom_views.CustomClickableSpan;
 import com.google.jkellaway.androidapp_datamodel.people.Customer;
 import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
+import java.io.IOException;
+
 public class RegisterActivity extends AppCompatActivity implements OnEditorActionListener, OnClickListener {
 
     private UserLoginTask mAuthTask = null;
@@ -283,7 +285,11 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            httpCode = UserWrapper.getInstance().registerUser(mCustomer, mPassword);
+            try {
+                httpCode = UserWrapper.getInstance().registerUser(mCustomer, mPassword);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             Log.d(MainActivity.DEBUG_TAG, "doInBackground: " + Integer.toString(httpCode));
             return httpCode == 201;
         }
