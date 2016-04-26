@@ -5,8 +5,6 @@
  */
 package com.google.jkellaway.androidapp_datamodel.wrappers;
 
-import android.util.Log;
-
 import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.events.IArtist;
@@ -15,7 +13,6 @@ import com.google.jkellaway.androidapp_datamodel.events.IVenue;
 import com.google.jkellaway.androidapp_datamodel.people.IUser;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -39,8 +36,8 @@ public class UserWrapper implements IUserWrapper {
 
     private IUser               currentUser;
 
-    
-    
+
+
     private UserWrapper(){}
 
     private UserWrapper(IUser user){
@@ -56,13 +53,11 @@ public class UserWrapper implements IUserWrapper {
 
     @Override
     public Boolean loginUser(String email, String password) throws IOException, IllegalArgumentException {
-        Boolean loggedIn = false;
-        if (currentUser != null) {
-            currentUser = APIHandle.isPasswordTrue(email, password);
-            Log.e("DEBUG", "loginUser: "+ currentUser.getFirstName());
-             loggedIn = true;
-        }
-        return loggedIn;
+
+        currentUser = APIHandle.isPasswordTrue(email, password);
+        // if the passwords are incorrect then the returning Customer has an id of -1
+        if(currentUser.getID().equals(-1)) { return false; }  else{ return true; }
+
     }
 
     @Override

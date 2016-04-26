@@ -202,6 +202,7 @@ final class APIConnection {
             url = new URL(urlText);
         } catch (MalformedURLException e) {
             e.printStackTrace();
+            throw new MalformedURLException("Error With URL");
         }
         // Connect
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
