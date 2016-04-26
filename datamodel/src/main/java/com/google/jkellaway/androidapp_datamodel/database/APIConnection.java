@@ -37,27 +37,25 @@ final class APIConnection {
     private static String URI = "http://xserve.uopnet.plymouth.ac.uk/Modules/INTPROJ/PRCS251G/api/";
 
     // Converts the DatabaseTable Enum value to a string for use in the connection string
-    private static String DBTableToString(DatabaseTable table){
+    private static String DBTableToString(DatabaseTable table) {
         return table.toString() + "s";
     }
 
     // Allows the application to delete a record in the database
-    public static boolean delete(int id, DatabaseTable table)
-    {
+    public static boolean delete(int id, DatabaseTable table) {
         boolean ableToDelete;
         String urlToDelete = URI + DBTableToString(table) + "/" + Integer.toString(id);
-        try{
+        try {
             URL url = new URL(urlToDelete);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             connection.setDoOutput(true);
-            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded" );
+            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             connection.setRequestMethod("DELETE");
             connection.connect();
             ableToDelete = true;
 
-        }catch(IOException ex)
-        {
+        } catch (IOException ex) {
             System.err.println(ex.toString());
             ableToDelete = false;
         }
@@ -65,100 +63,97 @@ final class APIConnection {
     }
 
     // Allows the application to
-    public static String update(int id, Map<String,String> mapToEdit, DatabaseTable table)
-    {
-       // URL of where to add to the table.
-       String urlToPost = URI + DBTableToString(table) + "/"+ Integer.toString(id);
+    public static String update(int id, Map<String, String> mapToEdit, DatabaseTable table) {
+        // URL of where to add to the table.
+        String urlToPost = URI + DBTableToString(table) + "/" + Integer.toString(id);
         BufferedReader br;
-       try{
-           URL url = new URL(urlToPost);
-           //Connect
-           HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-           connection.setRequestProperty("Content-Type", "application/json");
-           connection.setRequestProperty("Accept", "application/json");
-           connection.setDoOutput(true);
-           connection.setRequestMethod("PUT");
-           connection.connect();
-            
+        try {
+            URL url = new URL(urlToPost);
+            //Connect
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("Accept", "application/json");
+            connection.setDoOutput(true);
+            connection.setRequestMethod("PUT");
+            connection.connect();
+
             //WRITE
             OutputStream os = connection.getOutputStream();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
             writer.write(createJsonString(mapToEdit));
             writer.close();
             os.close();
-              
-            br = new BufferedReader(new InputStreamReader(connection.getInputStream(),"UTF-8"));
+
+            br = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
             br.close();
             connection.disconnect();
             return br.toString();
-       }catch(IOException x)
-       {
-           System.err.println("NOPE");
-           System.err.println(x.getMessage());
-           return "";
-       }
+        } catch (IOException x) {
+            System.err.println("NOPE");
+            System.err.println(x.getMessage());
+            return "";
+        }
 
     }
-    
-       public static int add(Map<String,String> mapToAdd, DatabaseTable table) throws IOException {
-           int httpCode = 500;
-           String urlToPost = URI + DBTableToString(table);  // URL of where to add to the table.
-           URL url = null;
-           try {
-               url = new URL(urlToPost);
-           } catch (MalformedURLException e) {
-               e.printStackTrace();
-           }
-           //Connect
-           HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-           connection.setRequestProperty("Content-Type", "application/json");
-           connection.setRequestProperty("Accept", "application/json");
-           connection.setDoOutput(true);
-           connection.setRequestMethod("POST");
-           connection.connect();
 
-           //WRITE
-           OutputStream os = connection.getOutputStream();
-           BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-           writer.write(createJsonString(mapToAdd));
-           writer.close();
-           os.close();
-           BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
+    public static int add(Map<String, String> mapToAdd, DatabaseTable table) throws IOException {
+        int httpCode = 500;
+        String urlToPost = URI + DBTableToString(table);  // URL of where to add to the table.
+        URL url = null;
+        try {
+            url = new URL(urlToPost);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        //Connect
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setRequestProperty("Accept", "application/json");
+        connection.setDoOutput(true);
+        connection.setRequestMethod("POST");
+        connection.connect();
 
-           String line;
-           StringBuilder sb = new StringBuilder();
+        //WRITE
+        OutputStream os = connection.getOutputStream();
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+        writer.write(createJsonString(mapToAdd));
+        writer.close();
+        os.close();
+        BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
 
-           while ((line = br.readLine()) != null) {
-               sb.append(line);
-           }
+        String line;
+        StringBuilder sb = new StringBuilder();
 
-           br.close();
+        while ((line = br.readLine()) != null) {
+            sb.append(line);
+        }
 
-           return connection.getResponseCode();
-       }
-       
-    public static List<Map<String,String>> readAll(DatabaseTable table) throws IOException {
-            return Connection(URI +  DBTableToString(table));
+        br.close();
+
+        return connection.getResponseCode();
+    }
+
+    public static List<Map<String, String>> readAll(DatabaseTable table) throws IOException {
+        return Connection(URI + DBTableToString(table));
     }
 
     // Accepts the ID and the table to use in the method
-    public static Map<String,String> readSingle(int id, DatabaseTable table)
-    {
+    public static Map<String, String> readSingle(int id, DatabaseTable table) {
         // creation of URL with unique values;
         String urlToGet = URI + DBTableToString(table) + "/" + Integer.toString(id);
         // initilatisation of map which stores keys and values
-        Map<String,String> map = new HashMap<>();
- 
-        try{
+        Map<String, String> map = new HashMap<>();
+
+        try {
             // Create URL Class
             URL url = new URL(urlToGet);
             // connect to the url
-            HttpURLConnection connection = (HttpURLConnection)   url.openConnection();
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             // A GET method is created
             connection.setRequestMethod("GET");
             // to return in JSON Format
             connection.setRequestProperty("Accept", "application/JSON");
-           
+
             try (BufferedReader in = new BufferedReader(
                     new InputStreamReader(connection.getInputStream()))) {
 
@@ -174,27 +169,27 @@ final class APIConnection {
             // return the map
             return map;
         } catch (IOException e) {
-        System.err.println(e.toString());
-      }
-       return map;
+            System.err.println(e.toString());
+        }
+        return map;
     }
 
-    public static List<Map<String,String>> readAmount(DatabaseTable table, Integer amount, Integer lastID) throws IOException {
-        return Connection(URI + "functions/get" +  DBTableToString(table) + "amount/" + amount.toString() + "/" + lastID.toString());
+    public static List<Map<String, String>> readAmount(DatabaseTable table, Integer amount, Integer lastID) throws IOException {
+        return Connection(URI + "functions/get" + DBTableToString(table) + "amount/" + amount.toString() + "/" + lastID.toString());
     }
 
-    public static List<Map<String,String>> readObjectsReviews(DatabaseTable table, Integer objectID) throws IOException {
+    public static List<Map<String, String>> readObjectsReviews(DatabaseTable table, Integer objectID) throws IOException {
         if (table != DatabaseTable.ARTIST && table != DatabaseTable.PARENT_EVENT && table != DatabaseTable.VENUE)
             throw new IllegalArgumentException("Table must be ARTIST/PARENT_EVENT/VENUE.");
 
-        return Connection(URI + "functions/getReviewsOf" +  table.toString() + "/" + objectID.toString());
+        return Connection(URI + "functions/getReviewsOf" + table.toString() + "/" + objectID.toString());
     }
 
-    public static List<Map<String,String>> search(String searchText, DatabaseTable table) throws IOException {
+    public static List<Map<String, String>> search(String searchText, DatabaseTable table) throws IOException {
         return Connection(URI + "functions/search" + DBTableToString(table) + "/" + searchText);
     }
 
-    public static List<Map<String,String>> comparePassword(String email, String password) throws IOException {
+    public static List<Map<String, String>> comparePassword(String email, String password) throws IOException {
         return Connection(URI + "functions/comparepasswords/" + email + "/" + password);
     }
 
@@ -202,13 +197,14 @@ final class APIConnection {
         return Connection(URI + "functions/get" + DBTableToString(objectsToGet) + "Of" + objectToUse.toString() + "/" + artistID.toString());
     }
 
-    private static List<Map<String, String>> Connection (String urlText) throws IOException {
+    private static List<Map<String, String>> Connection(String urlText) throws IOException {
 
         URL url = null;
         try {
             url = new URL(urlText);
         } catch (MalformedURLException e) {
             e.printStackTrace();
+            throw new MalformedURLException("Error With URL");
         }
         // Connect
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -218,24 +214,24 @@ final class APIConnection {
         try (BufferedReader in = new BufferedReader(
                 new InputStreamReader(connection.getInputStream()))) {
 
-            List<Map<String,String>> listOfEntities = JSONBreakDown(in.readLine());
+            List<Map<String, String>> listOfEntities = JSONBreakDown(in.readLine());
             return listOfEntities;
         }
     }
 
-    private static List<Map<String,String>> JSONBreakDown(String JSONString){
+    private static List<Map<String, String>> JSONBreakDown(String JSONString) {
 
         JSONString = JSONString.replaceAll("\\[", "").replaceAll("\\]", "");
 
-        final List<Map<String,String>> listOfEntities = new ArrayList<>();
+        final List<Map<String, String>> listOfEntities = new ArrayList<>();
 
         int threads = Runtime.getRuntime().availableProcessors();
         ExecutorService service = Executors.newFixedThreadPool(threads);
         List<Future<Map<String, String>>> futures = new LinkedList<>();
 
-        if(JSONString.equals(null)){
+        if (JSONString.equals(null)) {
             return null;
-        }else if(!JSONString.isEmpty()) {
+        } else if (!JSONString.isEmpty()) {
             String[] objArray = JSONString.split("\\},");
             // Loops though the array and puts it into a Map
             for (final String anObjArray : objArray) {
@@ -248,21 +244,20 @@ final class APIConnection {
                 futures.add(service.submit(callable));
             }
 
-            for (Future<Map<String, String>> future : futures){
+            for (Future<Map<String, String>> future : futures) {
                 try {
                     listOfEntities.add(future.get());
-                } catch (InterruptedException | ExecutionException e){
+                } catch (InterruptedException | ExecutionException e) {
                     System.err.println(e.toString());
                 }
             }
         }
         return listOfEntities;
     }
-   
-    private static Map<String,String> splitJSONString(String input)
-    {
+
+    private static Map<String, String> splitJSONString(String input) {
         // Initializes of map which stores keys and values
-        Map<String,String> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         // split up the string into the different columns
         String[] splitArray = input.split(",\"");
 
@@ -273,7 +268,7 @@ final class APIConnection {
         // remove the beginning brace
         splitArray[0] = splitArray[0].replaceAll("\\{", "");
         // remove the end brace
-        splitArray[splitArray.length -1] = splitArray[splitArray.length -1 ].replaceAll("\\}", "");
+        splitArray[splitArray.length - 1] = splitArray[splitArray.length - 1].replaceAll("\\}", "");
 
         for (String aSplitArray : splitArray) {
             String temp = aSplitArray.replaceAll("\"", ""); // removes quote marks from json string
@@ -282,33 +277,31 @@ final class APIConnection {
         }
         return map;
     }
-    
-    
-    public static String createJsonString(Map<String,String> map)
-    {
+
+    public static String createJsonString(Map<String, String> map) {
         String strToReturn = "{";
         Object[] keys = map.keySet().toArray();
         Object[] values = map.values().toArray();
         boolean isAnInteger;
-        for(int i = 0; i < keys.length; i++)
-        {
-            
-           String endValue = ",";
-           String tempLine ="\""+ keys[i] + "\""; 
+        for (int i = 0; i < keys.length; i++) {
 
-            if(i == keys.length - 1)
+            String endValue = ",";
+            String tempLine = "\"" + keys[i] + "\"";
+
+            if (i == keys.length - 1)
                 endValue = "}";
 
-            try{
+            try {
                 Integer.parseInt(values[i].toString());
                 isAnInteger = true;
 
-                }
-            catch(Exception ex){isAnInteger = false;}
-            if(!isAnInteger)
+            } catch (Exception ex) {
+                isAnInteger = false;
+            }
+            if (!isAnInteger)
                 tempLine += ":" + "\"" + values[i] + "\"" + endValue;
             else
-                tempLine+= ":" + values[i] + endValue;
+                tempLine += ":" + values[i] + endValue;
 
             strToReturn += tempLine;
         }

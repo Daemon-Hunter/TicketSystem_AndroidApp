@@ -7,6 +7,7 @@ package com.google.jkellaway.androidapp_datamodel.events;
 
 import com.google.jkellaway.androidapp_datamodel.reviews.IReviewable;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -24,8 +25,7 @@ public interface IParentEvent extends ISocial, IReviewable {
     public void setSocialMedia(SocialMedia socialMedia);
     
     public Boolean addChildEvent(IChildEvent childEvent);
-    public Boolean addChildEventList(List<IChildEvent> childEvents);
     public IChildEvent getChildEvent(Integer childEventID);
     public Boolean removeChildEvent(IChildEvent childEvent);
-    public List<IChildEvent> getChildEvents();
+    public List<IChildEvent> getChildEvents() throws IOException;
 }

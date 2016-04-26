@@ -14,6 +14,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,10 +25,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.custom_views.CustomClickableSpan;
-import com.google.jkellaway.androidapp_datamodel.utilities.HashString;
 import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
 import java.io.IOException;
@@ -250,14 +251,24 @@ public class LoginActivity extends AppCompatActivity implements OnEditorActionLi
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            String pass = HashString.Encrypt(mPassword);
             try {
-                return UserWrapper.getInstance().loginUser(mEmail,pass);
+                UserWrapper.getInstance().loginUser(mEmail, mPassword);
             } catch (IOException e) {
+                Log.e("IO Exception", "doInBackground:  " + "");
                 return false;
-                //TODO handle IOException
+            } catch (IllegalArgumentException ex) {
+                Toast.makeText(mContext, "Password Incorrect", Toast.LENGTH_LONG);
+                return false;
             }
+            return true;
         }
+
+            //TODO handle IOException
+
+
+
+
+
 
         @Override
         protected void onPostExecute(final Boolean success) {

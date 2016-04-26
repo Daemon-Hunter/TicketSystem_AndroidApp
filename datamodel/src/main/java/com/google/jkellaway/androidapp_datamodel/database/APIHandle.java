@@ -62,7 +62,6 @@ public final class APIHandle {
             case ADMIN: MapToObject.ConvertAdmin(objMap);break;
             case ARTIST: MapToObject.ConvertArtist(objMap);break;
             case BOOKING: MapToObject.ConvertCustomerBooking(objMap);break;
-            case CHILD_EVENT: MapToObject.ConvertChildEvent(objMap);break;
             case CUSTOMER: MapToObject.ConvertCustomer(objMap);break;
             case GUEST_BOOKING: MapToObject.ConvertGuestBooking(objMap);break;
             case ORDER: MapToObject.ConvertOrder(objMap);break;
@@ -156,7 +155,6 @@ public final class APIHandle {
                             IParentEvent parentEvent;
                             parentEvent = ConvertParentEvent(objectMap);
                             parentEvent.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(parentEvent.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
-                            parentEvent.addChildEventList((List<IChildEvent>) (Object)getObjectsFromObject(parentEvent.getID(), DatabaseTable.CHILD_EVENT, DatabaseTable.PARENT_EVENT));
                             return parentEvent;
                         case VENUE:
                             IVenue venue;
@@ -198,7 +196,7 @@ public final class APIHandle {
                 public Object call() throws Exception {
                     switch (objectsToGet){
                         case CHILD_EVENT:
-                            return ConvertChildEvent(objectMap);
+                            return ConvertChildEvent(objectMap, parentID);
                         case ARTIST:
                             IArtist artist = ConvertArtist(objectMap);
                             artist.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(artist.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));

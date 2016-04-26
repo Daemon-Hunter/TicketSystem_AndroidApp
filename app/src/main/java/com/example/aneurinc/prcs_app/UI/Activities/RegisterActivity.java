@@ -106,7 +106,7 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
         String forename = mForenameView.getText().toString();
         String surname = mSurnameView.getText().toString();
         String address = mAddress.getText().toString();
-        String postcode = mAddress.getText().toString();
+        String postcode = mPostcode.getText().toString();
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
@@ -288,7 +288,8 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
             try {
                 httpCode = UserWrapper.getInstance().registerUser(mCustomer, mPassword);
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.d(MainActivity.DEBUG_TAG, "IO EXCEPTION: " + Integer.toString(httpCode));
+
             }
             Log.d(MainActivity.DEBUG_TAG, "doInBackground: " + Integer.toString(httpCode));
             return httpCode == 201;
