@@ -10,13 +10,13 @@ import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.events.IArtist;
 import com.google.jkellaway.androidapp_datamodel.events.IParentEvent;
 import com.google.jkellaway.androidapp_datamodel.events.IVenue;
+import com.google.jkellaway.androidapp_datamodel.people.IAdmin;
+import com.google.jkellaway.androidapp_datamodel.people.IUser;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import com.google.jkellaway.androidapp_datamodel.people.IAdmin;
-import com.google.jkellaway.androidapp_datamodel.people.IUser;
 /**
  *
  * @author 10512691
@@ -239,5 +239,20 @@ public class DesktopWrapper implements IDesktopWrapper {
     public Boolean setAmountToLoad(Integer amountToLoad) {
         this.amountToLoad = amountToLoad;
         return this.amountToLoad == amountToLoad;
+    }
+
+    @Override
+    public IParentEvent getParentEventSearch(Integer id) {
+        return null;
+    }
+
+    @Override
+    public IArtist getArtistSearch(Integer id) {
+        return null;
+    }
+
+    @Override
+    public IVenue getVenueSearch(Integer id) {
+        return null;
     }
 }
