@@ -230,7 +230,7 @@ final class MapToObject {
         return new Ticket(ticketID, childEventID, price, desc, remaining, type);
     }
 
-    public static IChildEvent ConvertChildEvent(Map<String, String> eventMap) {
+    public static IChildEvent ConvertChildEvent(Map<String, String> eventMap, Integer parentEventID) {
 
         Integer eventID, venueID;
         String description, name;
@@ -252,7 +252,7 @@ final class MapToObject {
         } catch (ParseException e) {
             System.err.println(e.toString());
         }
-        return new ChildEvent(eventID, name, description, startTime, endTime, cancelled);
+        return new ChildEvent(eventID, name, description, startTime, endTime, cancelled, parentEventID);
     }
 
     public static IBooking ConvertCustomerBooking(Map<String, String> bookingMap) {

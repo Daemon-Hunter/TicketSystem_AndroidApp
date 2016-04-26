@@ -22,6 +22,8 @@ import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
 import com.google.jkellaway.androidapp_datamodel.events.IParentEvent;
 import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
+import java.io.IOException;
+
 public class ParentEventActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     public static String PARENT_EVENT_ID;
@@ -112,19 +114,21 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
 
         @Override
         protected IParentEvent doInBackground(Void... params) {
-
             parentEvent = UserWrapper.getInstance().getParentEvent(getIntent().getExtras().getInt(PARENT_EVENT_ID));
             return parentEvent;
-
         }
 
         @Override
         protected void onPostExecute(IParentEvent parentEvent) {
 
-            if (!parentEvent.getChildEvents().isEmpty() && parentEvent.getChildEvents() != null) {
-                ListView list = (ListView) mContext.findViewById(R.id.child_events_list);
-                list.setAdapter(new ParentEventActAdapter(mContext, parentEvent.getChildEvents()));
-                list.setOnItemClickListener(ParentEventActivity.this);
+            try {
+                if (!parentEvent.getChildEvents().isEmpty() && parentEvent.getChildEvents() != null) {
+                    ListView list = (ListView) mContext.findViewById(R.id.child_events_list);
+                    list.setAdapter(new ParentEventActAdapter(mContext, parentEvent.getChildEvents()));
+                    list.setOnItemClickListener(ParentEventActivity.this);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
             displayParentEvent();
