@@ -2,7 +2,6 @@ package com.example.aneurinc.prcs_app.UI.custom_adapters;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.activities.MainActivity;
 import com.example.aneurinc.prcs_app.UI.utilities.Constants;
 import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
 import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
@@ -73,10 +71,8 @@ public class ArtistActAdapter extends ArrayAdapter<IChildEvent> {
         // get view from view holder and update value
 
         int xy = ImageUtils.getScreenWidth(mContext) / 10;
-
-        Log.d(MainActivity.DEBUG_TAG, "getView: xy value = " + xy);
-
         Bitmap scaledImage = ImageUtils.scaleDown(currItem.getImage(0), xy, xy);
+
         viewHolder.eventImage.setImageBitmap(scaledImage);
         viewHolder.eventName.setText(currItem.getName());
         viewHolder.eventDate.setText(currItem.getStartDateTime() + " - " + currItem.getEndDateTime());

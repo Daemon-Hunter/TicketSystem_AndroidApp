@@ -105,9 +105,9 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent i = new Intent(getActivity(), ArtistActivity.class);
-        i.putExtra(ArtistActivity.ARTIST_ID, artistList.get(position).getID());
-        getActivity().startActivity(i);
+        Intent intent = new Intent(getActivity(), ArtistActivity.class);
+        intent.putExtra(ArtistActivity.ARTIST_ID, artistList.get(position).getID());
+        getActivity().startActivity(intent);
     }
 
     private void showProgress(final boolean show) {

@@ -25,10 +25,10 @@ public class VenueFragAdapter extends ArrayAdapter<IVenue> {
     private final Activity mContext;
     private List<IVenue> mVenues;
 
-    public VenueFragAdapter(Activity c, List<IVenue> venues) {
-        super(c, R.layout.list_row_venue);
+    public VenueFragAdapter(Activity context, List<IVenue> venues) {
+        super(context, R.layout.list_row_venue);
         mVenues = venues;
-        mContext = c;
+        mContext = context;
     }
 
     @Override

@@ -18,7 +18,7 @@
         android:id="@+id/venue_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/featured_lineup"
+        android:layout_below="@+id/upcoming_message_container"
         android:background="@android:color/white"
         android:fadeScrollbars="false"
         android:focusable="false"

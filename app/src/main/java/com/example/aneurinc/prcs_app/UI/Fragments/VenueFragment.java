@@ -31,7 +31,7 @@ import java.util.List;
 public class VenueFragment extends Fragment implements AdapterView.OnItemClickListener,
         Animator.AnimatorListener {
 
-    private List<IVenue> venues;
+    private List<IVenue> mVenues;
     private ProgressBar mProgressBar;
     private ReadVenues mTask;
     private static final int ANIM_TIME = 200;
@@ -75,7 +75,7 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
     @Override
     public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
         Intent intent = new Intent(getActivity(), VenueActivity.class);
-        intent.putExtra(VenueActivity.VENUE_ID, position);
+        intent.putExtra(VenueActivity.VENUE_ID, mVenues.get(position).getID());
         getActivity().startActivity(intent);
     }
 
@@ -149,11 +149,11 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
         @Override
         protected List<IVenue> doInBackground(Void... params) {
             try {
-                venues = UserWrapper.getInstance().getVenues();
+                mVenues = UserWrapper.getInstance().getVenues();
             } catch (IOException e) {
                 //TODO handle exception
             }
-            return venues;
+            return mVenues;
         }
 
         @Override

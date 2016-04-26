@@ -3,6 +3,7 @@ package com.example.aneurinc.prcs_app.UI.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -167,10 +169,21 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
             try {
                 artistEventsList = artist.getChildEvents();
             } catch (IOException e) {
-
+                // TODO: 25/04/2016 server error  
             }
 
-            artistEventsListView.setAdapter(new ArtistActAdapter(mContext, artistEventsList));
+            if (artistEventsList.isEmpty()) {
+                ImageView noEventsImage = (ImageView) findViewById(R.id.no_upcoming_events_image);
+                TextView noEventsMessage = (TextView) findViewById(R.id.upcoming_uk_events_message);
+                LinearLayout eventsMessageContainer = (LinearLayout) findViewById(R.id
+                        .upcoming_message_container);
+                noEventsImage.setVisibility(View.VISIBLE);
+                noEventsMessage.setText(getString(R.string.no_upcoming_events));
+                eventsMessageContainer.setBackgroundColor(Color.TRANSPARENT);
+            } else {
+                artistEventsListView.setAdapter(new ArtistActAdapter(mContext, artistEventsList));
+            }
+
             displayInfo();
         }
     }

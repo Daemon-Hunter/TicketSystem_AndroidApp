@@ -39,8 +39,8 @@
     <string name="thank_you">Thank you for your purchase!</string>
     <string name="title_activity_venue">VenueActivity</string>
     <string name="home">home</string>
-    <string name="upcoming_performances">Upcoming Performances</string>
     <string name="upcoming_events">Upcoming Events</string>
+    <string name="no_upcoming_events">No upcoming Events</string>
     <string name="booking_complete">Your Booking Is Complete</string>
     <string name="booking_complete_desc">Thank you for your booking. The details of your booking are printed below. If these details are incorrect, please contact the Function Junction Customer Support Team.</string>
     <string name="ticket_qty">Quantity</string>
@@ -91,5 +91,6 @@
     <string name="phone_no">Phone No:</string>
     <string name="email">Email:</string>
     <string name="parking">Parking:</string>
+    <string name="capacity">Capacity:</string>
 
 </resources>
