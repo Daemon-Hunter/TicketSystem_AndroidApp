@@ -5,6 +5,7 @@
  */
 package com.google.jkellaway.androidapp_datamodel.bookings;
 
+import java.io.IOException;
 import java.util.Date;
 
 import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
@@ -18,7 +19,7 @@ import com.google.jkellaway.androidapp_datamodel.utilities.observer.IDbSubject;
 public interface IBooking extends IDbSubject {
     public Integer getBookingID();
 
-    public ITicket getTicket();
+    public ITicket getTicket() throws IOException;
     public Boolean setTicket(ITicket ticket);
     
     public Integer getQuantity();
