@@ -25,7 +25,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
-import android.widget.Toast;
 
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.custom_views.CustomClickableSpan;
@@ -77,8 +76,8 @@ public class LoginActivity extends AppCompatActivity implements OnEditorActionLi
         setClickableSpan();
 
         //// TODO: 21/04/2016 REMOVE THIS 
-        mPasswordView.setText("qqqqq");
-        mEmailView.setText("@");
+        mPasswordView.setText("fucker");
+        mEmailView.setText("boats@plymiuth.co.uk");
     }
 
     @Override

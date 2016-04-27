@@ -3,6 +3,7 @@ package com.google.jkellaway.androidapp_datamodel.database;
 import com.google.jkellaway.androidapp_datamodel.bookings.IBooking;
 import com.google.jkellaway.androidapp_datamodel.people.IUser;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,8 +12,7 @@ import java.util.Map;
  */
 class ObjectToMap {
 
-    public static Map<String,String> ConvertBooking(IBooking aBooking)
-    {
+    public static Map<String,String> ConvertBooking(IBooking aBooking) throws IOException {
         Map<String,String> returnMap = new HashMap<>();
         returnMap.put("BOOKING_ID",Integer.toString(aBooking.getBookingID()));
         returnMap.put("TICKET_ID", Integer.toString(aBooking.getTicket().getID()));

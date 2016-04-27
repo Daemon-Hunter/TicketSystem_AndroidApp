@@ -20,7 +20,7 @@
 
     <!--event title-->
     <TextView
-        android:id="@+id/parent_event_name"
+        android:id="@+id/parent_event_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/parent_event_image"
@@ -34,7 +34,7 @@
         android:id="@+id/event_time_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/parent_event_name"
+        android:layout_below="@id/parent_event_title"
         android:layout_toRightOf="@id/parent_event_image"
         android:layout_marginLeft="20dp"
         android:text="7pm on 12/11/16"

@@ -67,7 +67,6 @@ final class MapToObject {
     }
 
     public static Artist ConvertArtist(Map<String, String> artistMap) {
-        List<Integer> childEventIDs = new LinkedList<>();
 
         Integer ID = Integer.parseInt(artistMap.get("ARTIST_ID"));
         String name = artistMap.get("ARTIST_NAME");

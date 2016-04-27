@@ -19,10 +19,12 @@ import android.widget.TextView;
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.custom_adapters.ParentEventActAdapter;
 import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
+import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
 import com.google.jkellaway.androidapp_datamodel.events.IParentEvent;
 import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
 import java.io.IOException;
+import java.util.List;
 
 public class ParentEventActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -58,7 +60,7 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
     private void displayParentEvent() {
 
         ImageView image = (ImageView) findViewById(R.id.parent_event_image);
-        TextView name = (TextView) findViewById(R.id.parent_event_name);
+        TextView name = (TextView) findViewById(R.id.parent_event_title);
         TextView desc = (TextView) findViewById(R.id.parent_event_description);
         int height = ImageUtils.getScreenHeight(this) / 4;
         int width = ImageUtils.getScreenHeight(this) / 4;
@@ -121,14 +123,26 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
         @Override
         protected void onPostExecute(IParentEvent parentEvent) {
 
+            List<IChildEvent> mChildEvents = null;
+
             try {
-                if (!parentEvent.getChildEvents().isEmpty() && parentEvent.getChildEvents() != null) {
-                    ListView list = (ListView) mContext.findViewById(R.id.child_events_list);
-                    list.setAdapter(new ParentEventActAdapter(mContext, parentEvent.getChildEvents()));
-                    list.setOnItemClickListener(ParentEventActivity.this);
-                }
+                mChildEvents = parentEvent.getChildEvents();
             } catch (IOException e) {
-                e.printStackTrace();
+                // TODO: 27/04/2016 handle exception 
+            }
+
+            if (mChildEvents.isEmpty()) {
+                TextView noChildEventsMessage = (TextView) mContext.findViewById(R.id
+                        .no_child_events_message);
+                ImageView noChildEventsImage = (ImageView) mContext.findViewById(R.id
+                        .no_upcoming_events_image);
+                noChildEventsMessage.setVisibility(View.VISIBLE);
+                noChildEventsImage.setVisibility(View.VISIBLE);
+
+            } else {
+                ListView list = (ListView) mContext.findViewById(R.id.child_events_list);
+                list.setAdapter(new ParentEventActAdapter(mContext, mChildEvents));
+                list.setOnItemClickListener(ParentEventActivity.this);
             }
 
             displayParentEvent();
