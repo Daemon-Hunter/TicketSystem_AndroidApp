@@ -47,7 +47,6 @@ public class Order implements IOrder{
     public Order(Integer ID, Integer userID){
         this.orderID = ID;
         this.userID = userID;
-        this.bookingList = new LinkedList<>();
     }
     
     /**
