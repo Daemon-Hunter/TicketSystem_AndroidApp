@@ -10,7 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -29,18 +31,24 @@ import java.util.List;
  * Created by aneurinc on 06/03/2016.
  */
 public class VenueFragment extends Fragment implements AdapterView.OnItemClickListener,
-        Animator.AnimatorListener {
+        Animator.AnimatorListener, AbsListView.OnScrollListener {
 
     private List<IVenue> mVenues;
-    private ProgressBar mProgressBar;
-    private ReadVenues mTask;
+    private ProgressBar mReadProgress, mLoadMoreProgress;
+    private ReadVenues mReadTask;
+    private LoadMoreVenues mLoadMoreTask;
     private static final int ANIM_TIME = 200;
     private MainActivity mMainActivity;
+    private ListView mListView;
+    private boolean isScrolling, atBottom;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_venue, container, false);
+
+        mListView = (ListView) view.findViewById(R.id.venue_list);
+        setSwipe(mListView);
 
         if (getActivity() instanceof MainActivity) {
             mMainActivity = (MainActivity) getActivity();
@@ -48,8 +56,11 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
 
         setSwipe(view);
 
-        mProgressBar = (ProgressBar) view.getRootView().findViewById(R.id.venue_progress);
+        mReadProgress = (ProgressBar) view.getRootView().findViewById(R.id.read_progress);
+        mLoadMoreProgress = (ProgressBar) view.getRootView().findViewById(R.id.load_more_progress);
+
         getVenues();
+
         return view;
     }
 
@@ -68,8 +79,8 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
     }
 
     private void getVenues() {
-        mTask = new ReadVenues(getActivity());
-        mTask.execute();
+        mReadTask = new ReadVenues(getActivity());
+        mReadTask.execute();
     }
 
     @Override
@@ -79,19 +90,27 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
         getActivity().startActivity(intent);
     }
 
-    private void showProgress(final boolean show) {
-        mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
-        mProgressBar.animate().setDuration(ANIM_TIME).alpha(show ? 1 : 0).setListener(this);
+    private void showProgress(ProgressBar progressBar, final boolean show) {
+        progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+        progressBar.animate().setDuration(ANIM_TIME).alpha(show ? 1 : 0).setListener(this);
     }
 
     @Override
     public void onAnimationStart(Animator animation) {
-        mProgressBar.setVisibility(View.GONE);
+        if (atBottom) {
+            mLoadMoreProgress.setVisibility(View.GONE);
+        } else {
+            mReadProgress.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void onAnimationEnd(Animator animation) {
-        mProgressBar.setVisibility(View.VISIBLE);
+        if (atBottom) {
+            mLoadMoreProgress.setVisibility(View.VISIBLE);
+        } else {
+            mReadProgress.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -123,13 +142,43 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
     }
 
     private void handleQuit() {
-        if (isTaskRunning()) {
-            mTask.cancel(true);
+        if (isTaskRunning(mReadTask)) {
+            mReadTask.cancel(true);
+        }
+
+        if (isTaskRunning(mLoadMoreTask)) {
+            mLoadMoreTask.cancel(true);
         }
     }
 
-    private boolean isTaskRunning() {
-        return mTask != null && mTask.getStatus() == AsyncTask.Status.RUNNING;
+    private boolean isTaskRunning(AsyncTask task) {
+        return task != null && task.getStatus() == AsyncTask.Status.RUNNING;
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+        if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+            isScrolling = true;
+        } else {
+            isScrolling = false;
+        }
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+        // if user is scrolling and list view is at bottom of screen, load more artists
+        if (isScrolling) {
+            if (firstVisibleItem + visibleItemCount >= totalItemCount) {
+                if (!isTaskRunning(mLoadMoreTask)) {
+                    atBottom = true;
+                    mLoadMoreTask = new LoadMoreVenues();
+                    mLoadMoreTask.execute();
+                }
+            } else {
+                atBottom = false;
+            }
+        }
     }
 
     private class ReadVenues extends AsyncTask<Void, Void, List<IVenue>> {
@@ -143,7 +192,7 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
         @Override
         protected void onPreExecute() {
             Log.d(MainActivity.DEBUG_TAG, "onPreExecute: Venue Thread started");
-            showProgress(true);
+            showProgress(mReadProgress, true);
         }
 
         @Override
@@ -160,12 +209,11 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
         protected void onPostExecute(List<IVenue> venues) {
 
             if (mContext != null && isAdded()) {
-                showProgress(false);
+                showProgress(mReadProgress, false);
                 if (venues != null && !venues.isEmpty()) {
-                    ListView list = (ListView) mContext.findViewById(R.id.venue_list);
-                    list.setAdapter(new VenueFragAdapter(mContext, venues));
-                    list.setOnItemClickListener(VenueFragment.this);
-                    setSwipe(list);
+                    mListView.setAdapter(new VenueFragAdapter(mContext, venues));
+                    mListView.setOnItemClickListener(VenueFragment.this);
+                    mListView.setOnScrollListener(VenueFragment.this);
                 }
             }
 
@@ -175,7 +223,43 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
         @Override
         protected void onCancelled() {
             Log.d(MainActivity.DEBUG_TAG, "onCancelled: Venue Thread cancelled");
-            showProgress(false);
+            showProgress(mReadProgress, false);
+        }
+    }
+
+    private class LoadMoreVenues extends AsyncTask<Void, Void, List<IVenue>> {
+
+        @Override
+        protected void onPreExecute() {
+            Log.d(MainActivity.DEBUG_TAG, "onPreExecute: Load More Venues thread started");
+            showProgress(mLoadMoreProgress, true);
+        }
+
+        @Override
+        protected List<IVenue> doInBackground(Void... params) {
+
+            try {
+                mVenues.addAll(UserWrapper.getInstance().loadMoreVenues());
+                Thread.sleep(750);
+            } catch (IOException e) {
+            } catch (InterruptedException e) {
+            }
+
+            return mVenues;
+        }
+
+        @Override
+        protected void onPostExecute(List<IVenue> iVenues) {
+            showProgress(mLoadMoreProgress, false);
+            ArrayAdapter mAdapter = (ArrayAdapter) mListView.getAdapter();
+            mAdapter.notifyDataSetChanged();
+            Log.d(MainActivity.DEBUG_TAG, "onPostExecute: Load More Venues thread finished");
+        }
+
+        @Override
+        protected void onCancelled() {
+            Log.d(MainActivity.DEBUG_TAG, "onCancelled: Load More Venues thread cancelled");
+            showProgress(mLoadMoreProgress, false);
         }
     }
 }

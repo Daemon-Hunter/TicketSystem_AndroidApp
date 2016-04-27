@@ -34,13 +34,13 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
         AbsListView.OnScrollListener, Animator.AnimatorListener {
 
     private List<IArtist> artistList;
-    private ProgressBar mProgressBar;
-    private ReadArtists readTask;
-    private LoadMoreArtists loadTask;
+    private ProgressBar mReadProgress, mLoadMoreProgress;
+    private ReadArtists mReadTask;
+    private LoadMoreArtists mLoadMoreTask;
     private static final int ANIM_TIME = 200;
     private MainActivity mMainActivity;
     private GridView mGridView;
-    private boolean isScrolling;
+    private boolean isScrolling, atBottom;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,22 +48,23 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
         View view = inflater.inflate(R.layout.fragment_artist, container, false);
 
         mGridView = (GridView) view.findViewById(R.id.artist_grid_view);
+        setSwipe(mGridView);
 
         if (getActivity() instanceof MainActivity) {
             mMainActivity = (MainActivity) getActivity();
         }
 
-        mProgressBar = (ProgressBar) view.getRootView().findViewById(R.id.artist_progress);
+        mReadProgress = (ProgressBar) view.getRootView().findViewById(R.id.read_progress);
+        mLoadMoreProgress = (ProgressBar) view.getRootView().findViewById(R.id.load_more_progress);
 
         readArtists();
-
 
         setSwipe(view);
 
         return view;
     }
 
-    private void setSwipe(View v) {
+    public void setSwipe(View v) {
         v.setOnTouchListener(new OnSwipeTouchListener(getActivity()) {
             @Override
             public void onSwipeLeft() {
@@ -96,11 +97,11 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
     }
 
     private void handleQuit() {
-        if (isTaskRunning(readTask)) {
-            readTask.cancel(true);
+        if (isTaskRunning(mReadTask)) {
+            mReadTask.cancel(true);
         }
-        if (isTaskRunning(loadTask)) {
-            loadTask.cancel(true);
+        if (isTaskRunning(mLoadMoreTask)) {
+            mLoadMoreTask.cancel(true);
         }
     }
 
@@ -109,8 +110,8 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
     }
 
     private void readArtists() {
-        readTask = new ReadArtists(getActivity());
-        readTask.execute();
+        mReadTask = new ReadArtists(getActivity());
+        mReadTask.execute();
     }
 
     @Override
@@ -120,19 +121,27 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
         getActivity().startActivity(intent);
     }
 
-    private void showProgress(final boolean show) {
-        mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
-        mProgressBar.animate().setDuration(ANIM_TIME).alpha(show ? 1 : 0).setListener(this);
+    private void showProgress(ProgressBar progressBar, final boolean show) {
+        progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+        progressBar.animate().setDuration(ANIM_TIME).alpha(show ? 1 : 0).setListener(this);
     }
 
     @Override
     public void onAnimationStart(Animator animation) {
-        mProgressBar.setVisibility(View.GONE);
+        if (atBottom) {
+            mLoadMoreProgress.setVisibility(View.GONE);
+        } else {
+            mReadProgress.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void onAnimationEnd(Animator animation) {
-        mProgressBar.setVisibility(View.VISIBLE);
+        if (atBottom) {
+            mLoadMoreProgress.setVisibility(View.VISIBLE);
+        } else {
+            mReadProgress.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -160,10 +169,13 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
         // if user is scrolling and list view is at bottom of screen, load more artists
         if (isScrolling) {
             if (firstVisibleItem + visibleItemCount >= totalItemCount) {
-                if (!isTaskRunning(loadTask)) {
-                    loadTask = new LoadMoreArtists();
-                    loadTask.execute();
+                atBottom = true;
+                if (!isTaskRunning(mLoadMoreTask)) {
+                    mLoadMoreTask = new LoadMoreArtists();
+                    mLoadMoreTask.execute();
                 }
+            } else {
+                atBottom = false;
             }
         }
 
@@ -180,7 +192,7 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
         @Override
         protected void onPreExecute() {
             Log.d(MainActivity.DEBUG_TAG, "onPreExecute: Read Artist thread started");
-            showProgress(true);
+            showProgress(mReadProgress, true);
         }
 
         @Override
@@ -198,12 +210,11 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
         protected void onPostExecute(List<IArtist> artists) {
 
             if (isAdded()) {
-                showProgress(false);
+                showProgress(mReadProgress, false);
                 if (!artists.isEmpty()) {
                     mGridView.setAdapter(new ArtistFragAdapter(mContext, artists));
                     mGridView.setOnItemClickListener(ArtistFragment.this);
                     mGridView.setOnScrollListener(ArtistFragment.this);
-                    setSwipe(mGridView);
                 }
             }
 
@@ -214,7 +225,7 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
         @Override
         protected void onCancelled() {
             Log.d(MainActivity.DEBUG_TAG, "onCancelled: Read Artists thread cancelled");
-            showProgress(false);
+            showProgress(mReadProgress, false);
         }
     }
 
@@ -223,14 +234,17 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
         @Override
         protected void onPreExecute() {
             Log.d(MainActivity.DEBUG_TAG, "onPreExecute: Load More Artist thread started");
+            showProgress(mLoadMoreProgress, true);
         }
 
         @Override
         protected List<IArtist> doInBackground(Void... params) {
+
             try {
                 artistList.addAll(UserWrapper.getInstance().loadMoreArtists());
+                Thread.sleep(750);
             } catch (IOException e) {
-                e.printStackTrace();
+            } catch (InterruptedException e) {
             }
 
             return artistList;
@@ -238,6 +252,7 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
 
         @Override
         protected void onPostExecute(List<IArtist> iArtists) {
+            showProgress(mLoadMoreProgress, false);
             ArrayAdapter mAdapter = (ArrayAdapter) mGridView.getAdapter();
             mAdapter.notifyDataSetChanged();
             Log.d(MainActivity.DEBUG_TAG, "onPostExecute: Load More Artists thread finished");
@@ -245,6 +260,7 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
 
         @Override
         protected void onCancelled() {
+            showProgress(mLoadMoreProgress, false);
             Log.d(MainActivity.DEBUG_TAG, "onCancelled: Load More Artist thread cancelled");
         }
     }

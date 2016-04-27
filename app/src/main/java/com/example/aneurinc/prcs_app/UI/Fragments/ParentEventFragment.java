@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 
@@ -33,15 +34,21 @@ import java.util.List;
 public class ParentEventFragment extends Fragment implements AdapterView.OnItemClickListener,
         AbsListView.OnScrollListener, Animator.AnimatorListener {
 
-    private List<IParentEvent> parentEventList = new ArrayList<>();
-    private ProgressBar mProgressBar;
-    private ReadParentEvents mTask;
+    private List<IParentEvent> mParentEvents = new ArrayList<>();
+    private ProgressBar mReadProgress, mLoadMoreProgress;
+    private ReadParentEvents mReadTask;
+    private LoadMoreParentEvents mLoadMoreTask;
     private static final int ANIM_TIME = 200;
     private MainActivity mMainActivity;
+    private GridView mGridView;
+    private boolean isScrolling, atBottom;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_event, container, false);
+        View view = inflater.inflate(R.layout.fragment_parent_event, container, false);
+
+        mGridView = (GridView) view.findViewById(R.id.event_grid_view);
+        setSwipe(mGridView);
 
         if (getActivity() instanceof MainActivity) {
             mMainActivity = (MainActivity) getActivity();
@@ -49,19 +56,20 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
 
         setSwipe(view);
 
-        mProgressBar = (ProgressBar) view.getRootView().findViewById(R.id.event_progress);
+        mReadProgress = (ProgressBar) view.getRootView().findViewById(R.id.read_progress);
+        mLoadMoreProgress = (ProgressBar) view.getRootView().findViewById(R.id.load_more_progress);
+
         getParentEvents();
         return view;
     }
 
     private void getParentEvents() {
-        mTask = new ReadParentEvents(getActivity());
-        mTask.execute();
+        mReadTask = new ReadParentEvents(getActivity());
+        mReadTask.execute();
     }
 
     private void setSwipe(View v) {
-        v.setOnTouchListener(new OnSwipeTouchListener(getActivity())
-        {
+        v.setOnTouchListener(new OnSwipeTouchListener(getActivity()) {
             @Override
             public void onSwipeLeft() {
                 mMainActivity.switchFragment(new ArtistFragment(), FragmentType.ARTIST);
@@ -73,24 +81,32 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         Intent i = new Intent(getActivity(), ParentEventActivity.class);
-        i.putExtra(ParentEventActivity.PARENT_EVENT_ID, parentEventList.get(position).getID());
+        i.putExtra(ParentEventActivity.PARENT_EVENT_ID, mParentEvents.get(position).getID());
         startActivity(i);
 
     }
 
-    private void showProgress(final boolean show) {
-        mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
-        mProgressBar.animate().setDuration(ANIM_TIME).alpha(show ? 1 : 0).setListener(this);
+    private void showProgress(ProgressBar progressBar, final boolean show) {
+        progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+        progressBar.animate().setDuration(ANIM_TIME).alpha(show ? 1 : 0).setListener(this);
     }
 
     @Override
     public void onAnimationStart(Animator animation) {
-        mProgressBar.setVisibility(View.GONE);
+        if (atBottom) {
+            mLoadMoreProgress.setVisibility(View.GONE);
+        } else {
+            mReadProgress.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void onAnimationEnd(Animator animation) {
-        mProgressBar.setVisibility(View.VISIBLE);
+        if (atBottom) {
+            mLoadMoreProgress.setVisibility(View.VISIBLE);
+        } else {
+            mReadProgress.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -122,24 +138,38 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
     }
 
     private void handleQuit() {
-        if (isTaskRunning()) {
-            mTask.cancel(true);
+        if (isTaskRunning(mReadTask)) {
+            mReadTask.cancel(true);
         }
     }
 
-    private boolean isTaskRunning() {
-        return mTask != null && mTask.getStatus() == AsyncTask.Status.RUNNING;
+    private boolean isTaskRunning(AsyncTask task) {
+        return task != null && task.getStatus() == AsyncTask.Status.RUNNING;
     }
 
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
+        if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+            isScrolling = true;
+        } else {
+            isScrolling = false;
+        }
     }
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-        if (firstVisibleItem + visibleItemCount >= totalItemCount) {
-            // TODO: 22/04/2016 add refresh
+        // if user is scrolling and list view is at bottom of screen, load more artists
+        if (isScrolling) {
+            if (firstVisibleItem + visibleItemCount >= totalItemCount) {
+                atBottom = true;
+                if (!isTaskRunning(mLoadMoreTask)) {
+                    mLoadMoreTask = new LoadMoreParentEvents();
+                    mLoadMoreTask.execute();
+                }
+            } else {
+                atBottom = true;
+            }
         }
     }
 
@@ -154,23 +184,19 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
         @Override
         protected void onPreExecute() {
             Log.d(MainActivity.DEBUG_TAG, "onPreExecute: Event Thread started");
-            showProgress(true);
+            showProgress(mReadProgress, true);
         }
 
         @Override
         protected List<IParentEvent> doInBackground(Void... params) {
 
             try {
-                if (parentEventList.isEmpty()) {
-                    parentEventList = UserWrapper.getInstance().getParentEvents();
-                } else {
-                    parentEventList.addAll(UserWrapper.getInstance().loadMoreParentEvents());
-                }
+                mParentEvents = UserWrapper.getInstance().getParentEvents();
             } catch (IOException e) {
                 //TODO handle exception
             }
 
-            return parentEventList;
+            return mParentEvents;
         }
 
 
@@ -178,14 +204,11 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
         protected void onPostExecute(List<IParentEvent> parentEvents) {
 
             if (mContext != null && isAdded()) {
-                showProgress(false);
-
+                showProgress(mReadProgress, false);
                 if (!parentEvents.isEmpty()) {
-                    GridView gridView = (GridView) mContext.findViewById(R.id.event_grid_view);
-                    gridView.setAdapter(new ParentEventFragAdapter(mContext, parentEvents));
-                    gridView.setOnItemClickListener(ParentEventFragment.this);
-                    gridView.setOnScrollListener(ParentEventFragment.this);
-                    setSwipe(gridView);
+                    mGridView.setAdapter(new ParentEventFragAdapter(mContext, parentEvents));
+                    mGridView.setOnItemClickListener(ParentEventFragment.this);
+                    mGridView.setOnScrollListener(ParentEventFragment.this);
                 }
             }
 
@@ -195,9 +218,44 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
         @Override
         protected void onCancelled() {
             Log.d(MainActivity.DEBUG_TAG, "onCancelled: Event Thread cancelled");
-            showProgress(false);
+            showProgress(mReadProgress, false);
         }
     }
 
+    private class LoadMoreParentEvents extends AsyncTask<Void, Void, List<IParentEvent>> {
 
+        @Override
+        protected void onPreExecute() {
+            Log.d(MainActivity.DEBUG_TAG, "onPreExecute: Load More Parent Events thread started");
+            showProgress(mLoadMoreProgress, true);
+        }
+
+        @Override
+        protected List<IParentEvent> doInBackground(Void... params) {
+
+            try {
+                mParentEvents.addAll(UserWrapper.getInstance().loadMoreParentEvents());
+                Thread.sleep(750);
+            } catch (IOException e) {
+            } catch (InterruptedException e) {
+            }
+
+            return mParentEvents;
+        }
+
+        @Override
+        protected void onPostExecute(List<IParentEvent> iParentEvents) {
+            showProgress(mLoadMoreProgress, false);
+            ArrayAdapter mAdapter = (ArrayAdapter) mGridView.getAdapter();
+            mAdapter.notifyDataSetChanged();
+            Log.d(MainActivity.DEBUG_TAG, "onPostExecute: Load More Parent Events thread " +
+                    "finished");
+        }
+
+        @Override
+        protected void onCancelled() {
+            Log.d(MainActivity.DEBUG_TAG, "onCancelled: Load More Parent Events thread cancelled");
+            showProgress(mLoadMoreProgress, false);
+        }
+    }
 }

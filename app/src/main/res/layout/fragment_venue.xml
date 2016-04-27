@@ -8,7 +8,7 @@
                 tools:context=".UI.activities.MainActivity">
 
     <ProgressBar
-        android:id="@+id/venue_progress"
+        android:id="@+id/read_progress"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,5 +27,15 @@
         android:fadeScrollbars="false"
         android:focusable="false"
         android:focusableInTouchMode="false"/>
+
+    <ProgressBar
+        android:id="@+id/load_more_progress"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"/>
 
 </RelativeLayout>
