@@ -136,7 +136,7 @@ final class MapToObject {
 
     public static IReview ConvertVenueReview(Map<String, String> reviewMap, DatabaseTable table) {
 
-        IReviewFactory factory = new ParentEventReviewFactory();
+        IReviewFactory factory;
         if (table == DatabaseTable.VENUE)
             factory = new VenueReviewFactory();
         else if (table == DatabaseTable.ARTIST)
