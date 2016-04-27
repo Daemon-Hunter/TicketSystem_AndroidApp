@@ -59,15 +59,27 @@ public final class APIHandle {
         Map<String, String> objMap = APIConnection.readSingle(id, table);
         switch (table){
             case ADMIN: return MapToObject.ConvertAdmin(objMap);
-            case ARTIST: return MapToObject.ConvertArtist(objMap);
             case BOOKING: return MapToObject.ConvertCustomerBooking(objMap);
             case CUSTOMER: return MapToObject.ConvertCustomer(objMap);
             case GUEST_BOOKING: return MapToObject.ConvertGuestBooking(objMap);
             case ORDER: return MapToObject.ConvertOrder(objMap);
-            case PARENT_EVENT: return MapToObject.ConvertParentEvent(objMap);
             case SOCIAL_MEDIA: return MapToObject.ConvertSocialMedia(objMap);
             case TICKET: return MapToObject.ConvertTicket(objMap);
-            case VENUE: return MapToObject.ConvertVenue(objMap);
+            case PARENT_EVENT:
+                IParentEvent parentEvent;
+                parentEvent = ConvertParentEvent(objMap);
+                parentEvent.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(parentEvent.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
+                return parentEvent;
+            case VENUE:
+                IVenue venue;
+                venue = ConvertVenue(objMap);
+                venue.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(venue.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
+                return venue;
+            case ARTIST:
+                IArtist artist = ConvertArtist(objMap);
+                artist.setType(ConvertArtistType(APIConnection.readSingle(artist.getTypeID(), DatabaseTable.ARTIST_TYPE)));
+                artist.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(artist.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
+                return artist;
             default: throw new IllegalArgumentException("These tables are not supported");
         }
     }
