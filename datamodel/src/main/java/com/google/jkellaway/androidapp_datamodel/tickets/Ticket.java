@@ -14,6 +14,7 @@ import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
 import com.google.jkellaway.androidapp_datamodel.utilities.observer.IDbSubject;
 import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -121,7 +122,7 @@ public class Ticket implements ITicket, IDbSubject {
     }
 
     @Override
-    public IChildEvent getEvent() {
+    public IChildEvent getEvent() throws IOException {
         childEvent = (IChildEvent)APIHandle.getSingle(this.childEventID, DatabaseTable.CHILD_EVENT);
         return childEvent;
     }

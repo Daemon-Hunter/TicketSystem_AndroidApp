@@ -8,6 +8,8 @@ package com.google.jkellaway.androidapp_datamodel.tickets;
 import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
 import com.google.jkellaway.androidapp_datamodel.utilities.observer.IDbSubject;
 
+import java.io.IOException;
+
 /**
  *
  * @author 10512691
@@ -16,7 +18,7 @@ public interface ITicket extends IDbSubject {
     
     public Integer getID();
     
-    public IChildEvent getEvent();
+    public IChildEvent getEvent() throws IOException;
     public Boolean    setEvent(IChildEvent event);
     
     public Double getPrice();

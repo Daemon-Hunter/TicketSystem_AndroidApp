@@ -19,7 +19,7 @@ public interface IOrder extends IDbSubject {
     
     
     public Integer getOrderID();
-    public IUser getUser();
+    public IUser getUser() throws IOException;
     public List<IBooking> getBookingList() throws IOException;
     public IBooking getBooking(Integer bookingID);
 }

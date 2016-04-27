@@ -31,11 +31,11 @@ public interface IChildEvent extends IDbSubject, ISocial {
     Boolean setCancelled(Boolean cancelled);
     
     Boolean setVenue(IVenue venue);
-    IVenue  getVenue();
+    IVenue  getVenue() throws IOException;
     
     List<IArtist> getArtistList() throws IOException;
 
-    IParentEvent getParentEvent();
+    IParentEvent getParentEvent() throws IOException;
 
     void setVenueID(Integer venue);
 
