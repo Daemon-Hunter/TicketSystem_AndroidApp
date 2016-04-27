@@ -7,6 +7,7 @@
 
 package com.google.jkellaway.androidapp_datamodel.tickets;
 
+import com.google.jkellaway.androidapp_datamodel.bookings.IBooking;
 import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.events.ChildEvent;
@@ -14,6 +15,7 @@ import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
 import com.google.jkellaway.androidapp_datamodel.utilities.observer.IDbSubject;
 import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -34,6 +36,7 @@ public class Ticket implements ITicket, IDbSubject {
     private String          type;
     private List<IObserver> observers;
     private Integer         childEventID;
+    private List<IBooking>  bookings;
     private DatabaseTable   table;
 
     /**
@@ -121,8 +124,8 @@ public class Ticket implements ITicket, IDbSubject {
     }
 
     @Override
-    public IChildEvent getEvent() {
-        childEvent = (IChildEvent)APIHandle.getSingle(this.childEventID, DatabaseTable.CHILD_EVENT);
+    public IChildEvent getEvent() throws IOException {
+        childEvent = (IChildEvent) APIHandle.getSingle(this.childEventID, DatabaseTable.CHILD_EVENT);
         return childEvent;
     }
 
@@ -194,6 +197,26 @@ public class Ticket implements ITicket, IDbSubject {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public List<IBooking> getBookings() throws IOException {
+        bookings = (List<IBooking>)(Object) APIHandle.getObjectsFromObject(this.ticketID, DatabaseTable.BOOKING, DatabaseTable.TICKET);
+        return bookings;
+    }
+
+    @Override
+    public Boolean addBooking(IBooking booking) {
+        if (booking == null)
+            throw new IllegalArgumentException("Cannot add a null booking");
+        return bookings.add(booking);
+    }
+
+    @Override
+    public Boolean removeBooking(IBooking booking) {
+        if (booking == null)
+            throw new IllegalArgumentException("Cannot remove a null booking");
+        return bookings.remove(booking);
     }
 
 }

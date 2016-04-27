@@ -5,11 +5,13 @@
  */
 package com.google.jkellaway.androidapp_datamodel.bookings;
 
+import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
 import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
 import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.LinkedList;
 
@@ -69,12 +71,10 @@ public abstract class Booking implements IBooking {
     }
     
     @Override
-    public ITicket getTicket() {
-        if (ticket == null) {
-            throw new NullPointerException("Null ticket");
-        } else {
-            return ticket;
-        }
+    public ITicket getTicket() throws IOException {
+        if (ticket == null)
+            ticket = (ITicket) APIHandle.getSingle(this.ticketID, DatabaseTable.TICKET);
+        return ticket;
     }
     @Override
     public Boolean setTicket(ITicket ticket) {
@@ -82,6 +82,7 @@ public abstract class Booking implements IBooking {
             throw new NullPointerException("Null ticket");
         } else {
             this.ticket = ticket;
+            this.ticketID = ticket.getID();
             return true;
         }
     }

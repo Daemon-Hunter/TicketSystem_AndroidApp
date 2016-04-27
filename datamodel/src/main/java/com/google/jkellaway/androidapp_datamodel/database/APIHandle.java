@@ -49,14 +49,13 @@ public final class APIHandle {
 
     public static IUser isPasswordTrue(String email, String password) throws IOException, IllegalArgumentException {
         Map<String, String> customer = APIConnection.comparePassword(email, Encrypt(password)).get(0);
-        if (customer != null)
+        if (Integer.parseInt(customer.get("CUSTOMER_ID").toString()) != -1)
             return ConvertCustomer(customer);
         else
-        Log.e("ERROR","CANNOT LOG IN");
             throw new IllegalArgumentException("Email or password is wrong");
     }
 
-    public static Object getSingle(int id, DatabaseTable table){
+    public static Object getSingle(int id, DatabaseTable table) throws IOException{
         Map<String, String> objMap = APIConnection.readSingle(id, table);
         switch (table){
             case ADMIN: MapToObject.ConvertAdmin(objMap);break;
@@ -104,11 +103,20 @@ public final class APIHandle {
                 @Override
                 public Object call() throws Exception {
                     switch (table){
-                        case PARENT_EVENT: return ConvertParentEvent(objectMap);
-                        case VENUE: return ConvertVenue(objectMap);
+                        case PARENT_EVENT:
+                            IParentEvent parentEvent;
+                            parentEvent = ConvertParentEvent(objectMap);
+                            parentEvent.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(parentEvent.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
+                            return parentEvent;
+                        case VENUE:
+                            IVenue venue;
+                            venue = ConvertVenue(objectMap);
+                            venue.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(venue.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
+                            return venue;
                         case ARTIST:
                             IArtist artist = ConvertArtist(objectMap);
                             artist.setType(ConvertArtistType(APIConnection.readSingle(artist.getTypeID(), DatabaseTable.ARTIST_TYPE)));
+                            artist.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(artist.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
                             return artist;
                         default: throw new IllegalArgumentException();
                     }
@@ -150,6 +158,7 @@ public final class APIHandle {
                             IArtist artist;
                             artist = ConvertArtist(objectMap);
                             artist.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(artist.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
+                            artist.setType(ConvertArtistType(APIConnection.readSingle(artist.getTypeID(), DatabaseTable.ARTIST_TYPE)));
                             return artist;
                         case PARENT_EVENT:
                             IParentEvent parentEvent;

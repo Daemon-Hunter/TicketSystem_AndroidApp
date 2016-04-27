@@ -84,7 +84,7 @@ final class MapToObject {
     }
 
     public static String ConvertArtistType(Map<String, String> artistTypeMap) {
-        return artistTypeMap.get("ARTIST_TYPE");
+        return artistTypeMap.get("ARTIST_TYPE1");
     }
 
     public static SocialMedia ConvertSocialMedia(Map<String, String> socialMap) {

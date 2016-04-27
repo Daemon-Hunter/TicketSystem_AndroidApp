@@ -182,7 +182,7 @@ public class ChildEvent implements IChildEvent {
     }
 
     @Override
-    public IParentEvent getParentEvent() {
+    public IParentEvent getParentEvent() throws IOException {
         if (this.parentEvent == null){
             parentEvent = (IParentEvent) APIHandle.getSingle(parentEventID, DatabaseTable.PARENT_EVENT);
         }
@@ -266,7 +266,7 @@ public class ChildEvent implements IChildEvent {
     }
 
     @Override
-    public IVenue getVenue() {
+    public IVenue getVenue() throws IOException {
         if (venue == null) {
             venue = (IVenue) APIHandle.getSingle(this.venueID, DatabaseTable.VENUE);
         }

@@ -257,18 +257,10 @@ public class LoginActivity extends AppCompatActivity implements OnEditorActionLi
                 Log.e("IO Exception", "doInBackground:  " + "");
                 return false;
             } catch (IllegalArgumentException ex) {
-                Toast.makeText(mContext, "Password Incorrect", Toast.LENGTH_LONG);
                 return false;
             }
             return true;
         }
-
-            //TODO handle IOException
-
-
-
-
-
 
         @Override
         protected void onPostExecute(final Boolean success) {
