@@ -43,7 +43,6 @@ public class Customer extends User implements IHaveReviews, ICustomer {
 
         super(ID, firstName, lastName, email, address, postcode);
         this.table = DatabaseTable.CUSTOMER;
-        this.orders = new LinkedList<>();
     }
     
     /**
