@@ -5,6 +5,7 @@
  */
 package com.google.jkellaway.androidapp_datamodel.people;
 
+import com.google.jkellaway.androidapp_datamodel.bookings.IBooking;
 import com.google.jkellaway.androidapp_datamodel.bookings.IOrder;
 
 import java.io.IOException;
@@ -15,10 +16,12 @@ import java.util.List;
  * @author 10467841
  */
 public interface ICustomer {
-    public List<IOrder> getOrderList() throws IOException;
-    public IOrder getOrder(int orderID);
-    public Boolean addOrder(IOrder order);
-    public Boolean addOrderList(List<IOrder> orderList);
-    public Boolean removeOrder(IOrder order);
+    List<IOrder> getOrderList() throws IOException;
+    IOrder getOrder(int orderID);
+    Boolean addOrder(IOrder order);
+    Boolean addOrderList(List<IOrder> orderList);
+    Boolean removeOrder(IOrder order);
+
+    List<IBooking> getBookings() throws IOException;
     
 }

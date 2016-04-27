@@ -5,6 +5,11 @@
  */
 package com.google.jkellaway.androidapp_datamodel.people;
 
+import com.google.jkellaway.androidapp_datamodel.bookings.IBooking;
+
+import java.io.IOException;
+import java.util.List;
+
 /**
  *
  * @author 10512691

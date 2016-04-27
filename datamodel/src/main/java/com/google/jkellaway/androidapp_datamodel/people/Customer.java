@@ -5,6 +5,7 @@
  */
 package com.google.jkellaway.androidapp_datamodel.people;
 
+import com.google.jkellaway.androidapp_datamodel.bookings.IBooking;
 import com.google.jkellaway.androidapp_datamodel.bookings.IOrder;
 import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
@@ -177,5 +178,15 @@ public class Customer extends User implements IHaveReviews, ICustomer {
         } else {
         return orders.remove(order);
         }
+    }
+
+    @Override
+    public List<IBooking> getBookings() throws IOException {
+        List<IBooking> bookings = new LinkedList<>();
+        getOrderList();
+        for (IOrder order : orders){
+            bookings.addAll(order.getBookingList());
+        }
+        return bookings;
     }
 }
