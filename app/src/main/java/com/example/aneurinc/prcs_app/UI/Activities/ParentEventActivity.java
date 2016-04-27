@@ -29,7 +29,8 @@ import java.util.List;
 public class ParentEventActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     public static String PARENT_EVENT_ID;
-    private IParentEvent parentEvent;
+    private IParentEvent mParentEvent;
+    private List<IChildEvent> mChildEvents;
     private Activity mContext = this;
 
     @Override
@@ -65,10 +66,10 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
         int height = ImageUtils.getScreenHeight(this) / 4;
         int width = ImageUtils.getScreenHeight(this) / 4;
 
-        Bitmap scaledImage = ImageUtils.scaleDown(parentEvent.getImage(0), width, height);
+        Bitmap scaledImage = ImageUtils.scaleDown(mParentEvent.getImage(0), width, height);
         image.setImageBitmap(scaledImage);
-        name.setText(parentEvent.getName());
-        desc.setText(parentEvent.getDescription());
+        name.setText(mParentEvent.getName());
+        desc.setText(mParentEvent.getDescription());
 
     }
 
@@ -102,7 +103,7 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         Intent i = new Intent(this, ChildEventActivity.class);
-        i.putExtra(ChildEventActivity.CHILD_EVENT_ID, parentEvent.getChildEvent(position).getID());
+        i.putExtra(ChildEventActivity.CHILD_EVENT_ID, mParentEvent.getChildEvent(position).getID());
         startActivity(i);
 
     }
@@ -116,25 +117,23 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
 
         @Override
         protected IParentEvent doInBackground(Void... params) {
-            parentEvent = UserWrapper.getInstance().getParentEvent(getIntent().getExtras().getInt(PARENT_EVENT_ID));
-            return parentEvent;
+            mParentEvent = UserWrapper.getInstance().getParentEvent(getIntent().getExtras().getInt(PARENT_EVENT_ID));
+
+            try {
+                mChildEvents = mParentEvent.getChildEvents();
+            } catch (IOException e) {
+            }
+
+            return mParentEvent;
         }
 
         @Override
         protected void onPostExecute(IParentEvent parentEvent) {
 
-            List<IChildEvent> mChildEvents = null;
-
-            try {
-                mChildEvents = parentEvent.getChildEvents();
-            } catch (IOException e) {
-                // TODO: 27/04/2016 handle exception 
-            }
-
             if (mChildEvents.isEmpty()) {
-                TextView noChildEventsMessage = (TextView) mContext.findViewById(R.id
+                TextView noChildEventsMessage = (TextView) findViewById(R.id
                         .no_child_events_message);
-                ImageView noChildEventsImage = (ImageView) mContext.findViewById(R.id
+                ImageView noChildEventsImage = (ImageView) findViewById(R.id
                         .no_upcoming_events_image);
                 noChildEventsMessage.setVisibility(View.VISIBLE);
                 noChildEventsImage.setVisibility(View.VISIBLE);
