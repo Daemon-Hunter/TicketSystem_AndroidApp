@@ -216,7 +216,9 @@ public final class APIHandle {
                 public Object call() throws Exception {
                     switch (objectsToGet){
                         case CHILD_EVENT:
-                            return ConvertChildEvent(objectMap, parentID);
+                            IChildEvent childEvent = ConvertChildEvent(objectMap, parentID);
+                            childEvent.getParentEvent();
+                            return childEvent;
                         case ARTIST:
                             IArtist artist = ConvertArtist(objectMap);
                             artist.setSocialMedia(ConvertSocialMedia(APIConnection.readSingle(artist.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
