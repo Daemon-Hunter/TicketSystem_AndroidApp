@@ -35,6 +35,7 @@ import com.google.jkellaway.androidapp_datamodel.reviews.VenueReviewFactory;
 import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
 import com.google.jkellaway.androidapp_datamodel.tickets.Ticket;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -229,7 +230,7 @@ final class MapToObject {
         return new Ticket(ticketID, childEventID, price, desc, remaining, type);
     }
 
-    public static IChildEvent ConvertChildEvent(Map<String, String> eventMap, Integer parentEventID) {
+    public static IChildEvent ConvertChildEvent(Map<String, String> eventMap, Integer parentEventID) throws IOException {
 
         Integer eventID, venueID;
         String description, name;

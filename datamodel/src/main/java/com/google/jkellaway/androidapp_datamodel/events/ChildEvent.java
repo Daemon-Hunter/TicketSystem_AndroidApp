@@ -31,7 +31,6 @@ public class ChildEvent implements IChildEvent {
     private List<ITicket> tickets;
     private IVenue venue;
     private Integer venueID;
-    private SocialMedia socialMedia;
     
     private Integer childEventID;
     private String childEventName, childEventDescription;
@@ -51,15 +50,16 @@ public class ChildEvent implements IChildEvent {
      * @param endTime
      * @param cancelled
      */
-    public ChildEvent(Integer ID, String name, String description, Date startTime, Date endTime, Boolean cancelled, Integer parentEventID) {
-        childEventID = ID;
-        childEventName = name;
-        childEventDescription = description;
-        startDateTime = startTime;
-        endDateTime = endTime;
+    public ChildEvent(Integer ID, String name, String description, Date startTime, Date endTime, Boolean cancelled, Integer parentEventID) throws IOException {
+        this.childEventID = ID;
+        this.childEventName = name;
+        this.childEventDescription = description;
+        this.startDateTime = startTime;
+        this.endDateTime = endTime;
         this.cancelled = cancelled;
-        table = DatabaseTable.CHILD_EVENT;
+        this.table = DatabaseTable.CHILD_EVENT;
         this.parentEventID = parentEventID;
+        this.venue = (IVenue) APIHandle.getSingle(this.venueID, DatabaseTable.VENUE);
     }
     
     public ChildEvent(String name, String description, Date startTime, Date endTime, IVenue venue, List<IArtist> artists, IParentEvent parentEvent) {
@@ -199,7 +199,7 @@ public class ChildEvent implements IChildEvent {
         if (socialMedia == null){
             throw new IllegalArgumentException("SocialMedia cannot be null");
         }
-        this.socialMedia = socialMedia;
+        this.parentEvent.setSocialMedia(socialMedia);
     }
 
     @Override
@@ -267,9 +267,6 @@ public class ChildEvent implements IChildEvent {
 
     @Override
     public IVenue getVenue() throws IOException {
-        if (venue == null) {
-            venue = (IVenue) APIHandle.getSingle(this.venueID, DatabaseTable.VENUE);
-        }
         return venue;
     }
 
