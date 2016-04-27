@@ -22,6 +22,7 @@ import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
 import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -139,7 +140,7 @@ public class TicketFragment extends Fragment implements Animator.AnimatorListene
                 List<IOrder> orders = customer.getOrderList();
 
                 Log.d(MainActivity.DEBUG_TAG, "doInBackground: orders size = " + orders.size());
-
+                mTickets = new LinkedList<>();
                 mTickets.add(orders.get(0).getBookingList().get(0).getTicket());
 
             } catch (IOException e) {

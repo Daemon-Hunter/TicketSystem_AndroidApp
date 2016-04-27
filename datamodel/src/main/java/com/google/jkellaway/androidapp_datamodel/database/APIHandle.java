@@ -58,19 +58,18 @@ public final class APIHandle {
     public static Object getSingle(int id, DatabaseTable table) throws IOException{
         Map<String, String> objMap = APIConnection.readSingle(id, table);
         switch (table){
-            case ADMIN: MapToObject.ConvertAdmin(objMap);break;
-            case ARTIST: MapToObject.ConvertArtist(objMap);break;
-            case BOOKING: MapToObject.ConvertCustomerBooking(objMap);break;
-            case CUSTOMER: MapToObject.ConvertCustomer(objMap);break;
-            case GUEST_BOOKING: MapToObject.ConvertGuestBooking(objMap);break;
-            case ORDER: MapToObject.ConvertOrder(objMap);break;
-            case PARENT_EVENT: MapToObject.ConvertParentEvent(objMap);break;
-            case SOCIAL_MEDIA: MapToObject.ConvertSocialMedia(objMap);break;
-            case TICKET: MapToObject.ConvertTicket(objMap);break;
-            case VENUE: MapToObject.ConvertVenue(objMap);break;
+            case ADMIN: return MapToObject.ConvertAdmin(objMap);
+            case ARTIST: return MapToObject.ConvertArtist(objMap);
+            case BOOKING: return MapToObject.ConvertCustomerBooking(objMap);
+            case CUSTOMER: return MapToObject.ConvertCustomer(objMap);
+            case GUEST_BOOKING: return MapToObject.ConvertGuestBooking(objMap);
+            case ORDER: return MapToObject.ConvertOrder(objMap);
+            case PARENT_EVENT: return MapToObject.ConvertParentEvent(objMap);
+            case SOCIAL_MEDIA: return MapToObject.ConvertSocialMedia(objMap);
+            case TICKET: return MapToObject.ConvertTicket(objMap);
+            case VENUE: return MapToObject.ConvertVenue(objMap);
             default: throw new IllegalArgumentException("These tables are not supported");
         }
-        return MapToObject.ConvertArtist(APIConnection.readSingle(id, table));
     }
 
     public static int registerUser(IUser newUser, String password) throws IOException {
