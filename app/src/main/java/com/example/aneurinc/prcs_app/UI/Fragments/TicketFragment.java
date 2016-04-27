@@ -144,6 +144,8 @@ public class TicketFragment extends Fragment implements Animator.AnimatorListene
                     setSwipe(list);
                 }
             }
+
+            Log.d(MainActivity.DEBUG_TAG, "onPostExecute: Ticket thread finished");
         }
 
         @Override

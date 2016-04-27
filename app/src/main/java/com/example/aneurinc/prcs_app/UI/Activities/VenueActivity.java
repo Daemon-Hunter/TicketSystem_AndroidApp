@@ -162,6 +162,7 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener 
             try {
                 mChildEvents = mVenue.getChildEvents();
             } catch (IOException e) {
+                // TODO: 26/04/2016 handle IOException 
                 Log.d(MainActivity.DEBUG_TAG, "doInBackground: IOException");
             }
             return mChildEvents;
@@ -170,8 +171,7 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener 
         @Override
         protected void onPostExecute(List<IChildEvent> childEvents) {
 
-            // TODO: 25/04/2016 fix null pointer - childEvents 
-            if (true) {
+            if (childEvents.isEmpty()) {
                 ImageView noEventsImage = (ImageView) findViewById(R.id.no_upcoming_events_image);
                 TextView noEventsMessage = (TextView) findViewById(R.id.upcoming_uk_events_message);
                 LinearLayout eventsMessageContainer = (LinearLayout) findViewById(R.id

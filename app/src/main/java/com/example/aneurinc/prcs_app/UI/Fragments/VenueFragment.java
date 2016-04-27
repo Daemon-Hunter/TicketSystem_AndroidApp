@@ -168,6 +168,8 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
                     setSwipe(list);
                 }
             }
+
+            Log.d(MainActivity.DEBUG_TAG, "onPostExecute: Venue thread finished");
         }
 
         @Override

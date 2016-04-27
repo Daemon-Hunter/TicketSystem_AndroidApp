@@ -188,6 +188,8 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
                     setSwipe(gridView);
                 }
             }
+
+            Log.d(MainActivity.DEBUG_TAG, "onPostExecute: ParentEvent thread finished");
         }
 
         @Override

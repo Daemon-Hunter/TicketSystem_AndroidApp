@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 
@@ -34,14 +35,19 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
 
     private List<IArtist> artistList;
     private ProgressBar mProgressBar;
-    private ReadArtists mTask;
+    private ReadArtists readTask;
+    private LoadMoreArtists loadTask;
     private static final int ANIM_TIME = 200;
     private MainActivity mMainActivity;
+    private GridView mGridView;
+    private boolean isScrolling;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_artist, container, false);
+
+        mGridView = (GridView) view.findViewById(R.id.artist_grid_view);
 
         if (getActivity() instanceof MainActivity) {
             mMainActivity = (MainActivity) getActivity();
@@ -50,6 +56,7 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
         mProgressBar = (ProgressBar) view.getRootView().findViewById(R.id.artist_progress);
 
         readArtists();
+
 
         setSwipe(view);
 
@@ -89,18 +96,21 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
     }
 
     private void handleQuit() {
-        if (isTaskRunning()) {
-            mTask.cancel(true);
+        if (isTaskRunning(readTask)) {
+            readTask.cancel(true);
+        }
+        if (isTaskRunning(loadTask)) {
+            loadTask.cancel(true);
         }
     }
 
-    private boolean isTaskRunning() {
-        return mTask != null && mTask.getStatus() == AsyncTask.Status.RUNNING;
+    private boolean isTaskRunning(AsyncTask task) {
+        return task != null && task.getStatus() == AsyncTask.Status.RUNNING;
     }
 
     private void readArtists() {
-        mTask = new ReadArtists(getActivity());
-        mTask.execute();
+        readTask = new ReadArtists(getActivity());
+        readTask.execute();
     }
 
     @Override
@@ -137,13 +147,24 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
 
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
+        if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+            isScrolling = true;
+        } else {
+            isScrolling = false;
+        }
     }
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-        if (firstVisibleItem + visibleItemCount >= totalItemCount) {
-            //// TODO: 22/04/2016 add refresh
+        // if user is scrolling and list view is at bottom of screen, load more artists
+        if (isScrolling) {
+            if (firstVisibleItem + visibleItemCount >= totalItemCount) {
+                if (!isTaskRunning(loadTask)) {
+                    loadTask = new LoadMoreArtists();
+                    loadTask.execute();
+                }
+            }
         }
 
     }
@@ -158,16 +179,17 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
 
         @Override
         protected void onPreExecute() {
-            Log.d(MainActivity.DEBUG_TAG, "onPreExecute: Artist Thread started");
+            Log.d(MainActivity.DEBUG_TAG, "onPreExecute: Read Artist thread started");
             showProgress(true);
         }
 
         @Override
         protected List<IArtist> doInBackground(Void... voids) {
+
             try {
                 artistList = UserWrapper.getInstance().getArtists();
             } catch (IOException e) {
-                //TODO handle exception
+                // TODO: 26/04/2016 handle exception
             }
             return artistList;
         }
@@ -175,24 +197,55 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
         @Override
         protected void onPostExecute(List<IArtist> artists) {
 
-            if (mContext != null && isAdded()) {
+            if (isAdded()) {
                 showProgress(false);
-                if (artists != null && !artists.isEmpty()) {
-                    GridView gridView = (GridView) mContext.findViewById(R.id.artist_grid_view);
-                    gridView.setAdapter(new ArtistFragAdapter(mContext, artists));
-                    gridView.setOnItemClickListener(ArtistFragment.this);
-                    gridView.setOnScrollListener(ArtistFragment.this);
-                    setSwipe(gridView);
+                if (!artists.isEmpty()) {
+                    mGridView.setAdapter(new ArtistFragAdapter(mContext, artists));
+                    mGridView.setOnItemClickListener(ArtistFragment.this);
+                    mGridView.setOnScrollListener(ArtistFragment.this);
+                    setSwipe(mGridView);
                 }
             }
+
+            Log.d(MainActivity.DEBUG_TAG, "onPostExecute: Read Artists thread finished");
+
         }
 
         @Override
         protected void onCancelled() {
-            Log.d(MainActivity.DEBUG_TAG, "onCancelled: Artist Thread cancelled");
+            Log.d(MainActivity.DEBUG_TAG, "onCancelled: Read Artists thread cancelled");
             showProgress(false);
         }
     }
 
+    private class LoadMoreArtists extends AsyncTask<Void, Void, List<IArtist>> {
 
+        @Override
+        protected void onPreExecute() {
+            Log.d(MainActivity.DEBUG_TAG, "onPreExecute: Load More Artist thread started");
+        }
+
+        @Override
+        protected List<IArtist> doInBackground(Void... params) {
+            try {
+                artistList.addAll(UserWrapper.getInstance().loadMoreArtists());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return artistList;
+        }
+
+        @Override
+        protected void onPostExecute(List<IArtist> iArtists) {
+            ArrayAdapter mAdapter = (ArrayAdapter) mGridView.getAdapter();
+            mAdapter.notifyDataSetChanged();
+            Log.d(MainActivity.DEBUG_TAG, "onPostExecute: Load More Artists thread finished");
+        }
+
+        @Override
+        protected void onCancelled() {
+            Log.d(MainActivity.DEBUG_TAG, "onCancelled: Load More Artist thread cancelled");
+        }
+    }
 }
