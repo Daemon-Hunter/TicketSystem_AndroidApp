@@ -16,9 +16,12 @@ import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.activities.MainActivity;
 import com.example.aneurinc.prcs_app.UI.custom_adapters.TicketFragAdapter;
 import com.example.aneurinc.prcs_app.UI.custom_listeners.OnSwipeTouchListener;
+import com.google.jkellaway.androidapp_datamodel.bookings.IOrder;
+import com.google.jkellaway.androidapp_datamodel.people.ICustomer;
 import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
+import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
-import java.util.LinkedList;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -28,6 +31,7 @@ public class TicketFragment extends Fragment implements Animator.AnimatorListene
 
     private ProgressBar mProgressBar;
     private ReadTickets mTask;
+    private List<ITicket> mTickets;
     private static final int ANIM_TIME = 200;
     private MainActivity mMainActivity;
 
@@ -130,7 +134,19 @@ public class TicketFragment extends Fragment implements Animator.AnimatorListene
 
         @Override
         protected List<ITicket> doInBackground(Void... params) {
-            return new LinkedList<>();
+            try {
+                ICustomer customer = (ICustomer) UserWrapper.getInstance().getUser();
+                List<IOrder> orders = customer.getOrderList();
+
+                Log.d(MainActivity.DEBUG_TAG, "doInBackground: orders size = " + orders.size());
+
+                mTickets.add(orders.get(0).getBookingList().get(0).getTicket());
+
+            } catch (IOException e) {
+
+            }
+
+            return mTickets;
         }
 
         @Override

@@ -1,9 +1,9 @@
 package com.example.aneurinc.prcs_app.UI.activities;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
 import com.example.aneurinc.prcs_app.R;
 
@@ -22,7 +22,7 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             public void run() {
 
-                SplashActivity.this.startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                SplashActivity.this.startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                 SplashActivity.this.finish();
 
                 // Transition from SplashActivity to MainActivity
