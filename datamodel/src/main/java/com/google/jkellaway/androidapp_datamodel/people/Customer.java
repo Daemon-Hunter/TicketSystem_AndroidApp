@@ -6,11 +6,13 @@
 package com.google.jkellaway.androidapp_datamodel.people;
 
 import com.google.jkellaway.androidapp_datamodel.bookings.IOrder;
+import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.reviews.IHaveReviews;
 import com.google.jkellaway.androidapp_datamodel.reviews.IReview;
 import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -139,12 +141,11 @@ public class Customer extends User implements IHaveReviews, ICustomer {
     }
 
     @Override
-    public List<IOrder> getOrderList() {
+    public List<IOrder> getOrderList() throws IOException {
         if (orders == null){
-            throw new NullPointerException("No orders in list");
-        } else {
-            return new LinkedList(orders);
+            orders = (List<IOrder>) (Object)APIHandle.getObjectsFromObject(this.ID, DatabaseTable.ORDER, DatabaseTable.CUSTOMER);
         }
+        return new LinkedList(orders);
     }
 
     @Override

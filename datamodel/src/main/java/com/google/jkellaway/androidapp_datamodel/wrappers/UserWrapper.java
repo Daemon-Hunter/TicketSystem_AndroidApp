@@ -231,7 +231,7 @@ public class UserWrapper implements IUserWrapper {
 
     @Override
     public IParentEvent getParentEventSearch(Integer id) {
-        for (IParentEvent parentEvent : parentEventList){
+        for (IParentEvent parentEvent : parentEventSearchList){
             if(parentEvent.getID().equals(id))
                 return parentEvent;
         }
@@ -249,7 +249,7 @@ public class UserWrapper implements IUserWrapper {
 
     @Override
     public IVenue getVenueSearch(Integer id) {
-        for (IVenue venue : venueList){
+        for (IVenue venue : venueSearchList){
             if(venue.getID().equals(id))
                 return venue;
         }
