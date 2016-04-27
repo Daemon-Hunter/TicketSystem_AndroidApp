@@ -22,8 +22,6 @@ import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
 import com.google.jkellaway.androidapp_datamodel.events.ChildEvent;
 import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
 
-import java.io.IOException;
-
 public class ChildEventActivity extends AppCompatActivity implements OnClickListener {
 
     public static String CHILD_EVENT_ID;
@@ -143,17 +141,15 @@ public class ChildEventActivity extends AppCompatActivity implements OnClickList
             name.setText(childEvent.getName());
             date.setText(childEvent.getStartDateTime() + " - "
                     + childEvent.getEndDateTime());
-            try {
-                address.setText((CharSequence) childEvent.getVenue());
-            } catch (IOException e) {
-                e.printStackTrace();
-                // TODO handle IOException
-            }
+
+            address.setText(childEvent.getVenue().getAddress());
+
             desc.setText(childEvent.getDescription());
 
             int width = ImageUtils.getScreenWidth(mContext) / 4;
             int height = ImageUtils.getScreenHeight(mContext) / 4;
             Bitmap scaledImage = ImageUtils.scaleDown(childEvent.getImage(0), width, height);
+
             image.setImageBitmap(scaledImage);
 
         }

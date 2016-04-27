@@ -31,7 +31,7 @@ public interface IChildEvent extends IDbSubject, ISocial {
     Boolean setCancelled(Boolean cancelled);
     
     Boolean setVenue(IVenue venue);
-    IVenue  getVenue() throws IOException;
+    IVenue  getVenue();
     
     List<IArtist> getArtistList() throws IOException;
 

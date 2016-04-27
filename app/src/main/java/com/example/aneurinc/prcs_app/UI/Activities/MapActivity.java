@@ -174,6 +174,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         int xy = ImageUtils.getScreenWidth(this) / 4 + 30;
         Bitmap scaledImage = ImageUtils.scaleDown(mVenue.getImage(0), xy, xy);
+
         image.setImageBitmap(scaledImage);
     }
 

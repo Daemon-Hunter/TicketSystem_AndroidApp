@@ -6,6 +6,7 @@
 package com.google.jkellaway.androidapp_datamodel.events;
 
 import android.graphics.Bitmap;
+
 import com.google.jkellaway.androidapp_datamodel.utilities.observer.IDbSubject;
 
 import java.util.List;

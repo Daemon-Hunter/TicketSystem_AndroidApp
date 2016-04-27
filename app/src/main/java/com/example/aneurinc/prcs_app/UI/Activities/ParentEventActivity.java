@@ -31,7 +31,6 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
     public static String PARENT_EVENT_ID;
     private IParentEvent mParentEvent;
     private List<IChildEvent> mChildEvents;
-    private Activity mContext = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +45,7 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
     }
 
     private void getParentEvent() {
-        ReadParentEvent task = new ReadParentEvent();
+        ReadParentEvent task = new ReadParentEvent(this);
         task.execute();
     }
 
@@ -63,10 +62,10 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
         ImageView image = (ImageView) findViewById(R.id.parent_event_image);
         TextView name = (TextView) findViewById(R.id.parent_event_title);
         TextView desc = (TextView) findViewById(R.id.parent_event_description);
-        int height = ImageUtils.getScreenHeight(this) / 4;
-        int width = ImageUtils.getScreenHeight(this) / 4;
 
-        Bitmap scaledImage = ImageUtils.scaleDown(mParentEvent.getImage(0), width, height);
+        int xy = ImageUtils.getScreenWidth(this) / 3;
+        Bitmap scaledImage = ImageUtils.scaleDown(mParentEvent.getImage(0), xy, xy);
+
         image.setImageBitmap(scaledImage);
         name.setText(mParentEvent.getName());
         desc.setText(mParentEvent.getDescription());
@@ -110,6 +109,12 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
 
     private class ReadParentEvent extends AsyncTask<Void, Void, IParentEvent> {
 
+        private Activity mContext;
+
+        public ReadParentEvent(Activity context) {
+            mContext = context;
+        }
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -131,10 +136,10 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
         protected void onPostExecute(IParentEvent parentEvent) {
 
             if (mChildEvents.isEmpty()) {
-                TextView noChildEventsMessage = (TextView) findViewById(R.id
+                TextView noChildEventsMessage = (TextView) mContext.findViewById(R.id
                         .no_child_events_message);
-                ImageView noChildEventsImage = (ImageView) findViewById(R.id
-                        .no_upcoming_events_image);
+                ImageView noChildEventsImage = (ImageView) mContext.findViewById(R.id
+                        .no_child_events_image);
                 noChildEventsMessage.setVisibility(View.VISIBLE);
                 noChildEventsImage.setVisibility(View.VISIBLE);
 

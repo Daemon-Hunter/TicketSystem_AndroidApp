@@ -14,7 +14,6 @@ import com.example.aneurinc.prcs_app.UI.utilities.Constants;
 import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
 import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -73,18 +72,20 @@ public class ParentEventActAdapter extends ArrayAdapter<IChildEvent> {
         convertView.setBackgroundColor(Constants.rowColour[colorPos]);
 
         int xy = ImageUtils.getScreenWidth(mContext) / 5;
-        Bitmap scaledImage = ImageUtils.scaleDown(currChildEvent.getImage(0), xy, xy);
 
+        Bitmap scaledImage = ImageUtils.scaleDown(currChildEvent.getImage(0), xy, xy);
         viewHolder.childEventImage.setImageBitmap(scaledImage);
+
+        // TODO: 27/04/2016 get venue name
+
+        viewHolder.childEventVenue.setText(currChildEvent.getVenue().toString());
+
         viewHolder.childEventName.setText(currChildEvent.getName());
-        try {
-            viewHolder.childEventVenue.setText(currChildEvent.getVenue().toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-            // TODO handle IOException
-        }
-        viewHolder.childEventDate.setText(currChildEvent.getStartDateTime().toString() + " - " +
-                currChildEvent.getEndDateTime().toString());
+
+        String startDate = currChildEvent.getStartDateTime().toString();
+        String endDate = currChildEvent.getEndDateTime().toString();
+        viewHolder.childEventDate.setText(startDate.substring(0, 10) + " - " + endDate.substring
+                (0, 10));
 
         return convertView;
 

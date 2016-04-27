@@ -68,8 +68,6 @@ public class ArtistActAdapter extends ArrayAdapter<IChildEvent> {
         int colorPos = position % Constants.rowColour.length;
         convertView.setBackgroundColor(Constants.rowColour[colorPos]);
 
-        // get view from view holder and update value
-
         int xy = ImageUtils.getScreenWidth(mContext) / 10;
         Bitmap scaledImage = ImageUtils.scaleDown(currItem.getImage(0), xy, xy);
 

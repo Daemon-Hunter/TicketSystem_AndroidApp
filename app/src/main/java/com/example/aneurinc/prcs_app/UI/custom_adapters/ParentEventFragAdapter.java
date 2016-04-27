@@ -69,13 +69,10 @@ public class ParentEventFragAdapter extends ArrayAdapter<IParentEvent> {
 
         }
 
-        if (currParentEvent.getImage(0) != null) {
-            // get width of single grid
-            int xy = mContext.findViewById(R.id.event_grid_view).getWidth() / 3;
-            // resize image to fit single grid
-            viewHolder.gridImage.setImageBitmap(ImageUtils.scaleDown(currParentEvent.getImage(0), xy, xy));
-        }
+        int xy = mContext.findViewById(R.id.event_grid_view).getWidth() / 3;
 
+        viewHolder.gridImage.setImageBitmap(ImageUtils.scaleDown(currParentEvent.getImage(0),
+                xy, xy));
         viewHolder.gridText.setText(currParentEvent.getName());
 
         return convertView;

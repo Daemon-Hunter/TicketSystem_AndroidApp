@@ -8,16 +8,15 @@ package com.google.jkellaway.androidapp_datamodel.events;
 import android.graphics.Bitmap;
 
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
+import com.google.jkellaway.androidapp_datamodel.reviews.IReview;
+import com.google.jkellaway.androidapp_datamodel.reviews.IReviewFactory;
+import com.google.jkellaway.androidapp_datamodel.reviews.ParentEventReviewFactory;
+import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
 
 import java.io.IOException;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-
-import com.google.jkellaway.androidapp_datamodel.reviews.IReview;
-import com.google.jkellaway.androidapp_datamodel.reviews.IReviewFactory;
-import com.google.jkellaway.androidapp_datamodel.reviews.ParentEventReviewFactory;
-import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
 
 import static com.google.jkellaway.androidapp_datamodel.database.APIHandle.getObjectsFromObject;
 import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.idValidator;
@@ -47,7 +46,6 @@ public class ParentEvent implements IParentEvent {
         super();
         // Initialize table variable, which matches Java object to database table
         table = DatabaseTable.PARENT_EVENT;
-        childEvents = new LinkedList<>();
         reviewFactory = new ParentEventReviewFactory();
     }
     

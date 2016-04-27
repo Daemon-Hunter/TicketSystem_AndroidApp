@@ -92,5 +92,6 @@
     <string name="email">Email:</string>
     <string name="parking">Parking:</string>
     <string name="capacity">Capacity:</string>
+    <string name="no_child_events">No Child Events</string>
 
 </resources>

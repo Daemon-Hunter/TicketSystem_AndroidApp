@@ -56,19 +56,14 @@ public class VenueFragAdapter extends ArrayAdapter<IVenue> {
             convertView.setTag(viewHolder);
 
         } else {
-
             viewHolder = (ViewHolder) convertView.getTag();
-
         }
 
-        if (currVenue.getImage(0) != null) {
-            // get width of single grid
-            int xy = mContext.findViewById(R.id.venue_list).getWidth() / 4;
-            // resize image to fit single grid
-            viewHolder.venueImage.setImageBitmap(ImageUtils.scaleDown(currVenue.getImage(0), xy, xy));
-        }
+        int xy = mContext.findViewById(R.id.venue_list).getWidth() / 4;
 
+        viewHolder.venueImage.setImageBitmap(ImageUtils.scaleDown(currVenue.getImage(0), xy, xy));
         viewHolder.venueName.setText(currVenue.getName());
+
         // TODO change address to city!
         viewHolder.venueCity.setText(currVenue.getAddress());
 
