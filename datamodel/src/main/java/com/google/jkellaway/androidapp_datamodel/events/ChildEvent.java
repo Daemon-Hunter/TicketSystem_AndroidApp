@@ -60,6 +60,7 @@ public class ChildEvent implements IChildEvent {
         this.table = DatabaseTable.CHILD_EVENT;
         this.parentEventID = parentEventID;
         this.venue = (IVenue) APIHandle.getSingle(this.venueID, DatabaseTable.VENUE);
+        this.venueID = this.venue.getID();
     }
     
     public ChildEvent(String name, String description, Date startTime, Date endTime, IVenue venue, List<IArtist> artists, IParentEvent parentEvent) {
@@ -172,6 +173,11 @@ public class ChildEvent implements IChildEvent {
     }
 
     @Override
+    public Integer getVenueID() {
+        return venueID;
+    }
+
+    @Override
     public List<IArtist> getArtistList() throws IOException {
         if (artists == null) {
             artists = (List<IArtist>) (Object)APIHandle.getObjectsFromObject(this.childEventID, DatabaseTable.ARTIST, DatabaseTable.CHILD_EVENT);
@@ -182,11 +188,47 @@ public class ChildEvent implements IChildEvent {
     }
 
     @Override
+    public Integer getParentEventID() {
+        return parentEventID;
+    }
+
+    @Override
     public IParentEvent getParentEvent() throws IOException {
         if (this.parentEvent == null){
             parentEvent = (IParentEvent) APIHandle.getSingle(parentEventID, DatabaseTable.PARENT_EVENT);
+            parentEventID = parentEvent.getID();
         }
         return this.parentEvent;
+    }
+
+    @Override
+    public ITicket getTicket(Integer id) {
+        for (ITicket ticket : tickets){
+            if(ticket.getID().equals(id))
+                return ticket;
+        }
+        throw new IllegalArgumentException("No item in the list contains that id.");
+    }
+
+    @Override
+    public List<ITicket> getTickets() {
+        return new LinkedList<>(tickets);
+    }
+
+    @Override
+    public Boolean addTicket(ITicket ticket) {
+        if(ticket == null){
+            throw new IllegalArgumentException("Cannot add a null ticket.");
+        }
+        return tickets.add(ticket);
+    }
+
+    @Override
+    public Boolean removeTicket(ITicket ticket) {
+        if(ticket == null){
+            throw new IllegalArgumentException("Cannot remove a null ticket.");
+        }
+        return tickets.remove(ticket);
     }
 
     @Override
@@ -208,12 +250,12 @@ public class ChildEvent implements IChildEvent {
     }
 
     @Override
-    public void notifyObservers() {
+    public void notifyObservers() throws IOException {
         if (observers == null) {
             observers = new LinkedList();
         } else {
             for (IObserver o : observers) {
-                o.update(this);
+                o.update(this, table);
             }
         }
     }
@@ -276,7 +318,7 @@ public class ChildEvent implements IChildEvent {
     }
 
     @Override
-    public Boolean setSocialId(Integer id) {
+    public Boolean setSocialId(Integer id) throws IOException {
         return parentEvent.setSocialId(id);
     }
 

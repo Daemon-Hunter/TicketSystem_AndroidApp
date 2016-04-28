@@ -258,7 +258,12 @@ public class Venue implements IVenue {
     }
 
     @Override
-    public Boolean setName(String name) {
+    public SocialMedia getSocialMedia() {
+        return this.socialMedia;
+    }
+
+    @Override
+    public Boolean setName(String name) throws IOException {
         if (name == null) {
             throw new NullPointerException("Cannot set name null");
         } else {
@@ -272,7 +277,7 @@ public class Venue implements IVenue {
     }
 
     @Override
-    public Boolean setDescription(String description) {
+    public Boolean setDescription(String description) throws IOException {
         if (description == null) {
             throw new NullPointerException("Cannot set description null");
         } else {
@@ -286,7 +291,7 @@ public class Venue implements IVenue {
     }
 
     @Override
-    public Boolean setStandingCapacity(Integer standing) {
+    public Boolean setStandingCapacity(Integer standing) throws IOException {
         if (standing == null) {
             throw new NullPointerException("Cannot set capacity to null");
         } else {
@@ -300,7 +305,7 @@ public class Venue implements IVenue {
     }
 
     @Override
-    public Boolean setSeatingCapacity(Integer seating) {
+    public Boolean setSeatingCapacity(Integer seating) throws IOException {
         if (seating == null) {
             throw new NullPointerException("Cannot set capacity to null");
         } else {
@@ -314,7 +319,7 @@ public class Venue implements IVenue {
     }
 
     @Override
-    public Boolean setDisabledAccess(Boolean access) {
+    public Boolean setDisabledAccess(Boolean access) throws IOException {
         if (access == null) {
             throw new NullPointerException("Cannot set access to null");
         } else {
@@ -325,7 +330,7 @@ public class Venue implements IVenue {
     }
 
     @Override
-    public Boolean setFacilites(String facilities) {
+    public Boolean setFacilites(String facilities) throws IOException {
         if (facilities == null) {
             throw new NullPointerException("Cannot set facilities to null");
         } else {
@@ -339,7 +344,7 @@ public class Venue implements IVenue {
     }
 
     @Override
-    public Boolean setParking(Integer parking) {
+    public Boolean setParking(Integer parking) throws IOException {
         if (parking == null) {
             throw new NullPointerException("Cannot set parking spaces to null");
         } else {
@@ -353,7 +358,7 @@ public class Venue implements IVenue {
     }
 
     @Override
-    public Boolean setEmail(String email) {
+    public Boolean setEmail(String email) throws IOException {
         if (email == null) {
             throw new NullPointerException("Cannot set email to null");
         } else {
@@ -367,7 +372,7 @@ public class Venue implements IVenue {
     }
 
     @Override
-    public Boolean setPhoneNumber(String phoneNumber) {
+    public Boolean setPhoneNumber(String phoneNumber) throws IOException {
         if (phoneNumber == null) {
             throw new NullPointerException("Cannot set phone number to null");
         } else {
@@ -381,7 +386,7 @@ public class Venue implements IVenue {
     }
 
     @Override
-    public Boolean setAddress(String address) {
+    public Boolean setAddress(String address) throws IOException {
         if (address == null) {
             throw new NullPointerException("Cannot set address to null");
         } else {
@@ -395,7 +400,7 @@ public class Venue implements IVenue {
     }
 
     @Override
-    public Boolean setPostcode(String postcode) {
+    public Boolean setPostcode(String postcode) throws IOException {
         if (postcode == null) {
             throw new NullPointerException("Cannot set postcode to null");
         } else {
@@ -420,7 +425,7 @@ public class Venue implements IVenue {
      */
 
     @Override
-    public Boolean setSocialId(Integer id) {
+    public Boolean setSocialId(Integer id) throws IOException {
         socialMediaID = id;
         return socialMedia.setSocialId(id);
     }
@@ -462,12 +467,12 @@ public class Venue implements IVenue {
     }
 
     @Override
-    public void notifyObservers() {
+    public void notifyObservers() throws IOException {
         if (observers == null) {
             observers = new LinkedList();
         } else {
             for (IObserver o : observers) {
-                o.update(this);
+                o.update(this, table);
             }
         }
     }
@@ -510,7 +515,7 @@ public class Venue implements IVenue {
     }
 
     @Override
-    public Boolean deleteReview(IReview review) {
+    public Boolean deleteReview(IReview review) throws IOException {
         if (review == null) {
             throw new NullPointerException("Review to be deleted was null");
         } else if (!reviews.contains(review)) {

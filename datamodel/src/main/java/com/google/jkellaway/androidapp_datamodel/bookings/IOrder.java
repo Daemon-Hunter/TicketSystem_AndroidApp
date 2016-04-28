@@ -18,8 +18,11 @@ import java.util.List;
 public interface IOrder extends IDbSubject {
     
     
-    public Integer getOrderID();
-    public IUser getUser() throws IOException;
-    public List<IBooking> getBookingList() throws IOException;
-    public IBooking getBooking(Integer bookingID);
+    Integer getOrderID();
+    IUser getUser() throws IOException;
+    Integer getUserID();
+    List<IBooking> getBookingList() throws IOException;
+    IBooking getBooking(Integer bookingID);
+    Boolean addBooking(IBooking booking);
+
 }

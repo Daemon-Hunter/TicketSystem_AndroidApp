@@ -81,12 +81,12 @@ public class Ticket implements ITicket, IDbSubject {
     }
 
     @Override
-    public void notifyObservers() {
+    public void notifyObservers() throws IOException {
         if (observers == null) {
             observers = new LinkedList();
         } else {
             for (IObserver o : observers) {
-                o.update(this);
+                o.update(this, table);
             }
         }
     }
@@ -124,13 +124,19 @@ public class Ticket implements ITicket, IDbSubject {
     }
 
     @Override
-    public IChildEvent getEvent() throws IOException {
+    public Integer getChildEventID() {
+        return childEventID;
+    }
+
+    @Override
+    public IChildEvent getChildEvent() throws IOException {
         childEvent = (IChildEvent) APIHandle.getSingle(this.childEventID, DatabaseTable.CHILD_EVENT);
+        childEventID = childEvent.getID();
         return childEvent;
     }
 
     @Override
-    public Boolean setEvent(IChildEvent event) {
+    public Boolean setChildEvent(IChildEvent event) {
         if (event == null) {
             throw new NullPointerException("Cannot set event to null");
         } else {

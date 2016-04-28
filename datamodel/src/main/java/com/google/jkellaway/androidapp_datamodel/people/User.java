@@ -6,6 +6,8 @@
 package com.google.jkellaway.androidapp_datamodel.people;
 
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
+
+import java.io.IOException;
 import java.util.LinkedList;
 import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
 import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
@@ -100,11 +102,11 @@ public abstract class User implements IUser {
     }
     
     @Override
-    public void notifyObservers() {
+    public void notifyObservers() throws IOException {
         
         if (observers != null) {
             for (IObserver o : observers) {
-                o.update(this);
+                o.update(this, table);
             }
         }
     }
@@ -141,7 +143,7 @@ public abstract class User implements IUser {
     }
 
     @Override
-    public Boolean setEmail(String email) {
+    public Boolean setEmail(String email) throws IOException {
         if (email == null) {
             throw new NullPointerException("Cannot set email to null");
         } else {
@@ -196,7 +198,7 @@ public abstract class User implements IUser {
     }
 
     @Override
-    public Boolean setAddress(String address) {
+    public Boolean setAddress(String address) throws IOException {
         if (address == null) {
             throw new NullPointerException("Cannot set address to null");
         } else {
@@ -219,7 +221,7 @@ public abstract class User implements IUser {
     }
 
     @Override
-    public Boolean setPostcode(String postcode) {
+    public Boolean setPostcode(String postcode) throws IOException {
         if (postcode == null) {
             throw new NullPointerException("Cannot set postcode to null");
         } else {

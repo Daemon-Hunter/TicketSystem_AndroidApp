@@ -43,8 +43,4 @@ public interface IWrapper {
     List<IArtist> searchArtists(String string) throws IOException;
 
     Boolean setAmountToLoad(Integer amountToLoad);
-
-    IParentEvent getParentEventSearch(Integer id);
-    IArtist getArtistSearch(Integer id);
-    IVenue getVenueSearch(Integer id);
 }

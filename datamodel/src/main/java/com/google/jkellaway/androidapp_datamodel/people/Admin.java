@@ -6,6 +6,8 @@
 package com.google.jkellaway.androidapp_datamodel.people;
 
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
+
+import java.io.IOException;
 import java.util.LinkedList;
 import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
 import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
@@ -70,7 +72,7 @@ public class Admin implements IAdmin {
     }
 
     @Override
-    public Boolean setEmail(String email) {
+    public Boolean setEmail(String email) throws IOException {
         if (email == null) {
             throw new NullPointerException("Cannot set email to null");
         } else {
@@ -89,12 +91,12 @@ public class Admin implements IAdmin {
     }
 
     @Override
-    public void notifyObservers() {
+    public void notifyObservers() throws IOException {
         if (observers == null) {
             observers = new LinkedList();
         } else {
             for (IObserver o : observers) {
-                o.update(this);
+                o.update(this, table);
             }
         }
     }
@@ -133,7 +135,7 @@ public class Admin implements IAdmin {
     }
 
     @Override
-    public Boolean setFirstName(String name) {
+    public Boolean setFirstName(String name) throws IOException {
         if (name == null) {
             throw new NullPointerException("Cannot set first name to null");
         } else {
@@ -156,7 +158,7 @@ public class Admin implements IAdmin {
     }
 
     @Override
-    public Boolean setLastName(String name) {
+    public Boolean setLastName(String name) throws IOException {
         if (name == null) {
             throw new NullPointerException("Cannot set last name to null");
         } else {

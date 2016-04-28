@@ -21,8 +21,8 @@ import java.util.LinkedList;
  */
 public abstract class Booking implements IBooking {
 
-    protected ITicket  ticket;
-    protected IOrder order;
+    protected ITicket ticket;
+    protected IOrder  order;
 
     protected Integer ticketID;
     protected DatabaseTable table;
@@ -69,11 +69,18 @@ public abstract class Booking implements IBooking {
             return bookingID;
         }
     }
+
+    @Override
+    public Integer getTicketID(){
+        return ticketID;
+    }
     
     @Override
     public ITicket getTicket() throws IOException {
-        if (ticket == null)
+        if (ticket == null) {
             ticket = (ITicket) APIHandle.getSingle(this.ticketID, DatabaseTable.TICKET);
+            ticketID = ticket.getID();
+        }
         return ticket;
     }
     @Override
@@ -96,7 +103,7 @@ public abstract class Booking implements IBooking {
         }
     }
     @Override
-    public Boolean setQuantity(Integer qty) {
+    public Boolean setQuantity(Integer qty) throws IOException {
         if (qty == null) {
             throw new NullPointerException("Null quantity");
         } else {
@@ -118,7 +125,7 @@ public abstract class Booking implements IBooking {
         }
     }
     @Override
-    public Boolean setBookingTime(Date time) {
+    public Boolean setBookingTime(Date time) throws IOException {
         if (time == null) {
             throw new NullPointerException("Null date / time");
         } else {
@@ -136,9 +143,9 @@ public abstract class Booking implements IBooking {
     }
 
     @Override
-    public void notifyObservers() {
+    public void notifyObservers() throws IOException {
         for (IObserver o : observers) {
-                o.update(this);
+                o.update(this, table);
             }
     }
     @Override

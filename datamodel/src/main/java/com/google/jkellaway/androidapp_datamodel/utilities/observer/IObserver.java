@@ -5,11 +5,15 @@
  */
 package com.google.jkellaway.androidapp_datamodel.utilities.observer;
 
+import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
+
+import java.io.IOException;
+
 /**
  *
  * @author 10512691
  */
 public interface IObserver {
     
-    void update(ISubject object);
+    void update(ISubject object, DatabaseTable table) throws IOException;
 }

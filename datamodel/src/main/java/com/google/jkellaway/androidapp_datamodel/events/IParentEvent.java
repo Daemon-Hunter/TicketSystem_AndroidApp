@@ -16,16 +16,17 @@ import java.util.List;
  * @author 10467841
  */
 public interface IParentEvent extends ISocial, IReviewable {
-    public Integer getID();
-    public String getName();
-    public String getDescription();
-    public Boolean setName(String name);
-    public Boolean setDescription(String description);
+    Integer getID();
+    String getName();
+    String getDescription();
+    Boolean setName(String name);
+    Boolean setDescription(String description);
 
-    public void setSocialMedia(SocialMedia socialMedia);
+    void setSocialMedia(SocialMedia socialMedia);
+    SocialMedia getSocialMedia();
     
-    public Boolean addChildEvent(IChildEvent childEvent);
-    public IChildEvent getChildEvent(Integer childEventID);
-    public Boolean removeChildEvent(IChildEvent childEvent);
-    public List<IChildEvent> getChildEvents() throws IOException;
+    Boolean addChildEvent(IChildEvent childEvent);
+    IChildEvent getChildEvent(Integer childEventID);
+    Boolean removeChildEvent(IChildEvent childEvent);
+    List<IChildEvent> getChildEvents() throws IOException;
 }

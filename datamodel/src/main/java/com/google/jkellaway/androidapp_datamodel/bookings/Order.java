@@ -25,7 +25,8 @@ public class Order implements IOrder{
     private Integer userID;
     private IUser user;
     private List<IBooking> bookingList;
-    protected LinkedList<IObserver> observers;
+    private LinkedList<IObserver> observers;
+    private DatabaseTable table = DatabaseTable.ORDER;
     
     /**
      * 
@@ -65,7 +66,13 @@ public class Order implements IOrder{
     @Override
     public IUser getUser() throws IOException {
         user = (IUser)APIHandle.getSingle(userID, DatabaseTable.CUSTOMER);
+        userID = user.getID();
         return user;
+    }
+
+    @Override
+    public Integer getUserID() {
+        return userID;
     }
 
     /**
@@ -89,17 +96,25 @@ public class Order implements IOrder{
     }
 
     @Override
+    public Boolean addBooking(IBooking booking) {
+        if (booking == null){
+            throw new IllegalArgumentException("Booking cannot be null");
+        }
+        return bookingList.add(booking);
+    }
+
+    @Override
     public DatabaseTable getTable() {
         return DatabaseTable.ORDER;
     }
 
     @Override
-    public void notifyObservers() {
+    public void notifyObservers() throws IOException {
         if (observers == null) {
             observers = new LinkedList();
         } else {
             for (IObserver o : observers) {
-                o.update(this);
+                o.update(this, table);
             }
         }
     }

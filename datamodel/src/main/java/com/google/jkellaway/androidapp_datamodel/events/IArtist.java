@@ -20,7 +20,7 @@ public interface IArtist extends ISocial, IReviewable {
     String getName();
     void setName(String name);
     List<String> getTags();
-    Boolean addTag(String tag);
+    Boolean addTag(String tag) throws IOException;
     Boolean removeTag(String tag);
     String getDescription();
     void setDescription(String decription);
@@ -29,6 +29,7 @@ public interface IArtist extends ISocial, IReviewable {
     Integer getTypeID();
 
     void setSocialMedia(SocialMedia socialMedia);
+    SocialMedia getSocialMedia();
 
     List<IChildEvent> getChildEvents() throws IOException;
 }

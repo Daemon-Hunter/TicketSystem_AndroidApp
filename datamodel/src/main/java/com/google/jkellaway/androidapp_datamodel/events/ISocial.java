@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 
 import com.google.jkellaway.androidapp_datamodel.utilities.observer.IDbSubject;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -18,7 +19,7 @@ import java.util.List;
 public interface ISocial extends IDbSubject {
     
     Integer getSocialId();
-    Boolean setSocialId(Integer id);
+    Boolean setSocialId(Integer id) throws IOException;
     
     List<Bitmap> getImages();
     Bitmap getImage(int index);

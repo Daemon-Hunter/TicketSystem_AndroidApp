@@ -32,16 +32,17 @@ public interface IVenue extends ISocial, IReviewable {
     List<IChildEvent> getChildEvents() throws IOException;
 
     void setSocialMedia(SocialMedia socialMedia);
+    SocialMedia getSocialMedia();
 
-    Boolean setName(String name);
-    Boolean setDescription(String description);
-    Boolean setStandingCapacity(Integer standing);
-    Boolean setSeatingCapacity(Integer seating);
-    Boolean setDisabledAccess(Boolean access);
-    Boolean setFacilites(String facilities);
-    Boolean setParking(Integer parking);
-    Boolean setEmail(String email);
-    Boolean setPhoneNumber(String phoneNumber);
-    Boolean setAddress(String address);
-    Boolean setPostcode(String postcode);
+    Boolean setName(String name) throws IOException;
+    Boolean setDescription(String description) throws IOException;
+    Boolean setStandingCapacity(Integer standing) throws IOException;
+    Boolean setSeatingCapacity(Integer seating) throws IOException;
+    Boolean setDisabledAccess(Boolean access) throws IOException;
+    Boolean setFacilites(String facilities) throws IOException;
+    Boolean setParking(Integer parking) throws IOException;
+    Boolean setEmail(String email) throws IOException;
+    Boolean setPhoneNumber(String phoneNumber) throws IOException;
+    Boolean setAddress(String address) throws IOException;
+    Boolean setPostcode(String postcode) throws IOException;
 }

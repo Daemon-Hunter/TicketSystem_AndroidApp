@@ -8,6 +8,8 @@ package com.google.jkellaway.androidapp_datamodel.events;
 import android.graphics.Bitmap;
 
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
+
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -56,7 +58,7 @@ public class SocialMedia implements ISocial {
      * @return 
      */
     @Override
-    public Boolean setSocialId(Integer id) {
+    public Boolean setSocialId(Integer id) throws IOException {
         Boolean valid = Validator.idValidator(id);
         if (valid) {
             this.id = id;
@@ -207,12 +209,12 @@ public class SocialMedia implements ISocial {
     }
 
     @Override
-    public void notifyObservers() {
+    public void notifyObservers() throws IOException {
         if (observers == null) {
             observers = new LinkedList();
         } else {
             for (IObserver o : observers) {
-                o.update(this);
+                o.update(this, table);
             }
         }
     }

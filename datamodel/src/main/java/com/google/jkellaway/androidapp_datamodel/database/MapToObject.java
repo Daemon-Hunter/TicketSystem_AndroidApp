@@ -54,7 +54,7 @@ import static java.lang.Integer.parseInt;
 final class MapToObject {
     private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
 
-    public static IUser ConvertCustomer(Map<String, String> custMap) {
+    public static IUser MapToCustomer(Map<String, String> custMap) {
         String firstName, lastName, address, email, postcode;
         int ID = Integer.parseInt(custMap.get("CUSTOMER_ID"));
 
@@ -67,7 +67,7 @@ final class MapToObject {
         return new Customer(ID, firstName, lastName, email, address, postcode);
     }
 
-    public static Artist ConvertArtist(Map<String, String> artistMap) {
+    public static Artist MapToArtist(Map<String, String> artistMap) {
 
         Integer ID = Integer.parseInt(artistMap.get("ARTIST_ID"));
         String name = artistMap.get("ARTIST_NAME");
@@ -83,11 +83,11 @@ final class MapToObject {
         return new Artist(ID, name, description, listOfTags, socialID, type);
     }
 
-    public static String ConvertArtistType(Map<String, String> artistTypeMap) {
+    public static String MapToArtistType(Map<String, String> artistTypeMap) {
         return artistTypeMap.get("ARTIST_TYPE1");
     }
 
-    public static SocialMedia ConvertSocialMedia(Map<String, String> socialMap) {
+    public static SocialMedia MapToSocialMedia(Map<String, String> socialMap) {
         Integer socialMediaID;
         String facebook, twitter, instagram, soundcloud, website, spotify;
         byte[] decodedBytes;
@@ -114,7 +114,7 @@ final class MapToObject {
         return new SocialMedia(socialMediaID, images, facebook, twitter, instagram, soundcloud, website, spotify);
     }
 
-    public static IReview ConvertArtistReview(Map<String, String> reviewMap) {
+    public static IReview MapToArtistReview(Map<String, String> reviewMap) {
 
         ArtistReviewFactory factory = new ArtistReviewFactory();
 
@@ -134,7 +134,7 @@ final class MapToObject {
         return factory.createReview(artistID, customerID, rating, dateTime, body, verified);
     }
 
-    public static IReview ConvertVenueReview(Map<String, String> reviewMap, DatabaseTable table) {
+    public static IReview MapToVenueReview(Map<String, String> reviewMap, DatabaseTable table) {
 
         IReviewFactory factory;
         if (table == DatabaseTable.VENUE)
@@ -167,7 +167,7 @@ final class MapToObject {
 
     }
 
-    public static IReview ConvertEventReview(Map<String, String> reviewMap) {
+    public static IReview MapToParentEventEventReview(Map<String, String> reviewMap) {
 
         ParentEventReviewFactory factory = new ParentEventReviewFactory();
 
@@ -189,7 +189,7 @@ final class MapToObject {
         return factory.createReview(eventID, customerID, rating, dateTime, body, verified);
     }
 
-    public static IVenue ConvertVenue(Map<String, String> venueMap) {
+    public static IVenue MapToVenue(Map<String, String> venueMap) {
 
         Integer venueID, capSeating, capStanding, parking, socialMediaID;
         String description, facilities, phoneNumber, email, address, postcode, name;
@@ -215,7 +215,7 @@ final class MapToObject {
                 facilities, parking, phoneNumber, email, address, postcode, name);
     }
 
-    public static ITicket ConvertTicket(Map<String, String> ticketMap) {
+    public static ITicket MapToTicket(Map<String, String> ticketMap) {
         Integer ticketID, remaining, childEventID;
         Double price;
         String desc, type;
@@ -230,7 +230,7 @@ final class MapToObject {
         return new Ticket(ticketID, childEventID, price, desc, remaining, type);
     }
 
-    public static IChildEvent ConvertChildEvent(Map<String, String> eventMap, Integer parentEventID) throws IOException {
+    public static IChildEvent MapToChildEvent(Map<String, String> eventMap, Integer parentEventID) throws IOException {
 
         Integer eventID, venueID;
         String description, name;
@@ -255,7 +255,7 @@ final class MapToObject {
         return new ChildEvent(eventID, name, description, startTime, endTime, cancelled, parentEventID);
     }
 
-    public static IBooking ConvertCustomerBooking(Map<String, String> bookingMap) {
+    public static IBooking MapToCustomerBooking(Map<String, String> bookingMap) {
         Integer bookingID, quantity, ticketID, orderID;
         Date date = new Date();
 
@@ -273,7 +273,7 @@ final class MapToObject {
         return new CustomerBooking(bookingID, ticketID, orderID, quantity, date);
     }
 
-    public static IOrder ConvertOrder(Map<String, String> orderMap) {
+    public static IOrder MapToOrder(Map<String, String> orderMap) {
 
         Integer orderID, userID;
 
@@ -283,7 +283,7 @@ final class MapToObject {
         return new Order(orderID, userID);
     }
 
-    public static IBooking ConvertGuestBooking(Map<String, String> bookingMap) {
+    public static IBooking MapToGuestBooking(Map<String, String> bookingMap) {
         Integer bookingID, ticketID, quantity;
         String email, address, postcode;
         Date dateTime = new Date();
@@ -304,7 +304,7 @@ final class MapToObject {
         return new GuestBooking(bookingID, ticketID, quantity, dateTime, new Guest("GUEST", "ACCOUNT", email, address, postcode));
     }
 
-    public static IParentEvent ConvertParentEvent(Map<String, String> eventMap) {
+    public static IParentEvent MapToParentEvent(Map<String, String> eventMap) {
         Integer eventID, socialMediaID;
         String name, description;
 
@@ -316,14 +316,14 @@ final class MapToObject {
         return new ParentEvent(eventID, socialMediaID, name, description);
     }
 
-    public static IAdmin ConvertAdmin(Map<String, String> adminMap){
+    public static IAdmin MapToAdmin(Map<String, String> adminMap){
         Integer adminID = Integer.parseInt(adminMap.get("ADMIN_ID"));
         String email = adminMap.get("ADMIN_EMAIL");
 
         return new Admin(adminID, "ADMIN", "ADMIN", email);
     }
 
-    public static Integer[] ConvertContract(Map<String, String> contractMap){
+    public static Integer[] MapToContract(Map<String, String> contractMap){
         Integer artistID = Integer.parseInt(contractMap.get("ADMIN_ID"));
         Integer child_event_id = Integer.parseInt(contractMap.get("CHILD_EVENT_ID"));
         return new Integer[] {artistID, child_event_id};

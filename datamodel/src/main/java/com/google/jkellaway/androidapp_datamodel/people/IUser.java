@@ -17,10 +17,10 @@ import java.util.List;
 public interface IUser extends IPerson {
     
     String getAddress();
-    Boolean setAddress(String address);
+    Boolean setAddress(String address) throws IOException;
     
     Integer getID();
     
     String getPostcode();
-    Boolean setPostcode(String postcode);
+    Boolean setPostcode(String postcode) throws IOException;
 }

@@ -6,6 +6,8 @@
 package com.google.jkellaway.androidapp_datamodel.reviews;
 
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
+
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
@@ -59,8 +61,6 @@ public abstract class Review implements IReview {
                 if (Validator.idValidator(customerID)) {
                     if (Validator.ratingValidator(rating)) {
                         if (Validator.reviewBodyValidator(body)) {
-                            
-                            
                                 // Everything is valid -> initialise variables
                                 reviewBaseID = baseID;
                                 this.customerID = customerID;
@@ -140,12 +140,12 @@ public abstract class Review implements IReview {
     }
     
     @Override
-    public void notifyObservers() {
+    public void notifyObservers() throws IOException {
         if (observers == null) {
             observers = new LinkedList();
         } else {
             for (IObserver o : observers) {
-                o.update(this);
+                o.update(this, table);
             }
         }
     }
@@ -219,7 +219,7 @@ public abstract class Review implements IReview {
     }
 
     @Override
-    public Boolean setRating(Integer rating) {
+    public Boolean setRating(Integer rating) throws IOException {
         if (rating == null) {
             throw new NullPointerException("Cannot set rating to null");
         } else {
@@ -242,7 +242,7 @@ public abstract class Review implements IReview {
     }
 
     @Override
-    public Boolean SetBody(String body) {
+    public Boolean SetBody(String body) throws IOException {
         if (body == null) {
             throw new NullPointerException("Cannot set review body to null");
         } else {

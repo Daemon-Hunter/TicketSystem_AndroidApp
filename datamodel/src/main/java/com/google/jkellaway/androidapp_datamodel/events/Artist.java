@@ -99,7 +99,7 @@ public class Artist implements IArtist {
     }
 
     @Override
-    public Boolean addTag(String tag) {
+    public Boolean addTag(String tag) throws IOException {
         if (tag == null) {
             throw new NullPointerException();
         } else {
@@ -178,6 +178,11 @@ public class Artist implements IArtist {
     }
 
     @Override
+    public SocialMedia getSocialMedia() {
+        return this.socialMedia;
+    }
+
+    @Override
     public List<IChildEvent> getChildEvents() throws IOException {
         if (childEvents == null) {
             childEvents = (List<IChildEvent>) (Object)APIHandle.getObjectsFromObject(this.ID, DatabaseTable.CHILD_EVENT, DatabaseTable.ARTIST);
@@ -199,7 +204,7 @@ public class Artist implements IArtist {
      */
 
     @Override
-    public Boolean setSocialId(Integer id) {
+    public Boolean setSocialId(Integer id) throws IOException {
         socialMediaID = id;
         return socialMedia.setSocialId(id);
     }
@@ -241,12 +246,12 @@ public class Artist implements IArtist {
     }
 
     @Override
-    public void notifyObservers() {
+    public void notifyObservers() throws IOException {
         if (observers == null) {
             observers = new LinkedList();
         } else {
             for (IObserver o : observers) {
-                o.update(this);
+                o.update(this, table);
             }
         }
     }
@@ -289,7 +294,7 @@ public class Artist implements IArtist {
     }
 
     @Override
-    public Boolean deleteReview(IReview review) {
+    public Boolean deleteReview(IReview review) throws IOException {
         if (review == null) {
             throw new NullPointerException("Review to be deleted was null");
         } else if (!reviews.contains(review)) {

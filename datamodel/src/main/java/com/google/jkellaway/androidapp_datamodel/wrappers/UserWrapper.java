@@ -102,6 +102,10 @@ public class UserWrapper implements IUserWrapper {
             if(parentEvent.getID().equals(id))
             return parentEvent;
         }
+        for (IParentEvent parentEvent : parentEventSearchList){
+            if(parentEvent.getID().equals(id))
+                return parentEvent;
+        }
         throw new NullPointerException("No item in the list has this id :/.");
     }
 
@@ -138,6 +142,10 @@ public class UserWrapper implements IUserWrapper {
     @Override
     public IVenue getVenue(Integer id) {
         for (IVenue venue : venueList){
+            if(venue.getID().equals(id))
+                return venue;
+        }
+        for (IVenue venue : venueSearchList){
             if(venue.getID().equals(id))
                 return venue;
         }
@@ -205,6 +213,10 @@ public class UserWrapper implements IUserWrapper {
             if(artist.getID().equals(id))
             return artist;
         }
+        for (IArtist artist : artistSearchList){
+            if(artist.getID().equals(id))
+                return artist;
+        }
         throw new NullPointerException("No item in the list has this id :/.");
     }
 
@@ -232,32 +244,5 @@ public class UserWrapper implements IUserWrapper {
     public Boolean setAmountToLoad(Integer amountToLoad) {
         this.amountGridView = amountToLoad;
         return amountToLoad == amountToLoad;
-    }
-
-    @Override
-    public IParentEvent getParentEventSearch(Integer id) {
-        for (IParentEvent parentEvent : parentEventSearchList){
-            if(parentEvent.getID().equals(id))
-                return parentEvent;
-        }
-        throw new NullPointerException("No item in the list has this id :/.");
-    }
-
-    @Override
-    public IArtist getArtistSearch(Integer id) {
-        for (IArtist artist : artistSearchList){
-            if(artist.getID().equals(id))
-                return artist;
-        }
-        throw new NullPointerException("No item in the list has this id :/.");
-    }
-
-    @Override
-    public IVenue getVenueSearch(Integer id) {
-        for (IVenue venue : venueSearchList){
-            if(venue.getID().equals(id))
-                return venue;
-        }
-        throw new NullPointerException("No item in the list has this id :/.");
     }
 }

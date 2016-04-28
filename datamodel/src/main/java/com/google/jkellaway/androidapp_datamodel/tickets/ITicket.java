@@ -19,9 +19,10 @@ import java.util.List;
 public interface ITicket extends IDbSubject {
     
     Integer getID();
-    
-    IChildEvent getEvent() throws IOException;
-    Boolean    setEvent(IChildEvent event);
+
+    Integer getChildEventID();
+    IChildEvent getChildEvent() throws IOException;
+    Boolean setChildEvent(IChildEvent event);
     
     Double getPrice();
     Boolean setPrice(Double price);

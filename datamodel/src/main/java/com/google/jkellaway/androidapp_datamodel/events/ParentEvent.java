@@ -141,6 +141,11 @@ public class ParentEvent implements IParentEvent {
     }
 
     @Override
+    public SocialMedia getSocialMedia() {
+        return this.socialMedia;
+    }
+
+    @Override
     public Integer getSocialId() {
         return socialMediaID;
     }
@@ -152,7 +157,7 @@ public class ParentEvent implements IParentEvent {
      */
 
     @Override
-    public Boolean setSocialId(Integer id) {
+    public Boolean setSocialId(Integer id) throws IOException {
         this.socialMediaID = id;
         return socialMedia.setSocialId(id);
     }
@@ -194,12 +199,12 @@ public class ParentEvent implements IParentEvent {
     }
 
     @Override
-    public void notifyObservers() {
+    public void notifyObservers() throws IOException {
         if (observers == null) {
             observers = new LinkedList<>();
         } else {
             for (IObserver o : observers) {
-                o.update(this);
+                o.update(this, table);
             }
         }
     }
@@ -242,7 +247,7 @@ public class ParentEvent implements IParentEvent {
     }
 
     @Override
-    public Boolean deleteReview(IReview review) {
+    public Boolean deleteReview(IReview review) throws IOException {
         if (review == null) {
             throw new NullPointerException("Review to be deleted was null");
         } else if (!reviews.contains(review)) {

@@ -5,6 +5,7 @@
  */
 package com.google.jkellaway.androidapp_datamodel.reviews;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,5 +19,5 @@ public interface IHaveReviews extends IDbSubject {
     
     public List<IReview> getReviews();
     public IReview getReview(Integer uniqueID);
-    public Boolean deleteReview(IReview review);
+    public Boolean deleteReview(IReview review) throws IOException;
 }
