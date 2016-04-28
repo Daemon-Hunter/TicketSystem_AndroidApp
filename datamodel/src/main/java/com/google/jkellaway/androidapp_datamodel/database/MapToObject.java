@@ -270,7 +270,7 @@ final class MapToObject {
         } catch (ParseException e) {
             System.err.println(e.toString());
         }
-        return new ChildEvent(eventID, name, description, startTime, endTime, cancelled, parentEventID);
+        return new ChildEvent(eventID, venueID,  name, description, startTime, endTime, cancelled, parentEventID);
     }
 
     public static IBooking MapToCustomerBooking(Map<String, String> bookingMap) {

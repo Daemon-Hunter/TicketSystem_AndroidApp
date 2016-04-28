@@ -31,6 +31,7 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
     public static String PARENT_EVENT_ID;
     private IParentEvent mParentEvent;
     private List<IChildEvent> mChildEvents;
+    private ParentEventActAdapter parentEventActAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

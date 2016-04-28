@@ -14,6 +14,7 @@ import com.example.aneurinc.prcs_app.UI.utilities.Constants;
 import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
 import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -78,7 +79,11 @@ public class ParentEventActAdapter extends ArrayAdapter<IChildEvent> {
 
         // TODO: 27/04/2016 get venue name
 
-        viewHolder.childEventVenue.setText(currChildEvent.getVenue().toString());
+        try {
+            viewHolder.childEventVenue.setText(currChildEvent.getVenue().getName().toString());
+        } catch (IOException e) {
+            // TODO: 28/04/2016 IOException
+        }
 
         viewHolder.childEventName.setText(currChildEvent.getName());
 

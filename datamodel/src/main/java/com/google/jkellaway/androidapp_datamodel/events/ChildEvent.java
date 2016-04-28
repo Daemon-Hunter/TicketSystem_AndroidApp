@@ -50,7 +50,7 @@ public class ChildEvent implements IChildEvent {
      * @param endTime
      * @param cancelled
      */
-    public ChildEvent(Integer ID, String name, String description, Date startTime, Date endTime, Boolean cancelled, Integer parentEventID) throws IOException {
+    public ChildEvent(Integer ID, Integer venueID, String name, String description, Date startTime, Date endTime, Boolean cancelled, Integer parentEventID) throws IOException {
         this.childEventID = ID;
         this.childEventName = name;
         this.childEventDescription = description;
@@ -59,8 +59,8 @@ public class ChildEvent implements IChildEvent {
         this.cancelled = cancelled;
         this.table = DatabaseTable.CHILD_EVENT;
         this.parentEventID = parentEventID;
-        this.venue = (IVenue) APIHandle.getSingle(this.venueID, DatabaseTable.VENUE);
-        this.venueID = this.venue.getID();
+        this.venueID = venueID;
+        venue = (IVenue) APIHandle.getSingle(this.venueID, DatabaseTable.VENUE);
     }
     
     public ChildEvent(String name, String description, Date startTime, Date endTime, IVenue venue, List<IArtist> artists, IParentEvent parentEvent) {
@@ -308,7 +308,7 @@ public class ChildEvent implements IChildEvent {
     }
 
     @Override
-    public IVenue getVenue() {
+    public IVenue getVenue() throws IOException {
         return venue;
     }
 
