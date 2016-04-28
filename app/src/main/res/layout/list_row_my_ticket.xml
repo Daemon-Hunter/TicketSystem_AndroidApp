@@ -9,7 +9,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="27"
-        android:background="@color/colorGrey200">
+        android:background="@color/colorGrey400">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -24,7 +24,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="58"
-        android:background="@color/colorGrey100"
+        android:background="@color/colorGrey300"
         android:orientation="vertical">
 
         <TextView
@@ -65,7 +65,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="15"
-        android:background="@color/colorGrey100">
+        android:background="@color/colorGrey300">
 
         <ImageView
             android:id="@+id/parent_event_image"

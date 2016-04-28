@@ -77,7 +77,7 @@ public class LoginActivity extends AppCompatActivity implements OnEditorActionLi
 
         //// TODO: 21/04/2016 REMOVE THIS 
         mPasswordView.setText("fucker");
-        mEmailView.setText("boats@plymiuth.co.uk");
+        mEmailView.setText("boats@plymouth.co.uk");
     }
 
     @Override

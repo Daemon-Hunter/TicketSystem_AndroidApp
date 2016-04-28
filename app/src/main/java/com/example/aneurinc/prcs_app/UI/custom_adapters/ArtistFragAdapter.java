@@ -17,6 +17,7 @@ import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
 import com.google.jkellaway.androidapp_datamodel.events.IArtist;
 
+import java.util.Collection;
 import java.util.List;
 
 public class ArtistFragAdapter extends ArrayAdapter<IArtist> {
@@ -28,6 +29,16 @@ public class ArtistFragAdapter extends ArrayAdapter<IArtist> {
         super(context, R.layout.grid_single);
         mContext = context;
         mArtistList = artistList;
+    }
+
+    @Override
+    public void clear() {
+        mArtistList.clear();
+    }
+
+    @Override
+    public void addAll(Collection<? extends IArtist> collection) {
+        mArtistList.addAll(collection);
     }
 
     @Override

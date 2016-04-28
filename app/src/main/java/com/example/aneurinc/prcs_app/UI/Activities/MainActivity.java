@@ -17,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.fragments.ArtistFragment;
@@ -38,7 +37,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        setupToolbar();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         addOnClickListeners();
 
@@ -57,27 +57,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
         // update UI components
         updateButtons(type);
-        updateToolbar(type);
 
-    }
-
-    private void updateToolbar(FragmentType type) {
-
-        TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
-
-        switch (type) {
-            case PARENT_EVENT:
-                toolbarTitle.setText(R.string.current_events);
-                break;
-            case ARTIST:
-                toolbarTitle.setText(R.string.current_artists);
-                break;
-            case VENUE:
-                toolbarTitle.setText(R.string.current_venues);
-                break;
-            case TICKET:
-                toolbarTitle.setText(R.string.my_tickets);
-        }
     }
 
     private void setCustomAnimation(FragmentTransaction trans, FragmentType type) {
@@ -135,13 +115,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         }
 
         return FragmentType.VENUE;
-    }
-
-    private void setupToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
-        setSupportActionBar(toolbar);
-        toolbarTitle.setText(R.string.current_events);
     }
 
     private void addOnClickListeners() {
@@ -276,7 +249,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         switch (item.getItemId()) {
 
             case R.id.tb_search:
-
                 break;
         }
 

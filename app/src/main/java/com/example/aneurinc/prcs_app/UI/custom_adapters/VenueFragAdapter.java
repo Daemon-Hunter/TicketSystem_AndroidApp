@@ -15,6 +15,7 @@ import com.example.aneurinc.prcs_app.UI.utilities.Constants;
 import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
 import com.google.jkellaway.androidapp_datamodel.events.IVenue;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -29,6 +30,16 @@ public class VenueFragAdapter extends ArrayAdapter<IVenue> {
         super(context, R.layout.list_row_venue);
         mVenues = venues;
         mContext = context;
+    }
+
+    @Override
+    public void addAll(Collection<? extends IVenue> collection) {
+        mVenues.addAll(collection);
+    }
+
+    @Override
+    public void clear() {
+        mVenues.clear();
     }
 
     @Override

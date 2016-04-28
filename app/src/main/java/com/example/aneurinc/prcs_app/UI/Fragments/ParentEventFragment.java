@@ -1,18 +1,21 @@
 package com.example.aneurinc.prcs_app.UI.fragments;
 
 import android.animation.Animator;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 
@@ -31,23 +34,44 @@ import java.util.List;
 /**
  * Created by aneurinc on 02/03/2016.
  */
-public class ParentEventFragment extends Fragment implements AdapterView.OnItemClickListener,
-        AbsListView.OnScrollListener, Animator.AnimatorListener {
+public class ParentEventFragment extends Fragment implements AdapterView.OnItemClickListener, AbsListView.OnScrollListener, Animator.AnimatorListener, SearchView.OnQueryTextListener, View.OnAttachStateChangeListener {
 
-    private List<IParentEvent> mParentEvents = new ArrayList<>();
-    private ProgressBar mReadProgress, mLoadMoreProgress;
+    // list of parent events
+    private List<IParentEvent> mParentEvents;
+
+    // async threads
     private ReadParentEvents mReadTask;
     private LoadMoreParentEvents mLoadMoreTask;
-    private static final int ANIM_TIME = 200;
+    private SearchParentEvents mSearchTask;
+
     private MainActivity mMainActivity;
+
+    // UI references
+    private ProgressBar mReadProgress, mLoadMoreProgress;
     private GridView mGridView;
+    private SearchView mSearchView;
+
+    // flags
     private boolean isScrolling, atBottom;
+
+    // progress bar animation duration
+    private static final int ANIM_TIME = 200;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_parent_event, container, false);
 
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.current_events);
+
+        setHasOptionsMenu(true);
+
+        mParentEvents = new ArrayList<>();
+
         mGridView = (GridView) view.findViewById(R.id.event_grid_view);
+        mGridView.setAdapter(new ParentEventFragAdapter(getActivity(), mParentEvents));
+        mGridView.setOnItemClickListener(ParentEventFragment.this);
+        mGridView.setOnScrollListener(ParentEventFragment.this);
+
         setSwipe(mGridView);
 
         if (getActivity() instanceof MainActivity) {
@@ -59,13 +83,35 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
         mReadProgress = (ProgressBar) view.getRootView().findViewById(R.id.read_progress);
         mLoadMoreProgress = (ProgressBar) view.getRootView().findViewById(R.id.load_more_progress);
 
-        getParentEvents();
+        readParentEvents();
+
         return view;
     }
 
-    private void getParentEvents() {
-        mReadTask = new ReadParentEvents(getActivity());
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        MenuItem item = menu.getItem(0);
+        mSearchView = (SearchView) item.getActionView();
+        mSearchView.setOnQueryTextListener(this);
+        mSearchView.addOnAttachStateChangeListener(this);
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    private void readParentEvents() {
+        mReadTask = new ReadParentEvents();
         mReadTask.execute();
+    }
+
+    private void loadMoreParentEvents() {
+        mLoadMoreTask = new LoadMoreParentEvents();
+        mLoadMoreTask.execute();
+    }
+
+    private void searchParentEvents(String query) {
+        mSearchTask = new SearchParentEvents(query);
+        mSearchTask.execute();
     }
 
     private void setSwipe(View v) {
@@ -141,6 +187,12 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
         if (isTaskRunning(mReadTask)) {
             mReadTask.cancel(true);
         }
+        if (isTaskRunning(mLoadMoreTask)) {
+            mLoadMoreTask.cancel(true);
+        }
+        if (isTaskRunning(mSearchTask)) {
+            mSearchTask.cancel(true);
+        }
     }
 
     private boolean isTaskRunning(AsyncTask task) {
@@ -164,8 +216,7 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
             if (firstVisibleItem + visibleItemCount >= totalItemCount) {
                 atBottom = true;
                 if (!isTaskRunning(mLoadMoreTask)) {
-                    mLoadMoreTask = new LoadMoreParentEvents();
-                    mLoadMoreTask.execute();
+                    loadMoreParentEvents();
                 }
             } else {
                 atBottom = true;
@@ -173,22 +224,86 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
         }
     }
 
-    private class ReadParentEvents extends AsyncTask<Void, Void, List<IParentEvent>> {
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        searchParentEvents(query);
+        return false;
+    }
 
-        private Activity mContext;
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        if (!newText.isEmpty()) {
+            searchParentEvents(newText);
+        }
+        return false;
+    }
 
-        public ReadParentEvents(Activity context) {
-            mContext = context;
+    @Override
+    public void onViewAttachedToWindow(View v) {
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(View v) {
+        if (isTaskRunning(mSearchTask)) {
+            mSearchTask.cancel(true);
+        }
+        readParentEvents();
+
+    }
+
+    private void refreshAdapter() {
+        ParentEventFragAdapter mAdapter = (ParentEventFragAdapter) mGridView.getAdapter();
+        mAdapter.clear();
+        mAdapter.addAll(mParentEvents);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    private class SearchParentEvents extends AsyncTask<Void, Void, Void> {
+
+        private String mQuery;
+
+        public SearchParentEvents(String query) {
+            mQuery = query;
         }
 
         @Override
         protected void onPreExecute() {
-            Log.d(MainActivity.DEBUG_TAG, "onPreExecute: Event Thread started");
+            Log.d(MainActivity.DEBUG_TAG, "onPreExecute: ParentEvent Search thread started");
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                mParentEvents = UserWrapper.getInstance().searchParentEvents(mQuery);
+            } catch (IOException e) {
+                // TODO: 28/04/2016 handle exception
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            refreshAdapter();
+            Log.d(MainActivity.DEBUG_TAG, "onPostExecute: ParentEvent search thread finished");
+        }
+
+        @Override
+        protected void onCancelled() {
+            Log.d(MainActivity.DEBUG_TAG, "onCancelled: ParentEvent Search thread cancelled");
+        }
+    }
+
+    private class ReadParentEvents extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            Log.d(MainActivity.DEBUG_TAG, "onPreExecute: ParentEvent Thread started");
             showProgress(mReadProgress, true);
         }
 
         @Override
-        protected List<IParentEvent> doInBackground(Void... params) {
+        protected Void doInBackground(Void... params) {
 
             try {
                 mParentEvents = UserWrapper.getInstance().getParentEvents();
@@ -196,19 +311,16 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
                 //TODO handle exception
             }
 
-            return mParentEvents;
+            return null;
         }
 
-
         @Override
-        protected void onPostExecute(List<IParentEvent> parentEvents) {
+        protected void onPostExecute(Void aVoid) {
 
-            if (mContext != null && isAdded()) {
+            if (isAdded()) {
                 showProgress(mReadProgress, false);
-                if (!parentEvents.isEmpty()) {
-                    mGridView.setAdapter(new ParentEventFragAdapter(mContext, parentEvents));
-                    mGridView.setOnItemClickListener(ParentEventFragment.this);
-                    mGridView.setOnScrollListener(ParentEventFragment.this);
+                if (!mParentEvents.isEmpty()) {
+                    refreshAdapter();
                 }
             }
 
@@ -217,21 +329,21 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
 
         @Override
         protected void onCancelled() {
-            Log.d(MainActivity.DEBUG_TAG, "onCancelled: Event Thread cancelled");
+            Log.d(MainActivity.DEBUG_TAG, "onCancelled: ParentEvent Thread cancelled");
             showProgress(mReadProgress, false);
         }
     }
 
-    private class LoadMoreParentEvents extends AsyncTask<Void, Void, List<IParentEvent>> {
+    private class LoadMoreParentEvents extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected void onPreExecute() {
-            Log.d(MainActivity.DEBUG_TAG, "onPreExecute: Load More Parent Events thread started");
+            Log.d(MainActivity.DEBUG_TAG, "onPreExecute: ParentEvent Load More thread started");
             showProgress(mLoadMoreProgress, true);
         }
 
         @Override
-        protected List<IParentEvent> doInBackground(Void... params) {
+        protected Void doInBackground(Void... params) {
 
             try {
                 mParentEvents.addAll(UserWrapper.getInstance().loadMoreParentEvents());
@@ -240,21 +352,22 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
             } catch (InterruptedException e) {
             }
 
-            return mParentEvents;
+            return null;
         }
 
         @Override
-        protected void onPostExecute(List<IParentEvent> iParentEvents) {
+        protected void onPostExecute(Void aVoid) {
+
             showProgress(mLoadMoreProgress, false);
-            ArrayAdapter mAdapter = (ArrayAdapter) mGridView.getAdapter();
+            ParentEventFragAdapter mAdapter = (ParentEventFragAdapter) mGridView.getAdapter();
             mAdapter.notifyDataSetChanged();
-            Log.d(MainActivity.DEBUG_TAG, "onPostExecute: Load More Parent Events thread " +
-                    "finished");
+
+            Log.d(MainActivity.DEBUG_TAG, "onPostExecute: ParentEvent Load More thread " + "finished");
         }
 
         @Override
         protected void onCancelled() {
-            Log.d(MainActivity.DEBUG_TAG, "onCancelled: Load More Parent Events thread cancelled");
+            Log.d(MainActivity.DEBUG_TAG, "onCancelled: ParentEvent Load More thread cancelled");
             showProgress(mLoadMoreProgress, false);
         }
     }

@@ -137,8 +137,8 @@
 
     <ImageView
         android:id="@+id/no_upcoming_events_image"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="175dp"
+        android:layout_height="175dp"
         android:layout_below="@id/upcoming_message_container"
         android:layout_centerHorizontal="true"
         android:src="@drawable/no_events"/>

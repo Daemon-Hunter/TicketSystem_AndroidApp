@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,6 @@ import com.example.aneurinc.prcs_app.UI.activities.MainActivity;
 import com.example.aneurinc.prcs_app.UI.custom_adapters.TicketFragAdapter;
 import com.example.aneurinc.prcs_app.UI.custom_listeners.OnSwipeTouchListener;
 import com.google.jkellaway.androidapp_datamodel.bookings.IBooking;
-import com.google.jkellaway.androidapp_datamodel.bookings.IOrder;
 import com.google.jkellaway.androidapp_datamodel.people.ICustomer;
 import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
 import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
@@ -41,6 +41,8 @@ public class TicketFragment extends Fragment implements Animator.AnimatorListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ticket, container, false);
 
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.my_tickets);
+
         if (getActivity() instanceof MainActivity) {
             mMainActivity = (MainActivity) getActivity();
         }
@@ -48,7 +50,7 @@ public class TicketFragment extends Fragment implements Animator.AnimatorListene
         setSwipe(view);
 
         mProgressBar = (ProgressBar) view.getRootView().findViewById(R.id.ticket_progress);
-        getTickets();
+        readTickets();
         return view;
     }
 
@@ -61,7 +63,7 @@ public class TicketFragment extends Fragment implements Animator.AnimatorListene
         });
     }
 
-    private void getTickets() {
+    private void readTickets() {
         mTask = new ReadTickets(getActivity());
         mTask.execute();
     }

@@ -49,7 +49,7 @@ public class VenueActAdapter extends ArrayAdapter<IChildEvent> {
         if (convertView == null) {
 
             LayoutInflater inflater = mContext.getLayoutInflater();
-            convertView = inflater.inflate(R.layout.list_row_child_event, parent, false);
+            convertView = inflater.inflate(R.layout.list_row_parent_event, parent, false);
 
             viewHolder = new ViewHolder();
             viewHolder.childEventImage = (ImageView) convertView.findViewById(R.id

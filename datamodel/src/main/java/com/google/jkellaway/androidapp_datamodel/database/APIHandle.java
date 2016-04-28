@@ -259,7 +259,10 @@ public final class APIHandle implements IObserver{
                             return MapToTicket(objectMap);
                         case VENUE:
                             IVenue venue =  MapToVenue(objectMap);
-                            venue.setSocialMedia(MapToSocialMedia(APIConnection.readSingle(venue.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
+                            venue.setSocialMedia(MapToSocialMedia(APIConnection.readSingle(venue.getSocialId
+                                    (),
+                                    DatabaseTable.SOCIAL_MEDIA)));
+                            return venue;
                         case ORDER:
                             return MapToOrder(objectMap);
                         default: throw new IllegalArgumentException();

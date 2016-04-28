@@ -13,6 +13,7 @@ import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
 import com.google.jkellaway.androidapp_datamodel.events.IParentEvent;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -27,6 +28,16 @@ public class ParentEventFragAdapter extends ArrayAdapter<IParentEvent> {
         super(context, R.layout.grid_single);
         mContext = context;
         mParentEvents = parentEvents;
+    }
+
+    @Override
+    public void clear() {
+        mParentEvents.clear();
+    }
+
+    @Override
+    public void addAll(Collection<? extends IParentEvent> collection) {
+        mParentEvents.addAll(collection);
     }
 
     @Override

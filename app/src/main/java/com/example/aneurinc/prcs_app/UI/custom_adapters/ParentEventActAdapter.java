@@ -14,7 +14,6 @@ import com.example.aneurinc.prcs_app.UI.utilities.Constants;
 import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
 import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -26,7 +25,7 @@ public class ParentEventActAdapter extends ArrayAdapter<IChildEvent> {
     private List<IChildEvent> mChildEventsList;
 
     public ParentEventActAdapter(Activity context, List<IChildEvent> childEvents) {
-        super(context, R.layout.list_row_child_event);
+        super(context, R.layout.list_row_parent_event);
         mContext = context;
         mChildEventsList = childEvents;
     }
@@ -48,22 +47,19 @@ public class ParentEventActAdapter extends ArrayAdapter<IChildEvent> {
         IChildEvent currChildEvent = getItem(position);
 
         if (convertView == null) {
-
             // inflate view
             LayoutInflater inflater = mContext.getLayoutInflater();
-            convertView = inflater.inflate(R.layout.list_row_child_event, parent, false);
+            convertView = inflater.inflate(R.layout.list_row_parent_event, parent, false);
 
             viewHolder = new ViewHolder();
             viewHolder.childEventImage = (ImageView) convertView.findViewById(R.id.child_event_image);
             viewHolder.childEventName = (TextView) convertView.findViewById(R.id.child_event_name);
-            viewHolder.childEventVenue = (TextView) convertView.findViewById(R.id.child_event_venue);
             viewHolder.childEventDate = (TextView) convertView.findViewById(R.id.child_event_date);
 
             // store the holder with the view
             convertView.setTag(viewHolder);
 
         } else {
-
             // use view holder to save resources
             viewHolder = (ViewHolder) convertView.getTag();
         }
@@ -76,14 +72,6 @@ public class ParentEventActAdapter extends ArrayAdapter<IChildEvent> {
 
         Bitmap scaledImage = ImageUtils.scaleDown(currChildEvent.getImage(0), xy, xy);
         viewHolder.childEventImage.setImageBitmap(scaledImage);
-
-        // TODO: 27/04/2016 get venue name
-
-        try {
-            viewHolder.childEventVenue.setText(currChildEvent.getVenue().getName().toString());
-        } catch (IOException e) {
-            // TODO: 28/04/2016 IOException
-        }
 
         viewHolder.childEventName.setText(currChildEvent.getName());
 
@@ -99,7 +87,6 @@ public class ParentEventActAdapter extends ArrayAdapter<IChildEvent> {
     static class ViewHolder {
         ImageView childEventImage;
         TextView childEventName;
-        TextView childEventVenue;
         TextView childEventDate;
     }
 }

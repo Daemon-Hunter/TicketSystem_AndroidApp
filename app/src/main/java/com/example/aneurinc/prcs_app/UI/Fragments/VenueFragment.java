@@ -6,13 +6,17 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -25,21 +29,33 @@ import com.google.jkellaway.androidapp_datamodel.events.IVenue;
 import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by aneurinc on 06/03/2016.
  */
-public class VenueFragment extends Fragment implements AdapterView.OnItemClickListener,
-        Animator.AnimatorListener, AbsListView.OnScrollListener {
+public class VenueFragment extends Fragment implements AdapterView.OnItemClickListener, Animator.AnimatorListener, AbsListView.OnScrollListener, View.OnAttachStateChangeListener, SearchView.OnQueryTextListener {
 
+    // list of venues
     private List<IVenue> mVenues;
+
+    // UI references
     private ProgressBar mReadProgress, mLoadMoreProgress;
+    private ListView mListView;
+    private SearchView mSearchView;
+
+    // async tasks
     private ReadVenues mReadTask;
     private LoadMoreVenues mLoadMoreTask;
+    private SearchVenues mSearchTask;
+
+    // progress bar animation duration
     private static final int ANIM_TIME = 200;
+
     private MainActivity mMainActivity;
-    private ListView mListView;
+
+    // flags
     private boolean isScrolling, atBottom;
 
     @Override
@@ -47,7 +63,17 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
 
         View view = inflater.inflate(R.layout.fragment_venue, container, false);
 
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.current_venues);
+
+        mVenues = new ArrayList<>();
+
+        setHasOptionsMenu(true);
+
         mListView = (ListView) view.findViewById(R.id.venue_list);
+        mListView.setAdapter(new VenueFragAdapter(getActivity(), mVenues));
+        mListView.setOnItemClickListener(VenueFragment.this);
+        mListView.setOnScrollListener(VenueFragment.this);
+
         setSwipe(mListView);
 
         if (getActivity() instanceof MainActivity) {
@@ -59,7 +85,7 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
         mReadProgress = (ProgressBar) view.getRootView().findViewById(R.id.read_progress);
         mLoadMoreProgress = (ProgressBar) view.getRootView().findViewById(R.id.load_more_progress);
 
-        getVenues();
+        readVenues();
 
         return view;
     }
@@ -78,9 +104,18 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
         });
     }
 
-    private void getVenues() {
+    private void readVenues() {
         mReadTask = new ReadVenues(getActivity());
         mReadTask.execute();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        MenuItem item = menu.getItem(0);
+        mSearchView = (SearchView) item.getActionView();
+        mSearchView.setOnQueryTextListener(this);
+        mSearchView.addOnAttachStateChangeListener(this);
     }
 
     @Override
@@ -149,6 +184,10 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
         if (isTaskRunning(mLoadMoreTask)) {
             mLoadMoreTask.cancel(true);
         }
+
+        if (isTaskRunning(mSearchTask)) {
+            mSearchTask.cancel(true);
+        }
     }
 
     private boolean isTaskRunning(AsyncTask task) {
@@ -181,7 +220,43 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
         }
     }
 
-    private class ReadVenues extends AsyncTask<Void, Void, List<IVenue>> {
+    @Override
+    public void onViewAttachedToWindow(View v) {
+
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(View v) {
+        if (isTaskRunning(mSearchTask)) {
+            mSearchTask.cancel(true);
+        }
+        readVenues();
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        mSearchTask = new SearchVenues(query);
+        mSearchTask.execute();
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        if (!newText.isEmpty()) {
+            mSearchTask = new SearchVenues(newText);
+            mSearchTask.execute();
+        }
+        return false;
+    }
+
+    private void refreshAdapter() {
+        VenueFragAdapter mAdapter = (VenueFragAdapter) mListView.getAdapter();
+        mAdapter.clear();
+        mAdapter.addAll(mVenues);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    private class ReadVenues extends AsyncTask<Void, Void, Void> {
 
         private Activity mContext;
 
@@ -196,24 +271,22 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
         }
 
         @Override
-        protected List<IVenue> doInBackground(Void... params) {
+        protected Void doInBackground(Void... params) {
             try {
                 mVenues = UserWrapper.getInstance().getVenues();
             } catch (IOException e) {
                 //TODO handle exception
             }
-            return mVenues;
+            return null;
         }
 
         @Override
-        protected void onPostExecute(List<IVenue> venues) {
+        protected void onPostExecute(Void aVoid) {
 
             if (mContext != null && isAdded()) {
                 showProgress(mReadProgress, false);
-                if (venues != null && !venues.isEmpty()) {
-                    mListView.setAdapter(new VenueFragAdapter(mContext, venues));
-                    mListView.setOnItemClickListener(VenueFragment.this);
-                    mListView.setOnScrollListener(VenueFragment.this);
+                if (!mVenues.isEmpty()) {
+                    refreshAdapter();
                 }
             }
 
@@ -227,7 +300,7 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
         }
     }
 
-    private class LoadMoreVenues extends AsyncTask<Void, Void, List<IVenue>> {
+    private class LoadMoreVenues extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected void onPreExecute() {
@@ -236,7 +309,7 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
         }
 
         @Override
-        protected List<IVenue> doInBackground(Void... params) {
+        protected Void doInBackground(Void... params) {
 
             try {
                 mVenues.addAll(UserWrapper.getInstance().loadMoreVenues());
@@ -245,14 +318,13 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
             } catch (InterruptedException e) {
             }
 
-            return mVenues;
+            return null;
         }
 
         @Override
-        protected void onPostExecute(List<IVenue> iVenues) {
+        protected void onPostExecute(Void aVoid) {
             showProgress(mLoadMoreProgress, false);
-            ArrayAdapter mAdapter = (ArrayAdapter) mListView.getAdapter();
-            mAdapter.notifyDataSetChanged();
+            refreshAdapter();
             Log.d(MainActivity.DEBUG_TAG, "onPostExecute: Load More Venues thread finished");
         }
 
@@ -260,6 +332,41 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
         protected void onCancelled() {
             Log.d(MainActivity.DEBUG_TAG, "onCancelled: Load More Venues thread cancelled");
             showProgress(mLoadMoreProgress, false);
+        }
+    }
+
+    private class SearchVenues extends AsyncTask<Void, Void, Void> {
+
+        private String mQuery;
+
+        public SearchVenues(String query) {
+            mQuery = query;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            Log.d(MainActivity.DEBUG_TAG, "onPreExecute: Search Venues thread started");
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                mVenues = UserWrapper.getInstance().searchVenues(mQuery);
+            } catch (IOException e) {
+                // TODO: 28/04/2016 handle exception
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            refreshAdapter();
+            Log.d(MainActivity.DEBUG_TAG, "onPostExecute: Search Venues thread finished");
+        }
+
+        @Override
+        protected void onCancelled() {
+            Log.d(MainActivity.DEBUG_TAG, "onCancelled: Search Venue thread cancelled");
         }
     }
 }
