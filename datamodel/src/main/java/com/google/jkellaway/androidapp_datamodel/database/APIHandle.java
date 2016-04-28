@@ -60,6 +60,16 @@ import static com.google.jkellaway.androidapp_datamodel.utilities.HashString.Enc
  */
 public final class APIHandle implements IObserver{
 
+    public static List<IUser> getUsers() throws IOException {
+
+           List<IUser> userList = new LinkedList<>();
+           List<Map<String, String>> userMapList = APIConnection.readAll(DatabaseTable.CUSTOMER);
+           for (Map<String, String> user : userMapList) {
+                 userList.add(MapToCustomer(user));
+            }
+            return userList;
+        }
+
     public static IUser isPasswordTrue(String email, String password) throws IOException, IllegalArgumentException {
         Map<String, String> customer = APIConnection.comparePassword(email, Encrypt(password)).get(0);
         if (Integer.parseInt(customer.get("CUSTOMER_ID").toString()) != -1)

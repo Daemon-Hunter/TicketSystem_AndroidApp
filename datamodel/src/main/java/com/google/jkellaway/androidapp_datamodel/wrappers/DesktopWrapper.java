@@ -201,8 +201,11 @@ public class DesktopWrapper implements IDesktopWrapper {
     }
 
     @Override
-    public List<IUser> getUsers() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<IUser> getUsers() throws IOException {
+        if (userArray == null) {
+            userArray = APIHandle.getUsers();
+        }
+        return userArray;
     }
 
     @Override
@@ -239,20 +242,5 @@ public class DesktopWrapper implements IDesktopWrapper {
     public Boolean setAmountToLoad(Integer amountToLoad) {
         this.amountToLoad = amountToLoad;
         return this.amountToLoad == amountToLoad;
-    }
-
-    @Override
-    public IParentEvent getParentEventSearch(Integer id) {
-        return null;
-    }
-
-    @Override
-    public IArtist getArtistSearch(Integer id) {
-        return null;
-    }
-
-    @Override
-    public IVenue getVenueSearch(Integer id) {
-        return null;
     }
 }

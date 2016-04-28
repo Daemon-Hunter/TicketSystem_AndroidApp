@@ -5,6 +5,7 @@
  */
 package com.google.jkellaway.androidapp_datamodel.wrappers;
 
+import java.io.IOException;
 import java.util.List;
 import com.google.jkellaway.androidapp_datamodel.people.IAdmin;
 import com.google.jkellaway.androidapp_datamodel.people.IUser;
@@ -15,7 +16,7 @@ import com.google.jkellaway.androidapp_datamodel.people.IUser;
  */
 public interface IDesktopWrapper extends IWrapper {
     public Boolean      addUser(IUser user);
-    public List<IUser>  getUsers();
+    public List<IUser>  getUsers()throws IOException;
     public IUser        getUser(Integer index);
     public Boolean      removeUser(IUser user);
     
