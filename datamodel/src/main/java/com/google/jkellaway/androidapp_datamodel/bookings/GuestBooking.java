@@ -32,7 +32,11 @@ public class GuestBooking extends Booking {
                          IUser guest)
     {
         super(ID, ticketID, ticketQty, dateTime);
-        this.guest = guest;
+        if (guest != null) {
+            this.guest = guest;
+        } else {
+            throw new NullPointerException("Cannot create a booking for a null guest.");
+        }
         table = DatabaseTable.GUEST_BOOKING;
     }
     
@@ -48,12 +52,20 @@ public class GuestBooking extends Booking {
             IUser guest) 
     {
         super(ticket, ticketQty, dateTime);
-        this.guest = guest;
+        if (guest != null) {
+            this.guest = guest;
+        } else {
+            throw new NullPointerException("Cannot create a booking for a null guest.");
+        }
         table = DatabaseTable.GUEST_BOOKING;
     } 
 
     public IUser getGuest() {
-        return guest;
+        if (guest != null) {
+            return guest;
+        } else {
+            throw new NullPointerException("Cannot create a booking for a null guest.");
+        }
     }
 
     public Boolean setGuest(Guest guest) {
@@ -61,7 +73,7 @@ public class GuestBooking extends Booking {
             throw new NullPointerException("Cannot set user to null");
         } else {
             this.guest = guest;
-            return this.guest == guest;
+            return true;
         }
     }
 }

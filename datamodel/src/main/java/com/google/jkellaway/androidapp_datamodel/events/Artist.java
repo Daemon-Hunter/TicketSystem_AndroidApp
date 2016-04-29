@@ -23,6 +23,7 @@ import java.util.List;
 import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.idValidator;
 
 /**
+ *
  * @author 10512691
  */
 public class Artist implements IArtist {
@@ -51,55 +52,77 @@ public class Artist implements IArtist {
         Integer               socialMediaID
         DatabaseTable         table;
      */
-
+    
     private LinkedList<String> tags;
-
+    
     public Artist() {
         this.table = DatabaseTable.ARTIST;
         tags = new LinkedList<>();
         reviewFactory = new ArtistReviewFactory();
-        childEvents = new LinkedList<>();
     }
 
-    public Artist(Integer ID, String name, String description, LinkedList<String> tags, SocialMedia social, List<IReview> reviewsList, List<Integer> childEventIDs) {
+    /**
+     * Use this constructor when creating an artist from the database.
+     * Given arguments are known to be valid.
+     * No child events given. When a call is made to the artist to return it's child events,
+     * it will fetch relevant events through the API.
+     * @param ID Already allocated
+     * @param name
+     * @param description
+     * @param tags
+     * @param social
+     * @param reviewsList
+     */
+    public Artist(Integer ID, String name, String description, LinkedList<String> tags, SocialMedia social,
+                  List<IReview> reviewsList, Integer typeID) {
         this.ID = ID;
         this.name = name;
         this.description = description;
         this.socialMedia = social;
         this.reviews = reviewsList;
         this.table = DatabaseTable.ARTIST;
-
-        // Initialise default values for rest of attributes
-        this.tags = tags;
-        reviewFactory = new ArtistReviewFactory();
-        this.childEvents = new LinkedList<>();
-    }
-
-    public Artist(Integer ID, String name, String description, LinkedList<String> tags, Integer socialMediaID, Integer typeID) {
-        this.ID = ID;
-        this.name = name;
-        this.description = description;
-        this.socialMedia = new SocialMedia();
-        this.reviews = new LinkedList<>();
-        this.table = DatabaseTable.ARTIST;
-        this.socialMediaID = socialMediaID;
         this.typeID = typeID;
 
         // Initialise default values for rest of attributes
         this.tags = tags;
         reviewFactory = new ArtistReviewFactory();
-        this.childEvents = new LinkedList<>();
     }
 
-    public Boolean setChildEvents(List<Object> events) {
-        if (events != null) {
-            for (int i = 0; i < events.size() ; i++) {
-                childEvents.add((IChildEvent) events.get(i));
-
-            }
-            return true;
+    /**
+     * Use this constructor when
+     * @param ID
+     * @param name
+     * @param description
+     * @param tags
+     * @param socialMediaID
+     * @param typeID
+     */
+    public Artist(Integer ID, String name, String description, LinkedList<String> tags, Integer socialMediaID, Integer typeID) {
+        if (Validator.idValidator(ID)) {
+            this.ID = ID;
+        } else {
+            throw new IllegalArgumentException("Invalid ID");
         }
-        return false;
+        if (Validator.nameValidator(name)) {
+            this.name = name;
+        } else {
+            throw new IllegalArgumentException("Invalid name. Must be under 20 characters and can't contain blacklisted words.");
+        }
+        if (Validator.descriptionValidator(description)) {
+            this.description = description;
+        } else {
+            throw new IllegalArgumentException("Invalid description. Must be under 500 character and can't contain blacklisted words.");
+        }
+
+        this.socialMediaID = socialMediaID;
+        this.reviews = new LinkedList<>();
+        this.table = DatabaseTable.ARTIST;
+
+        this.typeID = typeID;
+
+        // Initialise default values for rest of attributes
+        this.tags = tags;
+        reviewFactory = new ArtistReviewFactory();
     }
 
     @Override
@@ -123,9 +146,9 @@ public class Artist implements IArtist {
 
     @Override
     public Boolean removeTag(String tag) {
-
+        
         return tags.remove(tag);
-
+            
     }
 
     @Override
@@ -194,13 +217,12 @@ public class Artist implements IArtist {
     @Override
     public List<IChildEvent> getChildEvents() throws IOException {
         if (childEvents == null) {
-            childEvents = (List<IChildEvent>) (Object) APIHandle.getObjectsFromObject(this.ID, DatabaseTable.CHILD_EVENT, DatabaseTable.ARTIST);
+            childEvents = (List<IChildEvent>) (Object)APIHandle.getObjectsFromObject(this.ID, DatabaseTable.CHILD_EVENT, DatabaseTable.ARTIST);
+            return new LinkedList<>(childEvents);
+        } else {
+            return new LinkedList<>(childEvents);
         }
-        return childEvents;
-
     }
-
-
 
     @Override
     public Integer getSocialId() {
@@ -209,7 +231,6 @@ public class Artist implements IArtist {
 
     /**
      * Checks the validity of the ID before assigning.
-     *
      * @param id
      * @return Boolean true if ID set.
      */
@@ -221,6 +242,7 @@ public class Artist implements IArtist {
     }
 
 
+
     protected IReviewFactory getReviewFactory() {
         return reviewFactory;
     }
@@ -228,7 +250,6 @@ public class Artist implements IArtist {
     /**
      * Adds IObserver object to list of objects to notify when a change is made.
      * Checks if the object is null or already exists in the list.
-     *
      * @param o
      * @return
      */
@@ -269,7 +290,7 @@ public class Artist implements IArtist {
 
     @Override
     public IReview createReview(Integer customerID, Integer rating, String body, Date date, Boolean verified) {
-        return reviewFactory.createReview(ID, customerID, rating, date, body, verified);
+        return reviewFactory.createReview( ID, customerID, rating, date, body, verified);
     }
 
     @Override
@@ -285,7 +306,8 @@ public class Artist implements IArtist {
                         return r;
                     }
                 }
-                throw new IllegalArgumentException("No customers with that ID have " + "written a review for this venue.");
+                throw new IllegalArgumentException("No customers with that ID have "
+                        + "written a review for this venue.");
 
             } else {
                 throw new IllegalArgumentException("Invalid ID");

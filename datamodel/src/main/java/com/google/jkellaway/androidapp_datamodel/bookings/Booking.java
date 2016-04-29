@@ -33,24 +33,35 @@ public abstract class Booking implements IBooking {
     
     /**
      * Use this constructor when creating a new object.
-     * @param newTicket
-     * @param ticketQty
-     * @param dateTime 
+     * @param newTicket Ticket which the booking is tied to
+     * @param ticketQty Quantity of tickets
+     * @param dateTime The date / time of the booking
      */
     public Booking(ITicket newTicket,  Integer ticketQty, Date dateTime) {
+        // Set ID as 0. Database will create one using sequence.
         this.bookingID = 0;
-        this.ticket = newTicket;
-        this.ticketQuantity = ticketQty;
-        // Store a copy of the time, as the variable could be externally changed
-        // after construction -> externally mutable object
-        this.bookingDateTime = (Date) dateTime.clone();
+        if (newTicket == null) {
+            throw new NullPointerException("Null ticket");
+        } else {
+            this.ticket = newTicket;
+
+            if (!Validator.quantityValidator(ticketQty)) {
+                throw new IllegalArgumentException("Invalid ticket quantity");
+            } else {
+                this.ticketQuantity = ticketQty;
+
+                // Store a copy of the time, as the variable could be externally changed
+                // after construction -> externally mutable object
+                this.bookingDateTime = (Date) dateTime.clone();
+            }
+        }
     }
     
     /**
      * Use this constructor when creating an object from the database.
-     * @param ID
-     * @param ticketQty
-     * @param dateTime 
+     * @param ID is known.
+     * @param ticketQty is valid.
+     * @param dateTime date / time the booking was made.
      */
     public Booking(Integer ID, Integer ticketID,  Integer ticketQty, Date dateTime) {
         this.bookingID = ID;
@@ -60,7 +71,10 @@ public abstract class Booking implements IBooking {
         // after construction -> externally mutable object
         this.bookingDateTime = (Date) dateTime.clone();
     }
-    
+
+    /**
+     * @return the unique ID of the booking.
+     */
     @Override
     public Integer getBookingID() {
         if (bookingID == null) {
@@ -71,7 +85,7 @@ public abstract class Booking implements IBooking {
     }
 
     @Override
-    public Integer getTicketID(){
+    public Integer getTicketID() {
         return ticketID;
     }
     
@@ -83,6 +97,7 @@ public abstract class Booking implements IBooking {
         }
         return ticket;
     }
+
     @Override
     public Boolean setTicket(ITicket ticket) {
         if (ticket == null) {
@@ -102,17 +117,17 @@ public abstract class Booking implements IBooking {
             return ticketQuantity;
         }
     }
+
     @Override
-    public Boolean setQuantity(Integer qty) throws IOException {
+    public Boolean setQuantity(Integer qty) {
         if (qty == null) {
             throw new NullPointerException("Null quantity");
         } else {
-            Boolean valid = Validator.quantityValidator(qty);
-            if (valid) {
+            if (Validator.quantityValidator(qty)) {
                 ticketQuantity = qty;
-                notifyObservers();
+                return true;
             }
-            return valid;
+            return false;
         }
     }
     
@@ -125,14 +140,13 @@ public abstract class Booking implements IBooking {
         }
     }
     @Override
-    public Boolean setBookingTime(Date time) throws IOException {
+    public Boolean setBookingTime(Date time) {
         if (time == null) {
             throw new NullPointerException("Null date / time");
         } else {
             // Store a copy of the time, as the variable could be externally changed
             // after construction -> externally mutable object
             bookingDateTime = (Date) time.clone();
-            notifyObservers();
             return true;
         }
     }
@@ -148,6 +162,7 @@ public abstract class Booking implements IBooking {
                 o.update(this, table);
             }
     }
+
     @Override
     public Boolean registerObserver(IObserver o) {
         if (o == null) {

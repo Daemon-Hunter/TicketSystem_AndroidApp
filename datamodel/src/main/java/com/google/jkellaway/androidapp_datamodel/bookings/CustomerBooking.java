@@ -7,6 +7,7 @@ package com.google.jkellaway.androidapp_datamodel.bookings;
 
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
+import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
 
 import java.util.Date;
 
@@ -28,7 +29,11 @@ public class CustomerBooking extends Booking {
     public CustomerBooking (Integer ID, Integer ticketID, Integer orderID, Integer ticketQty, Date dateTime) {
         super(ID, ticketID, ticketQty, dateTime);
         this.table = DatabaseTable.BOOKING;
-        this.orderID = orderID;
+        if (Validator.idValidator(orderID)) {
+            this.orderID = orderID;
+        } else {
+            throw new IllegalArgumentException("Invalid order ID");
+        }
     }
     
     /**
@@ -46,6 +51,9 @@ public class CustomerBooking extends Booking {
     }
 
     public IOrder getOrder() {
+        if (order == null) {
+            throw new NullPointerException("Null customer booking order");
+        }
         return order;
     }
 
@@ -54,7 +62,7 @@ public class CustomerBooking extends Booking {
             throw new NullPointerException("Cannot set user to null");
         } else {
             this.order = order;
-            return this.order == order;
+            return true;
         }
     }
 }

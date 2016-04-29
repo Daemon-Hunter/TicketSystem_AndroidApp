@@ -24,8 +24,8 @@ public interface IBooking extends IDbSubject {
     Boolean setTicket(ITicket ticket);
     
     Integer getQuantity();
-    Boolean setQuantity(Integer qty) throws IOException;
+    Boolean setQuantity(Integer qty);
     
     Date    getBookingTime();
-    Boolean setBookingTime(Date time) throws IOException;
+    Boolean setBookingTime(Date time);
 }
