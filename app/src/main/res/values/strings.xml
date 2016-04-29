@@ -93,5 +93,7 @@
     <string name="parking">Parking:</string>
     <string name="capacity">Capacity:</string>
     <string name="no_child_events">No Child Events</string>
+    <string name="no_performances">No Performances</string>
+    <string name="no_hosted_events">No hosted Events</string>
 
 </resources>

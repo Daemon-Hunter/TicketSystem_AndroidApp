@@ -32,4 +32,6 @@ public interface IArtist extends ISocial, IReviewable {
     SocialMedia getSocialMedia();
 
     List<IChildEvent> getChildEvents() throws IOException;
+
+    Boolean setChildEvents(List<Object> events);
 }

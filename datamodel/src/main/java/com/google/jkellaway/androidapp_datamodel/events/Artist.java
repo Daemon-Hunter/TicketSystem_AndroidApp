@@ -23,7 +23,6 @@ import java.util.List;
 import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.idValidator;
 
 /**
- *
  * @author 10512691
  */
 public class Artist implements IArtist {
@@ -52,9 +51,9 @@ public class Artist implements IArtist {
         Integer               socialMediaID
         DatabaseTable         table;
      */
-    
+
     private LinkedList<String> tags;
-    
+
     public Artist() {
         this.table = DatabaseTable.ARTIST;
         tags = new LinkedList<>();
@@ -62,8 +61,7 @@ public class Artist implements IArtist {
         childEvents = new LinkedList<>();
     }
 
-    public Artist(Integer ID, String name, String description, LinkedList<String> tags, SocialMedia social,
-                  List<IReview> reviewsList, List<Integer> childEventIDs) {
+    public Artist(Integer ID, String name, String description, LinkedList<String> tags, SocialMedia social, List<IReview> reviewsList, List<Integer> childEventIDs) {
         this.ID = ID;
         this.name = name;
         this.description = description;
@@ -93,6 +91,17 @@ public class Artist implements IArtist {
         this.childEvents = new LinkedList<>();
     }
 
+    public Boolean setChildEvents(List<Object> events) {
+        if (events != null) {
+            for (int i = 0; i < events.size() ; i++) {
+                childEvents.add((IChildEvent) events.get(i));
+
+            }
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public List<String> getTags() {
         return tags;
@@ -114,9 +123,9 @@ public class Artist implements IArtist {
 
     @Override
     public Boolean removeTag(String tag) {
-        
+
         return tags.remove(tag);
-            
+
     }
 
     @Override
@@ -185,12 +194,13 @@ public class Artist implements IArtist {
     @Override
     public List<IChildEvent> getChildEvents() throws IOException {
         if (childEvents == null) {
-            childEvents = (List<IChildEvent>) (Object)APIHandle.getObjectsFromObject(this.ID, DatabaseTable.CHILD_EVENT, DatabaseTable.ARTIST);
-            return new LinkedList<>(childEvents);
-        } else {
-            return new LinkedList<>(childEvents);
+            childEvents = (List<IChildEvent>) (Object) APIHandle.getObjectsFromObject(this.ID, DatabaseTable.CHILD_EVENT, DatabaseTable.ARTIST);
         }
+        return childEvents;
+
     }
+
+
 
     @Override
     public Integer getSocialId() {
@@ -199,6 +209,7 @@ public class Artist implements IArtist {
 
     /**
      * Checks the validity of the ID before assigning.
+     *
      * @param id
      * @return Boolean true if ID set.
      */
@@ -210,7 +221,6 @@ public class Artist implements IArtist {
     }
 
 
-
     protected IReviewFactory getReviewFactory() {
         return reviewFactory;
     }
@@ -218,6 +228,7 @@ public class Artist implements IArtist {
     /**
      * Adds IObserver object to list of objects to notify when a change is made.
      * Checks if the object is null or already exists in the list.
+     *
      * @param o
      * @return
      */
@@ -258,7 +269,7 @@ public class Artist implements IArtist {
 
     @Override
     public IReview createReview(Integer customerID, Integer rating, String body, Date date, Boolean verified) {
-        return reviewFactory.createReview( ID, customerID, rating, date, body, verified);
+        return reviewFactory.createReview(ID, customerID, rating, date, body, verified);
     }
 
     @Override
@@ -274,8 +285,7 @@ public class Artist implements IArtist {
                         return r;
                     }
                 }
-                throw new IllegalArgumentException("No customers with that ID have "
-                        + "written a review for this venue.");
+                throw new IllegalArgumentException("No customers with that ID have " + "written a review for this venue.");
 
             } else {
                 throw new IllegalArgumentException("Invalid ID");

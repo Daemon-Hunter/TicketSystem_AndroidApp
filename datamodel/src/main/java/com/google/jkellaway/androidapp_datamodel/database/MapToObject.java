@@ -155,14 +155,11 @@ final class MapToObject {
     public static IReview MapToVenueReview(Map<String, String> reviewMap, DatabaseTable table) {
 
         IReviewFactory factory;
-        if (table == DatabaseTable.VENUE)
-            factory = new VenueReviewFactory();
-        else if (table == DatabaseTable.ARTIST)
-            factory = new ArtistReviewFactory();
+        if (table == DatabaseTable.VENUE) factory = new VenueReviewFactory();
+        else if (table == DatabaseTable.ARTIST) factory = new ArtistReviewFactory();
         else if (table == DatabaseTable.PARENT_EVENT_REVIEW)
             factory = new ParentEventReviewFactory();
-        else
-            throw new IllegalArgumentException(table.toString() + " is not a valid table.");
+        else throw new IllegalArgumentException(table.toString() + " is not a valid table.");
 
         String sTable = table.toString().toUpperCase();
 
@@ -210,7 +207,7 @@ final class MapToObject {
     public static IVenue MapToVenue(Map<String, String> venueMap) {
 
         Integer venueID, capSeating, capStanding, parking, socialMediaID;
-        String description, facilities, phoneNumber, email, address, postcode, name;
+        String description, facilities, phoneNumber, email, address, city, postcode, name;
         Boolean disabledAccess;
 
         venueID = Integer.parseInt(venueMap.get("VENUE_ID"));
@@ -222,6 +219,7 @@ final class MapToObject {
         phoneNumber = venueMap.get("VENUE_PHONE_NUMBER");
         email = venueMap.get("VENUE_EMAIL");
         address = venueMap.get("VENUE_ADDRESS");
+        city = venueMap.get("VENUE_CITY");
         postcode = venueMap.get("VENUE_POSTCODE");
         name = venueMap.get("VENUE_NAME");
         socialMediaID = Integer.parseInt(venueMap.get("SOCIAL_MEDIA_ID"));
@@ -229,8 +227,9 @@ final class MapToObject {
         disabledAccess = venueMap.get("VENUE_DISABLED_ACCESS").equals("true");
 
 
-        return new Venue(venueID, socialMediaID, description, capSeating, capStanding, disabledAccess,
-                facilities, parking, phoneNumber, email, address, postcode, name);
+        return new Venue(venueID, socialMediaID, description, capSeating, capStanding,
+                disabledAccess, facilities, parking, phoneNumber, email, address, city, postcode,
+                name);
     }
 
     public static ITicket MapToTicket(Map<String, String> ticketMap) {
@@ -262,15 +261,14 @@ final class MapToObject {
         name = eventMap.get("CHILD_EVENT_NAME");
         description = eventMap.get("CHILD_EVENT_DESCRIPTION");
 
-        if (eventMap.get("CHILD_EVENT_CANCELED").equals("true"))
-            cancelled = true;
+        if (eventMap.get("CHILD_EVENT_CANCELED").equals("true")) cancelled = true;
         try {
             startTime = formatter.parse(eventMap.get("START_DATE_TIME"));
             endTime = formatter.parse(eventMap.get("END_DATE_TIME"));
         } catch (ParseException e) {
             System.err.println(e.toString());
         }
-        return new ChildEvent(eventID, venueID,  name, description, startTime, endTime, cancelled, parentEventID);
+        return new ChildEvent(eventID, venueID, name, description, startTime, endTime, cancelled, parentEventID);
     }
 
     public static IBooking MapToCustomerBooking(Map<String, String> bookingMap) {
@@ -334,16 +332,16 @@ final class MapToObject {
         return new ParentEvent(eventID, socialMediaID, name, description);
     }
 
-    public static IAdmin MapToAdmin(Map<String, String> adminMap){
+    public static IAdmin MapToAdmin(Map<String, String> adminMap) {
         Integer adminID = Integer.parseInt(adminMap.get("ADMIN_ID"));
         String email = adminMap.get("ADMIN_EMAIL");
 
         return new Admin(adminID, "ADMIN", "ADMIN", email);
     }
 
-    public static Integer[] MapToContract(Map<String, String> contractMap){
+    public static Integer[] MapToContract(Map<String, String> contractMap) {
         Integer artistID = Integer.parseInt(contractMap.get("ADMIN_ID"));
         Integer child_event_id = Integer.parseInt(contractMap.get("CHILD_EVENT_ID"));
-        return new Integer[] {artistID, child_event_id};
+        return new Integer[]{artistID, child_event_id};
     }
 }

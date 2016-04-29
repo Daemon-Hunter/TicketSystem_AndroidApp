@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -74,13 +75,12 @@ public class VenueFragAdapter extends ArrayAdapter<IVenue> {
 
         viewHolder.venueImage.setImageBitmap(ImageUtils.scaleDown(currVenue.getImage(0), xy, xy));
         viewHolder.venueName.setText(currVenue.getName());
-
-        // TODO change address to city!
-        viewHolder.venueCity.setText(currVenue.getAddress());
+        viewHolder.venueCity.setText(currVenue.getCity());
 
         viewHolder.venueMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.onclick));
                 Intent intent = new Intent(mContext, MapActivity.class);
                 intent.putExtra(MapActivity.VENUE_ID, currVenue.getID());
                 mContext.startActivity(intent);

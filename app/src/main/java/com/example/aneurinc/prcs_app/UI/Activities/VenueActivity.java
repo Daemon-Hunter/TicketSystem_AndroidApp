@@ -3,19 +3,16 @@ package com.example.aneurinc.prcs_app.UI.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -57,7 +54,7 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener 
         TextView venueEmail = (TextView) findViewById(R.id.venue_email);
         TextView venuePhoneNo = (TextView) findViewById(R.id.venue_phone_no);
 
-        int xy = ImageUtils.getScreenWidth(this) / 3;
+        int xy = ImageUtils.getScreenWidth(this) / 4;
         Bitmap scaledImage = ImageUtils.scaleDown(mVenue.getImage(0), xy, xy);
 
         venueImage.setImageBitmap(scaledImage);
@@ -74,7 +71,7 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener 
         ImageView facebook = (ImageView) findViewById(R.id.facebook);
         ImageView twitter = (ImageView) findViewById(R.id.twitter);
         ImageView instagram = (ImageView) findViewById(R.id.instagram);
-        ImageView map = (ImageView) findViewById(R.id.venue_map);
+        ImageView map = (ImageView) findViewById(R.id.venue_maps);
 
         facebook.setOnClickListener(this);
         twitter.setOnClickListener(this);
@@ -85,6 +82,7 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener 
 
     private void setupToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.venues);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -134,7 +132,7 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener 
                 break;
             case R.id.instagram:
                 break;
-            case R.id.venue_map:
+            case R.id.venue_maps:
                 Intent intent = new Intent(this, MapActivity.class);
                 intent.putExtra(MapActivity.VENUE_ID, mVenue.getID());
                 startActivity(intent);
@@ -163,7 +161,6 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener 
                 mChildEvents = mVenue.getChildEvents();
             } catch (IOException e) {
                 // TODO: 26/04/2016 handle IOException 
-                Log.d(MainActivity.DEBUG_TAG, "doInBackground: IOException");
             }
             return mChildEvents;
         }
@@ -172,13 +169,10 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener 
         protected void onPostExecute(List<IChildEvent> childEvents) {
 
             if (childEvents.isEmpty()) {
-                ImageView noEventsImage = (ImageView) findViewById(R.id.no_upcoming_events_image);
-                TextView noEventsMessage = (TextView) findViewById(R.id.upcoming_uk_events_message);
-                LinearLayout eventsMessageContainer = (LinearLayout) findViewById(R.id
-                        .upcoming_message_container);
+                ImageView noEventsImage = (ImageView) findViewById(R.id.no_venue_events_image);
+                TextView noEventsMessage = (TextView) findViewById(R.id.no_venue_events_message);
                 noEventsImage.setVisibility(View.VISIBLE);
-                noEventsMessage.setText(getString(R.string.no_upcoming_events));
-                eventsMessageContainer.setBackgroundColor(Color.TRANSPARENT);
+                noEventsMessage.setVisibility(View.VISIBLE);
             } else {
                 ListView childEventsListView = (ListView) mContext.findViewById(R.id
                         .child_events_list);

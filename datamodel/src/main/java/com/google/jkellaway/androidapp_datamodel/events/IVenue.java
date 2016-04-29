@@ -27,6 +27,7 @@ public interface IVenue extends ISocial, IReviewable {
     String getEmail();
     String getPhoneNumber();
     String getAddress();
+    String getCity();
     String getPostcode();
 
     List<IChildEvent> getChildEvents() throws IOException;

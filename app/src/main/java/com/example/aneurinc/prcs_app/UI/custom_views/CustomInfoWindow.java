@@ -35,10 +35,12 @@ public class CustomInfoWindow extends View implements GoogleMap.InfoWindowAdapte
 
         TextView venue = (TextView) view.findViewById(R.id.info_window_title);
         TextView address = (TextView) view.findViewById(R.id.info_window_address);
+        TextView city = (TextView) view.findViewById(R.id.info_window_city);
         TextView postcode = (TextView) view.findViewById(R.id.info_window_postcode);
 
         venue.setText(mVenue.getName());
-        address.setText(mVenue.getAddress());
+        address.setText(mVenue.getAddress() + ", ");
+        city.setText(mVenue.getCity() + ", " );
         postcode.setText(mVenue.getPostcode());
 
         return view;

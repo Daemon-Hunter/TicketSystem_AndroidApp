@@ -11,7 +11,6 @@ import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.custom_adapters.ReceiptActAdapter;
@@ -38,9 +37,8 @@ public class ReceiptActivity extends AppCompatActivity implements OnClickListene
 
     private void setupToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
+        toolbar.setTitle(R.string.title_activity_receipt);
         setSupportActionBar(toolbar);
-        toolbarTitle.setText(R.string.your_receipt);
     }
 
     private void addOnClickListeners() {

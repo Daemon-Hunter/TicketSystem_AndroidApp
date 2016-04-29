@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -52,7 +53,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         setUpToolbar();
 
         mVenue = UserWrapper.getInstance().getVenue(getIntent().getExtras().getInt(VENUE_ID));
-        mAddress = mVenue.getAddress() + ", " + mVenue.getPostcode();
+        mAddress = mVenue.getAddress() + ", " + mVenue.getCity() + ", " + mVenue.getPostcode();
 
         // geocode string address to get latitude and longitude
         mLocation = geocodeAddress(mAddress);
@@ -76,6 +77,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
 
+    @Nullable
     private LatLng geocodeAddress(String addressStr) {
 
         Geocoder coder = new Geocoder(this);
@@ -111,10 +113,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private void setUpToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
+        toolbar.setTitle(R.string.venue_location);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbarTitle.setText(R.string.venue_location);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

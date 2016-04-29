@@ -53,11 +53,9 @@ public class ChildEventActivity extends AppCompatActivity implements OnClickList
 
     private void setupToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
+        toolbar.setTitle(R.string.child_event);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbarTitle.setText(R.string.child_event);
-
         toolbar.setNavigationOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

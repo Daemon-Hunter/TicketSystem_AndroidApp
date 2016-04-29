@@ -3,17 +3,16 @@ package com.example.aneurinc.prcs_app.UI.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -31,18 +30,19 @@ import java.util.List;
 public class ArtistActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static String ARTIST_ID;
-    public static IArtist mArtist;
+    private IArtist mArtist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_artist);
-        getArtist();
+        mArtist = UserWrapper.getInstance().getArtist(getIntent().getExtras().getInt(ARTIST_ID));
+        readArtist();
         setUpToolbar();
         addOnClickListeners();
     }
 
-    private void getArtist() {
+    private void readArtist() {
         ReadArtist task = new ReadArtist(this);
         task.execute();
     }
@@ -63,10 +63,9 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
 
     private void setUpToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
+        toolbar.setTitle(R.string.artists);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbarTitle.setText(R.string.artist);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,20 +77,15 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
     private void displayInfo() {
 
         ImageView artistImage = (ImageView) findViewById(R.id.artist_image);
-        TextView artistName = (TextView) findViewById(R.id.artist_name);
+        TextView artistName = (TextView) findViewById(R.id.artist_title);
         TextView artistDescription = (TextView) findViewById(R.id.artist_description);
 
-        int xy = ImageUtils.getScreenWidth(this) / 3;
+        int xy = ImageUtils.getScreenWidth(this) / 4;
         Bitmap scaledImage = ImageUtils.scaleDown(mArtist.getImage(0), xy, xy);
 
         artistName.setText(mArtist.getName());
         artistImage.setImageBitmap(scaledImage);
         artistDescription.setText(mArtist.getDescription());
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
     }
 
     @Override
@@ -139,7 +133,7 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    private class ReadArtist extends AsyncTask<Void, Void, IArtist> {
+    private class ReadArtist extends AsyncTask<Void, Void, List<IChildEvent>> {
 
         private Activity mContext;
 
@@ -154,34 +148,31 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         @Override
-        protected IArtist doInBackground(Void... voids) {
-            mArtist = UserWrapper.getInstance().getArtist(getIntent().getExtras().getInt(ARTIST_ID));
-            return mArtist;
+        protected List<IChildEvent> doInBackground(Void... voids) {
+            List<IChildEvent> mChildEvents = null;
+            try {
+                mChildEvents = mArtist.getChildEvents();
+                Log.d(MainActivity.DEBUG_TAG, "doInBackground: " + mChildEvents.size());
+            } catch (IOException e) {
+                // TODO: 29/04/2016 handle exception
+            }
+
+
+            return mChildEvents;
         }
 
         @Override
-        protected void onPostExecute(IArtist artist) {
+        protected void onPostExecute(List<IChildEvent> childEvents) {
 
-            ListView artistEventsListView = (ListView) mContext.findViewById(R.id
-                    .artist_child_event_list);
-            List<IChildEvent> artistEventsList = null;
+            ListView artistEventsListView = (ListView) mContext.findViewById(R.id.artist_lineup_list);
 
-            try {
-                artistEventsList = artist.getChildEvents();
-            } catch (IOException e) {
-                // TODO: 25/04/2016 server error  
-            }
-
-            if (artistEventsList.isEmpty()) {
-                ImageView noEventsImage = (ImageView) findViewById(R.id.no_upcoming_events_image);
-                TextView noEventsMessage = (TextView) findViewById(R.id.upcoming_uk_events_message);
-                LinearLayout eventsMessageContainer = (LinearLayout) findViewById(R.id
-                        .upcoming_message_container);
+            if (childEvents.isEmpty()) {
+                ImageView noEventsImage = (ImageView) findViewById(R.id.no_performances_image);
+                TextView noEventsMessage = (TextView) findViewById(R.id.no_performances_message);
                 noEventsImage.setVisibility(View.VISIBLE);
-                noEventsMessage.setText(getString(R.string.no_upcoming_events));
-                eventsMessageContainer.setBackgroundColor(Color.TRANSPARENT);
+                noEventsMessage.setVisibility(View.VISIBLE);
             } else {
-                artistEventsListView.setAdapter(new ArtistActAdapter(mContext, artistEventsList));
+                artistEventsListView.setAdapter(new ArtistActAdapter(mContext, childEvents));
             }
 
             displayInfo();

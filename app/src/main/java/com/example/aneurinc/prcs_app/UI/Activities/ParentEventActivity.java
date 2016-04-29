@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -26,7 +27,8 @@ import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 import java.io.IOException;
 import java.util.List;
 
-public class ParentEventActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class ParentEventActivity extends AppCompatActivity implements AdapterView
+        .OnItemClickListener, View.OnClickListener {
 
     public static String PARENT_EVENT_ID;
     private IParentEvent mParentEvent;
@@ -51,10 +53,9 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
 
     private void setupToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
+        toolbar.setTitle(R.string.parent_event);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbarTitle.setText(R.string.parent_event);
     }
 
     private void displayParentEvent() {
@@ -105,6 +106,21 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
         i.putExtra(ChildEventActivity.CHILD_EVENT_ID, mParentEvent.getChildEvent(position).getID());
         startActivity(i);
 
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.onclick));
+
+        switch (v.getId()) {
+            case R.id.facebook:
+                break;
+            case R.id.twitter:
+                break;
+            case R.id.instagram:
+                break;
+        }
     }
 
     private class ReadParentEvent extends AsyncTask<Void, Void, IParentEvent> {

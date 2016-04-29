@@ -85,10 +85,10 @@
             android:layout_height="wrap_content"
             android:layout_above="@id/no_child_events_image"
             android:layout_centerHorizontal="true"
-            android:padding="10dp"
+            android:layout_marginTop="15dp"
             android:text="@string/no_child_events"
             android:textColor="@android:color/white"
-            android:textSize="18sp"
+            android:textSize="22sp"
             android:visibility="invisible"/>
 
     </RelativeLayout>
@@ -99,7 +99,7 @@
         android:layout_height="0dp"
         android:layout_weight="10"
         android:layout_marginTop="10dp"
-        android:gravity="center_horizontal">
+        android:gravity="center">
 
         <ImageView
             android:id="@+id/facebook"

@@ -31,7 +31,6 @@ import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.phon
 import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.postcodeValidator;
 
 /**
- *
  * @author 10512691
  */
 public class Venue implements IVenue {
@@ -46,24 +45,20 @@ public class Venue implements IVenue {
     private DatabaseTable table;
     private int ID;
     private String name;
-    private String  phoneNumber,
-                    email,
-                    address,
-                    postcode;
-    private Integer capacitySeating,
-                    capacityStanding,
-                    parkingSpaces;
+    private String phoneNumber, email, address, city, postcode;
+    private Integer capacitySeating, capacityStanding, parkingSpaces;
     private Boolean disabledAccess;
-    private String  facilities;
-    
+    private String facilities;
+
     public Venue() {
-        reviewFactory    = new VenueReviewFactory();
+        reviewFactory = new VenueReviewFactory();
     }
-    
+
     /**
      * For use when creating new Venues on the Administrators application.
      * No ID is given, it will be assigned from a returning call to the API.
      * in the setID() method.
+     *
      * @param social
      * @param description
      * @param capSeating
@@ -75,35 +70,34 @@ public class Venue implements IVenue {
      * @param email
      * @param address
      * @param postcode
-     * @param name 
+     * @param name
      * @param reviewsList
      */
-    public Venue(SocialMedia social, String description, Integer capSeating, Integer capStanding, Boolean access, 
-            String facilities, Integer parking, String phoneNo, String email, String address, String postcode,
-            String name, List<IReview> reviewsList)
-    {
+    public Venue(SocialMedia social, String description, Integer capSeating, Integer capStanding, Boolean access, String facilities, Integer parking, String phoneNo, String email, String address, String city, String postcode, String name, List<IReview> reviewsList) {
         this.name = name;
         this.description = description;
         this.socialMedia = social;
         this.reviews = reviewsList;
         this.table = DatabaseTable.VENUE;
-        
+
         // Initialize all other variables with method arguments
-        this.capacitySeating  = capSeating;
+        this.capacitySeating = capSeating;
         this.capacityStanding = capStanding;
-        this.disabledAccess   = access;
-        this.facilities  = facilities;
-        this.parkingSpaces    = parking;
-        this.phoneNumber      = phoneNo;
-        this.email       = email;
-        this.address     = address;
-        this.postcode    = postcode;
-        this.reviewFactory    = new VenueReviewFactory();
+        this.disabledAccess = access;
+        this.facilities = facilities;
+        this.parkingSpaces = parking;
+        this.phoneNumber = phoneNo;
+        this.email = email;
+        this.address = address;
+        this.city = city;
+        this.postcode = postcode;
+        this.reviewFactory = new VenueReviewFactory();
     }
-    
+
     /**
      * For use when creating venues that already exist in the database.
      * ID is given and assigned.
+     *
      * @param id
      * @param description
      * @param capSeating
@@ -117,32 +111,30 @@ public class Venue implements IVenue {
      * @param postcode
      * @param name
      */
-    public Venue(Integer id, Integer socialMediaID, String description, Integer capSeating, Integer capStanding,
-            Boolean access, String facilities, Integer parking, String phoneNo, String email, String address, 
-            String postcode, String name)
-    {
+    public Venue(Integer id, Integer socialMediaID, String description, Integer capSeating, Integer capStanding, Boolean access, String facilities, Integer parking, String phoneNo, String email, String address, String city, String postcode, String name) {
         this.ID = id;
         this.name = name;
         this.description = description;
         this.socialMedia = new SocialMedia();
         this.reviews = new LinkedList<>();
         this.table = DatabaseTable.VENUE;
-        
+
         // Initialize all other variables with method arguments
-        capacitySeating  = capSeating;
+        capacitySeating = capSeating;
         capacityStanding = capStanding;
-        disabledAccess   = access;
-        this.facilities  = facilities;
-        parkingSpaces    = parking;
-        phoneNumber      = phoneNo;
-        this.email       = email;
-        this.address     = address;
-        this.postcode    = postcode;
-        reviewFactory    = new VenueReviewFactory();
+        disabledAccess = access;
+        this.facilities = facilities;
+        parkingSpaces = parking;
+        phoneNumber = phoneNo;
+        this.email = email;
+        this.address = address;
+        this.city = city;
+        this.postcode = postcode;
+        reviewFactory = new VenueReviewFactory();
         this.socialMediaID = socialMediaID;
     }
 
-@Override
+    @Override
     public Integer getID() {
         return ID;
     }
@@ -238,6 +230,15 @@ public class Venue implements IVenue {
     }
 
     @Override
+    public String getCity() {
+        if (city == null) {
+            throw new NullPointerException("Null city");
+        } else {
+            return city;
+        }
+    }
+
+    @Override
     public String getPostcode() {
         if (postcode == null) {
             throw new NullPointerException("Null postcode");
@@ -248,7 +249,7 @@ public class Venue implements IVenue {
 
     @Override
     public List<IChildEvent> getChildEvents() throws IOException {
-        this.childEvents = (List<IChildEvent>)(Object)APIHandle.getObjectsFromObject(this.ID, DatabaseTable.CHILD_EVENT, DatabaseTable.VENUE);
+        this.childEvents = (List<IChildEvent>) (Object) APIHandle.getObjectsFromObject(this.ID, DatabaseTable.CHILD_EVENT, DatabaseTable.VENUE);
         return this.childEvents;
     }
 
@@ -420,6 +421,7 @@ public class Venue implements IVenue {
 
     /**
      * Checks the validity of the ID before assigning.
+     *
      * @param id
      * @return Boolean true if ID set.
      */
@@ -431,7 +433,6 @@ public class Venue implements IVenue {
     }
 
 
-
     protected IReviewFactory getReviewFactory() {
         return reviewFactory;
     }
@@ -439,6 +440,7 @@ public class Venue implements IVenue {
     /**
      * Adds IObserver object to list of objects to notify when a change is made.
      * Checks if the object is null or already exists in the list.
+     *
      * @param o
      * @return
      */
@@ -479,7 +481,7 @@ public class Venue implements IVenue {
 
     @Override
     public IReview createReview(Integer customerID, Integer rating, String body, Date date, Boolean verified) {
-        return reviewFactory.createReview( ID, customerID, rating, date, body, verified);
+        return reviewFactory.createReview(ID, customerID, rating, date, body, verified);
     }
 
     @Override
@@ -495,8 +497,7 @@ public class Venue implements IVenue {
                         return r;
                     }
                 }
-                throw new IllegalArgumentException("No customers with that ID have "
-                        + "written a review for this venue.");
+                throw new IllegalArgumentException("No customers with that ID have " + "written a review for this venue.");
 
             } else {
                 throw new IllegalArgumentException("Invalid ID");
