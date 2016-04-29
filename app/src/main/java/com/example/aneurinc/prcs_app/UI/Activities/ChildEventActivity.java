@@ -22,8 +22,6 @@ import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
 import com.google.jkellaway.androidapp_datamodel.events.ChildEvent;
 import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
 
-import java.io.IOException;
-
 public class ChildEventActivity extends AppCompatActivity implements OnClickListener {
 
     public static String CHILD_EVENT_ID;
@@ -138,19 +136,12 @@ public class ChildEventActivity extends AppCompatActivity implements OnClickList
             TextView date = (TextView) mContext.findViewById(R.id.child_event_date);
             TextView address = (TextView) mContext.findViewById(R.id.child_event_address);
             TextView desc = (TextView) mContext.findViewById(R.id.child_event_description);
-            ImageView image = (ImageView) mContext.findViewById(R.id.child_event_image);
+            ImageView image = (ImageView) mContext.findViewById(R.id.child_event_venue_image);
 
             name.setText(childEvent.getName());
-            date.setText(childEvent.getStartDateTime() + " - "
-                    + childEvent.getEndDateTime());
+            date.setText(childEvent.getStartDateTime() + " - " + childEvent.getEndDateTime());
 
-            try {
-                address.setText(childEvent.getVenue().getAddress());
-            } catch (IOException e) {
-                e.printStackTrace();
-
-                // TODO: 28/04/2016 IOException 
-            }
+            address.setText(childEvent.getVenue().getAddress());
 
             desc.setText(childEvent.getDescription());
 

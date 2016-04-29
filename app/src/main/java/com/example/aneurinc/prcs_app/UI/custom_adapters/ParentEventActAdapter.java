@@ -52,7 +52,7 @@ public class ParentEventActAdapter extends ArrayAdapter<IChildEvent> {
             convertView = inflater.inflate(R.layout.list_row_parent_event, parent, false);
 
             viewHolder = new ViewHolder();
-            viewHolder.childEventImage = (ImageView) convertView.findViewById(R.id.child_event_image);
+            viewHolder.childEventImage = (ImageView) convertView.findViewById(R.id.child_event_venue_image);
             viewHolder.childEventName = (TextView) convertView.findViewById(R.id.child_event_name);
             viewHolder.childEventDate = (TextView) convertView.findViewById(R.id.child_event_date);
 
@@ -69,8 +69,7 @@ public class ParentEventActAdapter extends ArrayAdapter<IChildEvent> {
         convertView.setBackgroundColor(Constants.rowColour[colorPos]);
 
         int xy = ImageUtils.getScreenWidth(mContext) / 5;
-
-        Bitmap scaledImage = ImageUtils.scaleDown(currChildEvent.getImage(0), xy, xy);
+        Bitmap scaledImage = ImageUtils.scaleDown(currChildEvent.getVenue().getImage(0), xy, xy);
         viewHolder.childEventImage.setImageBitmap(scaledImage);
 
         viewHolder.childEventName.setText(currChildEvent.getName());
