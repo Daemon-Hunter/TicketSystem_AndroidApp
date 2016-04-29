@@ -31,7 +31,6 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
     public static String PARENT_EVENT_ID;
     private IParentEvent mParentEvent;
     private List<IChildEvent> mChildEvents;
-    private ParentEventActAdapter parentEventActAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +63,7 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
         TextView name = (TextView) findViewById(R.id.parent_event_title);
         TextView desc = (TextView) findViewById(R.id.parent_event_description);
 
-        int xy = ImageUtils.getScreenWidth(this) / 3;
+        int xy = ImageUtils.getScreenWidth(this) / 4;
         Bitmap scaledImage = ImageUtils.scaleDown(mParentEvent.getImage(0), xy, xy);
 
         image.setImageBitmap(scaledImage);

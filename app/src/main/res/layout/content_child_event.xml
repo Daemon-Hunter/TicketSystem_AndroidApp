@@ -19,7 +19,7 @@
 
         <!--event image-->
         <ImageView
-            android:id="@+id/child_event_image"
+            android:id="@+id/child_event_venue_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:layout_toRightOf="@id/child_event_image"
+            android:layout_toRightOf="@id/child_event_venue_image"
             android:text="Event Name"
             android:textColor="@android:color/white"
             android:textSize="28sp" />
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/child_event_name"
             android:layout_marginLeft="15dp"
-            android:layout_toRightOf="@id/child_event_image"
+            android:layout_toRightOf="@id/child_event_venue_image"
             android:text="Date"
             android:textColor="@android:color/white" />
 
@@ -53,7 +53,7 @@
             android:layout_below="@id/child_event_date"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:layout_toRightOf="@id/child_event_image"
+            android:layout_toRightOf="@id/child_event_venue_image"
             android:text="Address"
             android:textColor="@android:color/white" />
 
@@ -62,7 +62,7 @@
             android:id="@+id/child_event_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/child_event_image"
+            android:layout_below="@id/child_event_venue_image"
             android:paddingBottom="5dp"
             android:paddingTop="5dp"
             android:textColor="@android:color/white" />

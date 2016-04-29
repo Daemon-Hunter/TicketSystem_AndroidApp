@@ -308,7 +308,7 @@ public class ChildEvent implements IChildEvent {
     }
 
     @Override
-    public IVenue getVenue() throws IOException {
+    public IVenue getVenue() {
         return venue;
     }
 
