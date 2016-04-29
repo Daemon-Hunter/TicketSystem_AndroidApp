@@ -8,6 +8,7 @@ package com.google.jkellaway.androidapp_datamodel.bookings;
 import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.people.IUser;
+import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
 import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
 
 import java.io.IOException;
@@ -19,7 +20,7 @@ import java.util.List;
  *
  * @author 10467841
  */
-public class Order implements IOrder{
+public class Order implements IOrder {
    
     private Integer orderID;
     private Integer userID;
@@ -29,12 +30,12 @@ public class Order implements IOrder{
     private DatabaseTable table = DatabaseTable.ORDER;
     
     /**
-     * 
+     * Use this constructor when creating an order object from the database.
      * @param ID
      * @param user
      * @param bList 
      */
-    public Order(Integer ID, IUser user, List<IBooking> bList){
+    public Order(Integer ID, IUser user, List<IBooking> bList) {
         this.orderID = ID;
         this.user = user;
         if (bList != null){
@@ -45,13 +46,27 @@ public class Order implements IOrder{
 
     }
 
-    public Order(Integer ID, Integer userID){
-        this.orderID = ID;
-        this.userID = userID;
+    /**
+     * Use this constructor when create a new order object
+     * @param ID
+     * @param userID
+     */
+    public Order(Integer ID, Integer userID) {
+        if (Validator.idValidator(ID)) {
+            this.orderID = ID;
+
+            if (Validator.idValidator(userID)) {
+                this.userID = userID;
+            } else {
+                throw new IllegalArgumentException("Invalid user ID");
+            }
+        } else {
+            throw new IllegalArgumentException("Invalid order ID");
+        }
     }
     
     /**
-     * 
+     * Gets the order's unique ID
      * @return 
      */
     @Override
@@ -60,7 +75,7 @@ public class Order implements IOrder{
     }
 
     /**
-     * 
+     * Returns the user that made the order
      * @return 
      */
     @Override
@@ -76,17 +91,17 @@ public class Order implements IOrder{
     }
 
     /**
-     * 
+     * Gets the list of bookings related to the order
      * @return 
      */
     @Override
     public List<IBooking> getBookingList() throws IOException {
-        bookingList = (List<IBooking>)(Object)APIHandle.getObjectsFromObject(this.orderID, DatabaseTable.BOOKING, DatabaseTable.ORDER);
+        bookingList = (List<IBooking>) (Object)APIHandle.getObjectsFromObject(this.orderID, DatabaseTable.BOOKING, DatabaseTable.ORDER);
         return new ArrayList(bookingList);
     }
 
     /**
-     * 
+     * Returns a single booking, get via booking ID.
      * @param bookingID
      * @return 
      */
@@ -105,7 +120,7 @@ public class Order implements IOrder{
 
     @Override
     public DatabaseTable getTable() {
-        return DatabaseTable.ORDER;
+        return table;
     }
 
     @Override

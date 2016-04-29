@@ -114,10 +114,10 @@ public final class Validator {
      */
     public static Boolean nameValidator(String name) 
     {
-//        if (!Blacklist.contains(name)) {
-//            return 2 <= name.length() 
-//                    && name.length() <= 20;
-//        } else 
+        if (!Blacklist.contains(name)) {
+            return 2 <= name.length()
+                    && name.length() <= 20;
+        } else
         return true;
     }
 
@@ -144,7 +144,7 @@ public final class Validator {
         }
         
         return 10 <= description.length() 
-                && description.length() <= 100
+                && description.length() <= 500
                 && naughty; 
     }
 

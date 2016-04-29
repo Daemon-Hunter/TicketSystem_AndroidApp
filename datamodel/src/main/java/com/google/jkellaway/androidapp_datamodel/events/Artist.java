@@ -59,38 +59,70 @@ public class Artist implements IArtist {
         this.table = DatabaseTable.ARTIST;
         tags = new LinkedList<>();
         reviewFactory = new ArtistReviewFactory();
-        childEvents = new LinkedList<>();
     }
 
+    /**
+     * Use this constructor when creating an artist from the database.
+     * Given arguments are known to be valid.
+     * No child events given. When a call is made to the artist to return it's child events,
+     * it will fetch relevant events through the API.
+     * @param ID Already allocated
+     * @param name
+     * @param description
+     * @param tags
+     * @param social
+     * @param reviewsList
+     */
     public Artist(Integer ID, String name, String description, LinkedList<String> tags, SocialMedia social,
-                  List<IReview> reviewsList, List<Integer> childEventIDs) {
+                  List<IReview> reviewsList, Integer typeID) {
         this.ID = ID;
         this.name = name;
         this.description = description;
         this.socialMedia = social;
         this.reviews = reviewsList;
         this.table = DatabaseTable.ARTIST;
-
-        // Initialise default values for rest of attributes
-        this.tags = tags;
-        reviewFactory = new ArtistReviewFactory();
-        this.childEvents = new LinkedList<>();
-    }
-
-    public Artist(Integer ID, String name, String description, LinkedList<String> tags, Integer socialMediaID, Integer typeID) {
-        this.ID = ID;
-        this.name = name;
-        this.description = description;
-        this.socialMedia = new SocialMedia();
-        this.reviews = new LinkedList<>();
-        this.table = DatabaseTable.ARTIST;
-        this.socialMediaID = socialMediaID;
         this.typeID = typeID;
 
         // Initialise default values for rest of attributes
         this.tags = tags;
         reviewFactory = new ArtistReviewFactory();
-        this.childEvents = new LinkedList<>();
+    }
+
+    /**
+     * Use this constructor when
+     * @param ID
+     * @param name
+     * @param description
+     * @param tags
+     * @param socialMediaID
+     * @param typeID
+     */
+    public Artist(Integer ID, String name, String description, LinkedList<String> tags, Integer socialMediaID, Integer typeID) {
+        if (Validator.idValidator(ID)) {
+            this.ID = ID;
+        } else {
+            throw new IllegalArgumentException("Invalid ID");
+        }
+        if (Validator.nameValidator(name)) {
+            this.name = name;
+        } else {
+            throw new IllegalArgumentException("Invalid name. Must be under 20 characters and can't contain blacklisted words.");
+        }
+        if (Validator.descriptionValidator(description)) {
+            this.description = description;
+        } else {
+            throw new IllegalArgumentException("Invalid description. Must be under 500 character and can't contain blacklisted words.");
+        }
+
+        this.socialMediaID = socialMediaID;
+        this.reviews = new LinkedList<>();
+        this.table = DatabaseTable.ARTIST;
+
+        this.typeID = typeID;
+
+        // Initialise default values for rest of attributes
+        this.tags = tags;
+        reviewFactory = new ArtistReviewFactory();
     }
 
     @Override
