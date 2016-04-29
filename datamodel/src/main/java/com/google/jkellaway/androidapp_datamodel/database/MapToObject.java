@@ -72,7 +72,7 @@ final class MapToObject {
         Integer ID = Integer.parseInt(artistMap.get("ARTIST_ID"));
         String name = artistMap.get("ARTIST_NAME");
         String tags = artistMap.get("ARTIST_TAGS");
-        String[] tempArr = tags.split("#");
+        String[] tempArr = tags.split(",");
         String description = artistMap.get("ARTIST_DESCRIPTION");
         Integer socialID = Integer.parseInt(artistMap.get("SOCIAL_MEDIA_ID"));
         Integer type = Integer.parseInt(artistMap.get("ARTIST_TYPE_ID"));

@@ -5,8 +5,6 @@
  */
 package com.google.jkellaway.androidapp_datamodel.events;
 
-import com.google.jkellaway.androidapp_datamodel.reviews.IReviewable;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -14,7 +12,7 @@ import java.util.List;
  *
  * @author 10467841
  */
-public interface IArtist extends ISocial, IReviewable {
+public interface IArtist extends ISocial {
     
     Integer getID();
     String getName();

@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -152,7 +151,6 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
             List<IChildEvent> mChildEvents = null;
             try {
                 mChildEvents = mArtist.getChildEvents();
-                Log.d(MainActivity.DEBUG_TAG, "doInBackground: " + mChildEvents.size());
             } catch (IOException e) {
                 // TODO: 29/04/2016 handle exception
             }
