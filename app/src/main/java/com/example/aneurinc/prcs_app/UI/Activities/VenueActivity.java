@@ -175,7 +175,7 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener 
                 noEventsMessage.setVisibility(View.VISIBLE);
             } else {
                 ListView childEventsListView = (ListView) mContext.findViewById(R.id
-                        .child_events_list);
+                        .venue_event_list);
                 childEventsListView.setAdapter(new VenueActAdapter(mContext, childEvents));
             }
 

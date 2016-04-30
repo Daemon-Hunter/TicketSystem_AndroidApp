@@ -6,11 +6,11 @@
 package com.google.jkellaway.androidapp_datamodel.people;
 
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
+import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
+import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
 
 import java.io.IOException;
 import java.util.LinkedList;
-import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
-import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
 
 /**
  *
@@ -19,11 +19,11 @@ import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
 public class Admin implements IAdmin {
     
     private Integer ID;
-    private String  firstName, lastName, email;
+    private String  firstName, lastName, email, password;
     private DatabaseTable table;
     private LinkedList<IObserver> observers;
     
-    public Admin(String fName, String lName, String email) {
+    public Admin(String fName, String lName, String email, String password) {
         ID = 0;
         if (fName == null || lName == null) {
             throw new NullPointerException("First or last name is null.");
@@ -42,6 +42,8 @@ public class Admin implements IAdmin {
         } else {
             throw new IllegalArgumentException("Invalid email address");
         }
+
+        this.password = password;
         observers = new LinkedList<>();
     }
     
@@ -83,6 +85,17 @@ public class Admin implements IAdmin {
             }
             return this.email.equals(email);
         }
+    }
+
+    @Override
+    public Boolean setPassword(String password) {
+        this.password = password;
+        return this.password == password;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
     }
 
     @Override

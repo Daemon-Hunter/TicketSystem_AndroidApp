@@ -6,11 +6,11 @@
 package com.google.jkellaway.androidapp_datamodel.people;
 
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
+import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
+import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
 
 import java.io.IOException;
 import java.util.LinkedList;
-import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
-import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
 
 /**
  *
@@ -19,7 +19,7 @@ import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
 public abstract class User implements IUser {
     
     protected LinkedList<IObserver> observers;
-    protected String firstName, lastName, email, address, postcode;
+    protected String firstName, lastName, email, address, postcode, password;
     protected DatabaseTable table;
     protected Integer ID;
     
@@ -232,5 +232,10 @@ public abstract class User implements IUser {
             }
             return valid;
         }
+    }
+
+    @Override
+    public String getPassword(){
+        return password;
     }
 }

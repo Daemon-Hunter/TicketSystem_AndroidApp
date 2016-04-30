@@ -178,8 +178,6 @@ public final class APIHandle{
                             artist = MapToArtist(objectMap);
                             artist.setSocialMedia(MapToSocialMedia(APIConnection.readSingle(artist.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
                             artist.setType(MapToArtistType(APIConnection.readSingle(artist.getTypeID(), DatabaseTable.ARTIST_TYPE)));
-                        //    artist.setChildEvents(getObjectsFromObject(artist.getID(),
-                        //            DatabaseTable.CONTRACTS,DatabaseTable.CHILD_EVENT));
                             return artist;
                         case PARENT_EVENT:
                             IParentEvent parentEvent;

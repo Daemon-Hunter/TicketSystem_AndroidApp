@@ -141,6 +141,12 @@ public class Customer extends User implements IHaveReviews, ICustomer {
     }
 
     @Override
+    public Boolean setPassword(String password) {
+        this.password = password;
+        return this.password == password;
+    }
+
+    @Override
     public List<IOrder> getOrderList() throws IOException {
         if (orders == null){
             orders = (List<IOrder>) (Object)APIHandle.getObjectsFromObject(this.ID, DatabaseTable.ORDER, DatabaseTable.CUSTOMER);

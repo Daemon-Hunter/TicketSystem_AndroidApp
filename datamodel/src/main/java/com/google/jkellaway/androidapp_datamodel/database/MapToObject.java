@@ -318,7 +318,7 @@ final class MapToObject {
             System.err.println(e.toString());
         }
 
-        return new GuestBooking(bookingID, ticketID, quantity, dateTime, new Guest("GUEST", "ACCOUNT", email, address, postcode));
+        return new GuestBooking(bookingID, ticketID, quantity, dateTime, new Guest(email, address, postcode));
     }
 
     public static IParentEvent MapToParentEvent(Map<String, String> eventMap) {

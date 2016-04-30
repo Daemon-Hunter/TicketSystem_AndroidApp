@@ -23,4 +23,7 @@ public interface IPerson extends IDbSubject {
     
     String  getEmail();
     Boolean setEmail(String email) throws IOException;
+
+    Boolean setPassword(String password);
+    String getPassword();
 }
