@@ -25,7 +25,7 @@ public class ArtistActAdapter extends ArrayAdapter<IChildEvent> {
     private List<IChildEvent> mChildEvents;
 
     public ArtistActAdapter(Activity context, List<IChildEvent> childEvents) {
-        super(context, R.layout.list_row_artist_child_events);
+        super(context, R.layout.list_row_child_events);
         mContext = context;
         mChildEvents = childEvents;
     }
@@ -49,7 +49,7 @@ public class ArtistActAdapter extends ArrayAdapter<IChildEvent> {
         if (convertView == null) {
             // inflate view
             LayoutInflater inflater = mContext.getLayoutInflater();
-            convertView = inflater.inflate(R.layout.list_row_artist_child_events, parent, false);
+            convertView = inflater.inflate(R.layout.list_row_child_events, parent, false);
 
             // set up view holder
             viewHolder = new ViewHolder();
@@ -71,9 +71,12 @@ public class ArtistActAdapter extends ArrayAdapter<IChildEvent> {
         int xy = ImageUtils.getScreenWidth(mContext) / 10;
         Bitmap scaledImage = ImageUtils.scaleDown(currItem.getImage(0), xy, xy);
 
+        String startDate = currItem.getStartDateTime().toString();
+        String endDate = currItem.getEndDateTime().toString();
+        viewHolder.eventDate.setText(startDate.substring(0, 10) + " - " + endDate.substring
+                (0, 10));
         viewHolder.eventImage.setImageBitmap(scaledImage);
         viewHolder.eventName.setText(currItem.getName());
-        viewHolder.eventDate.setText(currItem.getStartDateTime() + " - " + currItem.getEndDateTime());
 
         return convertView;
     }

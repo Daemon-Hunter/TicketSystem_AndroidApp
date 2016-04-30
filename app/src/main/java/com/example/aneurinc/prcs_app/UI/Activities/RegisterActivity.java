@@ -171,7 +171,7 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
             // form field with an error.
             focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
+            // Show a progress spinner, and kick off a background1 task to
             // perform the user register attempt.
             showProgress(true);
             Customer cust = new Customer(forename, surname, email, address, postcode);

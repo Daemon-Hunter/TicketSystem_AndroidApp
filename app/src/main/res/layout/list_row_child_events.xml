@@ -29,7 +29,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:padding="2dp"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textStyle="italic"
+            android:textSize="16sp" />
 
     </LinearLayout>
 

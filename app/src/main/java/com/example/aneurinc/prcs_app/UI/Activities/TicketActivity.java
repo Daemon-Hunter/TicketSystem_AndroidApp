@@ -15,7 +15,6 @@ import android.widget.ListView;
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.custom_adapters.TicketActAdapter;
 import com.example.aneurinc.prcs_app.UI.custom_views.CustomDialog;
-import com.example.aneurinc.prcs_app.UI.utilities.Constants;
 
 public class TicketActivity extends AppCompatActivity implements OnClickListener {
 
@@ -63,8 +62,6 @@ public class TicketActivity extends AppCompatActivity implements OnClickListener
 
     private void displayImage() {
         int imageIndex = getIntent().getExtras().getInt(EventImageIndex);
-        ImageView eventImage = (ImageView) findViewById(R.id.parent_event_image);
-        eventImage.setImageResource(Constants.eventImages[imageIndex]);
     }
 
     @Override

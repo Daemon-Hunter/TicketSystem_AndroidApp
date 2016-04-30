@@ -61,7 +61,7 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener 
         venueTitle.setText(mVenue.getName());
         venueDesc.setText(mVenue.getDescription());
         venueCapacity.setText(getString(R.string.capacity) + " " + Integer.toString(mVenue
-                .getStandingCapacity() + mVenue.getStandingCapacity()));
+                .getSeatingCapacity() + mVenue.getStandingCapacity()));
         venueEmail.setText(mVenue.getEmail());
         venuePhoneNo.setText(mVenue.getPhoneNumber());
     }

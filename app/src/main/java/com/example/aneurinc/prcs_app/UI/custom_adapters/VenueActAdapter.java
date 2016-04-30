@@ -25,7 +25,7 @@ public class VenueActAdapter extends ArrayAdapter<IChildEvent> {
     private List<IChildEvent> mChildEvents;
 
     public VenueActAdapter(Activity context, List<IChildEvent> childEvents) {
-        super(context, R.layout.list_row_artist_child_events);
+        super(context, R.layout.list_row_child_events);
         mContext = context;
         mChildEvents = childEvents;
     }
@@ -69,12 +69,15 @@ public class VenueActAdapter extends ArrayAdapter<IChildEvent> {
         int colorPos = position % Constants.rowColour.length;
         convertView.setBackgroundColor(Constants.rowColour[colorPos]);
 
-        int xy = ImageUtils.getScreenWidth(mContext) / 10;
+        int xy = ImageUtils.getScreenWidth(mContext) / 5;
         Bitmap scaledImage = ImageUtils.scaleDown(currItem.getImage(0), xy, xy);
 
+        String startDate = currItem.getStartDateTime().toString();
+        String endDate = currItem.getEndDateTime().toString();
+        viewHolder.childEventDate.setText(startDate.substring(0, 10) + " - " + endDate.substring
+                (0, 10));
         viewHolder.childEventImage.setImageBitmap(scaledImage);
         viewHolder.childEventTitle.setText(currItem.getName());
-        viewHolder.childEventDate.setText(currItem.getStartDateTime() + " - " + currItem.getEndDateTime());
 
         return convertView;
     }

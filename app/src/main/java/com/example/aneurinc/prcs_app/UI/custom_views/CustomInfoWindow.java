@@ -30,7 +30,6 @@ public class CustomInfoWindow extends View implements GoogleMap.InfoWindowAdapte
 
     @Override
     public View getInfoContents(Marker marker) {
-
         View view = mContext.getLayoutInflater().inflate(R.layout.info_window, null);
 
         TextView venue = (TextView) view.findViewById(R.id.info_window_title);
@@ -40,7 +39,7 @@ public class CustomInfoWindow extends View implements GoogleMap.InfoWindowAdapte
 
         venue.setText(mVenue.getName());
         address.setText(mVenue.getAddress() + ", ");
-        city.setText(mVenue.getCity() + ", " );
+        city.setText(mVenue.getCity() + ", ");
         postcode.setText(mVenue.getPostcode());
 
         return view;

@@ -27,8 +27,7 @@ import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 import java.io.IOException;
 import java.util.List;
 
-public class ParentEventActivity extends AppCompatActivity implements AdapterView
-        .OnItemClickListener, View.OnClickListener {
+public class ParentEventActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
 
     public static String PARENT_EVENT_ID;
     private IParentEvent mParentEvent;
@@ -101,11 +100,15 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
         Intent i = new Intent(this, ChildEventActivity.class);
-        i.putExtra(ChildEventActivity.CHILD_EVENT_ID, mParentEvent.getChildEvent(position).getID());
-        startActivity(i);
 
+        i.putExtra(ChildEventActivity.CHILD_EVENT_ID, mChildEvents.get(position).getID());
+        i.putExtra(ChildEventActivity.PARENT_EVENT_ID, mParentEvent.getID());
+
+        Log.d(MainActivity.DEBUG_TAG, "onItemClick: parent before = " + mParentEvent.getID());
+        Log.d(MainActivity.DEBUG_TAG, "onItemClick: child before " + mChildEvents.get(position).getID());
+
+        startActivity(i);
     }
 
     @Override
@@ -152,10 +155,8 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
         protected void onPostExecute(IParentEvent parentEvent) {
 
             if (mChildEvents.isEmpty()) {
-                TextView noChildEventsMessage = (TextView) mContext.findViewById(R.id
-                        .no_child_events_message);
-                ImageView noChildEventsImage = (ImageView) mContext.findViewById(R.id
-                        .no_child_events_image);
+                TextView noChildEventsMessage = (TextView) mContext.findViewById(R.id.no_child_events_message);
+                ImageView noChildEventsImage = (ImageView) mContext.findViewById(R.id.no_child_events_image);
                 noChildEventsMessage.setVisibility(View.VISIBLE);
                 noChildEventsImage.setVisibility(View.VISIBLE);
 

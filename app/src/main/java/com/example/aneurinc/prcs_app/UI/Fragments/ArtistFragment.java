@@ -264,7 +264,6 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
 
     private class ReadArtists extends AsyncTask<Void, Void, Void> {
 
-
         @Override
         protected void onPreExecute() {
             Log.d(MainActivity.DEBUG_TAG, "onPreExecute: Read Artist thread started");

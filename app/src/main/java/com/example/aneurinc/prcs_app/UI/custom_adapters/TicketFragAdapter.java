@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.utilities.Constants;
 import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
 
 import java.util.List;
@@ -68,7 +67,7 @@ public class TicketFragAdapter extends ArrayAdapter<ITicket> {
         // TODO: 22/04/2016 get event name, event image and venue name
 
         viewHolder.eventName.setText("Event Name");
-        viewHolder.eventImage.setImageResource(Constants.eventImages[position]);
+//        viewHolder.eventImage.setImageResource(Constants.eventImages[position]);
         viewHolder.ticketCost.setText(formatPrice(Double.parseDouble(currTicket.getPrice().toString())));
         viewHolder.ticketType.setText(currTicket.getType());
         viewHolder.venueName.setText("Venue Name");

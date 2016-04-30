@@ -141,8 +141,7 @@
                 android:id="@+id/venue_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="-2dp"
-                android:src="@drawable/venue1"/>
+                android:layout_marginStart="-2dp"/>
 
             <!--venue title-->
             <TextView

@@ -28,7 +28,7 @@ public class ChildEventActAdapter extends ArrayAdapter<String> implements Adapte
     private static final int DATE_ROW_COLOUR = 0x7029b6f6;
 
     public ChildEventActAdapter(Activity context) {
-        super(context, R.layout.list_row_artist_lineup, Constants.artistName);
+        super(context, R.layout.list_row_artist_lineup);
 
         mContext = context;
 
@@ -91,8 +91,8 @@ public class ChildEventActAdapter extends ArrayAdapter<String> implements Adapte
                 convertView.setBackgroundColor(DATE_ROW_COLOUR);
                 break;
             case ARTIST_TYPE:
-                viewHolder.textView.setText(Constants.artistName[position]);
-                viewHolder.imageView.setImageResource(Constants.artistImages[position]);
+//                viewHolder.textView.setText(Constants.artistName[position]);
+//                viewHolder.imageView.setImageResource(Constants.artistImages[position]);
                 convertView.setBackgroundColor(Constants.rowColour[getRowColour(position)]);
                 break;
         }
