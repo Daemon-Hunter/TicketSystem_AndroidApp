@@ -247,28 +247,29 @@ final class MapToObject {
         return new Ticket(ticketID, childEventID, price, desc, remaining, type);
     }
 
-    public static IChildEvent MapToChildEvent(Map<String, String> eventMap, Integer parentEventID) throws IOException {
+    public static IChildEvent MapToChildEvent(Map<String, String> childEventMap) throws IOException {
 
-        Integer eventID, venueID;
+        Integer childEventID, venueID, parentEventID;
         String description, name;
         Date startTime = new Date();
         Date endTime = new Date();
         Boolean cancelled = false;
 
 
-        eventID = Integer.parseInt(eventMap.get("CHILD_EVENT_ID"));
-        venueID = Integer.parseInt(eventMap.get("VENUE_ID"));
-        name = eventMap.get("CHILD_EVENT_NAME");
-        description = eventMap.get("CHILD_EVENT_DESCRIPTION");
+        childEventID = Integer.parseInt(childEventMap.get("CHILD_EVENT_ID"));
+        parentEventID = Integer.parseInt(childEventMap.get("PARENT_EVENT_ID"));
+        venueID = Integer.parseInt(childEventMap.get("VENUE_ID"));
+        name = childEventMap.get("CHILD_EVENT_NAME");
+        description = childEventMap.get("CHILD_EVENT_DESCRIPTION");
 
-        if (eventMap.get("CHILD_EVENT_CANCELED").equals("true")) cancelled = true;
+        if (childEventMap.get("CHILD_EVENT_CANCELED").equals("true")) cancelled = true;
         try {
-            startTime = formatter.parse(eventMap.get("START_DATE_TIME"));
-            endTime = formatter.parse(eventMap.get("END_DATE_TIME"));
+            startTime = formatter.parse(childEventMap.get("START_DATE_TIME"));
+            endTime = formatter.parse(childEventMap.get("END_DATE_TIME"));
         } catch (ParseException e) {
             System.err.println(e.toString());
         }
-        return new ChildEvent(eventID, venueID, name, description, startTime, endTime, cancelled, parentEventID);
+        return new ChildEvent(childEventID, venueID, name, description, startTime, endTime, cancelled, parentEventID);
     }
 
     public static IBooking MapToCustomerBooking(Map<String, String> bookingMap) {

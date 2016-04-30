@@ -13,12 +13,9 @@ import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
 import com.google.jkellaway.androidapp_datamodel.events.IParentEvent;
 import com.google.jkellaway.androidapp_datamodel.events.IVenue;
 import com.google.jkellaway.androidapp_datamodel.events.SocialMedia;
-import com.google.jkellaway.androidapp_datamodel.people.IAdmin;
 import com.google.jkellaway.androidapp_datamodel.people.IUser;
 import com.google.jkellaway.androidapp_datamodel.reviews.IReview;
 import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
-import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
-import com.google.jkellaway.androidapp_datamodel.utilities.observer.ISubject;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -30,7 +27,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import static com.google.jkellaway.androidapp_datamodel.database.MapToObject.MapToAdmin;
 import static com.google.jkellaway.androidapp_datamodel.database.MapToObject.MapToArtist;
 import static com.google.jkellaway.androidapp_datamodel.database.MapToObject.MapToArtistReview;
 import static com.google.jkellaway.androidapp_datamodel.database.MapToObject.MapToArtistType;
@@ -58,7 +54,7 @@ import static com.google.jkellaway.androidapp_datamodel.utilities.HashString.Enc
 /**
  *
  */
-public final class APIHandle implements IObserver{
+public final class APIHandle{
 
     public static List<IUser> getUsers() throws IOException {
 
@@ -110,17 +106,7 @@ public final class APIHandle implements IObserver{
     public static int registerUser(IUser newUser, String password) throws IOException {
         Map<String, String> customerMap = ObjectToMap.customerToMap(newUser);
         customerMap.put("CUSTOMER_PASSWORD", Encrypt(password));
-        return APIConnection.add(customerMap, DatabaseTable.CUSTOMER);
-    }
-
-    public static List<IAdmin> getAdmins() throws IOException {
-
-        List<IAdmin> adminList = new LinkedList<>();
-        List<Map<String, String>> adminMapList = APIConnection.readAll(DatabaseTable.ADMIN);
-        for (Map<String, String> admin : adminMapList) {
-            adminList.add(MapToAdmin(admin));
-        }
-        return adminList;
+        return Integer.parseInt(APIConnection.add(customerMap, DatabaseTable.CUSTOMER).get("CUSTOMER_ID"));
     }
 
     public static List<Object> searchObjects(String search, final DatabaseTable table) throws IOException {
@@ -240,7 +226,7 @@ public final class APIHandle implements IObserver{
                 public Object call() throws Exception {
                     switch (objectsToGet){
                         case CHILD_EVENT:
-                            IChildEvent childEvent = MapToChildEvent(objectMap, parentID);
+                            IChildEvent childEvent = MapToChildEvent(objectMap);
                             childEvent.getParentEvent();
                             return childEvent;
                         case ARTIST:
@@ -261,9 +247,7 @@ public final class APIHandle implements IObserver{
                             return MapToTicket(objectMap);
                         case VENUE:
                             IVenue venue =  MapToVenue(objectMap);
-                            venue.setSocialMedia(MapToSocialMedia(APIConnection.readSingle(venue.getSocialId
-                                    (),
-                                    DatabaseTable.SOCIAL_MEDIA)));
+                            venue.setSocialMedia(MapToSocialMedia(APIConnection.readSingle(venue.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
                             return venue;
                         case ORDER:
                             return MapToOrder(objectMap);
@@ -296,7 +280,7 @@ public final class APIHandle implements IObserver{
         return reviewList;
     }
 
-    public static Integer pushObjectToDatabase(Object object, DatabaseTable table) throws IOException{
+    public static Object pushObjectToDatabase(Object object, DatabaseTable table) throws IOException{
         Map<String, String> objectMap;
         switch (table){
 //            case ADMIN:
@@ -304,58 +288,104 @@ public final class APIHandle implements IObserver{
 //                break;
             case ARTIST:
                 IArtist artist = (IArtist) object;
-                artist.setSocialId(pushObjectToDatabase(artist.getSocialMedia(), DatabaseTable.SOCIAL_MEDIA));
+                artist.setSocialMedia((SocialMedia)pushObjectToDatabase(artist.getSocialMedia(), DatabaseTable.SOCIAL_MEDIA));
                 objectMap = artistToMap((IArtist) object);
-                break;
+                return MapToArtist(APIConnection.add(objectMap, table));
 //            case ARTIST_TYPE:
 //                //objectMap = artistTypeToMap();
 //            case ARTIST_REVIEW:
 //                break;
             case BOOKING:
                 objectMap = customerBookingToMap((CustomerBooking) object);
-                break;
+                return MapToCustomerBooking(APIConnection.add(objectMap, table));
             case CHILD_EVENT:
                 objectMap = childEventToMap((IChildEvent) object);
-                break;
+                return MapToChildEvent(APIConnection.add(objectMap, table));
             case CUSTOMER:
                 objectMap = customerToMap((IUser) object);
-                break;
-//            case CONTRACTS:
-//                break;
+                return MapToCustomer(APIConnection.add(objectMap, table));
 //            case PARENT_EVENT_REVIEW:
 //                break;
             case GUEST_BOOKING:
                 objectMap = guestBookingToMap((GuestBooking) object);
-                break;
+                return MapToGuestBooking(APIConnection.add(objectMap, table));
             case PARENT_EVENT:
                 IParentEvent parentEvent = (IParentEvent) object;
-                parentEvent.setSocialId(pushObjectToDatabase(parentEvent.getSocialMedia(), DatabaseTable.SOCIAL_MEDIA));
+                parentEvent.setSocialMedia((SocialMedia) pushObjectToDatabase(parentEvent.getSocialMedia(), DatabaseTable.SOCIAL_MEDIA));
                 objectMap = parentEventToMap((IParentEvent) object);
-                break;
+                return MapToParentEvent(APIConnection.add(objectMap, table));
             case SOCIAL_MEDIA:
                 objectMap = socialMediaToMap((SocialMedia) object);
-                break;
+                return MapToSocialMedia(APIConnection.add(objectMap, table));
             case TICKET:
                 objectMap = ticketToMap((ITicket) object);
-                break;
+                return MapToTicket(APIConnection.add(objectMap, table));
             case VENUE:
                 IVenue venue = (IVenue) object;
-                venue.setSocialId(pushObjectToDatabase(venue.getSocialMedia(), DatabaseTable.SOCIAL_MEDIA));
+                venue.setSocialMedia((SocialMedia) pushObjectToDatabase(venue.getSocialMedia(), DatabaseTable.SOCIAL_MEDIA));
                 objectMap = venueToMap(venue);
-                break;
+                return MapToVenue(APIConnection.add(objectMap, table));
 //            case VENUE_REVIEW:
 //                break;
             case ORDER:
                 objectMap = orderToMap((IOrder) object);
-                break;
+                return MapToOrder(APIConnection.add(objectMap, table));
             default: throw new IllegalArgumentException("Not supported table.");
         }
-
-        return APIConnection.add(objectMap, table);
     }
 
-    @Override
-    public void update(ISubject object, DatabaseTable table) throws IOException {
-        pushObjectToDatabase(object, table);
+    public static Object updateObjectToDatabase(Object object, DatabaseTable table) throws IOException{
+        Integer id;
+        Map<String, String> objectMap;
+        switch (table){
+//            case ADMIN:
+//                //objectMap = AdminToMap
+//                break;
+            case ARTIST:
+                IArtist artist = (IArtist) object;
+                artist.setSocialMedia((SocialMedia) updateObjectToDatabase(artist.getSocialMedia(), DatabaseTable.SOCIAL_MEDIA));
+                objectMap = artistToMap((IArtist) object);
+                return MapToArtist(APIConnection.update(((IArtist) object).getID(), objectMap, table));
+//            case ARTIST_TYPE:
+//                //objectMap = artistTypeToMap();
+//            case ARTIST_REVIEW:
+//                break;
+            case BOOKING:
+                objectMap = customerBookingToMap((CustomerBooking) object);
+                return MapToCustomerBooking(APIConnection.update(((CustomerBooking) object).getBookingID(),objectMap, table));
+            case CHILD_EVENT:
+                objectMap = childEventToMap((IChildEvent) object);
+                return MapToChildEvent(APIConnection.update(((IChildEvent) object).getID(), objectMap, table));
+            case CUSTOMER:
+                objectMap = customerToMap((IUser) object);
+                return MapToCustomer(APIConnection.update(((IUser) object).getID(), objectMap, table));
+//            case PARENT_EVENT_REVIEW:
+//                break;
+            case GUEST_BOOKING:
+                objectMap = guestBookingToMap((GuestBooking) object);
+                return MapToGuestBooking(APIConnection.update(((GuestBooking) object).getBookingID(), objectMap, table));
+            case PARENT_EVENT:
+                IParentEvent parentEvent = (IParentEvent) object;
+                parentEvent.setSocialMedia((SocialMedia)updateObjectToDatabase(parentEvent.getSocialMedia(), DatabaseTable.SOCIAL_MEDIA));
+                objectMap = parentEventToMap((IParentEvent) object);
+                return MapToParentEvent(APIConnection.update(((IParentEvent) object).getID(), objectMap, table));
+            case SOCIAL_MEDIA:
+                objectMap = socialMediaToMap((SocialMedia) object);
+                return MapToSocialMedia(APIConnection.update(((SocialMedia) object).getSocialId(), objectMap, table));
+            case TICKET:
+                objectMap = ticketToMap((ITicket) object);
+                return MapToTicket(APIConnection.update(((ITicket) object).getID(), objectMap, table));
+            case VENUE:
+                IVenue venue = (IVenue) object;
+                venue.setSocialMedia((SocialMedia)updateObjectToDatabase(venue.getSocialMedia(), DatabaseTable.SOCIAL_MEDIA));
+                objectMap = venueToMap(venue);
+                return MapToVenue(APIConnection.update(((IVenue) object).getID(), objectMap, table));
+//            case VENUE_REVIEW:
+//                break;
+            case ORDER:
+                objectMap = orderToMap((IOrder) object);
+                return MapToOrder(APIConnection.update(((IOrder) object).getOrderID(), objectMap, table));
+            default: throw new IllegalArgumentException("Not supported table.");
+        }
     }
 }

@@ -5,8 +5,6 @@
  */
 package com.google.jkellaway.androidapp_datamodel.database;
 
-import android.util.Log;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -63,41 +61,49 @@ final class APIConnection {
     }
 
     // Allows the application to
-    public static String update(int id, Map<String, String> mapToEdit, DatabaseTable table) {
+    public static Map<String, String> update(int id, Map<String, String> mapToEdit, DatabaseTable table) throws IOException {
+
+        Map<String, String> map;
         // URL of where to add to the table.
         String urlToPost = URI + DBTableToString(table) + "/" + Integer.toString(id);
         BufferedReader br;
+        URL url = null;
         try {
-            URL url = new URL(urlToPost);
-            //Connect
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestProperty("Content-Type", "application/json");
-            connection.setRequestProperty("Accept", "application/json");
-            connection.setDoOutput(true);
-            connection.setRequestMethod("PUT");
-            connection.connect();
-
-            //WRITE
-            OutputStream os = connection.getOutputStream();
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-            writer.write(createJsonString(mapToEdit));
-            writer.close();
-            os.close();
-
-            br = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
-            br.close();
-            connection.disconnect();
-            return br.toString();
-        } catch (IOException x) {
-            System.err.println("NOPE");
-            System.err.println(x.getMessage());
-            return "";
+            url = new URL(urlToPost);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
         }
+        //Connect
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setRequestProperty("Accept", "application/json");
+        connection.setDoOutput(true);
+        connection.setRequestMethod("PUT");
+        connection.connect();
+
+        //WRITE
+        OutputStream os = connection.getOutputStream();
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+        writer.write(createJsonString(mapToEdit));
+        writer.close();
+        os.close();
+        try (BufferedReader in = new BufferedReader(
+                new InputStreamReader(connection.getInputStream()))) {
+
+            // inputValues of the JSON
+            String inputLine = in.readLine();
+
+            // split up the string into a map
+            map = splitJSONString(inputLine);
+        }
+        connection.disconnect();
+        return map;
 
     }
 
-    public static int add(Map<String, String> mapToAdd, DatabaseTable table) throws IOException {
+    public static Map<String, String> add(Map<String, String> mapToAdd, DatabaseTable table) throws IOException {
         int httpCode = 500;
+        Map<String, String> map;
         String urlToPost = URI + DBTableToString(table);  // URL of where to add to the table.
         URL url = null;
         try {
@@ -119,18 +125,17 @@ final class APIConnection {
         writer.write(createJsonString(mapToAdd));
         writer.close();
         os.close();
-        BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
+        try (BufferedReader in = new BufferedReader(
+                new InputStreamReader(connection.getInputStream()))) {
 
-        String line;
-        StringBuilder sb = new StringBuilder();
+            // inputValues of the JSON
+            String inputLine = in.readLine();
 
-        while ((line = br.readLine()) != null) {
-            sb.append(line);
+            // split up the string into a map
+            map = splitJSONString(inputLine);
         }
 
-        br.close();
-
-        return connection.getResponseCode();
+        return map;
     }
 
     public static List<Map<String, String>> readAll(DatabaseTable table) throws IOException {

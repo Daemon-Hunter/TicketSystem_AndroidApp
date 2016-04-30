@@ -5,6 +5,7 @@
  */
 package com.google.jkellaway.androidapp_datamodel.wrappers;
 
+import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.events.IArtist;
 import com.google.jkellaway.androidapp_datamodel.events.IParentEvent;
 import com.google.jkellaway.androidapp_datamodel.events.IVenue;
@@ -19,7 +20,7 @@ import java.util.List;
  */
 public interface IWrapper {
 
-    LinkedList getParentEvents() throws IOException;
+    LinkedList         getParentEvents() throws IOException;
     List<IParentEvent> loadMoreParentEvents() throws IOException;
     IParentEvent       getParentEvent(Integer id);
     Boolean            removeParentEvent(IParentEvent pEvent);
@@ -36,11 +37,14 @@ public interface IWrapper {
 
 
     List<IArtist>  getArtists() throws IOException;
-    List<IArtist> loadMoreArtists() throws IOException;
+    List<IArtist>  loadMoreArtists() throws IOException;
     IArtist        getArtist(Integer id);
     Boolean        removeArtist(IArtist artist);
-    List<IArtist> refreshArtists() throws IOException;
-    List<IArtist> searchArtists(String string) throws IOException;
+    List<IArtist>  refreshArtists() throws IOException;
+    List<IArtist>  searchArtists(String string) throws IOException;
 
     Boolean setAmountToLoad(Integer amountToLoad);
+
+    Object createNewObject(Object object, DatabaseTable table) throws IOException;
+    Object updateObject(Object object, DatabaseTable table) throws IOException;
 }

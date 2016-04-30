@@ -243,4 +243,14 @@ public class DesktopWrapper implements IDesktopWrapper {
         this.amountToLoad = amountToLoad;
         return this.amountToLoad == amountToLoad;
     }
+
+    @Override
+    public Object createNewObject(Object object, DatabaseTable table) throws IOException {
+        return APIHandle.pushObjectToDatabase(object, table);
+    }
+
+    @Override
+    public Object updateObject(Object object, DatabaseTable table) throws IOException {
+        return APIHandle.updateObjectToDatabase(object, table);
+    }
 }

@@ -37,12 +37,7 @@ public class UserWrapper implements IUserWrapper {
 
     private IUser currentUser;
 
-    private UserWrapper() {
-    }
-
-    private UserWrapper(IUser user) {
-        this.currentUser = user;
-    }
+    private UserWrapper() {}
 
     public static UserWrapper getInstance() {
         if (wrapper == null) {
@@ -56,7 +51,7 @@ public class UserWrapper implements IUserWrapper {
 
         currentUser = APIHandle.isPasswordTrue(email, password);
         // if the passwords are incorrect then the returning Customer has an id of -1
-        if(currentUser.getID().equals(-1)) { return false; }  else{ return true; }
+        return !currentUser.getID().equals(-1);
 
     }
 
@@ -239,7 +234,17 @@ public class UserWrapper implements IUserWrapper {
 
     @Override
     public Boolean setAmountToLoad(Integer amountToLoad) {
-        this.amountGridView = amountToLoad;
+        amountGridView = amountToLoad;
         return amountToLoad == amountToLoad;
+    }
+
+    @Override
+    public Object createNewObject(Object object, DatabaseTable table) throws IOException {
+        return APIHandle.pushObjectToDatabase(object, table);
+    }
+
+    @Override
+    public Object updateObject(Object object, DatabaseTable table) throws IOException {
+        return APIHandle.updateObjectToDatabase(object, table);
     }
 }
