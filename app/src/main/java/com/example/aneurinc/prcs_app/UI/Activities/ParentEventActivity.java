@@ -105,8 +105,8 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
         i.putExtra(ChildEventActivity.CHILD_EVENT_ID, mChildEvents.get(position).getID());
         i.putExtra(ChildEventActivity.PARENT_EVENT_ID, mParentEvent.getID());
 
-        Log.d(MainActivity.DEBUG_TAG, "onItemClick: parent before = " + mParentEvent.getID());
         Log.d(MainActivity.DEBUG_TAG, "onItemClick: child before " + mChildEvents.get(position).getID());
+        Log.d(MainActivity.DEBUG_TAG, "onItemClick: parent before = " + mParentEvent.getID());
 
         startActivity(i);
     }
