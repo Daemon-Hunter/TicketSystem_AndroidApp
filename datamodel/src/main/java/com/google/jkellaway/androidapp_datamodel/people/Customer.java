@@ -9,7 +9,6 @@ import com.google.jkellaway.androidapp_datamodel.bookings.IBooking;
 import com.google.jkellaway.androidapp_datamodel.bookings.IOrder;
 import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
-import com.google.jkellaway.androidapp_datamodel.reviews.IHaveReviews;
 import com.google.jkellaway.androidapp_datamodel.reviews.IReview;
 import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
 
@@ -17,14 +16,18 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
+import static com.google.jkellaway.androidapp_datamodel.utilities.HashString.Encrypt;
 import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.idValidator;
 
 /**
  *
  * @author 10512691
  */
-public class Customer extends User implements IHaveReviews, ICustomer {
+public class Customer implements ICustomer {
 
+    private String firstName, lastName, email, address, postcode, password;
+    private DatabaseTable table;
+    private Integer ID;
     private List<IReview> reviews;
     private List<IOrder> orders;
     
@@ -41,8 +44,12 @@ public class Customer extends User implements IHaveReviews, ICustomer {
      */
     public Customer(Integer ID, String firstName, String lastName,
                     String email, String address, String postcode){
-
-        super(ID, firstName, lastName, email, address, postcode);
+        this.ID = ID;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.address = address;
+        this.postcode = postcode;
         this.table = DatabaseTable.CUSTOMER;
     }
     
@@ -56,14 +63,57 @@ public class Customer extends User implements IHaveReviews, ICustomer {
      * @param postcode 
      */
     public Customer(String firstName, String lastName,
-            String email, String address, String postcode) 
+            String email, String address, String postcode, String password)
     {
-        super(firstName, lastName, email, address, postcode);
+        // Check if names are null or valid. All users must have a valid name.
+        if (firstName == null || lastName == null) {
+            throw new NullPointerException("Cannot set first or last name to null");
+        }
+        if (Validator.nameValidator(firstName) || Validator.nameValidator(lastName)) {
+            this.firstName = firstName;
+            this.lastName = lastName;
+        } else {
+            throw new IllegalArgumentException("Invalid admin name");
+        }
+
+        // Check email. Email can be null.
+        if (email != null) {
+            if (Validator.emailValidator(email)) {
+                this.email = email;
+            } else {
+                throw new IllegalArgumentException("Invalid email address");
+            }
+        } else {
+            this.email = null;
+        }
+
+        // Check address. Users don't have to have an address, so it can be set to null
+        if (address != null) {
+            if (Validator.addressValidator(address)) {
+                this.address = address;
+            } else {
+                throw new IllegalArgumentException("Invalid address.");
+            }
+        } else {
+            this.address = null;
+        }
+
+        // Check the users postcode. Users don't have to have a postcode - so can be null
+        if (postcode != null) {
+            if (Validator.postcodeValidator(postcode)) {
+                this.postcode = postcode;
+            } else {
+                throw new IllegalArgumentException("Invalid postcode");
+            }
+        } else {
+            this.postcode = null;
+        }
+
+        this.password = Encrypt(password);
         table = DatabaseTable.CUSTOMER;
         this.ID = 0;
     }
 
-    @Override
     public DatabaseTable getTable() {
         return table;
     }
@@ -106,8 +156,7 @@ public class Customer extends User implements IHaveReviews, ICustomer {
         } else if (!reviews.contains(review)) {
             throw new IllegalArgumentException("Review to be deleted wasn't in list");
         } else {
-            reviews.remove(review);
-            notifyObservers();
+            this.reviews.remove(review);
             return true;
         }
     }
@@ -119,8 +168,7 @@ public class Customer extends User implements IHaveReviews, ICustomer {
         } else {
             Boolean valid = Validator.nameValidator(name);
             if (valid) {
-                firstName = name;
-                notifyObservers();
+                this.firstName = name;
             }
             return valid;
         }
@@ -133,8 +181,7 @@ public class Customer extends User implements IHaveReviews, ICustomer {
         } else {
             Boolean valid = Validator.nameValidator(name);
             if (valid) {
-                lastName = name;
-                notifyObservers();
+                this.lastName = name;
             }
             return valid;
         }
@@ -194,5 +241,103 @@ public class Customer extends User implements IHaveReviews, ICustomer {
             bookings.addAll(order.getBookingList());
         }
         return bookings;
+    }
+
+    @Override
+    public String getEmail() {
+        if (email == null) {
+            throw new NullPointerException("Null email");
+        } else {
+            return email;
+        }
+    }
+
+    @Override
+    public Boolean setEmail(String email) throws IOException {
+        if (email == null) {
+            throw new NullPointerException("Cannot set email to null");
+        } else {
+            Boolean valid = Validator.emailValidator(email);
+            if (valid) {
+                this.email = email;
+            }
+            return valid;
+        }
+    }
+
+    @Override
+    public Integer getID() {
+        if (ID == null) {
+            throw new NullPointerException("ID is null");
+        } else {
+            return ID;
+        }
+    }
+
+    @Override
+    public String getFirstName() {
+        if (firstName == null) {
+            throw new NullPointerException("Null first name");
+        } else {
+            return firstName;
+        }
+    }
+
+    @Override
+    public String getLastName() {
+        if (lastName == null) {
+            throw new NullPointerException("Null last name");
+        } else {
+            return lastName;
+        }
+    }
+
+    @Override
+    public String getAddress() {
+        if (address == null) {
+            throw new NullPointerException("Null address");
+        } else {
+            return address;
+        }
+    }
+
+    @Override
+    public Boolean setAddress(String address) throws IOException {
+        if (address == null) {
+            throw new NullPointerException("Cannot set address to null");
+        } else {
+            Boolean valid = Validator.addressValidator(address);
+            if (valid) {
+                this.address = address;
+            }
+            return valid;
+        }
+    }
+
+    @Override
+    public String getPostcode() {
+        if (postcode == null) {
+            throw new NullPointerException("Null postcode");
+        } else {
+            return postcode;
+        }
+    }
+
+    @Override
+    public Boolean setPostcode(String postcode) throws IOException {
+        if (postcode == null) {
+            throw new NullPointerException("Cannot set postcode to null");
+        } else {
+            Boolean valid = Validator.postcodeValidator(postcode);
+            if (valid) {
+                this.postcode = postcode;
+            }
+            return valid;
+        }
+    }
+
+    @Override
+    public String getPassword(){
+        return password;
     }
 }

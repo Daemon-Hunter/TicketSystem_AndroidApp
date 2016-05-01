@@ -11,7 +11,7 @@ import com.google.jkellaway.androidapp_datamodel.bookings.IBooking;
  *
  * @author 10467841
  */
-public interface IGuest {
-    public IBooking getBooking();
-    public boolean setBooking(IBooking booking);
+public interface IGuest extends IUser {
+    IBooking getBooking();
+    boolean setBooking(IBooking booking);
 }

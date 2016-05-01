@@ -7,6 +7,7 @@ package com.google.jkellaway.androidapp_datamodel.people;
 
 import com.google.jkellaway.androidapp_datamodel.bookings.IBooking;
 import com.google.jkellaway.androidapp_datamodel.bookings.IOrder;
+import com.google.jkellaway.androidapp_datamodel.reviews.IHaveReviews;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
  *
  * @author 10467841
  */
-public interface ICustomer {
+public interface ICustomer extends IUser, IHaveReviews{
     List<IOrder> getOrderList() throws IOException;
     IOrder getOrder(int orderID);
     Boolean addOrder(IOrder order);

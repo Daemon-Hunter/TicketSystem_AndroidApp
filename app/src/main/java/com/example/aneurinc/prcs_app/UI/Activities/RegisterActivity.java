@@ -174,9 +174,9 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
             // Show a progress spinner, and kick off a background1 task to
             // perform the user register attempt.
             showProgress(true);
-            Customer cust = new Customer(forename, surname, email, address, postcode);
+            Customer cust = new Customer(forename, surname, email, address, postcode, password);
 
-            mAuthTask = new UserLoginTask(this, cust, password);
+            mAuthTask = new UserLoginTask(this, cust);
             mAuthTask.execute((Void) null);
         }
     }
@@ -192,14 +192,14 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
     }
 
     private boolean isPostcodeValid(String postcode) {
-//        return postcode.length() == 7 || postcode.length() == 8;
+//        return postcode.length() == 7;
         return true;
     }
 
     /**
      * Shows the progress UI and hides the login form.
      */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP_MR1)
     private void showProgress(final boolean show) {
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
         // for very easy animations. If available, use these APIs to fade-in
@@ -273,26 +273,24 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final Activity mContext;
-        private final String mPassword;
         private final Customer mCustomer;
         private int httpCode;
 
-        UserLoginTask(Activity context, Customer cust, String pass) {
+        UserLoginTask(Activity context, Customer cust) {
             mContext = context;
-            mPassword = pass;
             mCustomer = cust;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                httpCode = UserWrapper.getInstance().registerUser(mCustomer, mPassword);
+                UserWrapper.getInstance().registerUser(mCustomer);
             } catch (IOException e) {
                 Log.d(MainActivity.DEBUG_TAG, "IO EXCEPTION: " + Integer.toString(httpCode));
-
+                return false;
             }
             Log.d(MainActivity.DEBUG_TAG, "doInBackground: " + Integer.toString(httpCode));
-            return httpCode == 201;
+            return true;
         }
 
         @Override

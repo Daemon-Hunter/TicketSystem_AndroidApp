@@ -5,15 +5,13 @@
  */
 package com.google.jkellaway.androidapp_datamodel.people;
 
-import com.google.jkellaway.androidapp_datamodel.utilities.observer.IDbSubject;
-
 import java.io.IOException;
 
 /**
  *
  * @author 10512691
  */
-public interface IPerson extends IDbSubject {
+public interface IPerson {
     
     String  getFirstName();
     Boolean setFirstName(String name) throws IOException;

@@ -22,7 +22,7 @@ public interface IArtist extends ISocial {
     Boolean removeTag(String tag);
     String getDescription();
     void setDescription(String decription);
-    String getType();
+    String getType() throws IOException;
     Boolean setType(String type);
     Integer getTypeID();
 
@@ -30,4 +30,6 @@ public interface IArtist extends ISocial {
     SocialMedia getSocialMedia();
 
     List<IChildEvent> getChildEvents() throws IOException;
+
+    Boolean newContract(IChildEvent childEvent);
 }

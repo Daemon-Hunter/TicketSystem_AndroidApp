@@ -23,6 +23,7 @@ public interface IWrapper {
     LinkedList         getParentEvents() throws IOException;
     List<IParentEvent> loadMoreParentEvents() throws IOException;
     IParentEvent       getParentEvent(Integer id);
+    Boolean            addParentEvent(IParentEvent parentEvent);
     Boolean            removeParentEvent(IParentEvent pEvent);
     List<IParentEvent> refreshParentEvents() throws IOException;
     List<IParentEvent> searchParentEvents(String string) throws IOException;
@@ -31,6 +32,7 @@ public interface IWrapper {
     List<IVenue> getVenues() throws IOException;
     IVenue       getVenue(Integer id);
     List<IVenue> loadMoreVenues() throws IOException;
+    Boolean      addVenue(IVenue venue);
     Boolean      removeVenue(IVenue venue);
     List<IVenue> refreshVenues() throws IOException;
     List<IVenue> searchVenues(String string) throws IOException;
@@ -39,6 +41,7 @@ public interface IWrapper {
     List<IArtist>  getArtists() throws IOException;
     List<IArtist>  loadMoreArtists() throws IOException;
     IArtist        getArtist(Integer id);
+    Boolean        addArtist(IArtist artist);
     Boolean        removeArtist(IArtist artist);
     List<IArtist>  refreshArtists() throws IOException;
     List<IArtist>  searchArtists(String string) throws IOException;

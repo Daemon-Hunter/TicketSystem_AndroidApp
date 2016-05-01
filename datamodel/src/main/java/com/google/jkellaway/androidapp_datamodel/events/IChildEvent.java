@@ -49,4 +49,6 @@ public interface IChildEvent extends IDbSubject, ISocial {
     void setVenueID(Integer venue);
 
     void setSocialMedia(SocialMedia socialMedia);
+
+    Boolean newContract(IArtist artist);
 }

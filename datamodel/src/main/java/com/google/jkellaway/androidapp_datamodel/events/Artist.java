@@ -17,6 +17,7 @@ import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author 10512691
@@ -161,9 +162,10 @@ public class Artist implements IArtist {
     }
 
     @Override
-    public String getType() {
+    public String getType() throws IOException {
         if (type == null) {
-            throw new NullPointerException("Artist type is null");
+            type = (String)APIHandle.getSingle(typeID, DatabaseTable.ARTIST_TYPE);
+            return type;
         } else {
             return type;
         }
@@ -175,7 +177,7 @@ public class Artist implements IArtist {
             throw new NullPointerException("Artist type is null");
         } else {
             this.type = type;
-            return this.type == type;
+            return Objects.equals(this.type, type);
         }
     }
 

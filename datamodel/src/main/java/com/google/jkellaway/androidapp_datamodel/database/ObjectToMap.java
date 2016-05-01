@@ -4,19 +4,16 @@ import android.graphics.Bitmap;
 
 import com.google.jkellaway.androidapp_datamodel.bookings.CustomerBooking;
 import com.google.jkellaway.androidapp_datamodel.bookings.GuestBooking;
-import com.google.jkellaway.androidapp_datamodel.bookings.IBooking;
 import com.google.jkellaway.androidapp_datamodel.bookings.IOrder;
 import com.google.jkellaway.androidapp_datamodel.events.IArtist;
 import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
 import com.google.jkellaway.androidapp_datamodel.events.IParentEvent;
 import com.google.jkellaway.androidapp_datamodel.events.IVenue;
 import com.google.jkellaway.androidapp_datamodel.events.SocialMedia;
-import com.google.jkellaway.androidapp_datamodel.people.Customer;
-import com.google.jkellaway.androidapp_datamodel.people.ICustomer;
+import com.google.jkellaway.androidapp_datamodel.people.IAdmin;
 import com.google.jkellaway.androidapp_datamodel.people.IUser;
 import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +26,13 @@ import java.util.Map;
 final class ObjectToMap {
     private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
 
+    public static Map<String, String> adminToMap(IAdmin admin) {
+        Map<String, String> adminMap = new HashMap<>();
+        adminMap.put("ADMIN_ID", Integer.toString(admin.getID()));
+        adminMap.put("ADMIN_EMAIL", admin.getEmail());
+        adminMap.put("ADMIN_PASSWORD", admin.getPassword());
+        return adminMap;
+    }
 
     public static Map<String, String> customerBookingToMap(CustomerBooking booking) {
         Map<String,String> returnMap = new HashMap<>();
@@ -48,6 +52,7 @@ final class ObjectToMap {
         returnMap.put("CUSTOMER_EMAIL",customer.getEmail());
         returnMap.put("CUSTOMER_ADDRESS", customer.getAddress());
         returnMap.put("CUSTOMER_POSTCODE",customer.getPostcode());
+        returnMap.put("CUSTOMER_PASSWORD",customer.getPassword());
         //May need to add password depending on where the registration is taking place.
         return returnMap;
     }
