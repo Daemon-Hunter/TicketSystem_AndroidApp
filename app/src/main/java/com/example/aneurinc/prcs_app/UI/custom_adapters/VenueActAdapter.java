@@ -55,7 +55,7 @@ public class VenueActAdapter extends ArrayAdapter<IChildEvent> {
             viewHolder.childEventImage = (ImageView) convertView.findViewById(R.id
                     .child_event_venue_image);
             viewHolder.childEventTitle = (TextView) convertView.findViewById(R.id
-                    .child_event_name);
+                    .child_event_title);
             viewHolder.childEventDate = (TextView) convertView.findViewById(R.id.child_event_date);
 
             convertView.setTag(viewHolder);

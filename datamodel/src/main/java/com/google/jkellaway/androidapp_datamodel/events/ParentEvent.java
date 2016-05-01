@@ -81,7 +81,11 @@ public class ParentEvent implements IParentEvent {
         if (childEventID == null) {
             throw new NullPointerException("Null child event ID");
         } else {
-            return childEvents.get(childEventID);
+            for (IChildEvent childEvent : childEvents) {
+                if (childEvent.getID().equals(childEventID))
+                    return childEvent;
+            }
+            throw new NullPointerException("No child event with this ID");
         }
     }
 

@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,7 +21,6 @@ import com.example.aneurinc.prcs_app.UI.custom_adapters.ChildEventActAdapter;
 import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
 import com.google.jkellaway.androidapp_datamodel.events.IArtist;
 import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
-import com.google.jkellaway.androidapp_datamodel.events.IParentEvent;
 import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
 import java.io.IOException;
@@ -30,7 +28,7 @@ import java.util.List;
 
 public class ChildEventActivity extends AppCompatActivity implements OnClickListener {
 
-    public static String PARENT_EVENT_ID, CHILD_EVENT_ID;
+    public static String EVENT_ID;
     private IChildEvent mChildEvent;
 
     @Override
@@ -38,15 +36,16 @@ public class ChildEventActivity extends AppCompatActivity implements OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_child_event);
 
-        Log.d(MainActivity.DEBUG_TAG, "onCreate: parent after " + getIntent().getExtras().getInt(PARENT_EVENT_ID));
-        Log.d(MainActivity.DEBUG_TAG, "onCreate: child after " + getIntent().getExtras().getInt(CHILD_EVENT_ID));
+        int childID = getIntent().getExtras().getIntArray(EVENT_ID)[0];
+        int parentID = getIntent().getExtras().getIntArray(EVENT_ID)[1];
+
+        mChildEvent = UserWrapper.getInstance().getParentEvent(parentID).getChildEvent(childID);
 
         setupToolbar();
 
         addOnClickListeners();
 
-        // TODO: 29/04/2016 get child id and parent id - only returning first one passed in intent
-//        readChildEvent();
+        readChildEvent();
 
     }
 
@@ -103,10 +102,10 @@ public class ChildEventActivity extends AppCompatActivity implements OnClickList
 
         switch (v.getId()) {
             case R.id.buy_tickets:
-                int imageIndex = getIntent().getExtras().getInt(PARENT_EVENT_ID);
-                Intent i = new Intent(this, TicketActivity.class);
-                i.putExtra(TicketActivity.EventImageIndex, imageIndex);
-                startActivity(i);
+//                int imageIndex = getIntent().getExtras().getInt(PARENT_EVENT_ID);
+//                Intent i = new Intent(this, TicketActivity.class);
+//                i.putExtra(TicketActivity.EventImageIndex, imageIndex);
+//                startActivity(i);
                 break;
 
         }
@@ -114,15 +113,19 @@ public class ChildEventActivity extends AppCompatActivity implements OnClickList
 
     private void displayInfo() {
 
-        TextView name = (TextView) findViewById(R.id.child_event_name);
+        TextView name = (TextView) findViewById(R.id.child_event_title);
         TextView date = (TextView) findViewById(R.id.child_event_date);
-        TextView address = (TextView) findViewById(R.id.child_event_address);
+        TextView address = (TextView) findViewById(R.id.child_event_city);
         TextView desc = (TextView) findViewById(R.id.child_event_description);
         ImageView image = (ImageView) findViewById(R.id.child_event_venue_image);
 
+        String startDate = mChildEvent.getStartDateTime().toString();
+        String endDate = mChildEvent.getEndDateTime().toString();
+        date.setText(startDate.substring(0, 10) + " - " + endDate.substring
+                (0, 10));
+
         name.setText(mChildEvent.getName());
-        date.setText(mChildEvent.getStartDateTime() + " - " + mChildEvent.getEndDateTime());
-        address.setText(mChildEvent.getVenue().getAddress());
+        address.setText(mChildEvent.getVenue().getCity());
         desc.setText(mChildEvent.getDescription());
 
         int xy = ImageUtils.getScreenWidth(this) / 4;
@@ -148,8 +151,6 @@ public class ChildEventActivity extends AppCompatActivity implements OnClickList
         @Override
         protected List<IArtist> doInBackground(Void... params) {
 
-            IParentEvent mParentEvent = UserWrapper.getInstance().getParentEvent(Integer.parseInt(PARENT_EVENT_ID));
-            mChildEvent = mParentEvent.getChildEvent(Integer.parseInt(CHILD_EVENT_ID));
             List<IArtist> mArtistLineup = null;
 
             try {
@@ -167,7 +168,7 @@ public class ChildEventActivity extends AppCompatActivity implements OnClickList
             if (artists.isEmpty()) {
                 // TODO: 29/04/2016 display empty view
             } else {
-                ListView mLineup = (ListView) mContext.findViewById(R.id.artist_lineup_list);
+                ListView mLineup = (ListView) mContext.findViewById(R.id.lineup_list);
                 mLineup.setAdapter(new ChildEventActAdapter(mContext));
             }
 
