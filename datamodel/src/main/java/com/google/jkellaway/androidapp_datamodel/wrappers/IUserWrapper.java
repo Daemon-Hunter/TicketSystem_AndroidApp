@@ -5,11 +5,9 @@
  */
 package com.google.jkellaway.androidapp_datamodel.wrappers;
 
-import com.google.jkellaway.androidapp_datamodel.bookings.IBooking;
 import com.google.jkellaway.androidapp_datamodel.people.IUser;
 
 import java.io.IOException;
-import java.util.List;
 
 /**
  *
@@ -19,5 +17,5 @@ public interface IUserWrapper extends IWrapper {
 
     Boolean loginUser(String email, String password) throws IOException;
     IUser   getUser();
-    Integer registerUser(IUser cust, String password) throws IOException;
+    IUser registerUser(IUser customer) throws IOException;
 }

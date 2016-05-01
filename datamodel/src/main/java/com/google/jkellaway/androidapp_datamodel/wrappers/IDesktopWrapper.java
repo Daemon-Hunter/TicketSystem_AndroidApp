@@ -5,23 +5,39 @@
  */
 package com.google.jkellaway.androidapp_datamodel.wrappers;
 
+import com.google.jkellaway.androidapp_datamodel.people.IAdmin;
+import com.google.jkellaway.androidapp_datamodel.people.ICustomer;
+import com.google.jkellaway.androidapp_datamodel.people.IGuest;
+
 import java.io.IOException;
 import java.util.List;
-import com.google.jkellaway.androidapp_datamodel.people.IAdmin;
-import com.google.jkellaway.androidapp_datamodel.people.IUser;
 
 /**
  *
  * @author 10467841
  */
 public interface IDesktopWrapper extends IWrapper {
-    public Boolean      addUser(IUser user);
-    public List<IUser>  getUsers()throws IOException;
-    public IUser        getUser(Integer index);
-    public Boolean      removeUser(IUser user);
+    Boolean      addCustomer(ICustomer customer);
+    List<ICustomer>  getCustomers()throws IOException;
+    ICustomer    getCustomer(Integer index);
+    Boolean      removeCustomer(ICustomer customer);
+    List<ICustomer>  loadMoreCustomers() throws IOException;
+    List<ICustomer>  refreshCustomers() throws IOException;
     
-    public Boolean      addAdmin(IAdmin admin);
-    public IAdmin       getAdmin(Integer index);
-    public List<IAdmin> getAdmins();
-    public Boolean      removeAdmin(IAdmin admin);
+    Boolean      addAdmin(IAdmin admin);
+    IAdmin       getAdmin(Integer index);
+    List<IAdmin> getAdmins() throws IOException;
+    Boolean      removeAdmin(IAdmin admin);
+    List<IAdmin>  loadMoreAdmins() throws IOException;
+    List<IAdmin>  refreshAdmins() throws IOException;
+
+    Boolean      addGuest(IGuest guest);
+    List<IGuest>  getGuests()throws IOException;
+    IGuest    getGuest(Integer index);
+    Boolean      removeGuest(IGuest customer);
+    List<IGuest>  loadMoreGuests() throws IOException;
+    List<IGuest>  refreshGuests() throws IOException;
+
+    Boolean loginAdmin(String email, String password) throws IOException;
+    IAdmin  getCurrentAdmin();
 }

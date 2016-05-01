@@ -245,6 +245,11 @@ public class ChildEvent implements IChildEvent {
     }
 
     @Override
+    public Boolean newContract(IArtist artist) {
+        return null;
+    }
+
+    @Override
     public DatabaseTable getTable() {
         return table;
     }

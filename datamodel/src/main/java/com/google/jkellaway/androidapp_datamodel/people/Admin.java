@@ -12,6 +12,8 @@ import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
 import java.io.IOException;
 import java.util.LinkedList;
 
+import static com.google.jkellaway.androidapp_datamodel.utilities.HashString.Encrypt;
+
 /**
  *
  * @author 10467841
@@ -43,7 +45,7 @@ public class Admin implements IAdmin {
             throw new IllegalArgumentException("Invalid email address");
         }
 
-        this.password = password;
+        this.password = Encrypt(password);
         observers = new LinkedList<>();
     }
     
@@ -56,7 +58,7 @@ public class Admin implements IAdmin {
     }
     
     @Override
-    public int getID() {
+    public Integer getID() {
         if (ID == null) {
             throw new NullPointerException("Null ID");
         } else {
@@ -81,7 +83,6 @@ public class Admin implements IAdmin {
             Boolean valid = Validator.emailValidator(email);
             if (valid) {
                 this.email = email;
-                notifyObservers();
             }
             return this.email.equals(email);
         }
@@ -96,46 +97,6 @@ public class Admin implements IAdmin {
     @Override
     public String getPassword() {
         return password;
-    }
-
-    @Override
-    public DatabaseTable getTable() {
-        return table;
-    }
-
-    @Override
-    public void notifyObservers() throws IOException {
-        if (observers == null) {
-            observers = new LinkedList();
-        } else {
-            for (IObserver o : observers) {
-                o.update(this, table);
-            }
-        }
-    }
-
-    @Override
-    public Boolean registerObserver(IObserver o) {
-        if (o == null) {
-            throw new NullPointerException("Null observer, cannot register.");
-        } else if (observers.contains(o)) {
-            throw new IllegalArgumentException("Observer already exists in list");
-        } else {
-            observers.add(o);
-            return true;
-        }
-    }
-
-    @Override
-    public Boolean removeObserver(IObserver o) {
-        if (o == null) {
-            throw new NullPointerException("Null observer, cannot remove.");
-        } else if (!observers.contains(o)) {
-            throw new IllegalArgumentException("Observer doesn't exist in list");
-        } else {
-            observers.remove(o);
-            return true;
-        }
     }
 
     @Override
@@ -155,7 +116,6 @@ public class Admin implements IAdmin {
             Boolean valid = Validator.nameValidator(name);
             if (valid) {
                 firstName = name;
-                notifyObservers();
             }
             return firstName.equals(name);
         }
@@ -178,7 +138,6 @@ public class Admin implements IAdmin {
             Boolean valid = Validator.nameValidator(name);
             if (valid) {
                 lastName = name;
-                notifyObservers();
             }
             return lastName.equals(name);
         }

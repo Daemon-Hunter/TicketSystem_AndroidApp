@@ -194,8 +194,8 @@ final class APIConnection {
         return Connection(URI + "functions/search" + DBTableToString(table) + "/" + searchText);
     }
 
-    public static List<Map<String, String>> comparePassword(String email, String password) throws IOException {
-        return Connection(URI + "functions/comparepasswords/" + email + "/" + password);
+    public static List<Map<String, String>> comparePassword(String email, String password, DatabaseTable table) throws IOException {
+        return Connection(URI + "functions/compare" + table.toString() + "Passwords/" + email + "/" + password);
     }
 
     public static List<Map<String, String>> getObjectsOfObject(Integer artistID, DatabaseTable objectsToGet, DatabaseTable objectToUse) throws IOException {

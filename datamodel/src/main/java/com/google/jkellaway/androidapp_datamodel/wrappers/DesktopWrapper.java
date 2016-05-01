@@ -11,10 +11,10 @@ import com.google.jkellaway.androidapp_datamodel.events.IArtist;
 import com.google.jkellaway.androidapp_datamodel.events.IParentEvent;
 import com.google.jkellaway.androidapp_datamodel.events.IVenue;
 import com.google.jkellaway.androidapp_datamodel.people.IAdmin;
-import com.google.jkellaway.androidapp_datamodel.people.IUser;
+import com.google.jkellaway.androidapp_datamodel.people.ICustomer;
+import com.google.jkellaway.androidapp_datamodel.people.IGuest;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 /**
@@ -27,11 +27,13 @@ public class DesktopWrapper implements IDesktopWrapper {
 
     private Integer amountToLoad = 9;
 
-    private List<IParentEvent>  parentEventArray;
-    private List<IVenue>        venueArray;
-    private List<IArtist>       artistArray;
-    private List<IUser>         userArray;
-    private List<IAdmin>        adminArray;
+    private List<IParentEvent>  parentEventList;
+    private List<IVenue>        venueList;
+    private List<IArtist>       artistList;
+    private List<ICustomer>     customerList;
+    private List<IGuest>        guestList;
+    private List<IAdmin>        adminList;
+    private IAdmin              currentAdmin;
 
     private  DesktopWrapper(){}
 
@@ -44,30 +46,29 @@ public class DesktopWrapper implements IDesktopWrapper {
 
     @Override
     public LinkedList getParentEvents() throws IOException {
-        if (parentEventArray != null){
-            return new LinkedList(parentEventArray);
-        } else {
-            //parentEventArray = APIHandle.getParentAmount(amountToLoad, parentEventArray.get(parentEventArray.size()).getParentEventID());
-            parentEventArray = new LinkedList((List<IParentEvent>)(Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.PARENT_EVENT));
-            return new LinkedList(parentEventArray);
+        if (parentEventList != null){
+            return new LinkedList<>(parentEventList);
+        } else {//parentEventList = APIHandle.getParentAmount(amountToLoad, parentEventList.get(parentEventList.size()).getParentEventID());
+            parentEventList = new LinkedList<>((List<IParentEvent>)(Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.PARENT_EVENT));
+            return new LinkedList<>(parentEventList);
         }
     }
 
     @Override
     public List<IParentEvent> loadMoreParentEvents() throws IOException {
-        int lowestID = 99999999;
-        for (IParentEvent parentEvent : parentEventArray){
+        int lowestID = 0;
+        for (IParentEvent parentEvent : parentEventList){
             if (parentEvent.getID() < lowestID)
                 lowestID = parentEvent.getID();
         }
         List<IParentEvent> newData = (List<IParentEvent>)(Object)APIHandle.getObjectAmount(amountToLoad, lowestID, DatabaseTable.PARENT_EVENT);
-        parentEventArray.addAll(newData);
-        return new ArrayList(newData);
+        parentEventList.addAll(newData);
+        return new LinkedList<>(newData);
     }
 
     @Override
     public IParentEvent getParentEvent(Integer id) {
-        for (IParentEvent parentEvent : parentEventArray){
+        for (IParentEvent parentEvent : parentEventList){
             if(parentEvent.getID().equals(id))
                 return parentEvent;
         }
@@ -75,17 +76,25 @@ public class DesktopWrapper implements IDesktopWrapper {
     }
 
     @Override
+    public Boolean addParentEvent(IParentEvent parentEvent) {
+        if (parentEvent == null || parentEvent.getID() <= 0){
+            throw new IllegalArgumentException("This parentEvent cannot be added, have to put it though createNewObject?");
+        }
+        return parentEventList.add(parentEvent);
+    }
+
+    @Override
     public Boolean removeParentEvent(IParentEvent pEvent) {
         if (pEvent == null){
             throw new IllegalArgumentException("Cannot remove null value.");
         }
-        return parentEventArray.remove(pEvent);
+        return parentEventList.remove(pEvent);
     }
 
     @Override
     public List<IParentEvent> refreshParentEvents() throws IOException {
-        parentEventArray = new LinkedList<>((List<IParentEvent>)(Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.PARENT_EVENT));
-        return parentEventArray;
+        parentEventList = new LinkedList<>((List<IParentEvent>)(Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.PARENT_EVENT));
+        return parentEventList;
     }
 
     @Override
@@ -95,18 +104,18 @@ public class DesktopWrapper implements IDesktopWrapper {
 
     @Override
     public List<IVenue> getVenues() throws IOException {
-        if (venueArray != null){
-            return new LinkedList(venueArray);
+        if (venueList != null){
+            return new LinkedList<>(venueList);
         } else {
-            //venueArray = APIHandle.getVenueAmount(amountToLoad, venueArray.get(venueArray.size()).getVenueID());
-            venueArray = new LinkedList<>((List<IVenue>)(Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.VENUE));
-            return venueArray;
+            //venueList = APIHandle.getVenueAmount(amountToLoad, venueList.get(venueList.size()).getVenueID());
+            venueList = new LinkedList<>((List<IVenue>)(Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.VENUE));
+            return venueList;
         }
     }
 
     @Override
     public IVenue getVenue(Integer id) {
-        for (IVenue venue : venueArray){
+        for (IVenue venue : venueList){
             if(venue.getID().equals(id))
                 return venue;
         }
@@ -116,13 +125,21 @@ public class DesktopWrapper implements IDesktopWrapper {
     @Override
     public List<IVenue> loadMoreVenues() throws IOException {
         int lowestID = 0;
-        for (IVenue venue : venueArray){
+        for (IVenue venue : venueList){
             if (venue.getID() < lowestID || lowestID == 0)
                 lowestID = venue.getID();
         }
         List<IVenue> newData = (List<IVenue>)(Object)APIHandle.getObjectAmount(amountToLoad, lowestID, DatabaseTable.VENUE);
-        venueArray.addAll(newData);
-        return new ArrayList(newData);
+        venueList.addAll(newData);
+        return new LinkedList<>(newData);
+    }
+
+    @Override
+    public Boolean addVenue(IVenue venue) {
+        if (venue.getID() <= 0 || venue == null){
+            throw new IllegalArgumentException("This venue cannot be added, have to put it though createNewObject?");
+        }
+        return venueList.add(venue);
     }
 
     @Override
@@ -130,13 +147,13 @@ public class DesktopWrapper implements IDesktopWrapper {
         if(venue == null){
             throw new IllegalArgumentException("Cannot remove a null venue.");
         }
-        return venueArray.remove(venue);
+        return venueList.remove(venue);
     }
 
     @Override
     public List<IVenue> refreshVenues() throws IOException {
-        venueArray = new LinkedList<>((List<IVenue>)(Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.VENUE));
-        return venueArray;
+        venueList = new LinkedList<>((List<IVenue>)(Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.VENUE));
+        return venueList;
     }
 
     @Override
@@ -146,30 +163,30 @@ public class DesktopWrapper implements IDesktopWrapper {
 
     @Override
     public List<IArtist> getArtists() throws IOException {
-        if (artistArray != null){
-            return new LinkedList(artistArray);
+        if (artistList != null){
+            return new LinkedList<>(artistList);
         } else {
-            //artistArray = APIHandle.getArtistAmount(amountToLoad, artistArray.get(artistArray.size() - 1).getArtistID());
-            artistArray = (List<IArtist>)(Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.ARTIST);
-            return new ArrayList<>(artistArray);
+            //artistList = APIHandle.getArtistAmount(amountToLoad, artistList.get(artistList.size() - 1).getArtistID());
+            artistList = (List<IArtist>)(Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.ARTIST);
+            return new LinkedList<>(artistList);
         }
     }
 
     @Override
     public List<IArtist> loadMoreArtists() throws IOException {
         int lowestID = 0;
-        for (IArtist artist : artistArray){
+        for (IArtist artist : artistList){
             if (artist.getID() < lowestID || lowestID == 0)
                 lowestID = artist.getID();
         }
         List<IArtist> newData = (List<IArtist>)(Object)APIHandle.getObjectAmount(amountToLoad, lowestID, DatabaseTable.ARTIST);
-        artistArray.addAll(newData);
-        return new ArrayList(newData);
+        artistList.addAll(newData);
+        return new LinkedList<IArtist>(newData);
     }
 
     @Override
     public IArtist getArtist(Integer id) {
-        for (IArtist artist : artistArray){
+        for (IArtist artist : artistList){
             if(artist.getID().equals(id))
                 return artist;
         }
@@ -177,17 +194,25 @@ public class DesktopWrapper implements IDesktopWrapper {
     }
 
     @Override
+    public Boolean addArtist(IArtist artist) {
+        if (artist.getID() <= 0 || artist == null){
+            throw new IllegalArgumentException("This artist cannot be added, have to put it though createNewObject?");
+        }
+        return artistList.add(artist);
+    }
+
+    @Override
     public Boolean removeArtist(IArtist artist) {
         if (artist == null){
             throw new IllegalArgumentException("Cannot remove a null artist.");
         }
-        return artistArray.remove(artist);
+        return artistList.remove(artist);
     }
 
     @Override
     public List<IArtist> refreshArtists() throws IOException {
-        artistArray = (List<IArtist>)(Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.ARTIST);
-        return new LinkedList<>(artistArray);
+        artistList = (List<IArtist>)(Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.ARTIST);
+        return new LinkedList<>(artistList);
     }
 
     @Override
@@ -196,52 +221,172 @@ public class DesktopWrapper implements IDesktopWrapper {
     }
 
     @Override
-    public Boolean addUser(IUser user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Boolean addCustomer(ICustomer customer) {
+        if (customer == null || customer.getID() <= 0)
+            throw new IllegalArgumentException("This customer cannot be added, have to put it though createNewObject?");
+        return customerList.add(customer);
     }
 
     @Override
-    public List<IUser> getUsers() throws IOException {
-        if (userArray == null) {
-            userArray = APIHandle.getUsers();
+    public List<ICustomer> getCustomers() throws IOException {
+        if (customerList != null) {
+            return new LinkedList<>(customerList);
         }
-        return userArray;
+        customerList = (List<ICustomer>) (Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.CUSTOMER);
+        return customerList;
     }
 
     @Override
-    public IUser getUser(Integer index) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ICustomer getCustomer(Integer index) {
+        for (ICustomer customer : customerList){
+            if(customer.getID().equals(index))
+                return customer;
+        }
+        throw new NullPointerException("No item in the list has this id :/.");
     }
 
     @Override
-    public Boolean removeUser(IUser user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Boolean removeCustomer(ICustomer customer) {
+        if (customer == null){
+            throw new IllegalArgumentException("Cannot remove a null customer.");
+        }
+        return customerList.remove(customer);
+    }
+
+    @Override
+    public List<ICustomer> loadMoreCustomers() throws IOException {
+        int lowestID = 0;
+        for (ICustomer customer : customerList){
+            if (customer.getID() < lowestID || lowestID == 0)
+                lowestID = customer.getID();
+        }
+        List<ICustomer> newData = (List<ICustomer>)(Object)APIHandle.getObjectAmount(amountToLoad, lowestID, DatabaseTable.CUSTOMER);
+        customerList.addAll(newData);
+        return new LinkedList<>(newData);
+    }
+
+    @Override
+    public List<ICustomer> refreshCustomers() throws IOException {
+        customerList = (List<ICustomer>)(Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.CUSTOMER);
+        return new LinkedList<>(customerList);
     }
 
     @Override
     public Boolean addAdmin(IAdmin admin) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (admin == null || admin.getID() <= 0){
+            throw new IllegalArgumentException("This admin cannot be added, have to put it though createNewObject?");
+        }
+        return adminList.add(admin);
     }
 
     @Override
     public IAdmin getAdmin(Integer index) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for (IAdmin admin : adminList){
+            if(admin.getID().equals(index))
+                return admin;
+        }
+        throw new NullPointerException("No item in the list has this id :/.");
     }
 
     @Override
-    public List<IAdmin> getAdmins() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<IAdmin> getAdmins() throws IOException {
+        if (adminList != null) {
+            return new LinkedList<>(adminList);
+        }
+        adminList = (List<IAdmin>) (Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.ADMIN);
+        return adminList;
     }
 
     @Override
     public Boolean removeAdmin(IAdmin admin) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (admin == null) throw new IllegalArgumentException("Cannot remove a null admin.");
+        return customerList.remove(admin);
+    }
+
+    @Override
+    public List<IAdmin> loadMoreAdmins() throws IOException {
+        int lowestID = 0;
+        for (IAdmin admin : adminList){
+            if (admin.getID() < lowestID || lowestID == 0)
+                lowestID = admin.getID();
+        }
+        List<IAdmin> newData = (List<IAdmin>)(Object)APIHandle.getObjectAmount(amountToLoad, lowestID, DatabaseTable.ADMIN);
+        adminList.addAll(newData);
+        return new LinkedList<>(newData);
+    }
+
+    @Override
+    public List<IAdmin> refreshAdmins() throws IOException {
+        adminList = (List<IAdmin>)(Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.ADMIN);
+        return new LinkedList<>(adminList);
+    }
+
+    @Override
+    public Boolean addGuest(IGuest guest) {
+        if (guest == null || guest.getID() <= 0)
+            throw new IllegalArgumentException("This guest cannot be added, have to put it though createNewObject?");
+        return guestList.add(guest);
+    }
+
+    @Override
+    public List<IGuest> getGuests() throws IOException {
+        if (guestList != null) {
+            return new LinkedList<>(guestList);
+        }
+        guestList = (List<IGuest>) (Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.GUEST_BOOKING);
+        return guestList;
+    }
+
+    @Override
+    public IGuest getGuest(Integer index) {
+        for (IGuest guest : guestList){
+            if(guest.getID().equals(index))
+                return guest;
+        }
+        throw new NullPointerException("No item in the list has this id :/.");
+    }
+
+    @Override
+    public Boolean removeGuest(IGuest guest) {
+        if (guest == null){
+            throw new IllegalArgumentException("Cannot remove a null customer.");
+        }
+        return guestList.remove(guest);
+    }
+
+    @Override
+    public List<IGuest> loadMoreGuests() throws IOException {
+        int lowestID = 0;
+        for (IGuest guest : guestList){
+            if (guest.getID() < lowestID || lowestID == 0)
+                lowestID = guest.getID();
+        }
+        List<IGuest> newData = (List<IGuest>)(Object)APIHandle.getObjectAmount(amountToLoad, lowestID, DatabaseTable.GUEST_BOOKING);
+        guestList.addAll(newData);
+        return new LinkedList<>(newData);
+    }
+
+    @Override
+    public List<IGuest> refreshGuests() throws IOException {
+        guestList = (List<IGuest>)(Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.CUSTOMER);
+        return new LinkedList<>(guestList);
+    }
+
+    @Override
+    public Boolean loginAdmin(String email, String password) throws IOException {
+        currentAdmin = (IAdmin) APIHandle.isPasswordTrue(email, password, DatabaseTable.ADMIN);
+        return !currentAdmin.getID().equals(-1);
+    }
+
+    @Override
+    public IAdmin getCurrentAdmin() {
+        return currentAdmin;
     }
 
     @Override
     public Boolean setAmountToLoad(Integer amountToLoad) {
         this.amountToLoad = amountToLoad;
-        return this.amountToLoad == amountToLoad;
+        return true;
     }
 
     @Override
