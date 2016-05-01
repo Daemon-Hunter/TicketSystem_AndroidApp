@@ -34,7 +34,7 @@
             android:layout_marginStart="15dp"
             android:layout_toRightOf="@id/parent_event_image"
             android:textColor="@android:color/white"
-            android:textSize="28sp"/>
+            android:textSize="24sp"/>
 
         <ScrollView
             android:id="@+id/parent_event_description_scroll_view"

@@ -53,7 +53,7 @@ public class ParentEventActAdapter extends ArrayAdapter<IChildEvent> {
 
             viewHolder = new ViewHolder();
             viewHolder.childEventImage = (ImageView) convertView.findViewById(R.id.child_event_venue_image);
-            viewHolder.childEventName = (TextView) convertView.findViewById(R.id.child_event_name);
+            viewHolder.childEventName = (TextView) convertView.findViewById(R.id.child_event_title);
             viewHolder.childEventDate = (TextView) convertView.findViewById(R.id.child_event_date);
 
             // store the holder with the view
