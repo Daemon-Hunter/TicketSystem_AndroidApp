@@ -15,6 +15,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
@@ -57,21 +58,6 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    private void displayParentEvent() {
-
-        ImageView image = (ImageView) findViewById(R.id.parent_event_image);
-        TextView name = (TextView) findViewById(R.id.parent_event_title);
-        TextView desc = (TextView) findViewById(R.id.parent_event_description);
-
-        int xy = ImageUtils.getScreenWidth(this) / 4;
-        Bitmap scaledImage = ImageUtils.scaleDown(mParentEvent.getImage(0), xy, xy);
-
-        image.setImageBitmap(scaledImage);
-        name.setText(mParentEvent.getName());
-        desc.setText(mParentEvent.getDescription());
-
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -102,11 +88,11 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent i = new Intent(this, ChildEventActivity.class);
 
-        i.putExtra(ChildEventActivity.CHILD_EVENT_ID, mChildEvents.get(position).getID());
-        i.putExtra(ChildEventActivity.PARENT_EVENT_ID, mParentEvent.getID());
+        int[] IDs = new int[2];
+        IDs[0] = mChildEvents.get(position).getID();
+        IDs[1] = mParentEvent.getID();
 
-        Log.d(MainActivity.DEBUG_TAG, "onItemClick: child before " + mChildEvents.get(position).getID());
-        Log.d(MainActivity.DEBUG_TAG, "onItemClick: parent before = " + mParentEvent.getID());
+        i.putExtra(ChildEventActivity.EVENT_ID, IDs);
 
         startActivity(i);
     }
@@ -154,9 +140,18 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
         @Override
         protected void onPostExecute(IParentEvent parentEvent) {
 
+            RelativeLayout container = (RelativeLayout) mContext.findViewById(R.id.featured_events_container);
+            ImageView image = (ImageView) mContext.findViewById(R.id.parent_event_image);
+            TextView name = (TextView) mContext.findViewById(R.id.parent_event_title);
+            TextView desc = (TextView) mContext.findViewById(R.id.parent_event_description);
+
+            int xy = ImageUtils.getScreenWidth(mContext) / 4;
+            Bitmap scaledImage = ImageUtils.scaleDown(mParentEvent.getImage(0), xy, xy);
+
             if (mChildEvents.isEmpty()) {
                 TextView noChildEventsMessage = (TextView) mContext.findViewById(R.id.no_child_events_message);
                 ImageView noChildEventsImage = (ImageView) mContext.findViewById(R.id.no_child_events_image);
+                container.setVisibility(View.GONE);
                 noChildEventsMessage.setVisibility(View.VISIBLE);
                 noChildEventsImage.setVisibility(View.VISIBLE);
 
@@ -164,9 +159,12 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
                 ListView list = (ListView) mContext.findViewById(R.id.child_events_list);
                 list.setAdapter(new ParentEventActAdapter(mContext, mChildEvents));
                 list.setOnItemClickListener(ParentEventActivity.this);
+                container.setVisibility(View.VISIBLE);
             }
 
-            displayParentEvent();
+            image.setImageBitmap(scaledImage);
+            name.setText(mParentEvent.getName());
+            desc.setText(mParentEvent.getDescription());
         }
     }
 

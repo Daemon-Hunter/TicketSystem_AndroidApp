@@ -11,7 +11,6 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,8 +37,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.d(DEBUG_TAG, "onCreate: ");
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -62,12 +59,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         // update UI components
         updateButtons(type);
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(DEBUG_TAG, "onResume: ");
     }
 
     private void setCustomAnimation(FragmentTransaction trans, FragmentType type) {

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
@@ -71,20 +72,6 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
                 onBackPressed();
             }
         });
-    }
-
-    private void displayInfo() {
-
-        ImageView artistImage = (ImageView) findViewById(R.id.artist_image);
-        TextView artistName = (TextView) findViewById(R.id.artist_title);
-        TextView artistDescription = (TextView) findViewById(R.id.artist_description);
-
-        int xy = ImageUtils.getScreenWidth(this) / 4;
-        Bitmap scaledImage = ImageUtils.scaleDown(mArtist.getImage(0), xy, xy);
-
-        artistName.setText(mArtist.getName());
-        artistImage.setImageBitmap(scaledImage);
-        artistDescription.setText(mArtist.getDescription());
     }
 
     @Override
@@ -162,18 +149,30 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
         @Override
         protected void onPostExecute(List<IChildEvent> childEvents) {
 
-            ListView artistEventsListView = (ListView) mContext.findViewById(R.id.artist_lineup_list);
+            RelativeLayout container = (RelativeLayout) mContext.findViewById(R.id.upcoming_performances_container);
+            ImageView artistImage = (ImageView) mContext.findViewById(R.id.artist_image);
+            TextView artistName = (TextView) mContext.findViewById(R.id.artist_title);
+            TextView artistDescription = (TextView) mContext.findViewById(R.id.artist_description);
+
+            int xy = ImageUtils.getScreenWidth(mContext) / 4;
+            Bitmap scaledImage = ImageUtils.scaleDown(mArtist.getImage(0), xy, xy);
+
 
             if (childEvents.isEmpty()) {
                 ImageView noEventsImage = (ImageView) findViewById(R.id.no_performances_image);
                 TextView noEventsMessage = (TextView) findViewById(R.id.no_performances_message);
+                container.setVisibility(View.GONE);
                 noEventsImage.setVisibility(View.VISIBLE);
                 noEventsMessage.setVisibility(View.VISIBLE);
             } else {
+                ListView artistEventsListView = (ListView) mContext.findViewById(R.id.artist_lineup_list);
                 artistEventsListView.setAdapter(new ArtistActAdapter(mContext, childEvents));
+                container.setVisibility(View.VISIBLE);
             }
 
-            displayInfo();
+            artistName.setText(mArtist.getName());
+            artistImage.setImageBitmap(scaledImage);
+            artistDescription.setText(mArtist.getDescription());
         }
     }
 

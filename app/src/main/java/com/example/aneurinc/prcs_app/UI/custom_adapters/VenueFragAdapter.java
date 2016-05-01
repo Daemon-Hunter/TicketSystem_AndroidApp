@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.activities.MapActivity;
-import com.example.aneurinc.prcs_app.UI.utilities.Constants;
 import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
 import com.google.jkellaway.androidapp_datamodel.events.IVenue;
 
@@ -26,11 +25,17 @@ public class VenueFragAdapter extends ArrayAdapter<IVenue> {
 
     private final Activity mContext;
     private List<IVenue> mVenues;
+    private static final int ROW_COLOUR1 = 0x3003a9f4;
+    private static final int ROW_COLOUR2 = 0x3081d4fa;
 
     public VenueFragAdapter(Activity context, List<IVenue> venues) {
         super(context, R.layout.list_row_venue);
         mVenues = venues;
         mContext = context;
+    }
+
+    private int getRowColour(int position) {
+        return position % 2 == 0 ? ROW_COLOUR1 : ROW_COLOUR2;
     }
 
     @Override
@@ -60,7 +65,7 @@ public class VenueFragAdapter extends ArrayAdapter<IVenue> {
             convertView = inflater.inflate(R.layout.list_row_venue, null);
 
             viewHolder = new ViewHolder();
-            viewHolder.venueImage = (ImageView) convertView.findViewById(R.id.artist_child_event_image);
+            viewHolder.venueImage = (ImageView) convertView.findViewById(R.id.artist_image);
             viewHolder.venueName = (TextView) convertView.findViewById(R.id.artist_child_event_name);
             viewHolder.venueCity = (TextView) convertView.findViewById(R.id.city);
             viewHolder.venueMap = (ImageView) convertView.findViewById(R.id.venue_map);
@@ -87,8 +92,7 @@ public class VenueFragAdapter extends ArrayAdapter<IVenue> {
             }
         });
 
-        int colorPos = position % Constants.rowColour.length;
-        convertView.setBackgroundColor(Constants.rowColour[colorPos]);
+        convertView.setBackgroundColor(getRowColour(position));
 
         return convertView;
     }

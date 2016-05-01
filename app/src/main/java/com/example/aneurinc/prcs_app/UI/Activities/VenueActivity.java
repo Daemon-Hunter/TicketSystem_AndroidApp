@@ -14,6 +14,7 @@ import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
@@ -43,27 +44,6 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener 
     private void getChildEvents() {
         ReadChildEvents task = new ReadChildEvents(this);
         task.execute();
-    }
-
-    private void displayInfo() {
-
-        ImageView venueImage = (ImageView) findViewById(R.id.venue_image);
-        TextView venueTitle = (TextView) findViewById(R.id.venue_title);
-        TextView venueDesc = (TextView) findViewById(R.id.venue_description);
-        TextView venueCapacity = (TextView) findViewById(R.id.venue_capacity);
-        TextView venueEmail = (TextView) findViewById(R.id.venue_email);
-        TextView venuePhoneNo = (TextView) findViewById(R.id.venue_phone_no);
-
-        int xy = ImageUtils.getScreenWidth(this) / 4;
-        Bitmap scaledImage = ImageUtils.scaleDown(mVenue.getImage(0), xy, xy);
-
-        venueImage.setImageBitmap(scaledImage);
-        venueTitle.setText(mVenue.getName());
-        venueDesc.setText(mVenue.getDescription());
-        venueCapacity.setText(getString(R.string.capacity) + " " + Integer.toString(mVenue
-                .getSeatingCapacity() + mVenue.getStandingCapacity()));
-        venueEmail.setText(mVenue.getEmail());
-        venuePhoneNo.setText(mVenue.getPhoneNumber());
     }
 
     private void addOnClickListeners() {
@@ -168,19 +148,36 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener 
         @Override
         protected void onPostExecute(List<IChildEvent> childEvents) {
 
+            RelativeLayout container = (RelativeLayout) mContext.findViewById(R.id.upcoming_events_container);
+            ImageView venueImage = (ImageView) mContext.findViewById(R.id.venue_image);
+            TextView venueTitle = (TextView) mContext.findViewById(R.id.venue_title);
+            TextView venueDesc = (TextView) mContext.findViewById(R.id.venue_description);
+            TextView venueCapacity = (TextView) mContext.findViewById(R.id.venue_capacity);
+            TextView venueEmail = (TextView) mContext.findViewById(R.id.venue_email);
+            TextView venuePhoneNo = (TextView) mContext.findViewById(R.id.venue_phone_no);
+
+            int xy = ImageUtils.getScreenWidth(mContext) / 4;
+            Bitmap scaledImage = ImageUtils.scaleDown(mVenue.getImage(0), xy, xy);
+
+
             if (childEvents.isEmpty()) {
                 ImageView noEventsImage = (ImageView) findViewById(R.id.no_venue_events_image);
                 TextView noEventsMessage = (TextView) findViewById(R.id.no_venue_events_message);
+                container.setVisibility(View.INVISIBLE);
                 noEventsImage.setVisibility(View.VISIBLE);
                 noEventsMessage.setVisibility(View.VISIBLE);
             } else {
-                ListView childEventsListView = (ListView) mContext.findViewById(R.id
-                        .venue_event_list);
+                ListView childEventsListView = (ListView) mContext.findViewById(R.id.venue_event_list);
                 childEventsListView.setAdapter(new VenueActAdapter(mContext, childEvents));
+                container.setVisibility(View.VISIBLE);
             }
 
-            displayInfo();
-
+            venueImage.setImageBitmap(scaledImage);
+            venueTitle.setText(mVenue.getName());
+            venueDesc.setText(mVenue.getDescription());
+            venueCapacity.setText(getString(R.string.capacity) + " " + Integer.toString(mVenue.getSeatingCapacity() + mVenue.getStandingCapacity()));
+            venueEmail.setText(mVenue.getEmail());
+            venuePhoneNo.setText(mVenue.getPhoneNumber());
         }
     }
 }

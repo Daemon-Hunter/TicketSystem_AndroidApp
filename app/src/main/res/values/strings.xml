@@ -95,5 +95,9 @@
     <string name="no_child_events">No Child Events</string>
     <string name="no_performances">No Performances</string>
     <string name="no_hosted_events">No hosted Events</string>
+    <string name="artist_lineup">Artist Lineup</string>
+    <string name="featured_events">Featured Events</string>
+    <string name="upcoming_performances">Upcoming Performances</string>
+    <string name="no_artist_lineup">No Artist Lineup</string>
 
 </resources>

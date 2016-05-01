@@ -12,8 +12,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
@@ -26,7 +28,7 @@ import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 import java.io.IOException;
 import java.util.List;
 
-public class ChildEventActivity extends AppCompatActivity implements OnClickListener {
+public class ChildEventActivity extends AppCompatActivity implements OnClickListener, AdapterView.OnItemClickListener {
 
     public static String EVENT_ID;
     private IChildEvent mChildEvent;
@@ -96,6 +98,11 @@ public class ChildEventActivity extends AppCompatActivity implements OnClickList
     }
 
     @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        startActivity(new Intent(this, ArtistActivity.class));
+    }
+
+    @Override
     public void onClick(View v) {
 
         v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.onclick));
@@ -109,30 +116,6 @@ public class ChildEventActivity extends AppCompatActivity implements OnClickList
                 break;
 
         }
-    }
-
-    private void displayInfo() {
-
-        TextView name = (TextView) findViewById(R.id.child_event_title);
-        TextView date = (TextView) findViewById(R.id.child_event_date);
-        TextView address = (TextView) findViewById(R.id.child_event_city);
-        TextView desc = (TextView) findViewById(R.id.child_event_description);
-        ImageView image = (ImageView) findViewById(R.id.child_event_venue_image);
-
-        String startDate = mChildEvent.getStartDateTime().toString();
-        String endDate = mChildEvent.getEndDateTime().toString();
-        date.setText(startDate.substring(0, 10) + " - " + endDate.substring
-                (0, 10));
-
-        name.setText(mChildEvent.getName());
-        address.setText(mChildEvent.getVenue().getCity());
-        desc.setText(mChildEvent.getDescription());
-
-        int xy = ImageUtils.getScreenWidth(this) / 4;
-        Bitmap scaledImage = ImageUtils.scaleDown(mChildEvent.getImage(0), xy, xy);
-
-        image.setImageBitmap(scaledImage);
-
     }
 
     private class ReadChildEvent extends AsyncTask<Void, Void, List<IArtist>> {
@@ -165,14 +148,36 @@ public class ChildEventActivity extends AppCompatActivity implements OnClickList
         @Override
         protected void onPostExecute(List<IArtist> artists) {
 
+            TextView name = (TextView) mContext.findViewById(R.id.child_event_title);
+            TextView date = (TextView) mContext.findViewById(R.id.child_event_date);
+            TextView city = (TextView) mContext.findViewById(R.id.child_event_city);
+            TextView desc = (TextView) mContext.findViewById(R.id.child_event_description);
+            ImageView image = (ImageView) mContext.findViewById(R.id.child_event_venue_image);
+            RelativeLayout container = (RelativeLayout) mContext.findViewById(R.id.artist_lineup_container);
+
+            String startDate = mChildEvent.getStartDateTime().toString();
+            String endDate = mChildEvent.getEndDateTime().toString();
+
+            int xy = ImageUtils.getScreenWidth(mContext) / 4;
+            Bitmap scaledImage = ImageUtils.scaleDown(mChildEvent.getVenue().getImage(0), xy, xy);
+
             if (artists.isEmpty()) {
-                // TODO: 29/04/2016 display empty view
+                ImageView noEventsImage = (ImageView) mContext.findViewById(R.id.no_artist_lineup_image);
+                TextView noEventsMessage = (TextView) mContext.findViewById(R.id.no_artist_lineup_message);
+                container.setVisibility(View.GONE);
+                noEventsImage.setVisibility(View.VISIBLE);
+                noEventsMessage.setVisibility(View.VISIBLE);
             } else {
-                ListView mLineup = (ListView) mContext.findViewById(R.id.lineup_list);
-                mLineup.setAdapter(new ChildEventActAdapter(mContext));
+                ListView mLineup = (ListView) mContext.findViewById(R.id.child_event_lineup_list);
+                mLineup.setAdapter(new ChildEventActAdapter(mContext, artists));
+                container.setVisibility(View.VISIBLE);
             }
 
-            displayInfo();
+            date.setText(startDate.substring(0, 10) + " - " + endDate.substring(0, 10));
+            name.setText(mChildEvent.getName());
+            city.setText(mChildEvent.getVenue().getCity());
+            desc.setText(mChildEvent.getDescription());
+            image.setImageBitmap(scaledImage);
         }
     }
 }

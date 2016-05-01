@@ -16,6 +16,7 @@
 
     <!--blue-->
     <color name="colorBlue500">#2196f3</color>
+    <color name="colorBlue400">#29b6f6</color>
     <color name="colorBlue300">#64b5f6</color>
     <color name="colorBlue800">#1565c0</color>
     <color name="colorBlue200">#90caf9</color>

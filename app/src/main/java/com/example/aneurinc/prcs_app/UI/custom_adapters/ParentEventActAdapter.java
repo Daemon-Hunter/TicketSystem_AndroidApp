@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.utilities.Constants;
 import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
 import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
 
@@ -23,11 +22,17 @@ public class ParentEventActAdapter extends ArrayAdapter<IChildEvent> {
 
     private final Activity mContext;
     private List<IChildEvent> mChildEventsList;
+    private static final int ROW_COLOUR1 = 0x3003a9f4;
+    private static final int ROW_COLOUR2 = 0x3081d4fa;
 
     public ParentEventActAdapter(Activity context, List<IChildEvent> childEvents) {
         super(context, R.layout.list_row_parent_event);
         mContext = context;
         mChildEventsList = childEvents;
+    }
+
+    private int getRowColour(int position) {
+        return position % 2 == 0 ? ROW_COLOUR1 : ROW_COLOUR2;
     }
 
     @Override
@@ -65,8 +70,7 @@ public class ParentEventActAdapter extends ArrayAdapter<IChildEvent> {
         }
 
         // alternate list view row colour
-        int colorPos = position % Constants.rowColour.length;
-        convertView.setBackgroundColor(Constants.rowColour[colorPos]);
+        convertView.setBackgroundColor(getRowColour(position));
 
         int xy = ImageUtils.getScreenWidth(mContext) / 5;
         Bitmap scaledImage = ImageUtils.scaleDown(currChildEvent.getVenue().getImage(0), xy, xy);
