@@ -207,6 +207,11 @@ public class Artist implements IArtist {
     }
 
     @Override
+    public Boolean newContract(IChildEvent childEvent) {
+        return null;
+    }
+
+    @Override
     public Integer getSocialId() {
         return socialMediaID;
     }
