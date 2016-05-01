@@ -59,7 +59,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="9"
-        android:background="@color/colorBlue400">
+        android:background="@color/colorBlue400"
+        android:visibility="invisible">
 
         <TextView
             android:id="@+id/artist_lineup_text"
@@ -83,7 +84,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
-            android:fadeScrollbars="false"/>
+            android:fadeScrollbars="false"
+            android:focusable="false"/>
 
         <ImageView
             android:id="@+id/no_performances_image"

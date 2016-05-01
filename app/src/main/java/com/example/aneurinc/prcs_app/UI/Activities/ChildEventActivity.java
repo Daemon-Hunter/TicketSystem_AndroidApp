@@ -32,16 +32,13 @@ public class ChildEventActivity extends AppCompatActivity implements OnClickList
 
     public static String EVENT_ID;
     private IChildEvent mChildEvent;
+    private List<IArtist> mArtists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_child_event);
 
-        int childID = getIntent().getExtras().getIntArray(EVENT_ID)[0];
-        int parentID = getIntent().getExtras().getIntArray(EVENT_ID)[1];
-
-        mChildEvent = UserWrapper.getInstance().getParentEvent(parentID).getChildEvent(childID);
 
         setupToolbar();
 
@@ -99,7 +96,9 @@ public class ChildEventActivity extends AppCompatActivity implements OnClickList
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        startActivity(new Intent(this, ArtistActivity.class));
+        Intent intent = new Intent(this, ArtistActivity.class);
+        intent.putExtra(ArtistActivity.ARTIST_ID, mArtists.get(position).getID());
+        startActivity(intent);
     }
 
     @Override
@@ -118,7 +117,7 @@ public class ChildEventActivity extends AppCompatActivity implements OnClickList
         }
     }
 
-    private class ReadChildEvent extends AsyncTask<Void, Void, List<IArtist>> {
+    private class ReadChildEvent extends AsyncTask<Void, Void, Void> {
 
         private final Activity mContext;
 
@@ -132,21 +131,20 @@ public class ChildEventActivity extends AppCompatActivity implements OnClickList
         }
 
         @Override
-        protected List<IArtist> doInBackground(Void... params) {
-
-            List<IArtist> mArtistLineup = null;
-
+        protected Void doInBackground(Void... params) {
             try {
-                mArtistLineup = mChildEvent.getArtistList();
+                int childID = getIntent().getExtras().getIntArray(EVENT_ID)[0];
+                int parentID = getIntent().getExtras().getIntArray(EVENT_ID)[1];
+                mChildEvent = UserWrapper.getInstance().getParentEvent(parentID).getChildEvent(childID);
+                mArtists = mChildEvent.getArtistList();
             } catch (IOException e) {
                 // TODO: 29/04/2016 handle exception
             }
-
-            return mArtistLineup;
+            return null;
         }
 
         @Override
-        protected void onPostExecute(List<IArtist> artists) {
+        protected void onPostExecute(Void aVoid) {
 
             TextView name = (TextView) mContext.findViewById(R.id.child_event_title);
             TextView date = (TextView) mContext.findViewById(R.id.child_event_date);
@@ -161,7 +159,7 @@ public class ChildEventActivity extends AppCompatActivity implements OnClickList
             int xy = ImageUtils.getScreenWidth(mContext) / 4;
             Bitmap scaledImage = ImageUtils.scaleDown(mChildEvent.getVenue().getImage(0), xy, xy);
 
-            if (artists.isEmpty()) {
+            if (mArtists.isEmpty()) {
                 ImageView noEventsImage = (ImageView) mContext.findViewById(R.id.no_artist_lineup_image);
                 TextView noEventsMessage = (TextView) mContext.findViewById(R.id.no_artist_lineup_message);
                 container.setVisibility(View.GONE);
@@ -169,7 +167,8 @@ public class ChildEventActivity extends AppCompatActivity implements OnClickList
                 noEventsMessage.setVisibility(View.VISIBLE);
             } else {
                 ListView mLineup = (ListView) mContext.findViewById(R.id.child_event_lineup_list);
-                mLineup.setAdapter(new ChildEventActAdapter(mContext, artists));
+                mLineup.setAdapter(new ChildEventActAdapter(mContext, mArtists));
+                mLineup.setOnItemClickListener(ChildEventActivity.this);
                 container.setVisibility(View.VISIBLE);
             }
 

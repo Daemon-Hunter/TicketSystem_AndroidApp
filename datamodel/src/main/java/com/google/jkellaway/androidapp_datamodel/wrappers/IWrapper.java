@@ -40,7 +40,7 @@ public interface IWrapper {
 
     List<IArtist>  getArtists() throws IOException;
     List<IArtist>  loadMoreArtists() throws IOException;
-    IArtist        getArtist(Integer id);
+    IArtist        getArtist(Integer id) throws IOException;
     Boolean        addArtist(IArtist artist);
     Boolean        removeArtist(IArtist artist);
     List<IArtist>  refreshArtists() throws IOException;

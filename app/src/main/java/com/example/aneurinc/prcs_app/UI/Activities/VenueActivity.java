@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -21,16 +22,20 @@ import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.custom_adapters.VenueActAdapter;
 import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
 import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
+import com.google.jkellaway.androidapp_datamodel.events.IParentEvent;
 import com.google.jkellaway.androidapp_datamodel.events.IVenue;
 import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-public class VenueActivity extends AppCompatActivity implements OnClickListener {
+public class VenueActivity extends AppCompatActivity implements OnClickListener, AdapterView.OnItemClickListener {
 
     public static String VENUE_ID;
     private IVenue mVenue;
+    private List<IChildEvent> mChildEvents;
+    private List<IParentEvent> mParentEvents;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +125,19 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener 
         }
     }
 
-    private class ReadChildEvents extends AsyncTask<Void, Void, List<IChildEvent>> {
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(this, ChildEventActivity.class);
+
+        int[] IDs = new int[2];
+        IDs[0] = mChildEvents.get(position).getID();
+        IDs[1] = mParentEvents.get(position).getID();
+
+        intent.putExtra(ChildEventActivity.EVENT_ID, IDs);
+        startActivity(intent);
+    }
+
+    private class ReadChildEvents extends AsyncTask<Void, Void, Void> {
 
         private Activity mContext;
 
@@ -134,19 +151,22 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener 
         }
 
         @Override
-        protected List<IChildEvent> doInBackground(Void... params) {
+        protected Void doInBackground(Void... params) {
             mVenue = UserWrapper.getInstance().getVenue(getIntent().getExtras().getInt(VENUE_ID));
-            List<IChildEvent> mChildEvents = null;
             try {
                 mChildEvents = mVenue.getChildEvents();
+                mParentEvents = new ArrayList<>();
+                for (IChildEvent c : mChildEvents) {
+                    mParentEvents.add(c.getParentEvent());
+                }
             } catch (IOException e) {
-                // TODO: 26/04/2016 handle IOException 
+                // TODO: 26/04/2016 handle IOException
             }
-            return mChildEvents;
+            return null;
         }
 
         @Override
-        protected void onPostExecute(List<IChildEvent> childEvents) {
+        protected void onPostExecute(Void aVoid) {
 
             RelativeLayout container = (RelativeLayout) mContext.findViewById(R.id.upcoming_events_container);
             ImageView venueImage = (ImageView) mContext.findViewById(R.id.venue_image);
@@ -160,7 +180,7 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener 
             Bitmap scaledImage = ImageUtils.scaleDown(mVenue.getImage(0), xy, xy);
 
 
-            if (childEvents.isEmpty()) {
+            if (mChildEvents.isEmpty()) {
                 ImageView noEventsImage = (ImageView) findViewById(R.id.no_venue_events_image);
                 TextView noEventsMessage = (TextView) findViewById(R.id.no_venue_events_message);
                 container.setVisibility(View.INVISIBLE);
@@ -168,7 +188,8 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener 
                 noEventsMessage.setVisibility(View.VISIBLE);
             } else {
                 ListView childEventsListView = (ListView) mContext.findViewById(R.id.venue_event_list);
-                childEventsListView.setAdapter(new VenueActAdapter(mContext, childEvents));
+                childEventsListView.setAdapter(new VenueActAdapter(mContext, mChildEvents));
+                childEventsListView.setOnItemClickListener(VenueActivity.this);
                 container.setVisibility(View.VISIBLE);
             }
 

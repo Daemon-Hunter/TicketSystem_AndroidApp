@@ -73,7 +73,7 @@ public class ArtistActAdapter extends ArrayAdapter<IChildEvent> {
         convertView.setBackgroundColor(getRowColour(position));
 
         int xy = ImageUtils.getScreenWidth(mContext) / 5;
-        Bitmap scaledImage = ImageUtils.scaleDown(currItem.getImage(0), xy, xy);
+        Bitmap scaledImage = ImageUtils.scaleDown(currItem.getVenue().getImage(0), xy, xy);
 
         String startDate = currItem.getStartDateTime().toString();
         String endDate = currItem.getEndDateTime().toString();

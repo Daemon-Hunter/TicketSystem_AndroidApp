@@ -57,10 +57,8 @@ public class VenueActAdapter extends ArrayAdapter<IChildEvent> {
             convertView = inflater.inflate(R.layout.list_row_parent_event, parent, false);
 
             viewHolder = new ViewHolder();
-            viewHolder.childEventImage = (ImageView) convertView.findViewById(R.id
-                    .child_event_venue_image);
-            viewHolder.childEventTitle = (TextView) convertView.findViewById(R.id
-                    .child_event_title);
+            viewHolder.childEventImage = (ImageView) convertView.findViewById(R.id.child_event_venue_image);
+            viewHolder.childEventTitle = (TextView) convertView.findViewById(R.id.child_event_title);
             viewHolder.childEventDate = (TextView) convertView.findViewById(R.id.child_event_date);
 
             convertView.setTag(viewHolder);
@@ -78,8 +76,7 @@ public class VenueActAdapter extends ArrayAdapter<IChildEvent> {
 
         String startDate = currItem.getStartDateTime().toString();
         String endDate = currItem.getEndDateTime().toString();
-        viewHolder.childEventDate.setText(startDate.substring(0, 10) + " - " + endDate.substring
-                (0, 10));
+        viewHolder.childEventDate.setText(startDate.substring(0, 10) + " - " + endDate.substring(0, 10));
         viewHolder.childEventImage.setImageBitmap(scaledImage);
         viewHolder.childEventTitle.setText(currItem.getName());
 

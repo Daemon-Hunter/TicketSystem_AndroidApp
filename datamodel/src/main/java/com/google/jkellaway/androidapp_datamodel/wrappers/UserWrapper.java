@@ -217,7 +217,7 @@ public class UserWrapper implements IUserWrapper {
     }
 
     @Override
-    public IArtist getArtist(Integer id) {
+    public IArtist getArtist(Integer id) throws IOException {
         for (IArtist artist : artistList){
             if(artist.getID().equals(id))
             return artist;

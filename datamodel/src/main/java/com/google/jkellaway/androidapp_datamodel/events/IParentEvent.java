@@ -26,7 +26,7 @@ public interface IParentEvent extends ISocial, IReviewable {
     SocialMedia getSocialMedia();
     
     Boolean addChildEvent(IChildEvent childEvent);
-    IChildEvent getChildEvent(Integer childEventID);
+    IChildEvent getChildEvent(Integer childEventID) throws IOException;
     Boolean removeChildEvent(IChildEvent childEvent);
     List<IChildEvent> getChildEvents() throws IOException;
 }

@@ -74,7 +74,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="9"
-        android:background="@color/colorBlue400">
+        android:background="@color/colorBlue400"
+        android:visibility="invisible">
 
         <TextView
             android:id="@+id/child_events_text"
@@ -87,36 +88,43 @@
 
     </RelativeLayout>
 
-    <!-- event lineup list-->
-    <ListView
-        android:id="@+id/child_event_lineup_list"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="46"
-        android:background="@android:color/white"
-        android:fadeScrollbars="false"/>
+        android:layout_weight="46">
 
-    <ImageView
-        android:id="@+id/no_artist_lineup_image"
-        android:layout_width="175dp"
-        android:layout_height="175dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
-        android:src="@drawable/no_events"
-        android:visibility="invisible"/>
+        <!-- event lineup list-->
+        <ListView
+            android:id="@+id/child_event_lineup_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:fadeScrollbars="false"
+            android:focusable="false"/>
 
-    <TextView
-        android:id="@+id/no_artist_lineup_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/no_performances_image"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:text="@string/no_artist_lineup"
-        android:textColor="@android:color/white"
-        android:textSize="22sp"
-        android:visibility="invisible"/>
+        <ImageView
+            android:id="@+id/no_artist_lineup_image"
+            android:layout_width="175dp"
+            android:layout_height="175dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/no_events"
+            android:visibility="invisible"/>
+
+        <TextView
+            android:id="@+id/no_artist_lineup_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/no_performances_image"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:text="@string/no_artist_lineup"
+            android:textColor="@android:color/white"
+            android:textSize="22sp"
+            android:visibility="invisible"/>
+
+    </RelativeLayout>
 
     <!--buy ticket image-->
     <ImageView

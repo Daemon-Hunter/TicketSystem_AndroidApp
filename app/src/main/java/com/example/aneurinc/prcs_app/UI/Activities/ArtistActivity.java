@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -21,22 +22,27 @@ import com.example.aneurinc.prcs_app.UI.custom_adapters.ArtistActAdapter;
 import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
 import com.google.jkellaway.androidapp_datamodel.events.IArtist;
 import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
+import com.google.jkellaway.androidapp_datamodel.events.IParentEvent;
 import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
-public class ArtistActivity extends AppCompatActivity implements View.OnClickListener {
+public class ArtistActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
     public static String ARTIST_ID;
+
     private IArtist mArtist;
+    private List<IParentEvent> mParentEvents;
+    private List<IChildEvent> mChildEvents;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_artist);
-        mArtist = UserWrapper.getInstance().getArtist(getIntent().getExtras().getInt(ARTIST_ID));
+
         readArtist();
         setUpToolbar();
         addOnClickListeners();
@@ -82,6 +88,18 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(this, ChildEventActivity.class);
+
+        int[] IDs = new int[2];
+        IDs[0] = mChildEvents.get(position).getID();
+        IDs[1] = mParentEvents.get(position).getID();
+
+        intent.putExtra(ChildEventActivity.EVENT_ID, IDs);
+        startActivity(intent);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -119,7 +137,7 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    private class ReadArtist extends AsyncTask<Void, Void, List<IChildEvent>> {
+    private class ReadArtist extends AsyncTask<Void, Void, Void> {
 
         private Activity mContext;
 
@@ -134,20 +152,23 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         @Override
-        protected List<IChildEvent> doInBackground(Void... voids) {
-            List<IChildEvent> mChildEvents = null;
+        protected Void doInBackground(Void... params) {
             try {
+                int artistID = getIntent().getExtras().getInt(ARTIST_ID);
+                mArtist = UserWrapper.getInstance().getArtist(artistID);
                 mChildEvents = mArtist.getChildEvents();
+                mParentEvents = new ArrayList<>();
+                for (IChildEvent c : mChildEvents) {
+                    mParentEvents.add(c.getParentEvent());
+                }
             } catch (IOException e) {
                 // TODO: 29/04/2016 handle exception
             }
-
-
-            return mChildEvents;
+            return null;
         }
 
         @Override
-        protected void onPostExecute(List<IChildEvent> childEvents) {
+        protected void onPostExecute(Void aVoid) {
 
             RelativeLayout container = (RelativeLayout) mContext.findViewById(R.id.upcoming_performances_container);
             ImageView artistImage = (ImageView) mContext.findViewById(R.id.artist_image);
@@ -158,15 +179,16 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
             Bitmap scaledImage = ImageUtils.scaleDown(mArtist.getImage(0), xy, xy);
 
 
-            if (childEvents.isEmpty()) {
+            if (mChildEvents.isEmpty()) {
                 ImageView noEventsImage = (ImageView) findViewById(R.id.no_performances_image);
                 TextView noEventsMessage = (TextView) findViewById(R.id.no_performances_message);
                 container.setVisibility(View.GONE);
                 noEventsImage.setVisibility(View.VISIBLE);
                 noEventsMessage.setVisibility(View.VISIBLE);
             } else {
-                ListView artistEventsListView = (ListView) mContext.findViewById(R.id.artist_lineup_list);
-                artistEventsListView.setAdapter(new ArtistActAdapter(mContext, childEvents));
+                ListView mListView = (ListView) findViewById(R.id.artist_lineup_list);
+                mListView.setAdapter(new ArtistActAdapter(ArtistActivity.this, mChildEvents));
+                mListView.setOnItemClickListener(ArtistActivity.this);
                 container.setVisibility(View.VISIBLE);
             }
 

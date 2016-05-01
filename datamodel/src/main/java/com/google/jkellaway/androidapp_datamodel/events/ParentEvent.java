@@ -77,10 +77,13 @@ public class ParentEvent implements IParentEvent {
     }
 
     @Override
-    public IChildEvent getChildEvent(Integer childEventID) {
+    public IChildEvent getChildEvent(Integer childEventID) throws IOException {
         if (childEventID == null) {
             throw new NullPointerException("Null child event ID");
         } else {
+            if (childEvents == null) {
+                childEvents = getChildEvents();
+            }
             for (IChildEvent childEvent : childEvents) {
                 if (childEvent.getID().equals(childEventID))
                     return childEvent;
