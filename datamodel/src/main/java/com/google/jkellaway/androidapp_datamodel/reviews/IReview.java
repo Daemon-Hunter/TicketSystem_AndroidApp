@@ -7,13 +7,12 @@ package com.google.jkellaway.androidapp_datamodel.reviews;
 
 import java.io.IOException;
 import java.util.Date;
-import com.google.jkellaway.androidapp_datamodel.utilities.observer.IDbSubject;
 
 /**
  *
  * @author 10512691
  */
-public interface IReview extends IDbSubject {
+public interface IReview {
     
     Integer getReviewBaseID();
     // Boolean setReviewBaseID(Integer reviewBaseID);

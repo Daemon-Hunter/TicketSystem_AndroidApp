@@ -271,7 +271,6 @@ public class Venue implements IVenue {
             Boolean valid = nameValidator(name);
             if (valid) {
                 this.name = name;
-                notifyObservers();
             }
             return valid;
         }
@@ -285,7 +284,6 @@ public class Venue implements IVenue {
             Boolean valid = descriptionValidator(description);
             if (valid) {
                 this.description = description;
-                notifyObservers();
             }
             return valid;
         }
@@ -299,7 +297,6 @@ public class Venue implements IVenue {
             Boolean valid = capacityValidator(standing);
             if (valid) {
                 capacityStanding = standing;
-                notifyObservers();
             }
             return valid;
         }
@@ -313,7 +310,6 @@ public class Venue implements IVenue {
             Boolean valid = capacityValidator(seating);
             if (valid) {
                 capacitySeating = seating;
-                notifyObservers();
             }
             return valid;
         }
@@ -325,7 +321,6 @@ public class Venue implements IVenue {
             throw new NullPointerException("Cannot set access to null");
         } else {
             disabledAccess = access;
-            notifyObservers();
             return true;
         }
     }
@@ -338,7 +333,6 @@ public class Venue implements IVenue {
             Boolean valid = facilitiesValidator(facilities);
             if (valid) {
                 this.facilities = facilities;
-                notifyObservers();
             }
             return valid;
         }
@@ -352,7 +346,6 @@ public class Venue implements IVenue {
             Boolean valid = parkingSpaceValidator(parking);
             if (valid) {
                 parkingSpaces = parking;
-                notifyObservers();
             }
             return valid;
         }
@@ -366,7 +359,6 @@ public class Venue implements IVenue {
             Boolean valid = emailValidator(email);
             if (valid) {
                 this.email = email;
-                notifyObservers();
             }
             return valid;
         }
@@ -380,7 +372,6 @@ public class Venue implements IVenue {
             Boolean valid = phoneNumberValidator(phoneNumber);
             if (valid) {
                 this.phoneNumber = phoneNumber;
-                notifyObservers();
             }
             return valid;
         }
@@ -394,7 +385,6 @@ public class Venue implements IVenue {
             Boolean valid = addressValidator(address);
             if (valid) {
                 this.address = address;
-                notifyObservers();
             }
             return valid;
         }
@@ -408,7 +398,6 @@ public class Venue implements IVenue {
             Boolean valid = postcodeValidator(postcode);
             if (valid) {
                 this.postcode = postcode;
-                notifyObservers();
             }
             return valid;
         }
@@ -435,48 +424,6 @@ public class Venue implements IVenue {
 
     protected IReviewFactory getReviewFactory() {
         return reviewFactory;
-    }
-
-    /**
-     * Adds IObserver object to list of objects to notify when a change is made.
-     * Checks if the object is null or already exists in the list.
-     *
-     * @param o
-     * @return
-     */
-    @Override
-    public Boolean registerObserver(IObserver o) {
-        if (o == null) {
-            throw new NullPointerException("Null observer");
-        } else if (observers.contains(o)) {
-            throw new IllegalArgumentException("Observer already exists");
-        } else {
-            observers.add(o);
-            return true;
-        }
-    }
-
-    @Override
-    public Boolean removeObserver(IObserver o) {
-        if (o == null) {
-            throw new NullPointerException("Null observer");
-        } else if (!observers.contains(o)) {
-            throw new IllegalArgumentException("Observer doesn't exist in observers list");
-        } else {
-            observers.remove(o);
-            return true;
-        }
-    }
-
-    @Override
-    public void notifyObservers() throws IOException {
-        if (observers == null) {
-            observers = new LinkedList();
-        } else {
-            for (IObserver o : observers) {
-                o.update(this, table);
-            }
-        }
     }
 
     @Override
@@ -523,12 +470,10 @@ public class Venue implements IVenue {
             throw new IllegalArgumentException("Review to be deleted wasn't in list");
         } else {
             reviews.remove(review);
-            notifyObservers();
             return true;
         }
     }
 
-    @Override
     public DatabaseTable getTable() {
         if (table == null) {
             throw new NullPointerException();

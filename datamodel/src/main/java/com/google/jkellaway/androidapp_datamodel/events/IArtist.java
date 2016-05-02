@@ -31,5 +31,5 @@ public interface IArtist extends ISocial {
 
     List<IChildEvent> getChildEvents() throws IOException;
 
-    Boolean newContract(IChildEvent childEvent);
+    Boolean newContract(IChildEvent childEvent) throws IOException;
 }

@@ -26,8 +26,7 @@ public class UserWrapper implements IUserWrapper {
 
     private static UserWrapper wrapper;
 
-    private static Integer amountListView = 9;
-    private static Integer amountGridView = 9;
+    private static Integer amountToLoad = 9;
 
     private List<IParentEvent> parentEventList;
     private List<IVenue> venueList;
@@ -72,7 +71,7 @@ public class UserWrapper implements IUserWrapper {
         if (parentEventList != null){
             return new LinkedList<>(parentEventList);
         } else {
-            parentEventList = (List<IParentEvent>)(Object) getObjectAmount(amountGridView, 0,
+            parentEventList = (List<IParentEvent>)(Object) getObjectAmount(amountToLoad, 0,
                     DatabaseTable.PARENT_EVENT);
             return new LinkedList<>(parentEventList);
         }
@@ -85,7 +84,7 @@ public class UserWrapper implements IUserWrapper {
             if (parentEvent.getID() < lowestID || lowestID == 0)
                 lowestID = parentEvent.getID();
         }
-        List<IParentEvent> newData = (List<IParentEvent>)(Object) getObjectAmount(amountGridView, lowestID, DatabaseTable.PARENT_EVENT);
+        List<IParentEvent> newData = (List<IParentEvent>)(Object) getObjectAmount(amountToLoad, lowestID, DatabaseTable.PARENT_EVENT);
         parentEventList.addAll(newData);
         return new LinkedList<>(newData);
     }
@@ -121,13 +120,13 @@ public class UserWrapper implements IUserWrapper {
 
     @Override
     public List<IParentEvent> refreshParentEvents() throws IOException {
-        parentEventList = (List<IParentEvent>)(Object) getObjectAmount(amountGridView, 0, DatabaseTable.PARENT_EVENT);
+        parentEventList = (List<IParentEvent>)(Object) getObjectAmount(amountToLoad, 0, DatabaseTable.PARENT_EVENT);
         return new LinkedList<>(parentEventList);
     }
 
     @Override
     public List<IParentEvent> searchParentEvents(String searchString) throws IOException {
-        parentEventSearchList = (List<IParentEvent>)(Object)APIHandle.searchObjects(searchString, DatabaseTable.PARENT_EVENT);
+        parentEventSearchList = (List<IParentEvent>)(Object)APIHandle.searchObjects(searchString, amountToLoad, DatabaseTable.PARENT_EVENT);
         return parentEventSearchList;
     }
 
@@ -136,7 +135,7 @@ public class UserWrapper implements IUserWrapper {
         if (venueList != null){
             return new LinkedList<>(venueList);
         } else {
-            venueList = (List<IVenue>) (Object) getObjectAmount(amountListView, 0, DatabaseTable.VENUE);
+            venueList = (List<IVenue>) (Object) getObjectAmount(amountToLoad, 0, DatabaseTable.VENUE);
             return venueList;
         }
     }
@@ -161,7 +160,7 @@ public class UserWrapper implements IUserWrapper {
             if (venue.getID() < lowestID || lowestID == 0)
                 lowestID = venue.getID();
         }
-        List<IVenue> newData = (List<IVenue>) (Object) getObjectAmount(amountListView, lowestID, DatabaseTable.VENUE);
+        List<IVenue> newData = (List<IVenue>) (Object) getObjectAmount(amountToLoad, lowestID, DatabaseTable.VENUE);
         venueList.addAll(newData);
         return new LinkedList<>(newData);
     }
@@ -184,13 +183,13 @@ public class UserWrapper implements IUserWrapper {
 
     @Override
     public List<IVenue> refreshVenues() throws IOException {
-        venueList = (List<IVenue>)(Object) getObjectAmount(amountGridView, 0, DatabaseTable.VENUE);
+        venueList = (List<IVenue>)(Object) getObjectAmount(amountToLoad, 0, DatabaseTable.VENUE);
         return new LinkedList<>(venueList);
     }
 
     @Override
     public List<IVenue> searchVenues(String searchString) throws IOException {
-        venueSearchList = (List<IVenue>)(Object)APIHandle.searchObjects(searchString, DatabaseTable.VENUE);
+        venueSearchList = (List<IVenue>)(Object)APIHandle.searchObjects(searchString, amountToLoad, DatabaseTable.VENUE);
         return venueSearchList;
     }
 
@@ -199,7 +198,7 @@ public class UserWrapper implements IUserWrapper {
         if (artistList != null){
             return new LinkedList<>(artistList);
         } else {
-            artistList = (List<IArtist>)(Object) getObjectAmount(amountGridView, 0, DatabaseTable.ARTIST);
+            artistList = (List<IArtist>)(Object) getObjectAmount(amountToLoad, 0, DatabaseTable.ARTIST);
             return new LinkedList<>(artistList);
         }
     }
@@ -211,7 +210,7 @@ public class UserWrapper implements IUserWrapper {
             if (artist.getID() < lowestID || lowestID == 0)
                 lowestID = artist.getID();
         }
-        List<IArtist> newData = (List<IArtist>)(Object) getObjectAmount(amountGridView, lowestID, DatabaseTable.ARTIST);
+        List<IArtist> newData = (List<IArtist>)(Object) getObjectAmount(amountToLoad, lowestID, DatabaseTable.ARTIST);
         artistList.addAll(newData);
         return new LinkedList<>(newData);
     }
@@ -247,19 +246,19 @@ public class UserWrapper implements IUserWrapper {
 
     @Override
     public List<IArtist> refreshArtists() throws IOException {
-        artistList = (List<IArtist>)(Object) getObjectAmount(amountGridView, 0, DatabaseTable.ARTIST);
+        artistList = (List<IArtist>)(Object) getObjectAmount(amountToLoad, 0, DatabaseTable.ARTIST);
         return new LinkedList<>(artistList);
     }
 
     @Override
     public List<IArtist> searchArtists(String searchString) throws IOException {
-        artistSearchList = (List<IArtist>) (Object)APIHandle.searchObjects(searchString, DatabaseTable.ARTIST);
+        artistSearchList = (List<IArtist>) (Object)APIHandle.searchObjects(searchString, amountToLoad, DatabaseTable.ARTIST);
         return artistSearchList;
     }
 
     @Override
     public Boolean setAmountToLoad(Integer amountToLoad) {
-        amountGridView = amountToLoad;
+        UserWrapper.amountToLoad = amountToLoad;
         return amountToLoad == amountToLoad;
     }
 

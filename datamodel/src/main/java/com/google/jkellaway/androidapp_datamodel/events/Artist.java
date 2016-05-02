@@ -12,12 +12,13 @@ import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.reviews.ArtistReviewFactory;
 import com.google.jkellaway.androidapp_datamodel.reviews.IReviewFactory;
 import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
-import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
 
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+
+import static com.google.jkellaway.androidapp_datamodel.database.APIHandle.createContract;
 
 /**
  * @author 10512691
@@ -30,24 +31,12 @@ public class Artist implements IArtist {
     private SocialMedia socialMedia;
 
     private IReviewFactory reviewFactory;
-    private List<IObserver> observers;
     private String description;
     private DatabaseTable table;
     private int ID;
     private String name;
     private String type;
     private Integer typeID;
-
-    /*
-        Inherits:
-        IReviewFactory        reviewFactory;
-        LinkedList<Review>    reviews;
-        LinkedList<IObserver> observers;
-        SocialMedia           socialMedia;
-        Integer               socialMediaID
-        DatabaseTable         table;
-     */
-
     private LinkedList<String> tags;
 
     public Artist() {
@@ -119,7 +108,6 @@ public class Artist implements IArtist {
             Boolean valid = Validator.tagValidator(tag);
             if (valid) {
                 tags.add(tag);
-                notifyObservers();
             }
             return valid;
         }
@@ -207,8 +195,12 @@ public class Artist implements IArtist {
     }
 
     @Override
-    public Boolean newContract(IChildEvent childEvent) {
-        return null;
+    public Boolean newContract(IChildEvent childEvent) throws IOException {
+        if(createContract(this.ID, childEvent.getID())){
+            childEvents.add(childEvent);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -222,61 +214,16 @@ public class Artist implements IArtist {
      * @param id
      * @return Boolean true if ID set.
      */
-
     @Override
     public Boolean setSocialId(Integer id) throws IOException {
         socialMediaID = id;
         return socialMedia.setSocialId(id);
     }
 
-
     protected IReviewFactory getReviewFactory() {
         return reviewFactory;
     }
 
-    /**
-     * Adds IObserver object to list of objects to notify when a change is made.
-     * Checks if the object is null or already exists in the list.
-     *
-     * @param o
-     * @return
-     */
-    @Override
-    public Boolean registerObserver(IObserver o) {
-        if (o == null) {
-            throw new NullPointerException("Null observer");
-        } else if (observers.contains(o)) {
-            throw new IllegalArgumentException("Observer already exists");
-        } else {
-            observers.add(o);
-            return true;
-        }
-    }
-
-    @Override
-    public Boolean removeObserver(IObserver o) {
-        if (o == null) {
-            throw new NullPointerException("Null observer");
-        } else if (!observers.contains(o)) {
-            throw new IllegalArgumentException("Observer doesn't exist in observers list");
-        } else {
-            observers.remove(o);
-            return true;
-        }
-    }
-
-    @Override
-    public void notifyObservers() throws IOException {
-        if (observers == null) {
-            observers = new LinkedList();
-        } else {
-            for (IObserver o : observers) {
-                o.update(this, table);
-            }
-        }
-    }
-
-    @Override
     public DatabaseTable getTable() {
         if (table == null) {
             throw new NullPointerException();
@@ -309,7 +256,6 @@ public class Artist implements IArtist {
     public Boolean setImages(List<Bitmap> images) {
         return socialMedia.setImages(images);
     }
-
 
     @Override
     public String getFacebook() {

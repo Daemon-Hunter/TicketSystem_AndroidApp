@@ -14,9 +14,14 @@ import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
 import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
+
+import static com.google.jkellaway.androidapp_datamodel.database.APIHandle.createContract;
 
 /**
  * The child of a parent event, containing lineup and venue details, as well
@@ -34,10 +39,13 @@ public class ChildEvent implements IChildEvent {
     
     private Integer childEventID;
     private String childEventName, childEventDescription;
-    private Date startDateTime, endDateTime;
+    private String startDateTime, endDateTime;
     private Boolean cancelled;
     private List<IObserver> observers;
     private final DatabaseTable table;
+
+    private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
+
 
     /**
      * ID and 'cancelled' variables being passed, so this constructor will be used when 
@@ -50,7 +58,7 @@ public class ChildEvent implements IChildEvent {
      * @param endTime
      * @param cancelled
      */
-    public ChildEvent(Integer ID, Integer venueID, String name, String description, Date startTime, Date endTime, Boolean cancelled, Integer parentEventID) throws IOException {
+    public ChildEvent(Integer ID, Integer venueID, String name, String description, String startTime, String endTime, Boolean cancelled, Integer parentEventID) throws IOException {
         this.childEventID = ID;
         this.childEventName = name;
         this.childEventDescription = description;
@@ -63,7 +71,7 @@ public class ChildEvent implements IChildEvent {
         venue = (IVenue) APIHandle.getSingle(this.venueID, DatabaseTable.VENUE);
     }
     
-    public ChildEvent(String name, String description, Date startTime, Date endTime, IVenue venue, List<IArtist> artists, IParentEvent parentEvent) {
+    public ChildEvent(String name, String description, String startTime, String endTime, IVenue venue, List<IArtist> artists, IParentEvent parentEvent) {
         childEventID = 0;
         if (Validator.nameValidator(name)) {
             if (Validator.descriptionValidator(description)) {
@@ -105,12 +113,22 @@ public class ChildEvent implements IChildEvent {
 
     @Override
     public Date getStartDateTime() {
-        return (Date) startDateTime.clone();
+        try {
+            return  formatter.parse(startDateTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        throw new NullPointerException();
     }
 
     @Override
     public Date getEndDateTime() {
-        return (Date) endDateTime.clone();
+        try {
+            return formatter.parse(endDateTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        throw new NullPointerException();
     }
 
     @Override
@@ -144,10 +162,11 @@ public class ChildEvent implements IChildEvent {
 
     @Override
     public Boolean setStartDateTime(Date startDateTime) {
+
         if (startDateTime == null) {
             throw new NullPointerException("start time is null");
         } else {
-            this.startDateTime = startDateTime;
+            this.startDateTime = formatter.format(startDateTime);
         }
         return this.startDateTime.equals(startDateTime);
     }
@@ -157,7 +176,7 @@ public class ChildEvent implements IChildEvent {
         if (endDateTime == null) {
             throw new NullPointerException("end time is null");
         } else {
-            this.endDateTime = endDateTime;
+            this.endDateTime = formatter.format(endDateTime);
         }
         return this.endDateTime.equals(endDateTime);
     }
@@ -245,62 +264,12 @@ public class ChildEvent implements IChildEvent {
     }
 
     @Override
-    public Boolean newContract(IArtist artist) {
-        return null;
-    }
-
-    @Override
-    public DatabaseTable getTable() {
-        return table;
-    }
-
-    @Override
-    public void notifyObservers() throws IOException {
-        if (observers == null) {
-            observers = new LinkedList();
-        } else {
-            for (IObserver o : observers) {
-                o.update(this, table);
-            }
+    public Boolean newContract(IArtist artist) throws IOException {
+        if(createContract(artist.getID(), this.childEventID)){
+            artists.add(artist);
+            return true;
         }
-    }
-
-    @Override
-    public Boolean registerObserver(IObserver o) {
-        if (o == null) {
-            throw new NullPointerException("Cannot register a null observer");
-        } else {
-            if (observers == null) {
-                observers = new LinkedList();
-                observers.add(o);
-            } else {
-                if (observers.contains(o)) {
-                    throw new IllegalArgumentException("Observer already registered");
-                } else {
-                    observers.add(o);
-                }
-            }
-            return observers.contains(o);
-        }
-    }
-
-    @Override
-    public Boolean removeObserver(IObserver o) {
-        if (o == null) {
-            throw new NullPointerException("Cannot remove a null observer");
-        } else {
-            if (observers == null) {
-                observers = new LinkedList();
-                throw new IllegalArgumentException("Observer list is empty. Doesn't contain any objects.");
-            } else {
-                if (!observers.contains(o)) {
-                    throw new IllegalArgumentException("Observer isn't already registered");
-                } else {
-                    observers.remove(o);
-                }
-            }
-            return !observers.contains(o);
-        }
+        return false;
     }
 
     @Override

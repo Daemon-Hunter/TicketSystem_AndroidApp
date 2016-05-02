@@ -7,8 +7,6 @@ package com.google.jkellaway.androidapp_datamodel.events;
 
 import android.graphics.Bitmap;
 
-import com.google.jkellaway.androidapp_datamodel.utilities.observer.IDbSubject;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -16,7 +14,7 @@ import java.util.List;
  *
  * @author 10512691
  */
-public interface ISocial extends IDbSubject {
+public interface ISocial {
     
     Integer getSocialId();
     Boolean setSocialId(Integer id) throws IOException;

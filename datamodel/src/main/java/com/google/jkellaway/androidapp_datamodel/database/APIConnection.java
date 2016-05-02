@@ -190,8 +190,8 @@ final class APIConnection {
         return Connection(URI + "functions/getReviewsOf" + table.toString() + "/" + objectID.toString());
     }
 
-    public static List<Map<String, String>> search(String searchText, DatabaseTable table) throws IOException {
-        return Connection(URI + "functions/search" + DBTableToString(table) + "/" + searchText);
+    public static List<Map<String, String>> search(String searchText, Integer amountToSearch, DatabaseTable table) throws IOException {
+        return Connection(URI + "functions/search" + DBTableToString(table) + "/" + searchText + "/" + amountToSearch.toString());
     }
 
     public static List<Map<String, String>> comparePassword(String email, String password, DatabaseTable table) throws IOException {
@@ -202,9 +202,31 @@ final class APIConnection {
         return Connection(URI + "functions/get" + DBTableToString(objectsToGet) + "Of" + objectToUse.toString() + "/" + artistID.toString());
     }
 
+    public static Boolean createContract(Integer artistID, Integer childEventID) throws IOException {
+        URL url;
+        boolean result;
+        try {
+            url = new URL(URI + "api/functions/createContract/" + artistID.toString() + "/" + childEventID.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            throw new MalformedURLException("Error With URL");
+        }
+        // Connect
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("POST");
+        // to return in JSON Format
+        connection.setRequestProperty("Accept", "application/JSON");
+        try (BufferedReader in = new BufferedReader(
+                new InputStreamReader(connection.getInputStream()))) {
+
+            result = Boolean.parseBoolean(in.readLine());
+        }
+        return result;
+    }
+
     private static List<Map<String, String>> Connection(String urlText) throws IOException {
 
-        URL url = null;
+        URL url;
         try {
             url = new URL(urlText);
         } catch (MalformedURLException e) {
@@ -223,6 +245,7 @@ final class APIConnection {
             return listOfEntities;
         }
     }
+
 
     private static List<Map<String, String>> JSONBreakDown(String JSONString) {
 

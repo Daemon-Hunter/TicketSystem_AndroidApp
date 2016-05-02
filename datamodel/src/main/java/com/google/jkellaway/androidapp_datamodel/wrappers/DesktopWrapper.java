@@ -99,7 +99,7 @@ public class DesktopWrapper implements IDesktopWrapper {
 
     @Override
     public List<IParentEvent> searchParentEvents(String searchString) throws IOException {
-        return new LinkedList<>((List<IParentEvent>)(Object)APIHandle.searchObjects(searchString, DatabaseTable.PARENT_EVENT));
+        return new LinkedList<>((List<IParentEvent>)(Object)APIHandle.searchObjects(searchString, amountToLoad, DatabaseTable.PARENT_EVENT));
     }
 
     @Override
@@ -158,7 +158,7 @@ public class DesktopWrapper implements IDesktopWrapper {
 
     @Override
     public List<IVenue> searchVenues(String searchString) throws IOException {
-        return (List<IVenue>)(Object)APIHandle.searchObjects(searchString, DatabaseTable.VENUE);
+        return (List<IVenue>)(Object)APIHandle.searchObjects(searchString, amountToLoad, DatabaseTable.VENUE);
     }
 
     @Override
@@ -217,7 +217,7 @@ public class DesktopWrapper implements IDesktopWrapper {
 
     @Override
     public List<IArtist> searchArtists(String searchString) throws IOException {
-        return (List<IArtist>)(Object)APIHandle.searchObjects(searchString, DatabaseTable.ARTIST);
+        return (List<IArtist>)(Object)APIHandle.searchObjects(searchString, amountToLoad, DatabaseTable.ARTIST);
     }
 
     @Override

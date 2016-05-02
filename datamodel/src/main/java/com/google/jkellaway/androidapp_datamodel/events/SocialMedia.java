@@ -8,13 +8,12 @@ package com.google.jkellaway.androidapp_datamodel.events;
 import android.graphics.Bitmap;
 
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
+import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
+import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
 
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
-
-import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
-import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
 
 /**
  *
@@ -62,7 +61,6 @@ public class SocialMedia implements ISocial {
         Boolean valid = Validator.idValidator(id);
         if (valid) {
             this.id = id;
-            notifyObservers();
         }
         return valid;
     }
@@ -201,45 +199,5 @@ public class SocialMedia implements ISocial {
             spotify = sp;
         }
         return valid;
-    }
-
-    @Override
-    public DatabaseTable getTable() {
-        return table;
-    }
-
-    @Override
-    public void notifyObservers() throws IOException {
-        if (observers == null) {
-            observers = new LinkedList();
-        } else {
-            for (IObserver o : observers) {
-                o.update(this, table);
-            }
-        }
-    }
-
-    @Override
-    public Boolean registerObserver(IObserver o) {
-        if (o == null) {
-            throw new NullPointerException("Observer is null");
-        } else if (observers.contains(o)) {
-            throw new IllegalArgumentException("Observer already exists in list");
-        } else {
-            observers.add(o);
-            return true;
-        }
-    }
-
-    @Override
-    public Boolean removeObserver(IObserver o) {
-        if (o == null) {
-            throw new NullPointerException("Observer is null");
-        } else if (!observers.contains(o)) {
-            throw new IllegalArgumentException("Observer doesn't exist in list");
-        } else {
-            observers.remove(o);
-            return true;
-        }
     }
 }

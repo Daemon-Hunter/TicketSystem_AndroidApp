@@ -5,18 +5,16 @@
  */
 package com.google.jkellaway.androidapp_datamodel.bookings;
 
+import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
+
 import java.io.IOException;
 import java.util.Date;
-
-import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
-import com.google.jkellaway.androidapp_datamodel.tickets.Ticket;
-import com.google.jkellaway.androidapp_datamodel.utilities.observer.IDbSubject;
 
 /**
  *
  * @author 10512691
  */
-public interface IBooking extends IDbSubject {
+public interface IBooking {
     Integer getBookingID();
 
     Integer getTicketID();

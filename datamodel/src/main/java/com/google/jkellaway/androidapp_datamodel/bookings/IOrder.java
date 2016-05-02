@@ -6,7 +6,6 @@
 package com.google.jkellaway.androidapp_datamodel.bookings;
 
 import com.google.jkellaway.androidapp_datamodel.people.IUser;
-import com.google.jkellaway.androidapp_datamodel.utilities.observer.IDbSubject;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.List;
  *
  * @author 10467841
  */
-public interface IOrder extends IDbSubject {
+public interface IOrder {
     
     
     Integer getOrderID();

@@ -112,9 +112,9 @@ public final class APIHandle{
         }
     }
 
-    public static List<Object> searchObjects(String search, final DatabaseTable table) throws IOException {
+    public static List<Object> searchObjects(String search, Integer amount, final DatabaseTable table) throws IOException {
         List<Object> objectList = new LinkedList<>();
-        List<Map<String, String>> objectMapList = APIConnection.search(search, table);
+        List<Map<String, String>> objectMapList = APIConnection.search(search, amount, table);
 
         int threads = Runtime.getRuntime().availableProcessors();
         ExecutorService service = Executors.newFixedThreadPool(threads);
@@ -190,6 +190,12 @@ public final class APIHandle{
                             venue = MapToVenue(objectMap);
                             venue.setSocialMedia(MapToSocialMedia(APIConnection.readSingle(venue.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
                             return venue;
+                        case CUSTOMER:
+                            return MapToCustomer(objectMap);
+                        case GUEST_BOOKING:
+                            return MapToGuestBooking(objectMap);
+                        case ADMIN:
+                            return MapToAdmin(objectMap);
                         default: throw new IllegalArgumentException();
                     }
 
@@ -213,6 +219,7 @@ public final class APIHandle{
 
     public static List<Object> getObjectsFromObject(final int parentID, final DatabaseTable objectsToGet, DatabaseTable object) throws IOException {
         List<Map<String, String>> objectMapList = APIConnection.getObjectsOfObject(parentID, objectsToGet, object);
+
         List<Object> objectList = new LinkedList<>();
 
         int threads = Runtime.getRuntime().availableProcessors();
@@ -363,5 +370,9 @@ public final class APIHandle{
                 return MapToOrder(APIConnection.update(((IOrder) object).getOrderID(), orderToMap((IOrder) object), table));
             default: throw new IllegalArgumentException("Not supported table.");
         }
+    }
+
+    public static Boolean createContract(int artistID, int childEventID) throws IOException {
+        return APIConnection.createContract(artistID, childEventID);
     }
 }

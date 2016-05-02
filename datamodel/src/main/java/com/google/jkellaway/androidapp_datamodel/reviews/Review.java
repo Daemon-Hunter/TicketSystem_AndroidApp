@@ -6,14 +6,12 @@
 package com.google.jkellaway.androidapp_datamodel.reviews;
 
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
+import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
 
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.Objects;
-import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
-import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
 
 /**
  *
@@ -27,7 +25,6 @@ public abstract class Review implements IReview {
     protected String        reviewBody;
     protected Boolean       verified;
     protected DatabaseTable table;
-    protected LinkedList<IObserver> observers;
     
     /**
      * Use this constructor when creating a review object from the database.
@@ -68,7 +65,6 @@ public abstract class Review implements IReview {
                                 dateTime = date;
                                 reviewBody = body;
                                 this.verified = verified;
-                                observers = new LinkedList();
                     } else {
                         throw new IllegalArgumentException("Body invalid");
                     }
@@ -118,7 +114,6 @@ public abstract class Review implements IReview {
                             dateTime = Calendar.getInstance().getTime();
                             reviewBody = body;
                             this.verified = false;
-                            observers = new LinkedList();
                         } else {
                             throw new IllegalArgumentException("Review body invalid");
                         }
@@ -133,43 +128,9 @@ public abstract class Review implements IReview {
             }
         }
     }
-    
-    @Override
+
     public DatabaseTable getTable() {
         return table;
-    }
-    
-    @Override
-    public void notifyObservers() throws IOException {
-        if (observers == null) {
-            observers = new LinkedList();
-        } else {
-            for (IObserver o : observers) {
-                o.update(this, table);
-            }
-        }
-    }
-    
-    @Override
-    public Boolean registerObserver(IObserver o) {
-        if (o == null) {
-            throw new NullPointerException("Cannot register a null observer");
-        } else if (observers.contains(o)) {
-            throw new IllegalArgumentException("Observer already exists in list");
-        } else {
-            return observers.add(o);
-        }
-    }
-
-    @Override
-    public Boolean removeObserver(IObserver o) {
-        if (o == null) {
-            throw new NullPointerException("Cannot remove a null observer");
-        } else if (!observers.contains(o)) {
-            throw new IllegalArgumentException("Observer doesn't exist in list");
-        } else {
-            return observers.remove(o);
-        }
     }
 
     @Override
@@ -226,7 +187,6 @@ public abstract class Review implements IReview {
             Boolean valid = Validator.ratingValidator(rating);
             if (valid) {
                 this.rating = rating;
-                notifyObservers();
             }
             return Objects.equals(this.rating, rating);
         }
@@ -249,7 +209,6 @@ public abstract class Review implements IReview {
             Boolean valid = Validator.reviewBodyValidator(body);
             if (valid) {
                 reviewBody = body;
-                notifyObservers();
             }
             return reviewBody.equals(body);
         }

@@ -15,7 +15,6 @@ import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import static com.google.jkellaway.androidapp_datamodel.database.APIHandle.getObjectsFromObject;
@@ -175,47 +174,6 @@ public class ParentEvent implements IParentEvent {
         return reviewFactory;
     }
 
-    /**
-     * Adds IObserver object to list of objects to notify when a change is made.
-     * Checks if the object is null or already exists in the list.
-     * @param o
-     * @return
-     */
-    @Override
-    public Boolean registerObserver(IObserver o) {
-        if (o == null) {
-            throw new NullPointerException("Null observer");
-        } else if (observers.contains(o)) {
-            throw new IllegalArgumentException("Observer already exists");
-        } else {
-            observers.add(o);
-            return true;
-        }
-    }
-
-    @Override
-    public Boolean removeObserver(IObserver o) {
-        if (o == null) {
-            throw new NullPointerException("Null observer");
-        } else if (!observers.contains(o)) {
-            throw new IllegalArgumentException("Observer doesn't exist in observers list");
-        } else {
-            observers.remove(o);
-            return true;
-        }
-    }
-
-    @Override
-    public void notifyObservers() throws IOException {
-        if (observers == null) {
-            observers = new LinkedList<>();
-        } else {
-            for (IObserver o : observers) {
-                o.update(this, table);
-            }
-        }
-    }
-
     @Override
     public IReview createReview(Integer customerID, Integer rating, String body, Date date, Boolean verified) {
         return reviewFactory.createReview( ID, customerID, rating, date, body, verified);
@@ -261,12 +219,10 @@ public class ParentEvent implements IParentEvent {
             throw new IllegalArgumentException("Review to be deleted wasn't in list");
         } else {
             reviews.remove(review);
-            notifyObservers();
             return true;
         }
     }
 
-    @Override
     public DatabaseTable getTable() {
         if (table == null) {
             throw new NullPointerException();

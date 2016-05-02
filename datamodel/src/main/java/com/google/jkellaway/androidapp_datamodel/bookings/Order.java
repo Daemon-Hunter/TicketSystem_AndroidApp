@@ -9,7 +9,6 @@ import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.people.IUser;
 import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
-import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,7 +25,6 @@ public class Order implements IOrder {
     private Integer userID;
     private IUser user;
     private List<IBooking> bookingList;
-    private LinkedList<IObserver> observers;
     private DatabaseTable table = DatabaseTable.ORDER;
     
     /**
@@ -116,49 +114,5 @@ public class Order implements IOrder {
             throw new IllegalArgumentException("Booking cannot be null");
         }
         return bookingList.add(booking);
-    }
-
-    @Override
-    public DatabaseTable getTable() {
-        return table;
-    }
-
-    @Override
-    public void notifyObservers() throws IOException {
-        if (observers == null) {
-            observers = new LinkedList();
-        } else {
-            for (IObserver o : observers) {
-                o.update(this, table);
-            }
-        }
-    }
-
-    @Override
-    public Boolean registerObserver(IObserver o) {
-        if (o == null) {
-            throw new NullPointerException("Null observer");
-        } else if (observers == null) {
-            observers = new LinkedList<>();
-            observers.add(o);
-            return observers.contains(o);
-        } else if (observers.contains(o)) {
-            throw new IllegalArgumentException("Observer already exists in list");
-        } else {
-            observers.add(o);
-            return observers.contains(o);
-        }
-    }
-
-    @Override
-    public Boolean removeObserver(IObserver o) {
-        if (o == null) {
-            throw new NullPointerException("Null observer");
-        } else if (!observers.contains(o)) {
-            throw new IllegalArgumentException("Observer doesn't exist in list");
-        } else {
-            observers.remove(o);
-            return !observers.contains(o);
-        }
     }
 }

@@ -6,7 +6,6 @@
 package com.google.jkellaway.androidapp_datamodel.events;
 
 import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
-import com.google.jkellaway.androidapp_datamodel.utilities.observer.IDbSubject;
 
 import java.io.IOException;
 import java.util.Date;
@@ -16,7 +15,7 @@ import java.util.List;
  *
  * @author 10512691
  */
-public interface IChildEvent extends IDbSubject, ISocial {
+public interface IChildEvent extends ISocial {
     
     Integer getID();
     String  getName();
@@ -50,5 +49,5 @@ public interface IChildEvent extends IDbSubject, ISocial {
 
     void setSocialMedia(SocialMedia socialMedia);
 
-    Boolean newContract(IArtist artist);
+    Boolean newContract(IArtist artist) throws IOException;
 }

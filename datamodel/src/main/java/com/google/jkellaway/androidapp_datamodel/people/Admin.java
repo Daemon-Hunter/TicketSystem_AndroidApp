@@ -7,10 +7,8 @@ package com.google.jkellaway.androidapp_datamodel.people;
 
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
-import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
 
 import java.io.IOException;
-import java.util.LinkedList;
 
 import static com.google.jkellaway.androidapp_datamodel.utilities.HashString.Encrypt;
 
@@ -23,7 +21,6 @@ public class Admin implements IAdmin {
     private Integer ID;
     private String  firstName, lastName, email, password;
     private DatabaseTable table;
-    private LinkedList<IObserver> observers;
     
     public Admin(String fName, String lName, String email, String password) {
         ID = 0;
@@ -46,15 +43,12 @@ public class Admin implements IAdmin {
         }
 
         this.password = Encrypt(password);
-        observers = new LinkedList<>();
     }
     
     public Admin(Integer ID, String fName, String lName, String email) {
         this.ID = ID;
         firstName = fName;
         lastName = lName;
-        
-        observers = new LinkedList<>();
     }
     
     @Override

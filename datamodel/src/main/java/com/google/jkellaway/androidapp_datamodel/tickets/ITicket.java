@@ -7,7 +7,6 @@ package com.google.jkellaway.androidapp_datamodel.tickets;
 
 import com.google.jkellaway.androidapp_datamodel.bookings.IBooking;
 import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
-import com.google.jkellaway.androidapp_datamodel.utilities.observer.IDbSubject;
 
 import java.io.IOException;
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.List;
  *
  * @author 10512691
  */
-public interface ITicket extends IDbSubject {
+public interface ITicket {
     
     Integer getID();
 
