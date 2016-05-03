@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.custom_adapters.VenueActAdapter;
-import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
+import com.example.aneurinc.prcs_app.UI.utilities.Utilities;
 import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
 import com.google.jkellaway.androidapp_datamodel.events.IParentEvent;
 import com.google.jkellaway.androidapp_datamodel.events.IVenue;
@@ -181,8 +181,8 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener,
             TextView venueEmail = (TextView) mContext.findViewById(R.id.venue_email);
             TextView venuePhoneNo = (TextView) mContext.findViewById(R.id.venue_phone_no);
 
-            int xy = ImageUtils.getScreenWidth(mContext) / 4;
-            Bitmap scaledImage = ImageUtils.scaleDown(mVenue.getImage(0), xy, xy);
+            int xy = Utilities.getScreenWidth(mContext) / 4;
+            Bitmap scaledImage = Utilities.scaleDown(mVenue.getImage(0), xy, xy);
 
 
             if (mChildEvents.isEmpty()) {

@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.custom_adapters.ChildEventActAdapter;
-import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
+import com.example.aneurinc.prcs_app.UI.utilities.Utilities;
 import com.google.jkellaway.androidapp_datamodel.events.IArtist;
 import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
 import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
@@ -108,11 +108,15 @@ public class ChildEventActivity extends AppCompatActivity implements OnClickList
 
         switch (v.getId()) {
             case R.id.buy_tickets:
-//                int imageIndex = getIntent().getExtras().getInt(PARENT_EVENT_ID);
-//                Intent i = new Intent(this, TicketActivity.class);
-//                i.putExtra(TicketActivity.EventImageIndex, imageIndex);
-//                startActivity(i);
-                break;
+                Intent i = new Intent(this, TicketActivity.class);
+
+                int[] IDs = new int[2];
+                IDs[0] = getIntent().getExtras().getIntArray(EVENT_ID)[0];
+                IDs[1] = getIntent().getExtras().getIntArray(EVENT_ID)[1];
+
+                i.putExtra(ChildEventActivity.EVENT_ID, IDs);
+
+                startActivity(i);
 
         }
     }
@@ -153,11 +157,11 @@ public class ChildEventActivity extends AppCompatActivity implements OnClickList
             ImageView image = (ImageView) mContext.findViewById(R.id.child_event_venue_image);
             RelativeLayout container = (RelativeLayout) mContext.findViewById(R.id.artist_lineup_container);
 
-            String startDate = mChildEvent.getStartDateTime().toString();
-            String endDate = mChildEvent.getEndDateTime().toString();
+            String startDate = mChildEvent.getStartDateTime().toString().substring(0, 10);
+            String endDate = mChildEvent.getEndDateTime().toString().substring(0, 10);
 
-            int xy = ImageUtils.getScreenWidth(mContext) / 4;
-            Bitmap scaledImage = ImageUtils.scaleDown(mChildEvent.getVenue().getImage(0), xy, xy);
+            int xy = Utilities.getScreenWidth(mContext) / 4;
+            Bitmap scaledImage = Utilities.scaleDown(mChildEvent.getImage(0), xy, xy);
 
             if (mArtists.isEmpty()) {
                 ImageView noEventsImage = (ImageView) mContext.findViewById(R.id.no_artist_lineup_image);
@@ -172,7 +176,7 @@ public class ChildEventActivity extends AppCompatActivity implements OnClickList
                 container.setVisibility(View.VISIBLE);
             }
 
-            date.setText(startDate.substring(0, 10) + " - " + endDate.substring(0, 10));
+            date.setText(Utilities.formatDateDuration(startDate, endDate));
             name.setText(mChildEvent.getName());
             city.setText(mChildEvent.getVenue().getCity());
             desc.setText(mChildEvent.getDescription());

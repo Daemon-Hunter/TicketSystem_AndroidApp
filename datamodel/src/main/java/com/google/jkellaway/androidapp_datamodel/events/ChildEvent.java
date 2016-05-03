@@ -230,8 +230,9 @@ public class ChildEvent implements IChildEvent {
     }
 
     @Override
-    public List<ITicket> getTickets() {
-        return new LinkedList<>(tickets);
+    public List<ITicket> getTickets() throws IOException {
+        return new LinkedList<>((List<ITicket>) (Object) APIHandle.getObjectsFromObject
+                (this.childEventID, DatabaseTable.TICKET, DatabaseTable.CHILD_EVENT));
     }
 
     @Override

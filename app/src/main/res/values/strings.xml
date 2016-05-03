@@ -99,5 +99,7 @@
     <string name="featured_events">Featured Events</string>
     <string name="upcoming_performances">Upcoming Performances</string>
     <string name="no_artist_lineup">No Artist Lineup</string>
+    <string name="tickets_sold_out">No Tickets left. Sold out!</string>
+    <string name="event_ticket_types">Event Ticket Types</string>
 
 </resources>

@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
+import com.example.aneurinc.prcs_app.UI.utilities.Utilities;
 import com.google.jkellaway.androidapp_datamodel.events.IParentEvent;
 
 import java.util.Collection;
@@ -82,7 +82,7 @@ public class ParentEventFragAdapter extends ArrayAdapter<IParentEvent> {
 
         int xy = mContext.findViewById(R.id.event_grid_view).getWidth() / 3;
 
-        viewHolder.gridImage.setImageBitmap(ImageUtils.scaleDown(currParentEvent.getImage(0),
+        viewHolder.gridImage.setImageBitmap(Utilities.scaleDown(currParentEvent.getImage(0),
                 xy, xy));
         viewHolder.gridText.setText(currParentEvent.getName());
 

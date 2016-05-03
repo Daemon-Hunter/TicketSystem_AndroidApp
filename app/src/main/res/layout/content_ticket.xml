@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,73 +10,113 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".UI.activities.TicketActivity"
-    android:background="@drawable/background6">
-
-    <!--event image-->
-    <ImageView
-        android:id="@+id/parent_event_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <!--event title-->
-    <TextView
-        android:id="@+id/parent_event_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/parent_event_image"
-        android:layout_marginLeft="20dp"
-        android:text="Event Name"
-        android:textSize="28sp"
-        android:textColor="@android:color/white"/>
-
-    <!--event time and date-->
-    <TextView
-        android:id="@+id/event_time_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/parent_event_title"
-        android:layout_toRightOf="@id/parent_event_image"
-        android:layout_marginLeft="20dp"
-        android:text="7pm on 12/11/16"
-        android:textColor="@android:color/white"/>
-
-    <!--event pg rating-->
-    <TextView
-        android:id="@+id/event_pg_rating"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/event_time_date"
-        android:layout_toRightOf="@id/parent_event_image"
-        android:layout_marginLeft="20dp"
-        android:text="PG: 18"
-        android:textColor="@android:color/white"/>
-
-    <!--description-->
-    <TextView
-        android:id="@+id/parent_event_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/parent_event_image"
-        android:layout_marginTop="10dp"
-        android:textColor="@android:color/white"
-        android:text="This is where the description of the event will go... This is where the description of the event will go... This is where the description of the event will go..."/>
-
-    <!-- event lineup list-->
-    <ListView
-        android:id="@+id/ticket_list"
-        android:layout_width="match_parent"
-        android:layout_height="225dp"
-        android:layout_below="@+id/parent_event_description"
-        android:layout_marginTop="15dp"
-        android:fadeScrollbars="false"
-        android:listSelector="@android:color/transparent"
-        android:background="@android:color/white"/>
+    android:background="@drawable/background6"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@id/ticket_list"
+        android:layout_height="0dp"
+        android:layout_weight="25">
+
+        <!--ticket event image-->
+        <ImageView
+            android:id="@+id/ticket_event_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <!--ticket event title-->
+        <TextView
+            android:id="@+id/ticket_event_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/ticket_event_image"
+            android:layout_marginLeft="20dp"
+            android:textSize="24sp"
+            android:textColor="@android:color/white"/>
+
+        <!--ticket event date-->
+        <TextView
+            android:id="@+id/ticket_event_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ticket_event_title"
+            android:layout_toRightOf="@id/ticket_event_image"
+            android:layout_marginLeft="20dp"
+            android:textColor="@android:color/white"/>
+
+        <!--ticket event venue-->
+        <TextView
+            android:id="@+id/ticket_venue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ticket_event_date"
+            android:layout_toRightOf="@id/ticket_event_image"
+            android:layout_marginLeft="20dp"
+            android:textColor="@android:color/white"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/ticket_types_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="9"
+        android:background="@color/colorBlue400"
+        android:visibility="invisible">
+
+        <TextView
+            android:id="@+id/ticket_types_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/event_ticket_types"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="56">
+
+        <ListView
+            android:id="@+id/ticket_type_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fadeScrollbars="false"
+            android:listSelector="@android:color/transparent"
+            android:background="@android:color/white"/>
+
+        <ImageView
+            android:id="@+id/sold_out_image"
+            android:layout_width="175dp"
+            android:layout_height="175dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/sold_out"
+            android:visibility="invisible"/>
+
+        <TextView
+            android:id="@+id/sold_out_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/no_child_events_image"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:text="@string/tickets_sold_out"
+            android:textColor="@android:color/white"
+            android:textSize="22sp"
+            android:visibility="invisible"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10"
         android:layout_marginTop="20dp"
         android:layout_centerVertical="true"
         android:background="@android:color/holo_blue_dark">
@@ -113,5 +153,5 @@
 
     </RelativeLayout>
 
-</RelativeLayout>
+</LinearLayout>
 

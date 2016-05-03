@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
+import com.example.aneurinc.prcs_app.UI.utilities.Utilities;
 import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
 
 import java.util.List;
@@ -72,16 +72,15 @@ public class ParentEventActAdapter extends ArrayAdapter<IChildEvent> {
         // alternate list view row colour
         convertView.setBackgroundColor(getRowColour(position));
 
-        int xy = ImageUtils.getScreenWidth(mContext) / 5;
-        Bitmap scaledImage = ImageUtils.scaleDown(currChildEvent.getVenue().getImage(0), xy, xy);
+        int xy = Utilities.getScreenWidth(mContext) / 5;
+        Bitmap scaledImage = Utilities.scaleDown(currChildEvent.getVenue().getImage(0), xy, xy);
         viewHolder.childEventImage.setImageBitmap(scaledImage);
 
         viewHolder.childEventName.setText(currChildEvent.getName());
 
-        String startDate = currChildEvent.getStartDateTime().toString();
-        String endDate = currChildEvent.getEndDateTime().toString();
-        viewHolder.childEventDate.setText(startDate.substring(0, 10) + " - " + endDate.substring
-                (0, 10));
+        String startDate = currChildEvent.getStartDateTime().toString().substring(0, 10);
+        String endDate = currChildEvent.getEndDateTime().toString().substring(0, 10);
+        viewHolder.childEventDate.setText(Utilities.formatDateDuration(startDate, endDate));
 
         return convertView;
 

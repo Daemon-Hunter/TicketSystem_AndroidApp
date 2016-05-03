@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="7dp"
             android:layout_marginTop="5dp"
-            android:layout_toLeftOf="@+id/parent_event_image"
+            android:layout_toLeftOf="@+id/ticket_event_image"
             android:layout_alignParentLeft="true"
             android:textSize="20sp"/>
 
@@ -68,7 +68,7 @@
         android:background="@color/colorGrey300">
 
         <ImageView
-            android:id="@+id/parent_event_image"
+            android:id="@+id/ticket_event_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentRight="true"

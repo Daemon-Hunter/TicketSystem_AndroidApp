@@ -8,7 +8,7 @@ import android.view.Display;
 /**
  * Created by denni on 20/04/2016.
  */
-public final class ImageUtils {
+public final class Utilities {
     public static Bitmap scaleDown(Bitmap image, int width, int height){
         return Bitmap.createScaledBitmap(image, width, height, true);
     }
@@ -25,6 +25,10 @@ public final class ImageUtils {
         Point size = new Point();
         display.getSize(size);
         return size.y;
+    }
+
+    public static String formatDateDuration(String startDate, String endDate) {
+        return (startDate.equals(endDate)) ? startDate : startDate + " - " + endDate;
     }
 
 }

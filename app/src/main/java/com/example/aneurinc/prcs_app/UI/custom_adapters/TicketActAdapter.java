@@ -10,33 +10,55 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.utilities.Constants;
+import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
+import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
 
 import java.text.DecimalFormat;
+import java.util.List;
 
 /**
  * Created by aneurinc on 11/03/2016.
  */
-public class TicketActAdapter extends ArrayAdapter<String> {
+public class TicketActAdapter extends ArrayAdapter<ITicket> {
 
-    private final Activity context;
+    private final Activity mContext;
+    private List<ITicket> mTickets;
+    private static final int ROW_COLOUR1 = 0x3003a9f4;
+    private static final int ROW_COLOUR2 = 0x3081d4fa;
 
-    public TicketActAdapter(Activity context) {
+    public TicketActAdapter(Activity context, List<ITicket> tickets) {
 
-        super(context, R.layout.list_row_ticket_type, Constants.ticketType);
+        super(context, R.layout.list_row_ticket_type);
 
-        this.context = context;
+        mContext = context;
 
+        mTickets = tickets;
+
+    }
+
+    @Override
+    public int getCount() {
+        return mTickets.size();
+    }
+
+    @Override
+    public ITicket getItem(int position) {
+        return mTickets.get(position);
+    }
+
+    private int getRowColour(int position) {
+        return position % 2 == 0 ? ROW_COLOUR1 : ROW_COLOUR2;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder viewHolder;
+        ITicket currTicket = getItem(position);
 
         if (convertView == null) {
 
-            LayoutInflater inflater = context.getLayoutInflater();
+            LayoutInflater inflater = mContext.getLayoutInflater();
             convertView = inflater.inflate(R.layout.list_row_ticket_type, parent, false);
 
             // set up view holder
@@ -61,12 +83,10 @@ public class TicketActAdapter extends ArrayAdapter<String> {
         }
 
         // get text view from view holder and update value
-        viewHolder.ticketType.setText(Constants.ticketType[position]);
-        viewHolder.ticketCost.setText(Constants.ticketCost[position]);
+        viewHolder.ticketType.setText(currTicket.getType());
+        viewHolder.ticketCost.setText(Validator.formatPrice(currTicket.getPrice()));
 
-        // invert row colour
-        int colorPos = position % Constants.rowColour.length;
-        convertView.setBackgroundColor(Constants.rowColour[colorPos]);
+        convertView.setBackgroundColor(getRowColour(position));
 
         return convertView;
     }
@@ -77,7 +97,7 @@ public class TicketActAdapter extends ArrayAdapter<String> {
             @Override
             public void onClick(View v) {
 
-                v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.onclick));
+                v.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.onclick));
                 TextView ticketQty = (TextView) row.findViewById(R.id.parent_event_date);
                 int qty = Integer.valueOf(ticketQty.getText().toString());
                 qty++;
@@ -91,7 +111,7 @@ public class TicketActAdapter extends ArrayAdapter<String> {
             @Override
             public void onClick(View v) {
 
-                v.startAnimation(AnimationUtils.loadAnimation(context, R.anim.onclick));
+                v.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.onclick));
                 TextView ticketQty = (TextView) row.findViewById(R.id.parent_event_date);
                 int qty = Integer.valueOf(ticketQty.getText().toString());
 
@@ -109,7 +129,7 @@ public class TicketActAdapter extends ArrayAdapter<String> {
     private void updateTotal(View row, int val) {
 
         // get reference to ticket total text view
-        TextView total = (TextView) context.findViewById(R.id.ticket_total_amount);
+        TextView total = (TextView) mContext.findViewById(R.id.ticket_total_amount);
         String totalStr = total.getText().toString();
         totalStr = totalStr.replace("£", "");
         double currTotalVal = Double.parseDouble(totalStr);
@@ -126,7 +146,7 @@ public class TicketActAdapter extends ArrayAdapter<String> {
         total.setText(df.format(newTotalVal));
 
         // set checkout button to enabled
-        ImageView checkout = (ImageView) context.findViewById(R.id.checkout);
+        ImageView checkout = (ImageView) mContext.findViewById(R.id.checkout);
         if (newTotalVal > 0) {
             checkout.setClickable(true);
         } else {

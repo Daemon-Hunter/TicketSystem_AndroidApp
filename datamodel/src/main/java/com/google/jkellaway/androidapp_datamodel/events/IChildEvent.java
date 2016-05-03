@@ -40,7 +40,7 @@ public interface IChildEvent extends ISocial {
     IParentEvent getParentEvent() throws IOException;
 
     ITicket getTicket(Integer id);
-    List<ITicket> getTickets();
+    List<ITicket> getTickets() throws IOException;
     Boolean addTicket(ITicket ticket);
     Boolean removeTicket(ITicket ticket);
 

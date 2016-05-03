@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.custom_adapters.ParentEventActAdapter;
-import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
+import com.example.aneurinc.prcs_app.UI.utilities.Utilities;
 import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
 import com.google.jkellaway.androidapp_datamodel.events.IParentEvent;
 import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
@@ -146,12 +146,12 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
         protected void onPostExecute(IParentEvent parentEvent) {
 
             RelativeLayout container = (RelativeLayout) mContext.findViewById(R.id.featured_events_container);
-            ImageView image = (ImageView) mContext.findViewById(R.id.parent_event_image);
-            TextView name = (TextView) mContext.findViewById(R.id.parent_event_title);
+            ImageView image = (ImageView) mContext.findViewById(R.id.ticket_event_image);
+            TextView name = (TextView) mContext.findViewById(R.id.ticket_event_title);
             TextView desc = (TextView) mContext.findViewById(R.id.parent_event_description);
 
-            int xy = ImageUtils.getScreenWidth(mContext) / 4;
-            Bitmap scaledImage = ImageUtils.scaleDown(mParentEvent.getImage(0), xy, xy);
+            int xy = Utilities.getScreenWidth(mContext) / 4;
+            Bitmap scaledImage = Utilities.scaleDown(mParentEvent.getImage(0), xy, xy);
 
             if (mChildEvents.isEmpty()) {
                 TextView noChildEventsMessage = (TextView) mContext.findViewById(R.id.no_child_events_message);

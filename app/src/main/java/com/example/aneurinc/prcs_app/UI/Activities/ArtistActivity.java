@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.custom_adapters.ArtistActAdapter;
-import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
+import com.example.aneurinc.prcs_app.UI.utilities.Utilities;
 import com.google.jkellaway.androidapp_datamodel.events.IArtist;
 import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
 import com.google.jkellaway.androidapp_datamodel.events.IParentEvent;
@@ -175,8 +175,8 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
             TextView artistName = (TextView) mContext.findViewById(R.id.artist_title);
             TextView artistDescription = (TextView) mContext.findViewById(R.id.artist_description);
 
-            int xy = ImageUtils.getScreenWidth(mContext) / 4;
-            Bitmap scaledImage = ImageUtils.scaleDown(mArtist.getImage(0), xy, xy);
+            int xy = Utilities.getScreenWidth(mContext) / 4;
+            Bitmap scaledImage = Utilities.scaleDown(mArtist.getImage(0), xy, xy);
 
 
             if (mChildEvents.isEmpty()) {

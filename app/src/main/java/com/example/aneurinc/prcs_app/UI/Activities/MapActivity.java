@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.custom_views.CustomInfoWindow;
-import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
+import com.example.aneurinc.prcs_app.UI.utilities.Utilities;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -179,8 +179,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         email.setText(mVenue.getEmail());
         parking.setText(mVenue.getParking() + " spaces");
 
-        int xy = ImageUtils.getScreenWidth(this) / 4 + 30;
-        Bitmap scaledImage = ImageUtils.scaleDown(mVenue.getImage(0), xy, xy);
+        int xy = Utilities.getScreenWidth(this) / 4 + 30;
+        Bitmap scaledImage = Utilities.scaleDown(mVenue.getImage(0), xy, xy);
 
         image.setImageBitmap(scaledImage);
     }

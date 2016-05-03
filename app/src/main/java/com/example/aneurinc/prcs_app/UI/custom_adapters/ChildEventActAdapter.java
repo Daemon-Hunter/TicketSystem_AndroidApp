@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
+import com.example.aneurinc.prcs_app.UI.utilities.Utilities;
 import com.google.jkellaway.androidapp_datamodel.events.IArtist;
 
 import java.util.List;
@@ -68,8 +68,8 @@ public class ChildEventActAdapter extends ArrayAdapter<IArtist> {
 
         viewHolder.artistName.setText(mArtist.getName());
 
-        int xy = ImageUtils.getScreenWidth(mContext) / 5;
-        Bitmap scaledImage = ImageUtils.scaleDown(mArtist.getImage(0), xy, xy);
+        int xy = Utilities.getScreenWidth(mContext) / 5;
+        Bitmap scaledImage = Utilities.scaleDown(mArtist.getImage(0), xy, xy);
         viewHolder.artistImage.setImageBitmap(scaledImage);
 
         convertView.setBackgroundColor(getRowColour(position));

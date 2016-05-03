@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
+import com.example.aneurinc.prcs_app.UI.utilities.Utilities;
 import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
 
 import java.util.List;
@@ -71,8 +71,8 @@ public class VenueActAdapter extends ArrayAdapter<IChildEvent> {
         // alternate colour of rows
         convertView.setBackgroundColor(getRowColour(position));
 
-        int xy = ImageUtils.getScreenWidth(mContext) / 5;
-        Bitmap scaledImage = ImageUtils.scaleDown(currItem.getImage(0), xy, xy);
+        int xy = Utilities.getScreenWidth(mContext) / 5;
+        Bitmap scaledImage = Utilities.scaleDown(currItem.getImage(0), xy, xy);
 
         String startDate = currItem.getStartDateTime().toString();
         String endDate = currItem.getEndDateTime().toString();

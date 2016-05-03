@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.activities.MapActivity;
-import com.example.aneurinc.prcs_app.UI.utilities.ImageUtils;
+import com.example.aneurinc.prcs_app.UI.utilities.Utilities;
 import com.google.jkellaway.androidapp_datamodel.events.IVenue;
 
 import java.util.Collection;
@@ -78,7 +78,7 @@ public class VenueFragAdapter extends ArrayAdapter<IVenue> {
 
         int xy = mContext.findViewById(R.id.venue_list).getWidth() / 4;
 
-        viewHolder.venueImage.setImageBitmap(ImageUtils.scaleDown(currVenue.getImage(0), xy, xy));
+        viewHolder.venueImage.setImageBitmap(Utilities.scaleDown(currVenue.getImage(0), xy, xy));
         viewHolder.venueName.setText(currVenue.getName());
         viewHolder.venueCity.setText(currVenue.getCity());
 
