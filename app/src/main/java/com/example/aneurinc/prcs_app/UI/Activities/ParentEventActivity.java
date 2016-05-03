@@ -127,7 +127,12 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
 
         @Override
         protected IParentEvent doInBackground(Void... params) {
-            mParentEvent = UserWrapper.getInstance().getParentEvent(getIntent().getExtras().getInt(PARENT_EVENT_ID));
+            try {
+                mParentEvent = UserWrapper.getInstance().getParentEvent(getIntent().getExtras().getInt(PARENT_EVENT_ID));
+            } catch (IOException e) {
+                e.printStackTrace();
+                // TODO: 03/05/2016 handle 
+            }
 
             try {
                 mChildEvents = mParentEvent.getChildEvents();

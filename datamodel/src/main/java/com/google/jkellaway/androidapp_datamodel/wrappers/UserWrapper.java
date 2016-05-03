@@ -90,16 +90,20 @@ public class UserWrapper implements IUserWrapper {
     }
 
     @Override
-    public IParentEvent getParentEvent(Integer id) {
-        for (IParentEvent parentEvent : parentEventList){
-            if(parentEvent.getID().equals(id))
-            return parentEvent;
+    public IParentEvent getParentEvent(Integer id) throws IOException {
+        if (parentEventList != null) {
+            for (IParentEvent parentEvent : parentEventList) {
+                if (parentEvent.getID().equals(id))
+                    return parentEvent;
+            }
         }
-        for (IParentEvent parentEvent : parentEventSearchList){
-            if(parentEvent.getID().equals(id))
-                return parentEvent;
+        if (parentEventSearchList != null) {
+            for (IParentEvent parentEvent : parentEventSearchList) {
+                if (parentEvent.getID().equals(id))
+                    return parentEvent;
+            }
         }
-        throw new NullPointerException("No item in the list has this id :/.");
+        return (IParentEvent) APIHandle.getSingle(id, DatabaseTable.PARENT_EVENT);
     }
 
     @Override
@@ -141,16 +145,20 @@ public class UserWrapper implements IUserWrapper {
     }
 
     @Override
-    public IVenue getVenue(Integer id) {
-        for (IVenue venue : venueList){
-            if(venue.getID().equals(id))
-                return venue;
+    public IVenue getVenue(Integer id) throws IOException {
+        if (venueList != null) {
+            for (IVenue venue : venueList) {
+                if (venue.getID().equals(id))
+                    return venue;
+            }
         }
-        for (IVenue venue : venueSearchList){
-            if(venue.getID().equals(id))
-                return venue;
+        if (venueSearchList != null) {
+            for (IVenue venue : venueSearchList) {
+                if (venue.getID().equals(id))
+                    return venue;
+            }
         }
-        throw new NullPointerException("No item in the list has this id :/.");
+        return (IVenue) APIHandle.getSingle(id, DatabaseTable.VENUE);
     }
 
     @Override
@@ -217,15 +225,19 @@ public class UserWrapper implements IUserWrapper {
 
     @Override
     public IArtist getArtist(Integer id) throws IOException {
-        for (IArtist artist : artistList){
-            if(artist.getID().equals(id))
-            return artist;
+        if (artistList != null) {
+            for (IArtist artist : artistList) {
+                if (artist.getID().equals(id))
+                    return artist;
+            }
         }
-        for (IArtist artist : artistSearchList){
-            if(artist.getID().equals(id))
-                return artist;
+        if (artistSearchList != null) {
+            for (IArtist artist : artistSearchList) {
+                if (artist.getID().equals(id))
+                    return artist;
+            }
         }
-        throw new NullPointerException("No item in the list has this id :/.");
+        return (IArtist) APIHandle.getSingle(id, DatabaseTable.ARTIST);
     }
 
     @Override

@@ -67,12 +67,12 @@ public class DesktopWrapper implements IDesktopWrapper {
     }
 
     @Override
-    public IParentEvent getParentEvent(Integer id) {
+    public IParentEvent getParentEvent(Integer id) throws IOException {
         for (IParentEvent parentEvent : parentEventList){
             if(parentEvent.getID().equals(id))
                 return parentEvent;
         }
-        throw new NullPointerException("No item in the list has this id :/.");
+        return (IParentEvent) APIHandle.getSingle(id, DatabaseTable.PARENT_EVENT);
     }
 
     @Override
@@ -114,12 +114,12 @@ public class DesktopWrapper implements IDesktopWrapper {
     }
 
     @Override
-    public IVenue getVenue(Integer id) {
+    public IVenue getVenue(Integer id) throws IOException {
         for (IVenue venue : venueList){
             if(venue.getID().equals(id))
                 return venue;
         }
-        throw new NullPointerException("No item in the list has this id :/.");
+        return (IVenue) APIHandle.getSingle(id, DatabaseTable.VENUE);
     }
 
     @Override
@@ -185,12 +185,12 @@ public class DesktopWrapper implements IDesktopWrapper {
     }
 
     @Override
-    public IArtist getArtist(Integer id) {
+    public IArtist getArtist(Integer id) throws IOException {
         for (IArtist artist : artistList){
             if(artist.getID().equals(id))
                 return artist;
         }
-        throw new NullPointerException("No item in the list has this id :/.");
+        return (IArtist) APIHandle.getSingle(id, DatabaseTable.ARTIST);
     }
 
     @Override
@@ -237,12 +237,12 @@ public class DesktopWrapper implements IDesktopWrapper {
     }
 
     @Override
-    public ICustomer getCustomer(Integer index) {
+    public ICustomer getCustomer(Integer index) throws IOException {
         for (ICustomer customer : customerList){
             if(customer.getID().equals(index))
                 return customer;
         }
-        throw new NullPointerException("No item in the list has this id :/.");
+        return (ICustomer) APIHandle.getSingle(index, DatabaseTable.CUSTOMER);
     }
 
     @Override
@@ -280,12 +280,12 @@ public class DesktopWrapper implements IDesktopWrapper {
     }
 
     @Override
-    public IAdmin getAdmin(Integer index) {
+    public IAdmin getAdmin(Integer index) throws IOException {
         for (IAdmin admin : adminList){
             if(admin.getID().equals(index))
                 return admin;
         }
-        throw new NullPointerException("No item in the list has this id :/.");
+        return (IAdmin) APIHandle.getSingle(index, DatabaseTable.ADMIN);
     }
 
     @Override
@@ -338,12 +338,12 @@ public class DesktopWrapper implements IDesktopWrapper {
     }
 
     @Override
-    public IGuest getGuest(Integer index) {
+    public IGuest getGuest(Integer index) throws IOException {
         for (IGuest guest : guestList){
             if(guest.getID().equals(index))
                 return guest;
         }
-        throw new NullPointerException("No item in the list has this id :/.");
+        return (IGuest) APIHandle.getSingle(index, DatabaseTable.GUEST_BOOKING);
     }
 
     @Override

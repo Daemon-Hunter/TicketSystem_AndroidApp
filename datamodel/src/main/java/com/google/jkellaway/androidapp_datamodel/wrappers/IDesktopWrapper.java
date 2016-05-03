@@ -19,13 +19,13 @@ import java.util.List;
 public interface IDesktopWrapper extends IWrapper {
     Boolean      addCustomer(ICustomer customer);
     List<ICustomer>  getCustomers()throws IOException;
-    ICustomer    getCustomer(Integer index);
+    ICustomer    getCustomer(Integer index) throws IOException;
     Boolean      removeCustomer(ICustomer customer);
     List<ICustomer>  loadMoreCustomers() throws IOException;
     List<ICustomer>  refreshCustomers() throws IOException;
     
     Boolean      addAdmin(IAdmin admin);
-    IAdmin       getAdmin(Integer index);
+    IAdmin       getAdmin(Integer index) throws IOException;
     List<IAdmin> getAdmins() throws IOException;
     Boolean      removeAdmin(IAdmin admin);
     List<IAdmin>  loadMoreAdmins() throws IOException;
@@ -33,7 +33,7 @@ public interface IDesktopWrapper extends IWrapper {
 
     Boolean      addGuest(IGuest guest);
     List<IGuest>  getGuests()throws IOException;
-    IGuest    getGuest(Integer index);
+    IGuest    getGuest(Integer index) throws IOException;
     Boolean      removeGuest(IGuest customer);
     List<IGuest>  loadMoreGuests() throws IOException;
     List<IGuest>  refreshGuests() throws IOException;
