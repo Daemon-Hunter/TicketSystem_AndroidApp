@@ -30,6 +30,7 @@ public interface IArtist extends ISocial {
     SocialMedia getSocialMedia();
 
     List<IChildEvent> getChildEvents() throws IOException;
+    IChildEvent getChildEvent(Integer childEventID) throws IOException;
 
     Boolean newContract(IChildEvent childEvent) throws IOException;
 }

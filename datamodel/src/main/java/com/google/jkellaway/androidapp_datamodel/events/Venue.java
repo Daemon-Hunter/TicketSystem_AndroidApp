@@ -255,6 +255,7 @@ public class Venue implements IVenue {
 
     @Override
     public void setSocialMedia(SocialMedia socialMedia) {
+        this.socialMediaID = socialMedia.getSocialId();
         this.socialMedia = socialMedia;
     }
 

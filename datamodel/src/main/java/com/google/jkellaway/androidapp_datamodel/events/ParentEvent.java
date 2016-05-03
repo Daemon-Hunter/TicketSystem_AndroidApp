@@ -143,6 +143,7 @@ public class ParentEvent implements IParentEvent {
 
     @Override
     public void setSocialMedia(SocialMedia socialMedia) {
+        this.socialMediaID = socialMedia.getSocialId();
         this.socialMedia = socialMedia;
     }
 
