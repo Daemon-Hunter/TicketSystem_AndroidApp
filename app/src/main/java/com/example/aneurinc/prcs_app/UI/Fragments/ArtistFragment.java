@@ -147,18 +147,24 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
     }
 
     private void readArtists() {
-        mReadTask = new ReadArtists();
-        mReadTask.execute();
+        if (!isTaskRunning(mReadTask)) {
+            mReadTask = new ReadArtists();
+            mReadTask.execute();
+        }
     }
 
     private void searchArtist(String query) {
-        mSearchTask = new SearchArtists(query);
-        mSearchTask.execute();
+        if (!isTaskRunning(mSearchTask)) {
+            mSearchTask = new SearchArtists(query);
+            mSearchTask.execute();
+        }
     }
 
     private void loadMoreArtists() {
-        mLoadMoreTask = new LoadMoreArtists();
-        mLoadMoreTask.execute();
+        if (!isTaskRunning(mLoadMoreTask)) {
+            mLoadMoreTask = new LoadMoreArtists();
+            mLoadMoreTask.execute();
+        }
     }
 
     @Override
@@ -286,9 +292,7 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
 
             if (isAdded()) {
                 showProgress(mReadProgress, false);
-                if (!mArtists.isEmpty()) {
-                    refreshAdapter();
-                }
+                refreshAdapter();
             }
 
             Log.d(MainActivity.DEBUG_TAG, "onPostExecute: Read Artists thread finished");

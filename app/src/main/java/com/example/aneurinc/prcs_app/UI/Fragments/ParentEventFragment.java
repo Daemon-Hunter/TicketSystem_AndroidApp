@@ -100,18 +100,24 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
     }
 
     private void readParentEvents() {
-        mReadTask = new ReadParentEvents();
-        mReadTask.execute();
+        if (!isTaskRunning(mReadTask)) {
+            mReadTask = new ReadParentEvents();
+            mReadTask.execute();
+        }
     }
 
     private void loadMoreParentEvents() {
-        mLoadMoreTask = new LoadMoreParentEvents();
-        mLoadMoreTask.execute();
+        if (!isTaskRunning(mLoadMoreTask)) {
+            mLoadMoreTask = new LoadMoreParentEvents();
+            mLoadMoreTask.execute();
+        }
     }
 
     private void searchParentEvents(String query) {
-        mSearchTask = new SearchParentEvents(query);
-        mSearchTask.execute();
+        if (!isTaskRunning(mSearchTask)) {
+            mSearchTask = new SearchParentEvents(query);
+            mSearchTask.execute();
+        }
     }
 
     private void setSwipe(View v) {
@@ -215,11 +221,9 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
         if (isScrolling) {
             if (firstVisibleItem + visibleItemCount >= totalItemCount) {
                 atBottom = true;
-                if (!isTaskRunning(mLoadMoreTask)) {
-                    loadMoreParentEvents();
-                }
+                loadMoreParentEvents();
             } else {
-                atBottom = true;
+                atBottom = false;
             }
         }
     }
@@ -319,9 +323,7 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
 
             if (isAdded()) {
                 showProgress(mReadProgress, false);
-                if (!mParentEvents.isEmpty()) {
-                    refreshAdapter();
-                }
+                refreshAdapter();
             }
 
             Log.d(MainActivity.DEBUG_TAG, "onPostExecute: ParentEvent thread finished");
@@ -359,8 +361,7 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
         protected void onPostExecute(Void aVoid) {
 
             showProgress(mLoadMoreProgress, false);
-            ParentEventFragAdapter mAdapter = (ParentEventFragAdapter) mGridView.getAdapter();
-            mAdapter.notifyDataSetChanged();
+            refreshAdapter();
 
             Log.d(MainActivity.DEBUG_TAG, "onPostExecute: ParentEvent Load More thread " + "finished");
         }

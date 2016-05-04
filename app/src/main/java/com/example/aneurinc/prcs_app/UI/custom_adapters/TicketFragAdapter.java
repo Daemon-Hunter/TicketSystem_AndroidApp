@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
@@ -13,6 +12,7 @@ import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
 import com.google.jkellaway.androidapp_datamodel.events.IVenue;
 import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
 
+import java.util.Collection;
 import java.util.List;
 
 import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.formatPrice;
@@ -35,6 +35,16 @@ public class TicketFragAdapter extends ArrayAdapter<ITicket> {
         mTickets = tickets;
         mChildEvents = childEvents;
         mVenues = venues;
+    }
+
+    @Override
+    public void clear() {
+        mTickets.clear();
+    }
+
+    @Override
+    public void addAll(Collection<? extends ITicket> collection) {
+        mTickets.addAll(collection);
     }
 
     @Override
@@ -83,7 +93,6 @@ public class TicketFragAdapter extends ArrayAdapter<ITicket> {
 
     static class ViewHolder {
         TextView eventName;
-        ImageView eventImage;
         TextView ticketCost;
         TextView ticketType;
         TextView venueName;

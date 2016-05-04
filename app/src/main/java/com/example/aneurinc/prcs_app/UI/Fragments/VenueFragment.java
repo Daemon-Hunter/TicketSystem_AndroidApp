@@ -105,8 +105,24 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
     }
 
     private void readVenues() {
-        mReadTask = new ReadVenues(getActivity());
-        mReadTask.execute();
+        if (!isTaskRunning(mReadTask)) {
+            mReadTask = new ReadVenues(getActivity());
+            mReadTask.execute();
+        }
+    }
+
+    private void loadMoreVenues() {
+        if (!isTaskRunning(mLoadMoreTask)) {
+            mLoadMoreTask = new LoadMoreVenues();
+            mLoadMoreTask.execute();
+        }
+    }
+
+    private void searchVenues(String query) {
+        if (!isTaskRunning(mSearchTask)) {
+            mSearchTask = new SearchVenues(query);
+            mSearchTask.execute();
+        }
     }
 
     @Override
@@ -211,8 +227,7 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
             if (firstVisibleItem + visibleItemCount >= totalItemCount) {
                 if (!isTaskRunning(mLoadMoreTask)) {
                     atBottom = true;
-                    mLoadMoreTask = new LoadMoreVenues();
-                    mLoadMoreTask.execute();
+                    loadMoreVenues();
                 }
             } else {
                 atBottom = false;
@@ -235,16 +250,14 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        mSearchTask = new SearchVenues(query);
-        mSearchTask.execute();
+        searchVenues(query);
         return false;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
         if (!newText.isEmpty()) {
-            mSearchTask = new SearchVenues(newText);
-            mSearchTask.execute();
+            searchVenues(newText);
         }
         return false;
     }
@@ -283,11 +296,9 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
         @Override
         protected void onPostExecute(Void aVoid) {
 
-            if (mContext != null && isAdded()) {
+            if (isAdded()) {
                 showProgress(mReadProgress, false);
-                if (!mVenues.isEmpty()) {
-                    refreshAdapter();
-                }
+                refreshAdapter();
             }
 
             Log.d(MainActivity.DEBUG_TAG, "onPostExecute: Venue thread finished");
