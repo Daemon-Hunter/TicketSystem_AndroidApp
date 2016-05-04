@@ -18,7 +18,7 @@ public interface IArtist extends ISocial {
     String getName();
     void setName(String name);
     List<String> getTags();
-    Boolean addTag(String tag) throws IOException;
+    Boolean addTag(String tag);
     Boolean removeTag(String tag);
     String getDescription();
     void setDescription(String decription);

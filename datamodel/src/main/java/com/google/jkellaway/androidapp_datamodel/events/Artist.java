@@ -101,7 +101,7 @@ public class Artist implements IArtist {
     }
 
     @Override
-    public Boolean addTag(String tag) throws IOException {
+    public Boolean addTag(String tag) {
         if (tag == null) {
             throw new NullPointerException();
         } else {
@@ -232,7 +232,7 @@ public class Artist implements IArtist {
      * @return Boolean true if ID set.
      */
     @Override
-    public Boolean setSocialId(Integer id) throws IOException {
+    public Boolean setSocialId(Integer id) {
         socialMediaID = id;
         return socialMedia.setSocialId(id);
     }
