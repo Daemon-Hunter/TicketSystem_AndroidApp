@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.custom_adapters.ParentEventActAdapter;
+import com.example.aneurinc.prcs_app.UI.fragments.FragmentType;
 import com.example.aneurinc.prcs_app.UI.utilities.Utilities;
 import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
 import com.google.jkellaway.androidapp_datamodel.events.IParentEvent;
@@ -56,6 +57,14 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
         toolbar.setTitle(R.string.parent_event);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ParentEventActivity.this, MainActivity.class);
+                intent.putExtra(MainActivity.FRAGMENT_ID, FragmentType.PARENT_EVENT.toString());
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -77,7 +86,9 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
                 break;
 
             case R.id.tb_home:
-                startActivity(new Intent(this, MainActivity.class));
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.putExtra(MainActivity.FRAGMENT_ID, FragmentType.PARENT_EVENT.toString());
+                startActivity(intent);
                 break;
         }
 

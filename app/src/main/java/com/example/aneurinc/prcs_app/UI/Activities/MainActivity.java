@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     // debug tag
     public static final String DEBUG_TAG = "PRCS";
+    public static String FRAGMENT_ID;
 
     private static FragmentManager fragmentManager;
 
@@ -42,7 +43,17 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
         addOnClickListeners();
 
-        switchFragment(new ParentEventFragment(), FragmentType.PARENT_EVENT);
+        switch (getIntent().getExtras().getString(FRAGMENT_ID)) {
+            case "ARTIST":
+                switchFragment(new ArtistFragment(), FragmentType.ARTIST);
+                break;
+            case "PARENT_EVENT":
+                switchFragment(new ParentEventFragment(), FragmentType.PARENT_EVENT);
+                break;
+            case "VENUES":
+                switchFragment(new VenueFragment(), FragmentType.VENUE);
+                break;
+        }
 
         fragmentManager = getSupportFragmentManager();
     }

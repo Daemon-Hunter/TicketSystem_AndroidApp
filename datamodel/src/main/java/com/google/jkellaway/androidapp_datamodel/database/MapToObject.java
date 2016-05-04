@@ -227,9 +227,7 @@ final class MapToObject {
         disabledAccess = venueMap.get("VENUE_DISABLED_ACCESS").equals("true");
 
 
-        return new Venue(venueID, socialMediaID, description, capSeating, capStanding,
-                disabledAccess, facilities, parking, phoneNumber, email, address, city, postcode,
-                name);
+        return new Venue(venueID, socialMediaID, description, capSeating, capStanding, disabledAccess, facilities, parking, phoneNumber, email, address, city, postcode, name);
     }
 
     public static ITicket MapToTicket(Map<String, String> ticketMap) {
@@ -242,7 +240,7 @@ final class MapToObject {
         remaining = Integer.parseInt(ticketMap.get("TICKET_AMOUNT_REMAINING"));
         type = ticketMap.get("TICKET_TYPE");
         desc = ticketMap.get("TICKET_DESCRIPTION");
-        childEventID = Integer.parseInt(ticketMap.get("TICKET_ID"));
+        childEventID = Integer.parseInt(ticketMap.get("CHILDEVENT_ID"));
 
         return new Ticket(ticketID, childEventID, price, desc, remaining, type);
     }
@@ -255,7 +253,6 @@ final class MapToObject {
         String endTime;
         Boolean cancelled = false;
 
-
         childEventID = Integer.parseInt(childEventMap.get("CHILD_EVENT_ID"));
         parentEventID = Integer.parseInt(childEventMap.get("PARENT_EVENT_ID"));
         venueID = Integer.parseInt(childEventMap.get("VENUE_ID"));
@@ -263,8 +260,8 @@ final class MapToObject {
         description = childEventMap.get("CHILD_EVENT_DESCRIPTION");
 
         if (childEventMap.get("CHILD_EVENT_CANCELED").equals("true")) cancelled = true;
-            startTime = childEventMap.get("START_DATE_TIME");
-            endTime = childEventMap.get("END_DATE_TIME");
+        startTime = childEventMap.get("START_DATE_TIME");
+        endTime = childEventMap.get("END_DATE_TIME");
         return new ChildEvent(childEventID, venueID, name, description, startTime, endTime, cancelled, parentEventID);
     }
 

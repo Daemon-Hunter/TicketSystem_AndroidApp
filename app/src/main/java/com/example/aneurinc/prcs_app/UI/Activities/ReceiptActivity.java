@@ -14,6 +14,7 @@ import android.widget.ListView;
 
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.custom_adapters.ReceiptActAdapter;
+import com.example.aneurinc.prcs_app.UI.fragments.FragmentType;
 
 public class ReceiptActivity extends AppCompatActivity implements OnClickListener {
 
@@ -77,7 +78,9 @@ public class ReceiptActivity extends AppCompatActivity implements OnClickListene
         switch (item.getItemId()) {
 
             case R.id.tb_home:
-                startActivity(new Intent(this, MainActivity.class));
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.putExtra(MainActivity.FRAGMENT_ID, FragmentType.PARENT_EVENT.toString());
+                startActivity(intent);
                 break;
 
             default:

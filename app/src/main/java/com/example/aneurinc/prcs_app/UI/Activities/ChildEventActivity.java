@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.custom_adapters.ChildEventActAdapter;
+import com.example.aneurinc.prcs_app.UI.fragments.FragmentType;
 import com.example.aneurinc.prcs_app.UI.utilities.Utilities;
 import com.google.jkellaway.androidapp_datamodel.events.IArtist;
 import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
@@ -28,7 +30,7 @@ import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 import java.io.IOException;
 import java.util.List;
 
-public class ChildEventActivity extends AppCompatActivity implements OnClickListener, AdapterView.OnItemClickListener {
+public class ChildEventActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, NavigationView.OnClickListener {
 
     public static String EVENT_ID;
     private IChildEvent mChildEvent;
@@ -66,7 +68,9 @@ public class ChildEventActivity extends AppCompatActivity implements OnClickList
         toolbar.setNavigationOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                Intent intent = new Intent(ChildEventActivity.this, ParentEventActivity.class);
+                intent.putExtra(ParentEventActivity.PARENT_EVENT_ID, getIntent().getExtras().getIntArray(EVENT_ID)[1]);
+                startActivity(intent);
             }
         });
     }
@@ -87,7 +91,9 @@ public class ChildEventActivity extends AppCompatActivity implements OnClickList
                 break;
 
             case R.id.tb_home:
-                startActivity(new Intent(this, MainActivity.class));
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.putExtra(MainActivity.FRAGMENT_ID, FragmentType.PARENT_EVENT.toString());
+                startActivity(intent);
                 break;
         }
 
@@ -109,15 +115,12 @@ public class ChildEventActivity extends AppCompatActivity implements OnClickList
         switch (v.getId()) {
             case R.id.buy_tickets:
                 Intent i = new Intent(this, TicketActivity.class);
-
                 int[] IDs = new int[2];
                 IDs[0] = getIntent().getExtras().getIntArray(EVENT_ID)[0];
                 IDs[1] = getIntent().getExtras().getIntArray(EVENT_ID)[1];
-
                 i.putExtra(ChildEventActivity.EVENT_ID, IDs);
-
                 startActivity(i);
-
+                break;
         }
     }
 

@@ -23,7 +23,7 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="58"
+        android:layout_weight="63"
         android:background="@color/colorGrey300"
         android:orientation="vertical">
 
@@ -58,21 +58,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/parent_event_date"
             android:layout_marginLeft="7dp"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="15"
-        android:background="@color/colorGrey300">
-
-        <ImageView
-            android:id="@+id/ticket_event_image"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentRight="true"
-            android:padding="5dp"/>
 
     </LinearLayout>
 

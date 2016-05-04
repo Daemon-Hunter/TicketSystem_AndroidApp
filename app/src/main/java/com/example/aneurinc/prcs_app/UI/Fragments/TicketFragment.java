@@ -18,6 +18,8 @@ import com.example.aneurinc.prcs_app.UI.activities.MainActivity;
 import com.example.aneurinc.prcs_app.UI.custom_adapters.TicketFragAdapter;
 import com.example.aneurinc.prcs_app.UI.custom_listeners.OnSwipeTouchListener;
 import com.google.jkellaway.androidapp_datamodel.bookings.IBooking;
+import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
+import com.google.jkellaway.androidapp_datamodel.events.IVenue;
 import com.google.jkellaway.androidapp_datamodel.people.ICustomer;
 import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
 import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
@@ -33,9 +35,12 @@ public class TicketFragment extends Fragment implements Animator.AnimatorListene
 
     private ProgressBar mProgressBar;
     private ReadTickets mTask;
-    private List<ITicket> mTickets;
     private static final int ANIM_TIME = 200;
     private MainActivity mMainActivity;
+
+    private List<ITicket> mTickets;
+    private List<IChildEvent> mChildEvents;
+    private List<IVenue> mVenues;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,6 +55,11 @@ public class TicketFragment extends Fragment implements Animator.AnimatorListene
         setSwipe(view);
 
         mProgressBar = (ProgressBar) view.getRootView().findViewById(R.id.ticket_progress);
+
+        mTickets = new LinkedList<>();
+        mChildEvents = new LinkedList<>();
+        mVenues = new LinkedList<>();
+
         readTickets();
         return view;
     }
@@ -122,7 +132,7 @@ public class TicketFragment extends Fragment implements Animator.AnimatorListene
     }
 
 
-    private class ReadTickets extends AsyncTask<Void, Void, List<ITicket>> {
+    private class ReadTickets extends AsyncTask<Void, Void, Void> {
 
         private final Activity mContext;
 
@@ -137,30 +147,30 @@ public class TicketFragment extends Fragment implements Animator.AnimatorListene
         }
 
         @Override
-        protected List<ITicket> doInBackground(Void... params) {
+        protected Void doInBackground(Void... params) {
             try {
                 ICustomer customer = (ICustomer) UserWrapper.getInstance().getUser();
-
                 List<IBooking> bookings = customer.getBookings();
-                mTickets = new LinkedList<>();
-                for (IBooking booking : bookings){
+                for (IBooking booking : bookings) {
                     mTickets.add(booking.getTicket());
+                    mChildEvents.add(booking.getTicket().getChildEvent());
+                    mVenues.add(booking.getTicket().getChildEvent().getVenue());
                 }
             } catch (IOException e) {
 
             }
 
-            return mTickets;
+            return null;
         }
 
         @Override
-        protected void onPostExecute(List<ITicket> tickets) {
+        protected void onPostExecute(Void aVoid) {
 
             if (mContext != null && isAdded()) {
                 showProgress(false);
-                if (tickets != null && !tickets.isEmpty()) {
+                if (!mTickets.isEmpty()) {
                     ListView list = (ListView) mContext.findViewById(R.id.my_tickets_list);
-                    list.setAdapter(new TicketFragAdapter(mContext, tickets));
+                    list.setAdapter(new TicketFragAdapter(mContext, mTickets, mChildEvents, mVenues));
                     setSwipe(list);
                 }
             }

@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.custom_adapters.VenueActAdapter;
+import com.example.aneurinc.prcs_app.UI.fragments.FragmentType;
 import com.example.aneurinc.prcs_app.UI.utilities.Utilities;
 import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
 import com.google.jkellaway.androidapp_datamodel.events.IParentEvent;
@@ -73,7 +74,9 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener,
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                Intent intent = new Intent(VenueActivity.this, MainActivity.class);
+                intent.putExtra(MainActivity.FRAGMENT_ID, FragmentType.VENUE.toString());
+                startActivity(intent);
             }
         });
 
@@ -97,7 +100,9 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener,
                 break;
 
             case R.id.tb_home:
-                startActivity(new Intent(this, MainActivity.class));
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.putExtra(MainActivity.FRAGMENT_ID, FragmentType.PARENT_EVENT.toString());
+                startActivity(intent);
                 break;
 
         }

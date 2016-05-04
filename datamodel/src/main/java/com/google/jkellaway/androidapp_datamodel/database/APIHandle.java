@@ -92,7 +92,8 @@ public final class APIHandle{
             case ORDER: return MapToObject.MapToOrder(objMap);
             case SOCIAL_MEDIA: return MapToObject.MapToSocialMedia(objMap);
             case TICKET: return MapToObject.MapToTicket(objMap);
-            case ARTIST_TYPE: MapToArtistType(objMap);
+            case ARTIST_TYPE: return MapToObject.MapToArtistType(objMap);
+            case CHILD_EVENT: return MapToObject.MapToChildEvent(objMap);
             case PARENT_EVENT:
                 IParentEvent parentEvent;
                 parentEvent = MapToParentEvent(objMap);

@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
+import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
+import com.google.jkellaway.androidapp_datamodel.events.IVenue;
 import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
 
 import java.util.List;
@@ -20,16 +22,19 @@ import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.form
  */
 public class TicketFragAdapter extends ArrayAdapter<ITicket> {
 
-    // TODO get event name, event image and venue name
-
     private final Activity mContext;
     private List<ITicket> mTickets;
+    private List<IChildEvent> mChildEvents;
+    private List<IVenue> mVenues;
 
-    public TicketFragAdapter(Activity context, List<ITicket> tickets) {
+    public TicketFragAdapter(Activity context, List<ITicket> tickets, List<IChildEvent> childEvents, List<IVenue> venues) {
 
         super(context, R.layout.list_row_my_ticket);
+
         mContext = context;
         mTickets = tickets;
+        mChildEvents = childEvents;
+        mVenues = venues;
     }
 
     @Override
@@ -54,7 +59,6 @@ public class TicketFragAdapter extends ArrayAdapter<ITicket> {
             viewHolder.ticketCost = (TextView) convertView.findViewById(R.id.event_cost);
             viewHolder.ticketType = (TextView) convertView.findViewById(R.id.parent_event_date);
             viewHolder.venueName = (TextView) convertView.findViewById(R.id.event_venue);
-            viewHolder.eventImage = (ImageView) convertView.findViewById(R.id.ticket_event_image);
 
             // store the holder with the view
             convertView.setTag(viewHolder);
@@ -64,13 +68,10 @@ public class TicketFragAdapter extends ArrayAdapter<ITicket> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        // TODO: 22/04/2016 get event name, event image and venue name
-
-        viewHolder.eventName.setText("Event Name");
-//        viewHolder.eventImage.setImageResource(Constants.eventImages[position]);
+        viewHolder.eventName.setText(mChildEvents.get(0).getName());
         viewHolder.ticketCost.setText(formatPrice(Double.parseDouble(currTicket.getPrice().toString())));
         viewHolder.ticketType.setText(currTicket.getType());
-        viewHolder.venueName.setText("Venue Name");
+        viewHolder.venueName.setText(mVenues.get(position).getName());
 
         return convertView;
     }

@@ -28,6 +28,7 @@ import android.widget.TextView.OnEditorActionListener;
 
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.custom_views.CustomClickableSpan;
+import com.example.aneurinc.prcs_app.UI.fragments.FragmentType;
 import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
 import java.io.IOException;
@@ -268,7 +269,9 @@ public class LoginActivity extends AppCompatActivity implements OnEditorActionLi
 
             if (success) {
                 finish();
-                startActivity(new Intent(mContext, MainActivity.class));
+                Intent intent = new Intent(mContext, MainActivity.class);
+                intent.putExtra(MainActivity.FRAGMENT_ID, FragmentType.PARENT_EVENT.toString());
+                startActivity(intent);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();

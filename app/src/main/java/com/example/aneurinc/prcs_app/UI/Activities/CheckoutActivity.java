@@ -12,6 +12,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.example.aneurinc.prcs_app.R;
+import com.example.aneurinc.prcs_app.UI.fragments.FragmentType;
 
 public class CheckoutActivity extends AppCompatActivity implements OnClickListener {
 
@@ -56,7 +57,9 @@ public class CheckoutActivity extends AppCompatActivity implements OnClickListen
         switch (item.getItemId()) {
 
             case R.id.tb_home:
-                startActivity(new Intent(this, MainActivity.class));
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.putExtra(MainActivity.FRAGMENT_ID, FragmentType.PARENT_EVENT.toString());
+                startActivity(intent);
                 break;
         }
 

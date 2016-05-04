@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.custom_adapters.ArtistActAdapter;
+import com.example.aneurinc.prcs_app.UI.fragments.FragmentType;
 import com.example.aneurinc.prcs_app.UI.utilities.Utilities;
 import com.google.jkellaway.androidapp_datamodel.events.IArtist;
 import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
@@ -75,7 +76,9 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                Intent intent = new Intent(ArtistActivity.this, MainActivity.class);
+                intent.putExtra(MainActivity.FRAGMENT_ID, FragmentType.ARTIST.toString());
+                startActivity(intent);
             }
         });
     }
@@ -110,7 +113,9 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
                 break;
 
             case R.id.tb_home:
-                startActivity(new Intent(this, MainActivity.class));
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.putExtra(MainActivity.FRAGMENT_ID, FragmentType.PARENT_EVENT.toString());
+                startActivity(intent);
                 break;
 
         }
