@@ -184,7 +184,22 @@ final class ObjectToMap {
     }
 
     public static Map<String, String> venueToMap(IVenue venue) {
-        return null;
+        Map<String, String> venueMap = new HashMap<>();
+        venueMap.put("VENUE_ID", venue.getID().toString());
+        venueMap.put("SOCIAL_MEDIA_ID", venue.getSocialId().toString());
+        venueMap.put("VENUE_DESCRIPTION", venue.getDescription());
+        venueMap.put("VENUE_CAPACITY_STANDING", venue.getStandingCapacity().toString());
+        venueMap.put("VENUE_CAPACTIY_SEATING", venue.getSeatingCapacity().toString());
+        venueMap.put("VENUE_DISABLED_ACCESS", venue.getDisabledAccess().toString());
+        venueMap.put("VENUE_FACILITIES", venue.getFacilites());
+        venueMap.put("VENUE_PARKING", venue.getParking().toString());
+        venueMap.put("VENUE_PHONE_NUMBER", venue.getPhoneNumber());
+        venueMap.put("VENUE_EMAIL", venue.getEmail());
+        venueMap.put("VENUE_ADDRESS", venue.getAddress());
+        venueMap.put("VENUE_POSTCODE", venue.getPostcode());
+        venueMap.put("VENUE_NAME", venue.getName());
+        venueMap.put("VENUE_CITY", venue.getCity());
+        return venueMap;
     }
 
     public static Map<String, String> guestBookingToMap(GuestBooking guestBooking) {
