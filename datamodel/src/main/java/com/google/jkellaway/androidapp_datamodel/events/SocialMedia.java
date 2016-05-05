@@ -57,7 +57,7 @@ public class SocialMedia implements ISocial {
      * @return 
      */
     @Override
-    public Boolean setSocialId(Integer id) throws IOException {
+    public Boolean setSocialId(Integer id) {
         Boolean valid = Validator.idValidator(id);
         if (valid) {
             this.id = id;
@@ -97,11 +97,7 @@ public class SocialMedia implements ISocial {
 
     @Override
     public String getFacebook() {
-        if (facebook == null) {
-            throw new NullPointerException();
-        } else {
-            return facebook;
-        }
+        return facebook;
     }
 
     @Override
@@ -115,11 +111,7 @@ public class SocialMedia implements ISocial {
 
     @Override
     public String getTwitter() {
-        if (twitter == null) {
-            throw new NullPointerException();
-        } else {
-            return twitter;
-        }
+        return twitter;
     }
 
     @Override
@@ -133,11 +125,7 @@ public class SocialMedia implements ISocial {
 
     @Override
     public String getInstagram() {
-        if (instagram == null) {
-            throw new NullPointerException();
-        } else {
-            return instagram;
-        }
+        return instagram;
     }
 
     @Override
@@ -151,9 +139,6 @@ public class SocialMedia implements ISocial {
 
     @Override
     public String getSoundcloud() {
-        if (soundcloud == null) {
-            throw new NullPointerException();
-        }
         return soundcloud;
     }
 
@@ -168,9 +153,6 @@ public class SocialMedia implements ISocial {
 
     @Override
     public String getWebsite() {
-        if (website == null) {
-            throw new NullPointerException();
-        }
         return website;
     }
 
@@ -185,11 +167,7 @@ public class SocialMedia implements ISocial {
 
     @Override
     public String getSpotify() {
-        if (spotify == null) {
-            throw new NullPointerException();
-        } else {
-            return spotify;
-        }
+        return spotify;
     }
 
     @Override
