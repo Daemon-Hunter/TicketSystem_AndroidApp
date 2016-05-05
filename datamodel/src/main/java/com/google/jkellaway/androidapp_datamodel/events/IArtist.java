@@ -16,12 +16,12 @@ public interface IArtist extends ISocial {
     
     Integer getID();
     String getName();
-    void setName(String name);
+    Boolean setName(String name);
     List<String> getTags();
     Boolean addTag(String tag);
     Boolean removeTag(String tag);
     String getDescription();
-    void setDescription(String decription);
+    Boolean setDescription(String decription);
     String getType() throws IOException;
     Boolean setType(String type);
     Integer getTypeID();

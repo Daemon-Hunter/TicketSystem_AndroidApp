@@ -115,7 +115,7 @@ public final class Validator {
     {
         if (!Blacklist.contains(name)) {
             return 2 <= name.length()
-                    && name.length() <= 20;
+                    && name.length() <= 30;
         } else
             return true;
     }
@@ -141,7 +141,7 @@ public final class Validator {
     }
 
     public static Boolean facilitiesValidator(String facilities) {
-        return Blacklist.contains(facilities) && facilities.length() <= 100;
+        return !Blacklist.contains(facilities) && facilities.length() <= 100;
     }
 
     public static Boolean parkingSpaceValidator(Integer parking) {
@@ -159,17 +159,23 @@ public final class Validator {
     // Check against other addresses? Cannot have 2 venues at same place?
     public static Boolean addressValidator(String address) {
         return !Blacklist.contains(address)
-                && address.length() <= 200;
+                && address.length() <= 200
+                && 5 <= address.length();
     }
 
+    /**
+    * Postcode cannot contain spaces.
+    * @param postcode
+    * @return
+    */
     public static Boolean postcodeValidator(String postcode) {
-        Pattern postcodeRegex = Pattern.compile("[a-zA-Z]{1,2}[0-9][0-9a-zA-Z]?\\s?[0-9][a-zA-Z]{2}");
+        Pattern postcodeRegex = Pattern.compile("[a-zA-Z]{1,2}[0-9][0-9a-zA-Z]?[0-9][a-zA-Z]{2}");
         Matcher m = postcodeRegex.matcher(postcode);
         return m.matches();
     }
 
     public static Boolean tagValidator(String tag) {
-        return Blacklist.contains(tag) && tag.contains(",");
+        return !Blacklist.contains(tag);
     }
 
     public static String formatPrice(Double price) {

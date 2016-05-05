@@ -11,7 +11,6 @@ import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
 import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
-import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -41,7 +40,6 @@ public class ChildEvent implements IChildEvent {
     private String childEventName, childEventDescription;
     private String startDateTime, endDateTime;
     private Boolean cancelled;
-    private List<IObserver> observers;
     private final DatabaseTable table;
 
     private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
@@ -71,16 +69,15 @@ public class ChildEvent implements IChildEvent {
         venue = (IVenue) APIHandle.getSingle(this.venueID, DatabaseTable.VENUE);
     }
     
-    public ChildEvent(String name, String description, String startTime, String endTime, IVenue venue, List<IArtist> artists, IParentEvent parentEvent) {
+    public ChildEvent(String name, String description, Date startTime, Date endTime, IVenue venue, IParentEvent parentEvent) {
         childEventID = 0;
         if (Validator.nameValidator(name)) {
             if (Validator.descriptionValidator(description)) {
                 this.childEventName = name;
                 this.childEventDescription = description;
-                this.startDateTime = startTime;
-                this.endDateTime = endTime;
+                this.startDateTime = formatter.format(startTime);
+                this.endDateTime = formatter.format(endTime);
                 this.venue = venue;
-                this.artists = artists;
                 this.cancelled = false;
                 this.table = DatabaseTable.CHILD_EVENT;
                 this.parentEvent = parentEvent;

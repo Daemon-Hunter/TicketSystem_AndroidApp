@@ -68,7 +68,7 @@ final class ObjectToMap {
         Map<String,String> returnMap = new HashMap<>();
         String tags = "";
 
-        if(artist.getTags() != null) {
+        if(artist.getTags() != null && !artist.getTags().isEmpty()) {
             for (String currTag : artist.getTags()) {
                 tags += currTag + ",";
             }
@@ -105,11 +105,16 @@ final class ObjectToMap {
     public static Map<String, String> socialMediaToMap(SocialMedia socialMedia) {
         Map<String, String> returnMap = new HashMap<>();
         returnMap.put("SOCIAL_MEDIA_ID", Integer.toString(socialMedia.getSocialId()));
+        try {
+            returnMap.put("SOCIAL_MEDIA_ID", Integer.toString(socialMedia.getSocialId()));
+        } catch (NullPointerException ex) {
+            returnMap.put("SOCIAL_MEDIA_ID", "0");
+        }
         List<Bitmap> images = socialMedia.getImages();
 
-//        int j = 0;
+//        int j = 1;
 //        for (BufferedImage img : images) {
-//            if (j == 0) {
+//            if (j == 1) {
 //                try {
 //                    returnMap.put(imgKey, DecodeImage.encodeToString(img, "PNG"));
 //                }
@@ -213,7 +218,7 @@ final class ObjectToMap {
         venueMap.put("VENUE_CAPACITY_STANDING", venue.getStandingCapacity().toString());
         venueMap.put("VENUE_CAPACTIY_SEATING", venue.getSeatingCapacity().toString());
         venueMap.put("VENUE_DISABLED_ACCESS", venue.getDisabledAccess().toString());
-        venueMap.put("VENUE_FACILITIES", venue.getFacilites());
+        venueMap.put("VENUE_FACILITES", venue.getFacilites());
         venueMap.put("VENUE_PARKING", venue.getParking().toString());
         venueMap.put("VENUE_PHONE_NUMBER", venue.getPhoneNumber());
         venueMap.put("VENUE_EMAIL", venue.getEmail());

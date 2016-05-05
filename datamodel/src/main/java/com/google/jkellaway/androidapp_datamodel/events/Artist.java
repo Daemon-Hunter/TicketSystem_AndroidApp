@@ -103,7 +103,7 @@ public class Artist implements IArtist {
     @Override
     public Boolean addTag(String tag) {
         if (tag == null) {
-            throw new NullPointerException();
+            return false;
         } else {
             Boolean valid = Validator.tagValidator(tag);
             if (valid) {
@@ -131,8 +131,11 @@ public class Artist implements IArtist {
     }
 
     @Override
-    public void setName(String name) {
-        this.name = name;
+    public Boolean setName (String name) {
+        if (Validator.nameValidator(name) && name != null) {
+            this.name = name;
+            return true;
+        } else return false;
     }
 
     @Override
@@ -145,8 +148,11 @@ public class Artist implements IArtist {
     }
 
     @Override
-    public void setDescription(String description) {
-        this.description = description;
+    public Boolean setDescription(String description) {
+        if (Validator.descriptionValidator(description) && description != null) {
+            this.description = description;
+            return true;
+        } else return false;
     }
 
     @Override
@@ -162,9 +168,29 @@ public class Artist implements IArtist {
     @Override
     public Boolean setType(String type) {
         if (type == null) {
-            throw new NullPointerException("Artist type is null");
+            throw new NullPointerException("cannot set type to null");
         } else {
             this.type = type;
+            switch (type) {
+                case "Singer":
+                    typeID = 0;
+                    break;
+                case "Comedian":
+                    typeID = 1;
+                    break;
+                case "Sports Team":
+                    typeID = 2;
+                    break;
+                case "Band":
+                    typeID = 3;
+                    break;
+                case "DJ":
+                    typeID = 4;
+                    break;
+                default:
+                    typeID = 0;
+                    break;
+            }
             return Objects.equals(this.type, type);
         }
     }

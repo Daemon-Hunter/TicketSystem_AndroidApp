@@ -11,7 +11,6 @@ import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
 import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
 
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,7 +26,9 @@ public class SocialMedia implements ISocial {
     private final DatabaseTable table = DatabaseTable.SOCIAL_MEDIA;
     private LinkedList<IObserver> observers;
     
-    public SocialMedia() {}
+    public SocialMedia() {
+        id = 0;
+    }
 
     public SocialMedia(Integer id, List<Bitmap> images, String facebook, String twitter,
                        String instagram, String soundcloud, String website, String spoify){
@@ -85,14 +86,15 @@ public class SocialMedia implements ISocial {
 
     @Override
     public Boolean removeImage(int index) {
-    images.remove(index);
-    return !images.contains(index);
+        int length = images.size();
+        images.remove(index);
+        return length - 1 == images.size();
     }
 
     @Override
     public Boolean setImages(List<Bitmap> images) {
-        this.images = new LinkedList<>(images);
-        return this.images == new LinkedList<>(images);
+        this.images = images;
+        return this.images == images;
     }
 
     @Override

@@ -94,6 +94,7 @@ public final class APIHandle{
             case TICKET: return MapToObject.MapToTicket(objMap);
             case ARTIST_TYPE: return MapToObject.MapToArtistType(objMap);
             case CHILD_EVENT: return MapToObject.MapToChildEvent(objMap);
+
             case PARENT_EVENT:
                 IParentEvent parentEvent;
                 parentEvent = MapToParentEvent(objMap);
