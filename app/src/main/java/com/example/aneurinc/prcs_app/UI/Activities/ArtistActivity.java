@@ -86,12 +86,13 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra(MainActivity.FRAGMENT_ID, FragmentType.ARTIST.toString());
         startActivity(intent);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.menu2, menu);
         return true;
     }
 
@@ -105,6 +106,8 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
 
         intent.putExtra(ChildEventActivity.EVENT_ID, IDs);
         startActivity(intent);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
     }
 
     @Override
@@ -113,9 +116,6 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
-
-            case R.id.tb_search:
-                break;
 
             case R.id.tb_home:
                 Intent intent = new Intent(this, MainActivity.class);
@@ -184,6 +184,7 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
             ImageView artistImage = (ImageView) mContext.findViewById(R.id.artist_image);
             TextView artistName = (TextView) mContext.findViewById(R.id.artist_title);
             TextView artistDescription = (TextView) mContext.findViewById(R.id.artist_description);
+            RelativeLayout socialMedia = (RelativeLayout) mContext.findViewById(R.id.social_media_container);
 
             int xy = Utilities.getScreenWidth(mContext) / 4;
             Bitmap scaledImage = Utilities.scaleDown(mArtist.getImage(0), xy, xy);
@@ -205,6 +206,7 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
             artistName.setText(mArtist.getName());
             artistImage.setImageBitmap(scaledImage);
             artistDescription.setText(mArtist.getDescription());
+            socialMedia.setVisibility(View.VISIBLE);
         }
     }
 

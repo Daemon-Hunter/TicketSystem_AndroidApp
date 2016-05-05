@@ -293,7 +293,7 @@ public class ChildEvent implements IChildEvent {
     }
 
     @Override
-    public Boolean setSocialId(Integer id) {
+    public Boolean setSocialId(Integer id) throws IOException {
         return parentEvent.setSocialId(id);
     }
 

@@ -300,7 +300,8 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
 
             if (success) {
                 finish();
-                startActivity(new Intent(mContext, LoginActivity.class));
+                startActivity(new Intent(mContext, SignInActivity.class));
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             } else {
                 switch (httpCode) {
                     case 409:

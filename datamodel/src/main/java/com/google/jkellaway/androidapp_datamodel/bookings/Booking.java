@@ -17,7 +17,7 @@ import java.util.Date;
  *
  * @author 10512691
  */
-public abstract class Booking implements IBooking {
+public abstract class   Booking implements IBooking {
 
     protected ITicket ticket;
     protected IOrder  order;

@@ -1,6 +1,5 @@
 package com.example.aneurinc.prcs_app.UI.fragments;
 
-import android.animation.Animator;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -31,9 +30,9 @@ import java.util.List;
 /**
  * Created by aneurinc on 01/03/2016.
  */
-public class TicketFragment extends Fragment implements Animator.AnimatorListener {
+public class TicketFragment extends Fragment {
 
-    private ProgressBar mProgressBar;
+    private ProgressBar mReadProgressBar;
 
     private ReadTickets mReadTask;
     private LoadMoreTickets mLoadTask;
@@ -41,7 +40,6 @@ public class TicketFragment extends Fragment implements Animator.AnimatorListene
 
     private ListView mListView;
 
-    private static final int ANIM_TIME = 200;
     private MainActivity mMainActivity;
 
     private List<ITicket> mTickets;
@@ -67,7 +65,7 @@ public class TicketFragment extends Fragment implements Animator.AnimatorListene
 
         setSwipe(view);
 
-        mProgressBar = (ProgressBar) view.getRootView().findViewById(R.id.ticket_progress);
+        mReadProgressBar = (ProgressBar) view.getRootView().findViewById(R.id.ticket_progress);
 
         readTickets();
 
@@ -105,28 +103,7 @@ public class TicketFragment extends Fragment implements Animator.AnimatorListene
     }
 
     private void showProgress(final boolean show) {
-        mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
-        mProgressBar.animate().setDuration(ANIM_TIME).alpha(show ? 1 : 0).setListener(this);
-    }
-
-    @Override
-    public void onAnimationStart(Animator animation) {
-        mProgressBar.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void onAnimationEnd(Animator animation) {
-        mProgressBar.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void onAnimationCancel(Animator animation) {
-
-    }
-
-    @Override
-    public void onAnimationRepeat(Animator animation) {
-
+        mReadProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     @Override

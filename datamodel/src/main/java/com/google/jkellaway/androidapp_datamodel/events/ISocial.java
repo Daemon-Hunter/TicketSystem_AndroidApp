@@ -17,7 +17,7 @@ import java.util.List;
 public interface ISocial {
     
     Integer getSocialId();
-    Boolean setSocialId(Integer id);
+    Boolean setSocialId(Integer id) throws IOException;
     
     List<Bitmap> getImages();
     Bitmap getImage(int index);

@@ -36,16 +36,8 @@ import java.io.IOException;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements OnEditorActionListener, OnClickListener {
+public class SignInActivity extends AppCompatActivity implements OnEditorActionListener, OnClickListener {
 
-
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "@", "qqqqq"
-    };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -272,6 +264,7 @@ public class LoginActivity extends AppCompatActivity implements OnEditorActionLi
                 Intent intent = new Intent(mContext, MainActivity.class);
                 intent.putExtra(MainActivity.FRAGMENT_ID, FragmentType.PARENT_EVENT.toString());
                 startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();

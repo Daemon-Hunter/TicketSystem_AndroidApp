@@ -1,6 +1,5 @@
 package com.example.aneurinc.prcs_app.UI.fragments;
 
-import android.animation.Animator;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -34,7 +33,8 @@ import java.util.List;
 /**
  * Created by aneurinc on 02/03/2016.
  */
-public class ParentEventFragment extends Fragment implements AdapterView.OnItemClickListener, AbsListView.OnScrollListener, Animator.AnimatorListener, SearchView.OnQueryTextListener, View.OnAttachStateChangeListener {
+public class ParentEventFragment extends Fragment implements AdapterView.OnItemClickListener,
+        AbsListView.OnScrollListener, SearchView.OnQueryTextListener, View.OnAttachStateChangeListener {
 
     // list of parent events
     private List<IParentEvent> mParentEvents;
@@ -47,15 +47,11 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
     private MainActivity mMainActivity;
 
     // UI references
-    private ProgressBar mReadProgress, mLoadMoreProgress;
+    private ProgressBar mReadProgressBar, mLoadProgressBar;
     private GridView mGridView;
     private SearchView mSearchView;
 
-    // flags
-    private boolean isScrolling, atBottom;
-
-    // progress bar animation duration
-    private static final int ANIM_TIME = 200;
+    private int mLastFirstVisibleItem;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -80,8 +76,8 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
 
         setSwipe(view);
 
-        mReadProgress = (ProgressBar) view.getRootView().findViewById(R.id.read_progress);
-        mLoadMoreProgress = (ProgressBar) view.getRootView().findViewById(R.id.load_more_progress);
+        mReadProgressBar = (ProgressBar) view.getRootView().findViewById(R.id.read_progress);
+        mLoadProgressBar = (ProgressBar) view.getRootView().findViewById(R.id.load_more_progress);
 
         readParentEvents();
 
@@ -135,40 +131,12 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
         Intent i = new Intent(getActivity(), ParentEventActivity.class);
         i.putExtra(ParentEventActivity.PARENT_EVENT_ID, mParentEvents.get(position).getID());
         startActivity(i);
+        getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
     }
 
-    private void showProgress(ProgressBar progressBar, final boolean show) {
+    private void showProgress(final ProgressBar progressBar, final boolean show) {
         progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
-        progressBar.animate().setDuration(ANIM_TIME).alpha(show ? 1 : 0).setListener(this);
-    }
-
-    @Override
-    public void onAnimationStart(Animator animation) {
-        if (atBottom) {
-            mLoadMoreProgress.setVisibility(View.GONE);
-        } else {
-            mReadProgress.setVisibility(View.GONE);
-        }
-    }
-
-    @Override
-    public void onAnimationEnd(Animator animation) {
-        if (atBottom) {
-            mLoadMoreProgress.setVisibility(View.VISIBLE);
-        } else {
-            mReadProgress.setVisibility(View.VISIBLE);
-        }
-    }
-
-    @Override
-    public void onAnimationCancel(Animator animation) {
-
-    }
-
-    @Override
-    public void onAnimationRepeat(Animator animation) {
-
     }
 
     @Override
@@ -207,25 +175,17 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
 
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
-        if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
-            isScrolling = true;
-        } else {
-            isScrolling = false;
-        }
+
     }
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-        // if user is scrolling and list view is at bottom of screen, load more artists
-        if (isScrolling) {
-            if (firstVisibleItem + visibleItemCount >= totalItemCount) {
-                atBottom = true;
-                loadMoreParentEvents();
-            } else {
-                atBottom = false;
-            }
+        if (mLastFirstVisibleItem < firstVisibleItem) {
+            if (firstVisibleItem + visibleItemCount >= totalItemCount) loadMoreParentEvents();
         }
+
+        mLastFirstVisibleItem = firstVisibleItem;
     }
 
     @Override
@@ -303,13 +263,14 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
         @Override
         protected void onPreExecute() {
             Log.d(MainActivity.DEBUG_TAG, "onPreExecute: ParentEvent Thread started");
-            showProgress(mReadProgress, true);
+            showProgress(mReadProgressBar, true);
         }
 
         @Override
         protected Void doInBackground(Void... params) {
 
             try {
+                UserWrapper.getInstance().setAmountToLoad(18);
                 mParentEvents = UserWrapper.getInstance().getParentEvents();
             } catch (IOException e) {
                 //TODO handle exception
@@ -321,9 +282,12 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
         @Override
         protected void onPostExecute(Void aVoid) {
 
+            showProgress(mReadProgressBar, false);
+
             if (isAdded()) {
-                showProgress(mReadProgress, false);
-                refreshAdapter();
+                if (!mParentEvents.isEmpty()) {
+                    refreshAdapter();
+                }
             }
 
             Log.d(MainActivity.DEBUG_TAG, "onPostExecute: ParentEvent thread finished");
@@ -332,7 +296,7 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
         @Override
         protected void onCancelled() {
             Log.d(MainActivity.DEBUG_TAG, "onCancelled: ParentEvent Thread cancelled");
-            showProgress(mReadProgress, false);
+            showProgress(mReadProgressBar, false);
         }
     }
 
@@ -341,7 +305,7 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
         @Override
         protected void onPreExecute() {
             Log.d(MainActivity.DEBUG_TAG, "onPreExecute: ParentEvent Load More thread started");
-            showProgress(mLoadMoreProgress, true);
+            showProgress(mLoadProgressBar, true);
         }
 
         @Override
@@ -360,7 +324,7 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
         @Override
         protected void onPostExecute(Void aVoid) {
 
-            showProgress(mLoadMoreProgress, false);
+            showProgress(mLoadProgressBar, false);
             refreshAdapter();
 
             Log.d(MainActivity.DEBUG_TAG, "onPostExecute: ParentEvent Load More thread " + "finished");
@@ -369,7 +333,7 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
         @Override
         protected void onCancelled() {
             Log.d(MainActivity.DEBUG_TAG, "onCancelled: ParentEvent Load More thread cancelled");
-            showProgress(mLoadMoreProgress, false);
+            showProgress(mLoadProgressBar, false);
         }
     }
 }

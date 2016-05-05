@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -70,12 +69,13 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra(MainActivity.FRAGMENT_ID, FragmentType.PARENT_EVENT.toString());
         startActivity(intent);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.menu2, menu);
         return true;
     }
 
@@ -85,10 +85,6 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
-
-            case R.id.tb_search:
-                Log.d(MainActivity.DEBUG_TAG, "Action Bar: Search");
-                break;
 
             case R.id.tb_home:
                 Intent intent = new Intent(this, MainActivity.class);
@@ -111,6 +107,9 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
         i.putExtra(ChildEventActivity.EVENT_ID, IDs);
 
         startActivity(i);
+
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+
     }
 
     @Override
@@ -165,6 +164,7 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
             ImageView image = (ImageView) mContext.findViewById(R.id.ticket_event_image);
             TextView name = (TextView) mContext.findViewById(R.id.ticket_event_title);
             TextView desc = (TextView) mContext.findViewById(R.id.parent_event_description);
+            RelativeLayout socialMedia = (RelativeLayout) mContext.findViewById(R.id.social_media_container);
 
             int xy = Utilities.getScreenWidth(mContext) / 4;
             Bitmap scaledImage = Utilities.scaleDown(mParentEvent.getImage(0), xy, xy);
@@ -186,6 +186,7 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
             image.setImageBitmap(scaledImage);
             name.setText(mParentEvent.getName());
             desc.setText(mParentEvent.getDescription());
+            socialMedia.setVisibility(View.VISIBLE);
         }
     }
 

@@ -78,12 +78,13 @@ public class ChildEventActivity extends AppCompatActivity implements AdapterView
         Intent intent = new Intent(this, ParentEventActivity.class);
         intent.putExtra(ParentEventActivity.PARENT_EVENT_ID, getIntent().getExtras().getIntArray(EVENT_ID)[1]);
         startActivity(intent);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.menu2, menu);
         return true;
     }
 
@@ -91,9 +92,6 @@ public class ChildEventActivity extends AppCompatActivity implements AdapterView
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-
-            case R.id.tb_search:
-                break;
 
             case R.id.tb_home:
                 Intent intent = new Intent(this, MainActivity.class);
@@ -110,6 +108,7 @@ public class ChildEventActivity extends AppCompatActivity implements AdapterView
         Intent intent = new Intent(this, ArtistActivity.class);
         intent.putExtra(ArtistActivity.ARTIST_ID, mArtists.get(position).getID());
         startActivity(intent);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
     @Override
@@ -125,6 +124,7 @@ public class ChildEventActivity extends AppCompatActivity implements AdapterView
                 IDs[1] = getIntent().getExtras().getIntArray(EVENT_ID)[1];
                 i.putExtra(ChildEventActivity.EVENT_ID, IDs);
                 startActivity(i);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 break;
         }
     }
@@ -164,6 +164,7 @@ public class ChildEventActivity extends AppCompatActivity implements AdapterView
             TextView desc = (TextView) mContext.findViewById(R.id.child_event_description);
             ImageView image = (ImageView) mContext.findViewById(R.id.child_event_venue_image);
             RelativeLayout container = (RelativeLayout) mContext.findViewById(R.id.artist_lineup_container);
+            RelativeLayout socialMedia = (RelativeLayout) mContext.findViewById(R.id.social_media_container);
 
             String startDate = mChildEvent.getStartDateTime().toString().substring(0, 10);
             String endDate = mChildEvent.getEndDateTime().toString().substring(0, 10);
@@ -189,6 +190,7 @@ public class ChildEventActivity extends AppCompatActivity implements AdapterView
             city.setText(mChildEvent.getVenue().getCity());
             desc.setText(mChildEvent.getDescription());
             image.setImageBitmap(scaledImage);
+            socialMedia.setVisibility(View.VISIBLE);
         }
     }
 }

@@ -108,8 +108,8 @@ public class TicketActivity extends AppCompatActivity implements OnClickListener
 
     @Override
     public void onBackPressed() {
-
         super.onBackPressed();
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
     @Override

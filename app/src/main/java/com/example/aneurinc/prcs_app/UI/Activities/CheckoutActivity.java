@@ -37,6 +37,12 @@ public class CheckoutActivity extends AppCompatActivity implements OnClickListen
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+    }
+
     private void setOnClickListener() {
         ImageView pay = (ImageView) findViewById(R.id.pay);
         pay.setOnClickListener(this);

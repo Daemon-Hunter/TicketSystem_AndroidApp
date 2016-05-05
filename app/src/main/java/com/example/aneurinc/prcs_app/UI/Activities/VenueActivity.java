@@ -75,6 +75,7 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener,
             @Override
             public void onClick(View v) {
                 onBackPressed();
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
 
@@ -85,12 +86,13 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener,
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra(MainActivity.FRAGMENT_ID, FragmentType.VENUE.toString());
         startActivity(intent);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.menu2, menu);
         return true;
     }
 
@@ -101,13 +103,11 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener,
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
 
-            case R.id.tb_search:
-                break;
-
             case R.id.tb_home:
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra(MainActivity.FRAGMENT_ID, FragmentType.PARENT_EVENT.toString());
                 startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 break;
 
         }
@@ -131,6 +131,7 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener,
                 Intent intent = new Intent(this, MapActivity.class);
                 intent.putExtra(MapActivity.VENUE_ID, mVenue.getID());
                 startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 break;
         }
     }

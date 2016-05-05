@@ -56,6 +56,7 @@ public class ReceiptActivity extends AppCompatActivity implements OnClickListene
 
             case R.id.btn_confirm:
                 startActivity(new Intent(this, MainActivity.class));
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 break;
 
             default:
@@ -81,6 +82,7 @@ public class ReceiptActivity extends AppCompatActivity implements OnClickListene
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra(MainActivity.FRAGMENT_ID, FragmentType.PARENT_EVENT.toString());
                 startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 break;
 
             default:
