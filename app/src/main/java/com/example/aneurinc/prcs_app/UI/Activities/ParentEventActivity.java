@@ -153,7 +153,7 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
                 mParentEvent = UserWrapper.getInstance().getParentEvent(getIntent().getExtras().getInt(PARENT_EVENT_ID));
             } catch (IOException e) {
                 e.printStackTrace();
-                // TODO: 03/05/2016 handle 
+                // TODO: 03/05/2016 handle
             }
 
             try {

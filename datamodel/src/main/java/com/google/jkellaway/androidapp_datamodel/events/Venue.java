@@ -28,7 +28,6 @@ import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.idVa
 import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.nameValidator;
 import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.parkingSpaceValidator;
 import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.phoneNumberValidator;
-import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.postcodeValidator;
 
 /**
  * @author 10512691
@@ -392,15 +391,25 @@ public class Venue implements IVenue {
     }
 
     @Override
+    public Boolean setCity(String city) {
+        if (city == null) {
+            throw new NullPointerException("Cannot set address to null");
+        } else {
+            Boolean valid = addressValidator(city);
+            if (valid) {
+                this.city = city;
+            }
+            return valid;
+        }
+    }
+
+    @Override
     public Boolean setPostcode(String postcode) throws IOException {
         if (postcode == null) {
             throw new NullPointerException("Cannot set postcode to null");
         } else {
-            Boolean valid = postcodeValidator(postcode);
-            if (valid) {
-                this.postcode = postcode;
-            }
-            return valid;
+            this.postcode = postcode;
+            return true;
         }
     }
 
@@ -417,7 +426,7 @@ public class Venue implements IVenue {
      */
 
     @Override
-    public Boolean setSocialId(Integer id) throws IOException {
+    public Boolean setSocialId(Integer id) {
         socialMediaID = id;
         return socialMedia.setSocialId(id);
     }

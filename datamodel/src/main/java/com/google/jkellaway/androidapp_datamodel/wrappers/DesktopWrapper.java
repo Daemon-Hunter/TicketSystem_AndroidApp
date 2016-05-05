@@ -28,8 +28,11 @@ public class DesktopWrapper implements IDesktopWrapper {
     private Integer amountToLoad = 9;
 
     private List<IParentEvent>  parentEventList;
+    private List<IParentEvent>  parentEventSearchList;
     private List<IVenue>        venueList;
+    private List<IVenue>        venueSearchList;
     private List<IArtist>       artistList;
+    private List<IArtist>       artistSearchList;
     private List<ICustomer>     customerList;
     private List<IGuest>        guestList;
     private List<IAdmin>        adminList;
@@ -68,9 +71,17 @@ public class DesktopWrapper implements IDesktopWrapper {
 
     @Override
     public IParentEvent getParentEvent(Integer id) throws IOException {
-        for (IParentEvent parentEvent : parentEventList){
-            if(parentEvent.getID().equals(id))
-                return parentEvent;
+        if (parentEventList != null) {
+            for (IParentEvent parentEvent : parentEventList) {
+                if (parentEvent.getID().equals(id))
+                    return parentEvent;
+            }
+        }
+        if (parentEventSearchList != null) {
+            for (IParentEvent parentEvent : parentEventSearchList) {
+                if (parentEvent.getID().equals(id))
+                    return parentEvent;
+            }
         }
         return (IParentEvent) APIHandle.getSingle(id, DatabaseTable.PARENT_EVENT);
     }
@@ -99,7 +110,8 @@ public class DesktopWrapper implements IDesktopWrapper {
 
     @Override
     public List<IParentEvent> searchParentEvents(String searchString) throws IOException {
-        return new LinkedList<>((List<IParentEvent>)(Object)APIHandle.searchObjects(searchString, amountToLoad, DatabaseTable.PARENT_EVENT));
+        parentEventSearchList = (List<IParentEvent>)(Object)APIHandle.searchObjects(searchString, amountToLoad, DatabaseTable.PARENT_EVENT);
+        return parentEventSearchList;
     }
 
     @Override
@@ -115,9 +127,17 @@ public class DesktopWrapper implements IDesktopWrapper {
 
     @Override
     public IVenue getVenue(Integer id) throws IOException {
-        for (IVenue venue : venueList){
-            if(venue.getID().equals(id))
-                return venue;
+        if (venueList != null) {
+            for (IVenue venue : venueList) {
+                if (venue.getID().equals(id))
+                    return venue;
+            }
+        }
+        if (venueSearchList != null) {
+            for (IVenue venue : venueSearchList) {
+                if (venue.getID().equals(id))
+                    return venue;
+            }
         }
         return (IVenue) APIHandle.getSingle(id, DatabaseTable.VENUE);
     }
@@ -158,7 +178,8 @@ public class DesktopWrapper implements IDesktopWrapper {
 
     @Override
     public List<IVenue> searchVenues(String searchString) throws IOException {
-        return (List<IVenue>)(Object)APIHandle.searchObjects(searchString, amountToLoad, DatabaseTable.VENUE);
+        venueSearchList = (List<IVenue>)(Object)APIHandle.searchObjects(searchString, amountToLoad, DatabaseTable.VENUE);
+        return venueSearchList;
     }
 
     @Override
@@ -186,9 +207,17 @@ public class DesktopWrapper implements IDesktopWrapper {
 
     @Override
     public IArtist getArtist(Integer id) throws IOException {
-        for (IArtist artist : artistList){
-            if(artist.getID().equals(id))
-                return artist;
+        if (artistList != null) {
+            for (IArtist artist : artistList) {
+                if (artist.getID().equals(id))
+                    return artist;
+            }
+        }
+        if (artistSearchList != null) {
+            for (IArtist artist : artistSearchList) {
+                if (artist.getID().equals(id))
+                    return artist;
+            }
         }
         return (IArtist) APIHandle.getSingle(id, DatabaseTable.ARTIST);
     }
@@ -217,7 +246,8 @@ public class DesktopWrapper implements IDesktopWrapper {
 
     @Override
     public List<IArtist> searchArtists(String searchString) throws IOException {
-        return (List<IArtist>)(Object)APIHandle.searchObjects(searchString, amountToLoad, DatabaseTable.ARTIST);
+        artistSearchList = (List<IArtist>)(Object)APIHandle.searchObjects(searchString, amountToLoad, DatabaseTable.ARTIST);
+        return artistSearchList;
     }
 
     @Override

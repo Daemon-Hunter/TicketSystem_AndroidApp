@@ -7,7 +7,6 @@ package com.google.jkellaway.androidapp_datamodel.events;
 
 import android.graphics.Bitmap;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -17,7 +16,7 @@ import java.util.List;
 public interface ISocial {
     
     Integer getSocialId();
-    Boolean setSocialId(Integer id) throws IOException;
+    Boolean setSocialId(Integer id);
     
     List<Bitmap> getImages();
     Bitmap getImage(int index);

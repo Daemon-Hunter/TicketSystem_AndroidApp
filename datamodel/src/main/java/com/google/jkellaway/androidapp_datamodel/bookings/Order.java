@@ -8,11 +8,9 @@ package com.google.jkellaway.androidapp_datamodel.bookings;
 import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.people.IUser;
-import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -30,37 +28,19 @@ public class Order implements IOrder {
     /**
      * Use this constructor when creating an order object from the database.
      * @param ID
-     * @param user
-     * @param bList 
      */
-    public Order(Integer ID, IUser user, List<IBooking> bList) {
+    public Order(Integer ID, Integer userID) {
         this.orderID = ID;
-        this.user = user;
-        if (bList != null){
-            this.bookingList = bList;
-        } else {
-            this.bookingList = new LinkedList<>();
-        }
+        this.userID = userID;
 
     }
 
     /**
      * Use this constructor when create a new order object
-     * @param ID
      * @param userID
      */
-    public Order(Integer ID, Integer userID) {
-        if (Validator.idValidator(ID)) {
-            this.orderID = ID;
-
-            if (Validator.idValidator(userID)) {
-                this.userID = userID;
-            } else {
-                throw new IllegalArgumentException("Invalid user ID");
-            }
-        } else {
-            throw new IllegalArgumentException("Invalid order ID");
-        }
+    public Order(Integer userID) {
+        this.userID = userID;
     }
     
     /**

@@ -58,7 +58,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             mVenue = UserWrapper.getInstance().getVenue(getIntent().getExtras().getInt(VENUE_ID));
         } catch (IOException e) {
             e.printStackTrace();
-            // TODO: 03/05/2016 handle 
+            // TODO: 03/05/2016 handle
         }
         mAddress = mVenue.getAddress() + ", " + mVenue.getCity() + ", " + mVenue.getPostcode();
 

@@ -231,8 +231,7 @@ public class ChildEvent implements IChildEvent {
 
     @Override
     public List<ITicket> getTickets() throws IOException {
-        return new LinkedList<>((List<ITicket>) (Object) APIHandle.getObjectsFromObject
-                (this.childEventID, DatabaseTable.TICKET, DatabaseTable.CHILD_EVENT));
+        return (List<ITicket>)(Object) APIHandle.getObjectsFromObject(this.childEventID, DatabaseTable.TICKET, DatabaseTable.CHILD_EVENT);
     }
 
     @Override
@@ -293,7 +292,7 @@ public class ChildEvent implements IChildEvent {
     }
 
     @Override
-    public Boolean setSocialId(Integer id) throws IOException {
+    public Boolean setSocialId(Integer id) {
         return parentEvent.setSocialId(id);
     }
 

@@ -5,6 +5,9 @@
  */
 package com.google.jkellaway.androidapp_datamodel.wrappers;
 
+import com.google.jkellaway.androidapp_datamodel.bookings.IBooking;
+import com.google.jkellaway.androidapp_datamodel.bookings.IOrder;
+import com.google.jkellaway.androidapp_datamodel.bookings.Order;
 import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.events.IArtist;
@@ -17,6 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static com.google.jkellaway.androidapp_datamodel.database.APIHandle.getObjectAmount;
+import static com.google.jkellaway.androidapp_datamodel.database.APIHandle.pushObjectToDatabase;
 
 /**
  *
@@ -64,6 +68,22 @@ public class UserWrapper implements IUserWrapper {
     @Override
     public IUser registerUser(IUser customer) throws IOException {
         return (IUser) APIHandle.pushObjectToDatabase(customer, DatabaseTable.CUSTOMER);
+    }
+
+    @Override
+    public IOrder makeBooking(List<IBooking> bookings) throws IOException {
+        IOrder order = (IOrder) pushObjectToDatabase(new Order(currentUser.getID()),DatabaseTable.ORDER);
+        DatabaseTable table;
+        for (IBooking booking: bookings){
+            if (booking.getClass().getName() == "CustomerBooking")
+                table = DatabaseTable.BOOKING;
+            else
+                table = DatabaseTable.GUEST_BOOKING;
+            booking = (IBooking) APIHandle.pushObjectToDatabase(booking, table);
+            order.addBooking(booking);
+        }
+        return order;
+
     }
 
     @Override
@@ -283,4 +303,6 @@ public class UserWrapper implements IUserWrapper {
     public Object updateObject(Object object, DatabaseTable table) throws IOException {
         return APIHandle.updateObjectToDatabase(object, table);
     }
+
+
 }

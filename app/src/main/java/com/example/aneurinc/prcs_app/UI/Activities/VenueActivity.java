@@ -167,7 +167,7 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener,
                 mVenue = UserWrapper.getInstance().getVenue(getIntent().getExtras().getInt(VENUE_ID));
             } catch (IOException e) {
                 e.printStackTrace();
-                // TODO: 03/05/2016 handle 
+                // TODO: 03/05/2016 handle
             }
             try {
                 mChildEvents = mVenue.getChildEvents();

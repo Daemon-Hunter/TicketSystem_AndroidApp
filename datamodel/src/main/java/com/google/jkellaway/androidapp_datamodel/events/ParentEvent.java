@@ -164,7 +164,7 @@ public class ParentEvent implements IParentEvent {
      */
 
     @Override
-    public Boolean setSocialId(Integer id) throws IOException {
+    public Boolean setSocialId(Integer id) {
         this.socialMediaID = id;
         return socialMedia.setSocialId(id);
     }
