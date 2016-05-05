@@ -128,8 +128,9 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
         }
     }
 
-    private void showProgress(final ProgressBar progressBar, final boolean show) {
-        progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+    private void showProgress(final boolean show) {
+        ProgressBar mProgressBar = (ProgressBar) findViewById(R.id.read_progress);
+        mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     private class ReadParentEvent extends AsyncTask<Void, Void, IParentEvent> {
@@ -143,6 +144,7 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            showProgress(true);
         }
 
         @Override
@@ -165,6 +167,7 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
         @Override
         protected void onPostExecute(IParentEvent parentEvent) {
 
+            showProgress(false);
             RelativeLayout container = (RelativeLayout) mContext.findViewById(R.id.featured_events_container);
             ImageView image = (ImageView) mContext.findViewById(R.id.ticket_event_image);
             TextView name = (TextView) mContext.findViewById(R.id.ticket_event_title);
@@ -192,6 +195,11 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
             name.setText(mParentEvent.getName());
             desc.setText(mParentEvent.getDescription());
             socialMedia.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected void onCancelled() {
+            showProgress(false);
         }
     }
 
