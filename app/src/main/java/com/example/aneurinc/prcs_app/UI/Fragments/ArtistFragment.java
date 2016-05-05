@@ -50,7 +50,7 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
     private LoadMoreArtists mLoadMoreTask;
 
     // progress bar animation duration
-    private static final int ANIM_TIME = 100;
+    private static final int ANIM_TIME = 200;
 
     private MainActivity mMainActivity;
     private boolean isScrolling, atBottom;
@@ -290,9 +290,12 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
         @Override
         protected void onPostExecute(Void aVoid) {
 
+            showProgress(mReadProgress, false);
+
             if (isAdded()) {
-                showProgress(mReadProgress, false);
-                refreshAdapter();
+                if (!mArtists.isEmpty()) {
+                    refreshAdapter();
+                }
             }
 
             Log.d(MainActivity.DEBUG_TAG, "onPostExecute: Read Artists thread finished");

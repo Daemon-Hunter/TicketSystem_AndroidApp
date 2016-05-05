@@ -25,7 +25,7 @@ import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
 import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
 import java.io.IOException;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,7 +34,13 @@ import java.util.List;
 public class TicketFragment extends Fragment implements Animator.AnimatorListener {
 
     private ProgressBar mProgressBar;
-    private ReadTickets mTask;
+
+    private ReadTickets mReadTask;
+    private LoadMoreTickets mLoadTask;
+    private SearchTickets mSearchTask;
+
+    private ListView mListView;
+
     private static final int ANIM_TIME = 200;
     private MainActivity mMainActivity;
 
@@ -48,6 +54,13 @@ public class TicketFragment extends Fragment implements Animator.AnimatorListene
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.my_tickets);
 
+        mListView = (ListView) view.findViewById(R.id.my_tickets_list);
+        setSwipe(mListView);
+
+        mTickets = new ArrayList<>();
+        mChildEvents = new ArrayList<>();
+        mVenues = new ArrayList<>();
+
         if (getActivity() instanceof MainActivity) {
             mMainActivity = (MainActivity) getActivity();
         }
@@ -56,11 +69,8 @@ public class TicketFragment extends Fragment implements Animator.AnimatorListene
 
         mProgressBar = (ProgressBar) view.getRootView().findViewById(R.id.ticket_progress);
 
-        mTickets = new LinkedList<>();
-        mChildEvents = new LinkedList<>();
-        mVenues = new LinkedList<>();
-
         readTickets();
+
         return view;
     }
 
@@ -74,8 +84,24 @@ public class TicketFragment extends Fragment implements Animator.AnimatorListene
     }
 
     private void readTickets() {
-        mTask = new ReadTickets(getActivity());
-        mTask.execute();
+        if (!isTaskRunning(mReadTask)) {
+            mReadTask = new ReadTickets(getActivity());
+            mReadTask.execute();
+        }
+    }
+
+    private void loadMoreTickets() {
+        if (!isTaskRunning(mLoadTask)) {
+            mLoadTask = new LoadMoreTickets(getActivity());
+            mLoadTask.execute();
+        }
+    }
+
+    private void searchTickets(String query) {
+        if (!isTaskRunning(mSearchTask)) {
+            mSearchTask = new SearchTickets(getActivity(), query);
+            mSearchTask.execute();
+        }
     }
 
     private void showProgress(final boolean show) {
@@ -122,19 +148,88 @@ public class TicketFragment extends Fragment implements Animator.AnimatorListene
     }
 
     private void handleQuit() {
-        if (isTaskRunning()) {
-            mTask.cancel(true);
+        if (isTaskRunning(mReadTask)) {
+            mReadTask.cancel(true);
+        }
+        if (isTaskRunning(mSearchTask)) {
+            mSearchTask.cancel(true);
+        }
+        if (isTaskRunning(mLoadTask)) {
+            mLoadTask.cancel(true);
         }
     }
 
-    private boolean isTaskRunning() {
-        return mTask != null && mTask.getStatus() == AsyncTask.Status.RUNNING;
+    private boolean isTaskRunning(AsyncTask task) {
+        return task != null && task.getStatus() == AsyncTask.Status.RUNNING;
     }
 
+    private void refreshAdapter() {
+        mListView.setAdapter(new TicketFragAdapter(getActivity(), mTickets, mChildEvents, mVenues));
+    }
+
+    private class SearchTickets extends AsyncTask<Void, Void, Void> {
+
+        private Activity mContext;
+        private String mQuery;
+
+        public SearchTickets(Activity context, String query) {
+            mContext = context;
+            mQuery = query;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
+    }
+
+    private class LoadMoreTickets extends AsyncTask<Void, Void, Void> {
+
+        private Activity mContext;
+
+        public LoadMoreTickets(Activity context) {
+            mContext = context;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+        }
+    }
 
     private class ReadTickets extends AsyncTask<Void, Void, Void> {
 
-        private final Activity mContext;
+        private Activity mContext;
 
         public ReadTickets(Activity context) {
             mContext = context;
@@ -166,12 +261,11 @@ public class TicketFragment extends Fragment implements Animator.AnimatorListene
         @Override
         protected void onPostExecute(Void aVoid) {
 
+            showProgress(false);
+
             if (mContext != null && isAdded()) {
-                showProgress(false);
                 if (!mTickets.isEmpty()) {
-                    ListView list = (ListView) mContext.findViewById(R.id.my_tickets_list);
-                    list.setAdapter(new TicketFragAdapter(mContext, mTickets, mChildEvents, mVenues));
-                    setSwipe(list);
+                    refreshAdapter();
                 }
             }
 

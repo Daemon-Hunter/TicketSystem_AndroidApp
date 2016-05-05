@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             case "PARENT_EVENT":
                 switchFragment(new ParentEventFragment(), FragmentType.PARENT_EVENT);
                 break;
-            case "VENUES":
+            case "VENUE":
                 switchFragment(new VenueFragment(), FragmentType.VENUE);
                 break;
         }

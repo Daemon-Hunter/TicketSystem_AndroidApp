@@ -76,11 +76,16 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ArtistActivity.this, MainActivity.class);
-                intent.putExtra(MainActivity.FRAGMENT_ID, FragmentType.ARTIST.toString());
-                startActivity(intent);
+                onBackPressed();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(MainActivity.FRAGMENT_ID, FragmentType.ARTIST.toString());
+        startActivity(intent);
     }
 
     @Override

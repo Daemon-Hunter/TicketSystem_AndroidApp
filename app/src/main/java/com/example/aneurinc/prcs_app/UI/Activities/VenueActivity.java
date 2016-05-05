@@ -74,12 +74,17 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener,
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(VenueActivity.this, MainActivity.class);
-                intent.putExtra(MainActivity.FRAGMENT_ID, FragmentType.VENUE.toString());
-                startActivity(intent);
+                onBackPressed();
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(MainActivity.FRAGMENT_ID, FragmentType.VENUE.toString());
+        startActivity(intent);
     }
 
     @Override

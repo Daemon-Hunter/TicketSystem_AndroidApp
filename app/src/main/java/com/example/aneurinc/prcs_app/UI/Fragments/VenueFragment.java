@@ -296,9 +296,12 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
         @Override
         protected void onPostExecute(Void aVoid) {
 
-            if (isAdded()) {
-                showProgress(mReadProgress, false);
-                refreshAdapter();
+            showProgress(mReadProgress, false);
+
+            if (mContext != null && isAdded()) {
+                if (!mVenues.isEmpty()) {
+                    refreshAdapter();
+                }
             }
 
             Log.d(MainActivity.DEBUG_TAG, "onPostExecute: Venue thread finished");

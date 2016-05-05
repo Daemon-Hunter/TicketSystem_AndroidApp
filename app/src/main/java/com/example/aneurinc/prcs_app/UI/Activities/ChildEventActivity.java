@@ -68,11 +68,16 @@ public class ChildEventActivity extends AppCompatActivity implements AdapterView
         toolbar.setNavigationOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ChildEventActivity.this, ParentEventActivity.class);
-                intent.putExtra(ParentEventActivity.PARENT_EVENT_ID, getIntent().getExtras().getIntArray(EVENT_ID)[1]);
-                startActivity(intent);
+                onBackPressed();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, ParentEventActivity.class);
+        intent.putExtra(ParentEventActivity.PARENT_EVENT_ID, getIntent().getExtras().getIntArray(EVENT_ID)[1]);
+        startActivity(intent);
     }
 
     @Override
