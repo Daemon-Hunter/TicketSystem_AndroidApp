@@ -252,9 +252,9 @@ final class APIConnection {
         connection.setRequestProperty("Accept", "application/JSON");
         try (BufferedReader in = new BufferedReader(
                 new InputStreamReader(connection.getInputStream()))) {
-            connection.disconnect();
-            List<Map<String, String>> listOfEntities = JSONBreakDown(in.readLine());
 
+            List<Map<String, String>> listOfEntities = JSONBreakDown(in.readLine());
+            connection.disconnect();
             return listOfEntities;
         }
     }
