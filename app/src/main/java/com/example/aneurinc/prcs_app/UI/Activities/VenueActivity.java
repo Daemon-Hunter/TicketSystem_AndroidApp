@@ -191,6 +191,7 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener,
             TextView venueCapacity = (TextView) mContext.findViewById(R.id.venue_capacity);
             TextView venueEmail = (TextView) mContext.findViewById(R.id.venue_email);
             TextView venuePhoneNo = (TextView) mContext.findViewById(R.id.venue_phone_no);
+            RelativeLayout socialMedia = (RelativeLayout) mContext.findViewById(R.id.social_media_container);
 
             int xy = Utilities.getScreenWidth(mContext) / 4;
             Bitmap scaledImage = Utilities.scaleDown(mVenue.getImage(0), xy, xy);
@@ -215,6 +216,8 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener,
             venueCapacity.setText(getString(R.string.capacity) + " " + Integer.toString(mVenue.getSeatingCapacity() + mVenue.getStandingCapacity()));
             venueEmail.setText(mVenue.getEmail());
             venuePhoneNo.setText(mVenue.getPhoneNumber());
+            socialMedia.setVisibility(View.VISIBLE);
         }
+
     }
 }

@@ -14,6 +14,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -125,6 +126,10 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
             case R.id.instagram:
                 break;
         }
+    }
+
+    private void showProgress(final ProgressBar progressBar, final boolean show) {
+        progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     private class ReadParentEvent extends AsyncTask<Void, Void, IParentEvent> {
