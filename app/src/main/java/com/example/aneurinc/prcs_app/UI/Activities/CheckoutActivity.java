@@ -16,12 +16,16 @@ import com.example.aneurinc.prcs_app.UI.fragments.FragmentType;
 
 public class CheckoutActivity extends AppCompatActivity implements OnClickListener {
 
+    public static String ORDER_ID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
         setupToolbar();
-        setOnClickListener();
+
+        ImageView pay = (ImageView) findViewById(R.id.pay);
+        pay.setOnClickListener(this);
     }
 
     private void setupToolbar() {
@@ -41,11 +45,6 @@ public class CheckoutActivity extends AppCompatActivity implements OnClickListen
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-    }
-
-    private void setOnClickListener() {
-        ImageView pay = (ImageView) findViewById(R.id.pay);
-        pay.setOnClickListener(this);
     }
 
     @Override
@@ -80,7 +79,9 @@ public class CheckoutActivity extends AppCompatActivity implements OnClickListen
         switch (v.getId()) {
 
             case R.id.pay:
-                startActivity(new Intent(this, ReceiptActivity.class));
+                Intent intent = new Intent(this, ReceiptActivity.class);
+                intent.putExtra(ReceiptActivity.ORDER_ID, getIntent().getExtras().getInt(ORDER_ID));
+                startActivity(intent);
                 break;
 
             default:

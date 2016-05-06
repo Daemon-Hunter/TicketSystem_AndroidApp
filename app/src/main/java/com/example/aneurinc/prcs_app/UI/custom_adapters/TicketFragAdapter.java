@@ -61,7 +61,7 @@ public class TicketFragAdapter extends ArrayAdapter<ITicket> {
             viewHolder = new ViewHolder();
             viewHolder.eventName = (TextView) convertView.findViewById(R.id.event_name);
             viewHolder.ticketCost = (TextView) convertView.findViewById(R.id.event_cost);
-            viewHolder.ticketType = (TextView) convertView.findViewById(R.id.parent_event_date);
+            viewHolder.ticketType = (TextView) convertView.findViewById(R.id.ticket_qty);
             viewHolder.venueName = (TextView) convertView.findViewById(R.id.event_venue);
 
             // store the holder with the view

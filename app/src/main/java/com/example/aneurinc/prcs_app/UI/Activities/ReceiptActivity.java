@@ -18,6 +18,7 @@ import com.example.aneurinc.prcs_app.UI.fragments.FragmentType;
 
 public class ReceiptActivity extends AppCompatActivity implements OnClickListener {
 
+    public static String ORDER_ID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +26,8 @@ public class ReceiptActivity extends AppCompatActivity implements OnClickListene
 
         setupToolbar();
 
-        addOnClickListeners();
+        ImageView btnOk = (ImageView) findViewById(R.id.btn_confirm);
+        btnOk.setOnClickListener(this);
 
         setAdapter();
     }
@@ -40,11 +42,6 @@ public class ReceiptActivity extends AppCompatActivity implements OnClickListene
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.title_activity_receipt);
         setSupportActionBar(toolbar);
-    }
-
-    private void addOnClickListeners() {
-        ImageView btnOk = (ImageView) findViewById(R.id.btn_confirm);
-        btnOk.setOnClickListener(this);
     }
 
     @Override

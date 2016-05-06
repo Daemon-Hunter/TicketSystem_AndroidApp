@@ -44,7 +44,7 @@ public class ReceiptActAdapter extends ArrayAdapter<String> {
             viewHolder = new ViewHolder();
             viewHolder.ticketType = (TextView) convertView.findViewById(R.id.ticket_type);
             viewHolder.ticketCost = (TextView) convertView.findViewById(R.id.ticket_cost);
-            viewHolder.ticketQty = (TextView) convertView.findViewById(R.id.parent_event_date);
+            viewHolder.ticketQty = (TextView) convertView.findViewById(R.id.ticket_qty);
 
             // store the holder with the view
             convertView.setTag(viewHolder);
@@ -88,7 +88,7 @@ public class ReceiptActAdapter extends ArrayAdapter<String> {
         int parentQtyVal = Integer.parseInt(parentQtyStr);
 
         // get reference to ticket row qty text view and convert to int
-        TextView rowQty = (TextView) rowView.findViewById(R.id.parent_event_date);
+        TextView rowQty = (TextView) rowView.findViewById(R.id.ticket_qty);
         String rowQtyStr = rowQty.getText().toString();
         int rowQtyVal = Integer.parseInt(rowQtyStr);
 

@@ -3,6 +3,7 @@ package com.example.aneurinc.prcs_app.UI.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -122,10 +124,13 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener,
 
         switch (v.getId()) {
             case R.id.facebook:
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mVenue.getFacebook())));
                 break;
             case R.id.twitter:
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mVenue.getTwitter())));
                 break;
             case R.id.instagram:
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mVenue.getInstagram())));
                 break;
             case R.id.venue_maps:
                 Intent intent = new Intent(this, MapActivity.class);
@@ -148,6 +153,11 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener,
         startActivity(intent);
     }
 
+    private void showProgress(final boolean show) {
+        ProgressBar mProgressBar = (ProgressBar) findViewById(R.id.read_progress);
+        mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
     private class ReadChildEvents extends AsyncTask<Void, Void, Void> {
 
         private Activity mContext;
@@ -159,6 +169,7 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener,
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            showProgress(true);
         }
 
         @Override
@@ -184,6 +195,7 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener,
         @Override
         protected void onPostExecute(Void aVoid) {
 
+            showProgress(false);
             RelativeLayout container = (RelativeLayout) mContext.findViewById(R.id.upcoming_events_container);
             ImageView venueImage = (ImageView) mContext.findViewById(R.id.venue_image);
             TextView venueTitle = (TextView) mContext.findViewById(R.id.venue_title);
@@ -216,8 +228,33 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener,
             venueCapacity.setText(getString(R.string.capacity) + " " + Integer.toString(mVenue.getSeatingCapacity() + mVenue.getStandingCapacity()));
             venueEmail.setText(mVenue.getEmail());
             venuePhoneNo.setText(mVenue.getPhoneNumber());
+
+            ImageView facebook = (ImageView) mContext.findViewById(R.id.facebook);
+            ImageView twitter = (ImageView) mContext.findViewById(R.id.twitter);
+            ImageView instagram = (ImageView) mContext.findViewById(R.id.instagram);
+
+            if (mVenue.getFacebook() == null) {
+                facebook.setEnabled(false);
+                facebook.setAlpha(128);
+            }
+
+            if (mVenue.getTwitter() == null) {
+                twitter.setEnabled(false);
+                twitter.setAlpha(128);
+            }
+
+            if (mVenue.getInstagram() == null) {
+                instagram.setEnabled(false);
+                instagram.setAlpha(128);
+            }
+
             socialMedia.setVisibility(View.VISIBLE);
+
         }
 
+        @Override
+        protected void onCancelled() {
+            showProgress(false);
+        }
     }
 }

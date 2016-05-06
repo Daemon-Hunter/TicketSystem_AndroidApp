@@ -15,7 +15,7 @@ public class CustomerBookingFactory implements IBookingFactory  {
 
     @Override
     public IBooking createBooking(ITicket ticket, IOrder order, Integer quantity) {
-        return new CustomerBooking(ticket, quantity);
+        return new CustomerBooking(order, ticket, quantity);
     }
 
     

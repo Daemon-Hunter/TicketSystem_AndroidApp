@@ -33,8 +33,7 @@ import java.util.List;
 /**
  * Created by aneurinc on 02/03/2016.
  */
-public class ParentEventFragment extends Fragment implements AdapterView.OnItemClickListener,
-        AbsListView.OnScrollListener, SearchView.OnQueryTextListener, View.OnAttachStateChangeListener {
+public class ParentEventFragment extends Fragment implements AdapterView.OnItemClickListener, AbsListView.OnScrollListener, SearchView.OnQueryTextListener, View.OnAttachStateChangeListener {
 
     // list of parent events
     private List<IParentEvent> mParentEvents;
@@ -127,12 +126,10 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
         Intent i = new Intent(getActivity(), ParentEventActivity.class);
         i.putExtra(ParentEventActivity.PARENT_EVENT_ID, mParentEvents.get(position).getID());
         startActivity(i);
         getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-
     }
 
     private void showProgress(final ProgressBar progressBar, final boolean show) {
@@ -181,11 +178,12 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-        if (mLastFirstVisibleItem < firstVisibleItem) {
+        if (firstVisibleItem > mLastFirstVisibleItem) {
             if (firstVisibleItem + visibleItemCount >= totalItemCount) loadMoreParentEvents();
         }
 
         mLastFirstVisibleItem = firstVisibleItem;
+
     }
 
     @Override

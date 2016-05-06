@@ -16,6 +16,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -40,7 +41,6 @@ public class ChildEventActivity extends AppCompatActivity implements AdapterView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_child_event);
-
 
         setupToolbar();
 
@@ -129,6 +129,11 @@ public class ChildEventActivity extends AppCompatActivity implements AdapterView
         }
     }
 
+    private void showProgress(final boolean show) {
+        ProgressBar mProgressBar = (ProgressBar) findViewById(R.id.read_progress);
+        mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
     private class ReadChildEvent extends AsyncTask<Void, Void, Void> {
 
         private final Activity mContext;
@@ -140,6 +145,7 @@ public class ChildEventActivity extends AppCompatActivity implements AdapterView
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            showProgress(true);
         }
 
         @Override
@@ -158,13 +164,13 @@ public class ChildEventActivity extends AppCompatActivity implements AdapterView
         @Override
         protected void onPostExecute(Void aVoid) {
 
+            showProgress(false);
             TextView name = (TextView) mContext.findViewById(R.id.child_event_title);
             TextView date = (TextView) mContext.findViewById(R.id.child_event_date);
             TextView city = (TextView) mContext.findViewById(R.id.child_event_city);
             TextView desc = (TextView) mContext.findViewById(R.id.child_event_description);
             ImageView image = (ImageView) mContext.findViewById(R.id.child_event_venue_image);
             RelativeLayout container = (RelativeLayout) mContext.findViewById(R.id.artist_lineup_container);
-            RelativeLayout socialMedia = (RelativeLayout) mContext.findViewById(R.id.social_media_container);
 
             String startDate = mChildEvent.getStartDateTime().toString().substring(0, 10);
             String endDate = mChildEvent.getEndDateTime().toString().substring(0, 10);
@@ -190,7 +196,11 @@ public class ChildEventActivity extends AppCompatActivity implements AdapterView
             city.setText(mChildEvent.getVenue().getCity());
             desc.setText(mChildEvent.getDescription());
             image.setImageBitmap(scaledImage);
-            socialMedia.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected void onCancelled() {
+            showProgress(false);
         }
     }
 }

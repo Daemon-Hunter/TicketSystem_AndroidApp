@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
@@ -14,6 +15,7 @@ import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
 import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
 
 import java.text.DecimalFormat;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -34,6 +36,28 @@ public class TicketActAdapter extends ArrayAdapter<ITicket> {
 
         mTickets = tickets;
 
+    }
+
+    @Override
+    public void clear() {
+        mTickets.clear();
+    }
+
+    @Override
+    public void addAll(Collection<? extends ITicket> collection) {
+        mTickets.addAll(collection);
+    }
+
+    public View getViewByPosition(int pos, ListView listView) {
+        final int firstListItemPosition = listView.getFirstVisiblePosition();
+        final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
+
+        if (pos < firstListItemPosition || pos > lastListItemPosition ) {
+            return listView.getAdapter().getView(pos, null, listView);
+        } else {
+            final int childIndex = pos - firstListItemPosition;
+            return listView.getChildAt(childIndex);
+        }
     }
 
     @Override
@@ -65,7 +89,7 @@ public class TicketActAdapter extends ArrayAdapter<ITicket> {
             viewHolder = new ViewHolder();
             viewHolder.ticketType = (TextView) convertView.findViewById(R.id.ticket_type);
             viewHolder.ticketCost = (TextView) convertView.findViewById(R.id.ticket_cost);
-            viewHolder.ticketQty = (TextView) convertView.findViewById(R.id.parent_event_date);
+            viewHolder.ticketQty = (TextView) convertView.findViewById(R.id.ticket_qty);
             viewHolder.plus = (ImageView) convertView.findViewById(R.id.plus);
             viewHolder.minus = (ImageView) convertView.findViewById(R.id.minus);
 
@@ -86,6 +110,7 @@ public class TicketActAdapter extends ArrayAdapter<ITicket> {
         viewHolder.ticketType.setText(currTicket.getType());
         viewHolder.ticketCost.setText(Validator.formatPrice(currTicket.getPrice()));
 
+
         convertView.setBackgroundColor(getRowColour(position));
 
         return convertView;
@@ -98,10 +123,9 @@ public class TicketActAdapter extends ArrayAdapter<ITicket> {
             public void onClick(View v) {
 
                 v.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.onclick));
-                TextView ticketQty = (TextView) row.findViewById(R.id.parent_event_date);
+                TextView ticketQty = (TextView) row.findViewById(R.id.ticket_qty);
                 int qty = Integer.valueOf(ticketQty.getText().toString());
-                qty++;
-                ticketQty.setText(Integer.toString(qty));
+                ticketQty.setText(Integer.toString(++qty));
                 updateTotal(row, 1);
 
             }
@@ -112,12 +136,12 @@ public class TicketActAdapter extends ArrayAdapter<ITicket> {
             public void onClick(View v) {
 
                 v.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.onclick));
-                TextView ticketQty = (TextView) row.findViewById(R.id.parent_event_date);
+                TextView ticketQty = (TextView) row.findViewById(R.id.ticket_qty);
                 int qty = Integer.valueOf(ticketQty.getText().toString());
 
+
                 if (qty > 0) {
-                    qty--;
-                    ticketQty.setText(Integer.toString(qty));
+                    ticketQty.setText(Integer.toString(--qty));
                     updateTotal(row, -1);
                 }
 

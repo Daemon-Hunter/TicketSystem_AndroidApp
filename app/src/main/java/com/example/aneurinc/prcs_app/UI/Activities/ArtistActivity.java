@@ -3,6 +3,7 @@ package com.example.aneurinc.prcs_app.UI.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -135,16 +137,26 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
 
         switch (v.getId()) {
             case R.id.facebook:
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mArtist.getFacebook())));
                 break;
             case R.id.twitter:
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mArtist.getTwitter())));
                 break;
             case R.id.instagram:
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mArtist.getInstagram())));
                 break;
             case R.id.soundcloud:
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mArtist.getSoundcloud())));
                 break;
             case R.id.spotify:
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mArtist.getSpotify())));
                 break;
         }
+    }
+
+    private void showProgress(final boolean show) {
+        ProgressBar mProgressBar = (ProgressBar) findViewById(R.id.read_progress);
+        mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     private class ReadArtist extends AsyncTask<Void, Void, Void> {
@@ -158,7 +170,7 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            // TODO display something like display a progress bar
+            showProgress(true);
         }
 
         @Override
@@ -180,6 +192,7 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
         @Override
         protected void onPostExecute(Void aVoid) {
 
+            showProgress(false);
             RelativeLayout container = (RelativeLayout) mContext.findViewById(R.id.upcoming_performances_container);
             ImageView artistImage = (ImageView) mContext.findViewById(R.id.artist_image);
             TextView artistName = (TextView) mContext.findViewById(R.id.artist_title);
@@ -206,7 +219,45 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
             artistName.setText(mArtist.getName());
             artistImage.setImageBitmap(scaledImage);
             artistDescription.setText(mArtist.getDescription());
+
+            ImageView facebook = (ImageView) mContext.findViewById(R.id.facebook);
+            ImageView twitter = (ImageView) mContext.findViewById(R.id.twitter);
+            ImageView instagram = (ImageView) mContext.findViewById(R.id.instagram);
+            ImageView spotify = (ImageView) mContext.findViewById(R.id.spotify);
+            ImageView soundcloud = (ImageView) mContext.findViewById(R.id.soundcloud);
+
+            if (mArtist.getFacebook() == null) {
+                facebook.setEnabled(false);
+                facebook.setAlpha(128);
+            }
+
+            if (mArtist.getTwitter() == null) {
+                twitter.setEnabled(false);
+                twitter.setAlpha(128);
+            }
+
+            if (mArtist.getInstagram() == null) {
+                instagram.setEnabled(false);
+                instagram.setAlpha(128);
+            }
+
+            if (mArtist.getSpotify() == null) {
+                spotify.setEnabled(false);
+                spotify.setAlpha(128);
+            }
+
+            if (mArtist.getSoundcloud() == null) {
+                soundcloud.setEnabled(false);
+                soundcloud.setAlpha(128);
+            }
+
             socialMedia.setVisibility(View.VISIBLE);
+
+        }
+
+        @Override
+        protected void onCancelled() {
+            showProgress(false);
         }
     }
 

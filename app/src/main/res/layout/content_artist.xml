@@ -17,7 +17,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="32">
+        android:layout_weight="33">
 
         <!--event image-->
         <ImageView
@@ -54,6 +54,15 @@
 
     </RelativeLayout>
 
+    <ProgressBar
+        android:id="@+id/read_progress"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"/>
+
     <RelativeLayout
         android:id="@+id/upcoming_performances_container"
         android:layout_width="match_parent"
@@ -76,7 +85,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="49">
+        android:layout_weight="48">
 
         <!-- event lineup list-->
         <ListView
@@ -112,6 +121,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/social_media_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"

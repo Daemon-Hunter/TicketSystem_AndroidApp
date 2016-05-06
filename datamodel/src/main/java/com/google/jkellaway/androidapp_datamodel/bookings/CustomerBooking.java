@@ -11,6 +11,7 @@ import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
 import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -61,6 +62,7 @@ public class CustomerBooking implements IBooking {
 
         this.order = order;
         this.orderID = order.getOrderID();
+        this.bookingDateTime = Calendar.getInstance().getTime();
 
         if (ticket == null) {
             throw new NullPointerException("Null ticket");

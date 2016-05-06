@@ -3,6 +3,7 @@ package com.example.aneurinc.prcs_app.UI.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -120,10 +121,13 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
 
         switch (v.getId()) {
             case R.id.facebook:
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mParentEvent.getFacebook())));
                 break;
             case R.id.twitter:
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mParentEvent.getTwitter())));
                 break;
             case R.id.instagram:
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mParentEvent.getInstagram())));
                 break;
         }
     }
@@ -194,7 +198,28 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
             image.setImageBitmap(scaledImage);
             name.setText(mParentEvent.getName());
             desc.setText(mParentEvent.getDescription());
+
+            ImageView facebook = (ImageView) mContext.findViewById(R.id.facebook);
+            ImageView twitter = (ImageView) mContext.findViewById(R.id.twitter);
+            ImageView instagram = (ImageView) mContext.findViewById(R.id.instagram);
+
+            if (mParentEvent.getFacebook() == null) {
+                facebook.setEnabled(false);
+                facebook.setAlpha(128);
+            }
+
+            if (mParentEvent.getTwitter() == null) {
+                twitter.setEnabled(false);
+                twitter.setAlpha(128);
+            }
+
+            if (mParentEvent.getInstagram() == null) {
+                instagram.setEnabled(false);
+                instagram.setAlpha(128);
+            }
+
             socialMedia.setVisibility(View.VISIBLE);
+
         }
 
         @Override

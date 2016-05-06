@@ -70,7 +70,7 @@ public class SignInActivity extends AppCompatActivity implements OnEditorActionL
 
         //// TODO: 21/04/2016 REMOVE THIS 
         mPasswordView.setText("fucker");
-        mEmailView.setText("boats@plymouth.co.uk");
+        mEmailView.setText("boatymcboatface@plymouthboats.co.uk");
     }
 
     @Override
