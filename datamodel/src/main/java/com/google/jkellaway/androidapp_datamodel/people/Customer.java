@@ -269,9 +269,8 @@ public class Customer implements ICustomer {
     public Integer getID() {
         if (ID == null) {
             throw new NullPointerException("ID is null");
-        } else {
-            return ID;
         }
+        return ID;
     }
 
     @Override

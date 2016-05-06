@@ -54,15 +54,18 @@ public class CustomerBooking implements IBooking {
      * Use this constructor when creating a new customer booking object.
      * @param ticket
      * @param ticketQty
-     * @param dateTime
      */
-    public CustomerBooking (ITicket ticket, Integer ticketQty) {
+    public CustomerBooking (IOrder order, ITicket ticket, Integer ticketQty) {
         // Set ID as 0. Database will create one using sequence.
         this.bookingID = 0;
+
+        this.order = order;
+
         if (ticket == null) {
             throw new NullPointerException("Null ticket");
         } else {
             this.ticket = ticket;
+            this.ticketID = ticket.getID();
 
             if (!Validator.quantityValidator(ticketQty)) {
                 throw new IllegalArgumentException("Invalid ticket quantity");

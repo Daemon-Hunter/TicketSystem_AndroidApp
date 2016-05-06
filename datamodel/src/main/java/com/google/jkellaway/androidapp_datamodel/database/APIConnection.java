@@ -148,7 +148,7 @@ final class APIConnection {
     public static Map<String, String> readSingle(int id, DatabaseTable table) {
         // creation of URL with unique values;
         String urlToGet = URI + DBTableToString(table) + "/" + Integer.toString(id);
-        // initilatisation of map which stores keys and values
+        // initialisation of map which stores keys and values
         Map<String, String> map = new HashMap<>();
 
         try {
