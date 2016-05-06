@@ -60,6 +60,7 @@ public class CustomerBooking implements IBooking {
         this.bookingID = 0;
 
         this.order = order;
+        this.orderID = order.getOrderID();
 
         if (ticket == null) {
             throw new NullPointerException("Null ticket");
