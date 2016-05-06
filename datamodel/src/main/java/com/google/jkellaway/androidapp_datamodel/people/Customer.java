@@ -203,9 +203,11 @@ public class Customer implements ICustomer {
 
     @Override
     public IOrder getOrder(int orderID) throws IOException {
-        for (IOrder order : orders){
-            if (order.getOrderID().equals(orderID))
-                return order;
+        if (orders != null) {
+            for (IOrder order : orders) {
+                if (order.getOrderID().equals(orderID))
+                    return order;
+            }
         }
         return (IOrder) APIHandle.getSingle(orderID, DatabaseTable.ORDER);
     }
