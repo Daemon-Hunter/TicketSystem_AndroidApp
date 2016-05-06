@@ -10,7 +10,7 @@ import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.people.IUser;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -76,7 +76,7 @@ public class Order implements IOrder {
     @Override
     public List<IBooking> getBookingList() throws IOException {
         bookingList = (List<IBooking>) (Object)APIHandle.getObjectsFromObject(this.orderID, DatabaseTable.BOOKING, DatabaseTable.ORDER);
-        return new ArrayList(bookingList);
+        return new LinkedList(bookingList);
     }
 
     /**
@@ -94,6 +94,8 @@ public class Order implements IOrder {
         if (booking == null){
             throw new IllegalArgumentException("Booking cannot be null");
         }
+        if (bookingList == null)
+            bookingList = new LinkedList();
         return bookingList.add(booking);
     }
 }

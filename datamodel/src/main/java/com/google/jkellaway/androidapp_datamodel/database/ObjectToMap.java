@@ -40,7 +40,7 @@ final class ObjectToMap {
         returnMap.put("TICKET_ID", Integer.toString(booking.getTicketID()));
         returnMap.put("ORDER_ID",Integer.toString(booking.getOrder().getOrderID()));
         returnMap.put("BOOKING_QUANTITY",Integer.toString(booking.getQuantity()));
-        returnMap.put("BOOKING_DATE_TIME",booking.getBookingTime().toString());
+        returnMap.put("BOOKING_DATE_TIME",formatter.format(booking.getBookingTime()));
         return returnMap;
     }
 

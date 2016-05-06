@@ -67,7 +67,6 @@ final class APIConnection {
         Map<String, String> map;
         // URL of where to add to the table.
         String urlToPost = URI + DBTableToString(table) + "/" + Integer.toString(id);
-        BufferedReader br;
         URL url = null;
         try {
             url = new URL(urlToPost);
