@@ -5,6 +5,7 @@
  */
 package com.google.jkellaway.androidapp_datamodel.wrappers;
 
+import com.google.jkellaway.androidapp_datamodel.bookings.CustomerBooking;
 import com.google.jkellaway.androidapp_datamodel.bookings.IBooking;
 import com.google.jkellaway.androidapp_datamodel.bookings.IOrder;
 import com.google.jkellaway.androidapp_datamodel.bookings.Order;
@@ -14,6 +15,7 @@ import com.google.jkellaway.androidapp_datamodel.events.IArtist;
 import com.google.jkellaway.androidapp_datamodel.events.IParentEvent;
 import com.google.jkellaway.androidapp_datamodel.events.IVenue;
 import com.google.jkellaway.androidapp_datamodel.people.IUser;
+import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -71,12 +73,15 @@ public class UserWrapper implements IUserWrapper {
     }
 
     @Override
-    public IOrder makeCustomerBooking(List<IBooking> bookings) throws IOException {
+    public IOrder makeCustomerBooking(List<ITicket> tickets, List<Integer> quantities) throws IOException {
         IOrder order = (IOrder) pushObjectToDatabase(new Order(currentUser.getID()),DatabaseTable.ORDER);
-
-        for (IBooking booking: bookings){
+        IBooking booking;
+        int i = 0;
+        for (ITicket ticket: tickets){
+            booking = new CustomerBooking(order, ticket, quantities.get(i));
             booking = (IBooking) APIHandle.pushObjectToDatabase(booking, DatabaseTable.BOOKING);
             order.addBooking(booking);
+            i++;
         }
         return order;
 
