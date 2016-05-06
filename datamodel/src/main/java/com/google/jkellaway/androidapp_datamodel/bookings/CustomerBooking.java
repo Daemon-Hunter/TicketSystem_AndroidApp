@@ -55,10 +55,8 @@ public class CustomerBooking implements IBooking {
      * @param ticket
      * @param ticketQty
      * @param dateTime
-     * @param order 
      */
-    public CustomerBooking (ITicket ticket, Integer ticketQty, Date dateTime,
-            IOrder order) {
+    public CustomerBooking (ITicket ticket, Integer ticketQty) {
         // Set ID as 0. Database will create one using sequence.
         this.bookingID = 0;
         if (ticket == null) {
@@ -73,10 +71,8 @@ public class CustomerBooking implements IBooking {
 
                 // Store a copy of the time, as the variable could be externally changed
                 // after construction -> externally mutable object
-                this.bookingDateTime = (Date) dateTime.clone();
             }
         }
-        this.order = order;
         table = DatabaseTable.BOOKING;
     }
 

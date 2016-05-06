@@ -22,5 +22,5 @@ public interface IUserWrapper extends IWrapper {
     IUser   getUser();
     IUser registerUser(IUser customer) throws IOException;
 
-    IOrder makeBooking(List<IBooking> bookings) throws IOException;
+    IOrder makeCustomerBooking(List<IBooking> bookings) throws IOException;
 }

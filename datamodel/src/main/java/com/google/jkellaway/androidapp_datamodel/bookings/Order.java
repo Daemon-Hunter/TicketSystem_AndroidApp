@@ -40,6 +40,7 @@ public class Order implements IOrder {
      * @param userID
      */
     public Order(Integer userID) {
+        this.orderID = 0;
         this.userID = userID;
     }
     

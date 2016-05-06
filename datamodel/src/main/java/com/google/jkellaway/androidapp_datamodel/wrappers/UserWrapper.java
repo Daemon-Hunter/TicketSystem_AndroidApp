@@ -71,15 +71,10 @@ public class UserWrapper implements IUserWrapper {
     }
 
     @Override
-    public IOrder makeBooking(List<IBooking> bookings) throws IOException {
+    public IOrder makeCustomerBooking(List<IBooking> bookings) throws IOException {
         IOrder order = (IOrder) pushObjectToDatabase(new Order(currentUser.getID()),DatabaseTable.ORDER);
-        DatabaseTable table;
         for (IBooking booking: bookings){
-            if (booking.getClass().getName() == "CustomerBooking")
-                table = DatabaseTable.BOOKING;
-            else
-                table = DatabaseTable.GUEST_BOOKING;
-            booking = (IBooking) APIHandle.pushObjectToDatabase(booking, table);
+            booking = (IBooking) APIHandle.pushObjectToDatabase(booking, DatabaseTable.BOOKING);
             order.addBooking(booking);
         }
         return order;
