@@ -18,7 +18,7 @@ import java.util.List;
  */
 public interface ICustomer extends IUser, IHaveReviews{
     List<IOrder> getOrderList() throws IOException;
-    IOrder getOrder(int orderID);
+    IOrder getOrder(int orderID) throws IOException;
     Boolean addOrder(IOrder order);
     Boolean addOrderList(List<IOrder> orderList);
     Boolean removeOrder(IOrder order);
