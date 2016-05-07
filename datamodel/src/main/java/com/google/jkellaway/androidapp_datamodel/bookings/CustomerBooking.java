@@ -10,8 +10,11 @@ import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.quantityValidator;
 
@@ -27,9 +30,11 @@ public class CustomerBooking implements IBooking {
     private DatabaseTable table;
     private Integer bookingID;
     private Integer ticketQuantity;
-    private Date    bookingDateTime;
+    private String  bookingDateTime;
     private IOrder order;
     private Integer orderID;
+
+    private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
     
     /**
      * Use this constructor when creating a booking object from the database.
@@ -43,7 +48,7 @@ public class CustomerBooking implements IBooking {
         this.ticketQuantity = ticketQty;
         // Store a copy of the time, as the variable could be externally changed
         // after construction -> externally mutable object
-        this.bookingDateTime = (Date) dateTime.clone();
+        this.bookingDateTime = formatter.format(dateTime);
         this.table = DatabaseTable.BOOKING;
         this.orderID = orderID;
     }
@@ -58,7 +63,7 @@ public class CustomerBooking implements IBooking {
         this.bookingID = 0;
         this.order = order;
         this.orderID = order.getOrderID();
-        this.bookingDateTime = Calendar.getInstance().getTime();
+        this.bookingDateTime = formatter.format(Calendar.getInstance().getTime());
 
         if (ticket == null)
             throw new IllegalArgumentException("Null ticket");
@@ -75,9 +80,9 @@ public class CustomerBooking implements IBooking {
         table = DatabaseTable.BOOKING;
     }
 
-    public IOrder getOrder() {
+    public IOrder getOrder() throws IOException {
         if (order == null) {
-            throw new NullPointerException("Null customer booking order");
+            APIHandle.getSingle(orderID, DatabaseTable.ORDER);
         }
         return order;
     }
@@ -151,8 +156,13 @@ public class CustomerBooking implements IBooking {
         if (bookingDateTime == null) {
             throw new NullPointerException("Null booking date / time");
         } else {
-            return (Date) bookingDateTime.clone();
+            try {
+                return formatter.parse(bookingDateTime);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
+        return null;
     }
     @Override
     public Boolean setBookingTime(Date time) throws IllegalArgumentException {
@@ -161,7 +171,7 @@ public class CustomerBooking implements IBooking {
         } else {
             // Store a copy of the time, as the variable could be externally changed
             // after construction -> externally mutable object
-            bookingDateTime = (Date) time.clone();
+            bookingDateTime = formatter.format(time);
             return true;
         }
     }

@@ -8,8 +8,6 @@ package com.google.jkellaway.androidapp_datamodel.people;
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
 
-import java.io.IOException;
-
 import static com.google.jkellaway.androidapp_datamodel.utilities.HashString.Encrypt;
 
 /**
@@ -22,26 +20,17 @@ public class Admin implements IAdmin {
     private String  firstName, lastName, email, password;
     private DatabaseTable table;
     
-    public Admin(String fName, String lName, String email, String password) {
+    public Admin(String fName, String lName, String email, String password) throws IllegalArgumentException {
         ID = 0;
-        if (fName == null || lName == null) {
+        if (fName == null || lName == null)
             throw new NullPointerException("First or last name is null.");
-        } else if (Validator.nameValidator(fName) && Validator.nameValidator(lName)) 
-        {
-            firstName = fName;
-            lastName = lName;
-        } else {
-            throw new IllegalArgumentException("Invalid admin names.");
-        }
-        
-        if (email == null) {
-            throw new NullPointerException("Null email address");
-        } else if (Validator.emailValidator(email)) {
-            this.email = email;
-        } else {
-            throw new IllegalArgumentException("Invalid email address");
-        }
+        Validator.nameValidator(fName);
+        Validator.nameValidator(lName);
 
+        firstName = fName;
+        lastName = lName;
+        Validator.emailValidator(email);
+        this.email = email;
         this.password = Encrypt(password);
     }
     
@@ -70,16 +59,13 @@ public class Admin implements IAdmin {
     }
 
     @Override
-    public Boolean setEmail(String email) throws IOException {
-        if (email == null) {
+    public Boolean setEmail(String email) throws IllegalArgumentException {
+        if (email == null)
             throw new NullPointerException("Cannot set email to null");
-        } else {
-            Boolean valid = Validator.emailValidator(email);
-            if (valid) {
-                this.email = email;
-            }
-            return this.email.equals(email);
-        }
+        Validator.emailValidator(email);
+        this.email = email;
+        return this.email.equals(email);
+
     }
 
     @Override
@@ -103,16 +89,12 @@ public class Admin implements IAdmin {
     }
 
     @Override
-    public Boolean setFirstName(String name) throws IOException {
-        if (name == null) {
+    public Boolean setFirstName(String name) throws IllegalArgumentException {
+        if (name == null)
             throw new NullPointerException("Cannot set first name to null");
-        } else {
-            Boolean valid = Validator.nameValidator(name);
-            if (valid) {
-                firstName = name;
-            }
-            return firstName.equals(name);
-        }
+        Validator.nameValidator(name);
+        firstName = name;
+        return firstName.equals(name);
     }
 
     @Override
@@ -125,16 +107,11 @@ public class Admin implements IAdmin {
     }
 
     @Override
-    public Boolean setLastName(String name) throws IOException {
-        if (name == null) {
+    public Boolean setLastName(String name) throws IllegalArgumentException {
+        if (name == null)
             throw new NullPointerException("Cannot set last name to null");
-        } else {
-            Boolean valid = Validator.nameValidator(name);
-            if (valid) {
-                lastName = name;
-            }
-            return lastName.equals(name);
-        }
+        Validator.nameValidator(name);
+        lastName = name;
+        return lastName.equals(name);
     }
-    
 }

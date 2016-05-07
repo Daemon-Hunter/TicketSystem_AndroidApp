@@ -102,7 +102,7 @@ public class Artist implements IArtist {
 
     @Override
     public List<String> getTags() {
-        return tags;
+        return new LinkedList<>(tags);
     }
 
     @Override

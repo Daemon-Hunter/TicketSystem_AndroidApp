@@ -60,53 +60,26 @@ public class Customer implements ICustomer {
      * @param address
      * @param postcode
      */
-    public Customer(String firstName, String lastName, String email, String address, String postcode, String password) {
+    public Customer(String firstName, String lastName, String email, String address, String postcode, String password) throws IllegalArgumentException {
         // Check if names are null or valid. All users must have a valid name.
-        if (firstName == null) {
+        if (firstName == null)
             throw new NullPointerException("First name must have a value");
-        }
-        if (firstName == null) {
+        if (firstName == null)
             throw new NullPointerException("Last name must have a value");
-        }
-        if (Validator.nameValidator(firstName) || Validator.nameValidator(lastName)) {
-            this.firstName = firstName;
-            this.lastName = lastName;
-        } else {
-            throw new IllegalArgumentException("Invalid admin name");
-        }
 
-        // Check email. Email can be null.
-        if (email != null) {
-            if (Validator.emailValidator(email)) {
-                this.email = email;
-            } else {
-                throw new IllegalArgumentException("Invalid email address");
-            }
-        } else {
-            this.email = null;
-        }
+        Validator.nameValidator(firstName);
+        Validator.nameValidator(lastName);
+        this.firstName = firstName;
+        this.lastName = lastName;
 
-        // Check address. Users don't have to have an address, so it can be set to null
-        if (address != null) {
-            if (Validator.addressValidator(address)) {
-                this.address = address;
-            } else {
-                throw new IllegalArgumentException("Invalid address.");
-            }
-        } else {
-            this.address = null;
-        }
+        Validator.emailValidator(email);
+        this.email = email;
 
-        // Check the users postcode. Users don't have to have a postcode - so can be null
-        if (postcode != null) {
-            if (Validator.postcodeValidator(postcode)) {
-                this.postcode = postcode;
-            } else {
-                throw new IllegalArgumentException("Invalid postcode");
-            }
-        } else {
-            this.postcode = null;
-        }
+        Validator.addressValidator(address);
+        this.address = address;
+
+        Validator.postcodeValidator(postcode);
+        this.postcode = postcode;
 
         this.password = Encrypt(password);
         table = DatabaseTable.CUSTOMER;
@@ -128,24 +101,16 @@ public class Customer implements ICustomer {
 
     @Override
     public IReview getReview(Integer customerID) {
-        if (customerID == null) {
-            throw new NullPointerException();
-        } else {
-            Boolean valid = idValidator(customerID);
-
-            if (valid) {
-                for (IReview r : reviews) {
-                    if (r.getCustomerID().equals(customerID)) {
-                        return r;
-                    }
-                }
-                throw new IllegalArgumentException("No customers with that ID have " + "written a review for this venue.");
-
-            } else {
-                throw new IllegalArgumentException("Invalid ID");
+        if (customerID == null)
+            throw new NullPointerException("CustomerID cannot be null");
+        for (IReview r : reviews) {
+            if (r.getCustomerID().equals(customerID)) {
+                return r;
             }
         }
+        throw new IllegalArgumentException("No customers with that ID have " + "written a review for this venue.");
     }
+
 
     @Override
     public Boolean deleteReview(IReview review) throws IOException {
@@ -160,29 +125,21 @@ public class Customer implements ICustomer {
     }
 
     @Override
-    public Boolean setFirstName(String name) throws IOException {
-        if (name == null) {
+    public Boolean setFirstName(String name) throws IllegalArgumentException {
+        if (name == null)
             throw new NullPointerException("Cannot set name to null");
-        } else {
-            Boolean valid = Validator.nameValidator(name);
-            if (valid) {
-                this.firstName = name;
-            }
-            return valid;
-        }
+        Validator.nameValidator(name);
+        this.firstName = name;
+        return this.firstName.equals(firstName);
     }
 
     @Override
-    public Boolean setLastName(String name) throws IOException {
-        if (name == null) {
+    public Boolean setLastName(String name) throws IllegalArgumentException {
+        if (name == null)
             throw new NullPointerException("Cannot set name to null");
-        } else {
-            Boolean valid = Validator.nameValidator(name);
-            if (valid) {
-                this.lastName = name;
-            }
-            return valid;
-        }
+        Validator.nameValidator(name);
+        this.lastName = name;
+        return this.lastName.equals(name);
     }
 
     @Override
@@ -256,16 +213,12 @@ public class Customer implements ICustomer {
     }
 
     @Override
-    public Boolean setEmail(String email) throws IOException {
-        if (email == null) {
+    public Boolean setEmail(String email) throws IllegalArgumentException {
+        if (email == null)
             throw new NullPointerException("Cannot set email to null");
-        } else {
-            Boolean valid = Validator.emailValidator(email);
-            if (valid) {
-                this.email = email;
-            }
-            return valid;
-        }
+        Validator.emailValidator(email);
+        this.email = email;
+        return this.email.equals(email);
     }
 
     @Override
@@ -304,16 +257,12 @@ public class Customer implements ICustomer {
     }
 
     @Override
-    public Boolean setAddress(String address) throws IOException {
-        if (address == null) {
+    public Boolean setAddress(String address) throws IllegalArgumentException {
+        if (address == null)
             throw new NullPointerException("Cannot set address to null");
-        } else {
-            Boolean valid = Validator.addressValidator(address);
-            if (valid) {
-                this.address = address;
-            }
-            return valid;
-        }
+        Validator.addressValidator(address);
+        this.address = address;
+        return this.address.equals(address);
     }
 
     @Override
@@ -326,16 +275,12 @@ public class Customer implements ICustomer {
     }
 
     @Override
-    public Boolean setPostcode(String postcode) throws IOException {
-        if (postcode == null) {
+    public Boolean setPostcode(String postcode) throws IllegalArgumentException {
+        if (postcode == null)
             throw new NullPointerException("Cannot set postcode to null");
-        } else {
-            Boolean valid = Validator.postcodeValidator(postcode);
-            if (valid) {
-                this.postcode = postcode;
-            }
-            return valid;
-        }
+        Validator.postcodeValidator(postcode);
+        this.postcode = postcode;
+        return this.postcode.equals(postcode);
     }
 
     @Override

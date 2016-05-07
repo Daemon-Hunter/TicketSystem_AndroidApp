@@ -9,8 +9,6 @@ import com.google.jkellaway.androidapp_datamodel.bookings.IBooking;
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
 
-import java.io.IOException;
-
 import static com.google.jkellaway.androidapp_datamodel.utilities.HashString.Encrypt;
 
 /**
@@ -54,8 +52,7 @@ public class Guest implements IGuest {
      * @param address
      * @param postcode
      */
-    public Guest(Integer ID, String email, String address, String postcode) throws IllegalArgumentException
-    {
+    public Guest(Integer ID, String email, String address, String postcode) throws IllegalArgumentException {
         // Check email. Email can be null.
         if (email == null)
             throw new IllegalArgumentException("Please enter a valid email address. None was found when creating guest.");
@@ -69,15 +66,8 @@ public class Guest implements IGuest {
         this.address = address;
 
         // Check the users postcode. Users don't have to have a postcode - so can be null
-        if (postcode != null) {
-            if (Validator.postcodeValidator(postcode)) {
-                this.postcode = postcode;
-            } else {
-                throw new IllegalArgumentException("Invalid postcode");
-            }
-        } else {
-            this.postcode = null;
-        }
+        Validator.postcodeValidator(postcode);
+        this.postcode = postcode;
 
         this.password = Encrypt(password);
         table = DatabaseTable.GUEST_BOOKING;
@@ -104,7 +94,7 @@ public class Guest implements IGuest {
     }
 
     @Override
-    public boolean setBooking(IBooking booking) {
+    public boolean setBooking(IBooking booking) throws IllegalArgumentException {
         if (booking == null){
             throw new IllegalArgumentException("Booking cannot be null");
         } else {
@@ -123,16 +113,12 @@ public class Guest implements IGuest {
     }
 
     @Override
-    public Boolean setEmail(String email) throws IOException {
-        if (email == null) {
+    public Boolean setEmail(String email) throws IllegalArgumentException {
+        if (email == null)
             throw new NullPointerException("Cannot set email to null");
-        } else {
-            Boolean valid = Validator.emailValidator(email);
-            if (valid) {
-                this.email = email;
-            }
-            return valid;
-        }
+        Validator.emailValidator(email);
+        this.email = email;
+        return this.email.equals(email);
     }
 
     @Override
@@ -169,16 +155,12 @@ public class Guest implements IGuest {
     }
 
     @Override
-    public Boolean setAddress(String address) throws IOException {
-        if (address == null) {
-            throw new NullPointerException("Cannot set address to null");
-        } else {
-            Boolean valid = Validator.addressValidator(address);
-            if (valid) {
-                this.address = address;
-            }
-            return valid;
-        }
+    public Boolean setAddress(String address) throws IllegalArgumentException {
+        if (address == null)
+            throw new IllegalArgumentException("Enter an address.");
+        Validator.addressValidator(address);
+        this.address = address;
+        return this.address.equals(address);
     }
 
     @Override
@@ -191,16 +173,13 @@ public class Guest implements IGuest {
     }
 
     @Override
-    public Boolean setPostcode(String postcode) throws IOException {
-        if (postcode == null) {
+    public Boolean setPostcode(String postcode) throws IllegalArgumentException {
+        if (postcode == null)
             throw new NullPointerException("Cannot set postcode to null");
-        } else {
-            Boolean valid = Validator.postcodeValidator(postcode);
-            if (valid) {
-                this.postcode = postcode;
-            }
-            return valid;
-        }
+        Validator.postcodeValidator(postcode);
+        this.postcode = postcode;
+        return this.postcode.equals(postcode);
+
     }
 
     @Override
