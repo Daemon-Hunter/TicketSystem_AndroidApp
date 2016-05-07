@@ -22,8 +22,8 @@ public interface IBooking {
     Boolean setTicket(ITicket ticket);
     
     Integer getQuantity();
-    Boolean setQuantity(Integer qty);
+    Boolean setQuantity(Integer qty) throws IllegalArgumentException;
     
     Date    getBookingTime();
-    Boolean setBookingTime(Date time);
+    Boolean setBookingTime(Date time) throws IllegalArgumentException;
 }

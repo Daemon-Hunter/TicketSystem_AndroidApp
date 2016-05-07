@@ -16,14 +16,14 @@ public interface IArtist extends ISocial {
     
     Integer getID();
     String getName();
-    Boolean setName(String name);
+    Boolean setName(String name) throws IllegalArgumentException;
     List<String> getTags();
-    Boolean addTag(String tag);
+    Boolean addTag(String tag) throws IllegalArgumentException;
     Boolean removeTag(String tag);
     String getDescription();
-    Boolean setDescription(String decription);
+    Boolean setDescription(String decription) throws IllegalArgumentException;
     String getType() throws IOException;
-    Boolean setType(String type);
+    Boolean setType(String type) throws IllegalArgumentException;
     Integer getTypeID();
 
     void setSocialMedia(SocialMedia socialMedia);

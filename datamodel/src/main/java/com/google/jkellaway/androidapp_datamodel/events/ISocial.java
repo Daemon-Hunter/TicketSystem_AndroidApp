@@ -25,20 +25,20 @@ public interface ISocial {
     Boolean setImages(List<Bitmap> images);
     
     String getFacebook();
-    Boolean setFacebook(String fb);
+    Boolean setFacebook(String fb) throws IllegalArgumentException;
     
     String getTwitter();
-    Boolean setTwitter(String tw);
+    Boolean setTwitter(String tw) throws IllegalArgumentException;
     
     String getInstagram();
-    Boolean setInstagram(String insta);
+    Boolean setInstagram(String insta) throws IllegalArgumentException;
     
     String getSoundcloud();
-    Boolean setSoundcloud(String sc);
+    Boolean setSoundcloud(String sc) throws IllegalArgumentException;
     
     String getWebsite();
-    Boolean setWebsite(String web);
+    Boolean setWebsite(String web) throws IllegalArgumentException;
     
     String getSpotify();
-    Boolean setSpotify(String sp);
+    Boolean setSpotify(String sp) throws IllegalArgumentException;
 }

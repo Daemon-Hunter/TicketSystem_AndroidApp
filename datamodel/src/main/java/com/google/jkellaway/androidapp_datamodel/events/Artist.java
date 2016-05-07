@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.google.jkellaway.androidapp_datamodel.database.APIHandle.createContract;
+import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.descriptionValidator;
+import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.nameValidator;
 
 /**
  * @author 10512691
@@ -51,14 +53,17 @@ public class Artist implements IArtist {
      * No child events given. When a call is made to the artist to return it's child events,
      * it will fetch relevant events through the API.
      *
-     * @param ID          Already allocated
      * @param name
      * @param description
      * @param tags
      * @param social
      */
-    public Artist(Integer ID, String name, String description, LinkedList<String> tags, SocialMedia social, Integer typeID) {
-        this.ID = ID;
+    public Artist(String name, String description, LinkedList<String> tags, SocialMedia social, Integer typeID) {
+
+        nameValidator(name);
+        descriptionValidator(description);
+
+        this.ID = 0;
         this.name = name;
         this.description = description;
         this.socialMedia = social;
@@ -101,16 +106,12 @@ public class Artist implements IArtist {
     }
 
     @Override
-    public Boolean addTag(String tag) {
-        if (tag == null) {
-            return false;
-        } else {
-            Boolean valid = Validator.tagValidator(tag);
-            if (valid) {
-                tags.add(tag);
-            }
-            return valid;
-        }
+    public Boolean addTag(String tag) throws IllegalArgumentException {
+        if (tag == null)
+            throw new IllegalArgumentException("Enter a tag.");
+        Validator.tagValidator(tag);
+        tags.add(tag);
+        return tags.contains(tag);
     }
 
     @Override
@@ -131,11 +132,12 @@ public class Artist implements IArtist {
     }
 
     @Override
-    public Boolean setName (String name) {
-        if (Validator.nameValidator(name) && name != null) {
-            this.name = name;
-            return true;
-        } else return false;
+    public Boolean setName (String name)  throws IllegalArgumentException {
+        if (name == null)
+            throw new IllegalArgumentException("Enter a name.");
+        nameValidator(name);
+        this.name = name;
+        return this.name.equals(name);
     }
 
     @Override
@@ -148,11 +150,12 @@ public class Artist implements IArtist {
     }
 
     @Override
-    public Boolean setDescription(String description) {
-        if (Validator.descriptionValidator(description) && description != null) {
-            this.description = description;
-            return true;
-        } else return false;
+    public Boolean setDescription(String description) throws IllegalArgumentException {
+        if (description == null)
+            throw new IllegalArgumentException("Enter a description.");
+        Validator.descriptionValidator(description);
+        this.description = description;
+        return this.description.equals(description);
     }
 
     @Override
@@ -306,7 +309,7 @@ public class Artist implements IArtist {
     }
 
     @Override
-    public Boolean setFacebook(String fb) {
+    public Boolean setFacebook(String fb) throws IllegalArgumentException {
         return socialMedia.setFacebook(fb);
     }
 
@@ -316,7 +319,7 @@ public class Artist implements IArtist {
     }
 
     @Override
-    public Boolean setTwitter(String tw) {
+    public Boolean setTwitter(String tw) throws IllegalArgumentException {
         return socialMedia.setTwitter(tw);
     }
 
@@ -326,7 +329,7 @@ public class Artist implements IArtist {
     }
 
     @Override
-    public Boolean setInstagram(String insta) {
+    public Boolean setInstagram(String insta) throws IllegalArgumentException {
         return socialMedia.setInstagram(insta);
     }
 
@@ -336,7 +339,7 @@ public class Artist implements IArtist {
     }
 
     @Override
-    public Boolean setSoundcloud(String sc) {
+    public Boolean setSoundcloud(String sc) throws IllegalArgumentException {
         return socialMedia.setSoundcloud(sc);
     }
 
@@ -346,7 +349,7 @@ public class Artist implements IArtist {
     }
 
     @Override
-    public Boolean setWebsite(String web) {
+    public Boolean setWebsite(String web) throws IllegalArgumentException {
         return socialMedia.setWebsite(web);
     }
 
@@ -356,7 +359,7 @@ public class Artist implements IArtist {
     }
 
     @Override
-    public Boolean setSpotify(String sp) {
+    public Boolean setSpotify(String sp) throws IllegalArgumentException {
         return socialMedia.setSpotify(sp);
     }
 }

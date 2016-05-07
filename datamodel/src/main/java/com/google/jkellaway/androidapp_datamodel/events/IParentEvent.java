@@ -19,8 +19,8 @@ public interface IParentEvent extends ISocial, IReviewable {
     Integer getID();
     String getName();
     String getDescription();
-    Boolean setName(String name);
-    Boolean setDescription(String description);
+    Boolean setName(String name) throws IllegalArgumentException;
+    Boolean setDescription(String description) throws IllegalArgumentException;
 
     void setSocialMedia(SocialMedia socialMedia);
     SocialMedia getSocialMedia();

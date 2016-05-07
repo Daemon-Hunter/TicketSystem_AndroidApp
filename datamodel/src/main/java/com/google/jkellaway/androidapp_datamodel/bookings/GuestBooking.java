@@ -73,15 +73,13 @@ public class GuestBooking implements IBooking {
         } else {
             this.ticket = ticket;
 
-            if (!Validator.quantityValidator(ticketQty)) {
-                throw new IllegalArgumentException("Invalid ticket quantity");
-            } else {
-                this.ticketQuantity = ticketQty;
+            Validator.quantityValidator(ticketQty);
+            this.ticketQuantity = ticketQty;
 
-                // Store a copy of the time, as the variable could be externally changed
-                // after construction -> externally mutable object
-                this.bookingDateTime = (Date) dateTime.clone();
-            }
+            // Store a copy of the time, as the variable could be externally changed
+            // after construction -> externally mutable object
+            this.bookingDateTime = (Date) dateTime.clone();
+
         }
         if (guest != null) {
             this.guest = guest;
@@ -155,17 +153,14 @@ public class GuestBooking implements IBooking {
     }
 
     @Override
-    public Boolean setQuantity(Integer qty) {
-        if (qty == null) {
-            throw new NullPointerException("Null quantity");
-        } else {
-            if (Validator.quantityValidator(qty)) {
-                ticketQuantity = qty;
-                return true;
-            }
-            return false;
-        }
+    public Boolean setQuantity(Integer qty) throws IllegalArgumentException {
+        if (qty == null)
+            throw new IllegalArgumentException("Enter a quantity");
+        Validator.quantityValidator(qty);
+        ticketQuantity = qty;
+        return this.ticketQuantity.equals(qty);
     }
+
 
     @Override
     public Date getBookingTime() {
@@ -176,9 +171,9 @@ public class GuestBooking implements IBooking {
         }
     }
     @Override
-    public Boolean setBookingTime(Date time) {
+    public Boolean setBookingTime(Date time) throws IllegalArgumentException {
         if (time == null) {
-            throw new NullPointerException("Null date / time");
+            throw new IllegalArgumentException("Enter a date and time.");
         } else {
             // Store a copy of the time, as the variable could be externally changed
             // after construction -> externally mutable object

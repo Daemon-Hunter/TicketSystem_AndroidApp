@@ -8,11 +8,12 @@ package com.google.jkellaway.androidapp_datamodel.bookings;
 import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
-import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
 
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
+
+import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.quantityValidator;
 
 /**
  *
@@ -36,7 +37,7 @@ public class CustomerBooking implements IBooking {
      * @param ticketQty
      * @param dateTime
      */
-    public CustomerBooking (Integer ID, Integer ticketID, Integer orderID, Integer ticketQty, Date dateTime) {
+    public CustomerBooking (Integer ID, Integer ticketID, Integer orderID, Integer ticketQty, Date dateTime) throws IllegalArgumentException {
         this.bookingID = ID;
         this.ticketID = ticketID;
         this.ticketQuantity = ticketQty;
@@ -44,11 +45,7 @@ public class CustomerBooking implements IBooking {
         // after construction -> externally mutable object
         this.bookingDateTime = (Date) dateTime.clone();
         this.table = DatabaseTable.BOOKING;
-        if (Validator.idValidator(orderID)) {
-            this.orderID = orderID;
-        } else {
-            throw new IllegalArgumentException("Invalid order ID");
-        }
+        this.orderID = orderID;
     }
     
     /**
@@ -59,26 +56,22 @@ public class CustomerBooking implements IBooking {
     public CustomerBooking (IOrder order, ITicket ticket, Integer ticketQty) {
         // Set ID as 0. Database will create one using sequence.
         this.bookingID = 0;
-
         this.order = order;
         this.orderID = order.getOrderID();
         this.bookingDateTime = Calendar.getInstance().getTime();
 
-        if (ticket == null) {
-            throw new NullPointerException("Null ticket");
-        } else {
-            this.ticket = ticket;
-            this.ticketID = ticket.getID();
+        if (ticket == null)
+            throw new IllegalArgumentException("Null ticket");
+        this.ticket = ticket;
+        this.ticketID = ticket.getID();
 
-            if (!Validator.quantityValidator(ticketQty)) {
-                throw new IllegalArgumentException("Invalid ticket quantity");
-            } else {
-                this.ticketQuantity = ticketQty;
+        quantityValidator(ticketQty);
+        this.ticketQuantity = ticketQty;
 
-                // Store a copy of the time, as the variable could be externally changed
-                // after construction -> externally mutable object
-            }
-        }
+        // Store a copy of the time, as the variable could be externally changed
+        // after construction -> externally mutable object
+
+
         table = DatabaseTable.BOOKING;
     }
 
@@ -145,16 +138,12 @@ public class CustomerBooking implements IBooking {
     }
 
     @Override
-    public Boolean setQuantity(Integer qty) {
-        if (qty == null) {
+    public Boolean setQuantity(Integer qty) throws IllegalArgumentException {
+        if (qty == null)
             throw new NullPointerException("Null quantity");
-        } else {
-            if (Validator.quantityValidator(qty)) {
-                ticketQuantity = qty;
-                return true;
-            }
-            return false;
-        }
+        quantityValidator(qty);
+        ticketQuantity = qty;
+        return this.ticketQuantity.equals(qty);
     }
 
     @Override
@@ -166,9 +155,9 @@ public class CustomerBooking implements IBooking {
         }
     }
     @Override
-    public Boolean setBookingTime(Date time) {
+    public Boolean setBookingTime(Date time) throws IllegalArgumentException {
         if (time == null) {
-            throw new NullPointerException("Null date / time");
+            throw new IllegalArgumentException("Enter a Date and Time.");
         } else {
             // Store a copy of the time, as the variable could be externally changed
             // after construction -> externally mutable object

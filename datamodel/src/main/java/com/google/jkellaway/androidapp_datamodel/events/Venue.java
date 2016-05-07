@@ -24,10 +24,10 @@ import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.capa
 import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.descriptionValidator;
 import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.emailValidator;
 import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.facilitiesValidator;
-import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.idValidator;
 import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.nameValidator;
 import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.parkingSpaceValidator;
 import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.phoneNumberValidator;
+import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.postcodeValidator;
 
 /**
  * @author 10512691
@@ -70,13 +70,24 @@ public class Venue implements IVenue {
      * @param address
      * @param postcode
      * @param name
-     * @param reviewsList
      */
-    public Venue(SocialMedia social, String description, Integer capSeating, Integer capStanding, Boolean access, String facilities, Integer parking, String phoneNo, String email, String address, String city, String postcode, String name, List<IReview> reviewsList) {
+    public Venue(SocialMedia social, String description, Integer capSeating, Integer capStanding, Boolean access, String facilities, Integer parking, String phoneNo, String email, String address, String city, String postcode, String name) throws IllegalArgumentException {
+
+        nameValidator(name);
+        descriptionValidator(description);
+        capacityValidator(capSeating);
+        capacityValidator(capStanding);
+        facilitiesValidator(facilities);
+        parkingSpaceValidator(parking);
+        phoneNumberValidator(phoneNo);
+        emailValidator(email);
+        addressValidator(address);
+        nameValidator(city);
+        postcodeValidator(postcode);
+
         this.name = name;
         this.description = description;
         this.socialMedia = social;
-        this.reviews = reviewsList;
         this.table = DatabaseTable.VENUE;
 
         // Initialize all other variables with method arguments
@@ -264,155 +275,113 @@ public class Venue implements IVenue {
     }
 
     @Override
-    public Boolean setName(String name) throws IOException {
-        if (name == null) {
-            throw new NullPointerException("Cannot set name null");
-        } else {
-            Boolean valid = nameValidator(name);
-            if (valid) {
-                this.name = name;
-            }
-            return valid;
-        }
+    public Boolean setName(String name) throws IllegalArgumentException {
+        if (name == null)
+            throw new IllegalArgumentException("Enter a name");
+        nameValidator(name);
+        this.name = name;
+        return this.name.equals(name);
+
     }
 
     @Override
-    public Boolean setDescription(String description) throws IOException {
-        if (description == null) {
-            throw new NullPointerException("Cannot set description null");
-        } else {
-            Boolean valid = descriptionValidator(description);
-            if (valid) {
-                this.description = description;
-            }
-            return valid;
-        }
+    public Boolean setDescription(String description) throws IllegalArgumentException {
+        if (description == null)
+            throw new IllegalArgumentException("Enter a description");
+        descriptionValidator(description);
+        this.description = description;
+        return this.description.equals(description);
     }
 
     @Override
-    public Boolean setStandingCapacity(Integer standing) throws IOException {
-        if (standing == null) {
-            throw new NullPointerException("Cannot set capacity to null");
-        } else {
-            Boolean valid = capacityValidator(standing);
-            if (valid) {
-                capacityStanding = standing;
-            }
-            return valid;
-        }
+    public Boolean setStandingCapacity(Integer standing) throws IllegalArgumentException {
+        if (standing == null)
+            throw new IllegalArgumentException("Enter a capacity.");
+        capacityValidator(standing);
+        this.capacityStanding = standing;
+        return this.capacityStanding.equals(capacityStanding);
     }
 
     @Override
-    public Boolean setSeatingCapacity(Integer seating) throws IOException {
-        if (seating == null) {
-            throw new NullPointerException("Cannot set capacity to null");
-        } else {
-            Boolean valid = capacityValidator(seating);
-            if (valid) {
-                capacitySeating = seating;
-            }
-            return valid;
-        }
+    public Boolean setSeatingCapacity(Integer seating) throws IllegalArgumentException {
+        if (seating == null)
+            throw new IllegalArgumentException("Enter a capacity.");
+        capacityValidator(seating);
+        this.capacitySeating = seating;
+        return this.capacitySeating.equals(capacitySeating);
     }
 
     @Override
-    public Boolean setDisabledAccess(Boolean access) throws IOException {
+    public Boolean setDisabledAccess(Boolean access) throws IllegalArgumentException {
         if (access == null) {
-            throw new NullPointerException("Cannot set access to null");
+            throw new IllegalArgumentException("Enter a Value.");
         } else {
-            disabledAccess = access;
+            this.disabledAccess = access;
             return true;
         }
     }
 
     @Override
-    public Boolean setFacilites(String facilities) throws IOException {
-        if (facilities == null) {
-            throw new NullPointerException("Cannot set facilities to null");
-        } else {
-            Boolean valid = facilitiesValidator(facilities);
-            if (valid) {
-                this.facilities = facilities;
-            }
-            return valid;
-        }
+    public Boolean setFacilites(String facilities) throws IllegalArgumentException {
+        if (facilities == null)
+            throw new IllegalArgumentException("Enter something interesting about the facilities.");
+        facilitiesValidator(facilities);
+        this.facilities = facilities;
+        return this.facilities.equals(facilities);
     }
 
     @Override
-    public Boolean setParking(Integer parking) throws IOException {
-        if (parking == null) {
-            throw new NullPointerException("Cannot set parking spaces to null");
-        } else {
-            Boolean valid = parkingSpaceValidator(parking);
-            if (valid) {
-                parkingSpaces = parking;
-            }
-            return valid;
-        }
+    public Boolean setParking(Integer parking) throws IllegalArgumentException {
+        if (parking == null)
+            parking = 0;
+        parkingSpaceValidator(parking);
+        this.parkingSpaces = parking;
+        return this.parkingSpaces == parking;
     }
 
     @Override
-    public Boolean setEmail(String email) throws IOException {
-        if (email == null) {
-            throw new NullPointerException("Cannot set email to null");
-        } else {
-            Boolean valid = emailValidator(email);
-            if (valid) {
-                this.email = email;
-            }
-            return valid;
-        }
+    public Boolean setEmail(String email) throws IllegalArgumentException {
+        if (email == null)
+            throw new IllegalArgumentException("Enter an email address.");
+        emailValidator(email);
+        this.email = email;
+        return this.email.equals(email);
     }
 
     @Override
-    public Boolean setPhoneNumber(String phoneNumber) throws IOException {
-        if (phoneNumber == null) {
-            throw new NullPointerException("Cannot set phone number to null");
-        } else {
-            Boolean valid = phoneNumberValidator(phoneNumber);
-            if (valid) {
-                this.phoneNumber = phoneNumber;
-            }
-            return valid;
-        }
+    public Boolean setPhoneNumber(String phoneNumber) throws IllegalArgumentException {
+        if (phoneNumber == null)
+            throw new IllegalArgumentException("Enter a phone number.");
+        phoneNumberValidator(phoneNumber);
+        this.phoneNumber = phoneNumber;
+        return this.phoneNumber.equals(phoneNumber);
     }
 
     @Override
-    public Boolean setAddress(String address) throws IOException {
-        if (address == null) {
-            throw new NullPointerException("Cannot set address to null");
-        } else {
-            Boolean valid = addressValidator(address);
-            if (valid) {
-                this.address = address;
-            }
-            return valid;
-        }
+    public Boolean setAddress(String address) throws IllegalArgumentException {
+        if (address == null)
+            throw new IllegalArgumentException("Enter an address.");
+        addressValidator(address);
+        this.address = address;
+        return this.address.equals(address);
     }
 
     @Override
-    public Boolean setCity(String city) {
-        if (city == null) {
-            throw new NullPointerException("Cannot set address to null");
-        } else {
-            Boolean valid = addressValidator(city);
-            if (valid) {
-                this.city = city;
-            }
-            return valid;
-        }
+    public Boolean setCity(String city) throws IllegalArgumentException {
+        if (city == null)
+            throw new IllegalArgumentException("Enter a city.");
+        addressValidator(city);
+        this.city = city;
+        return this.city.equals(city);
     }
 
     @Override
-    public Boolean setPostcode(String postcode) throws IOException {
-        if (postcode == null) {
-            throw new NullPointerException("Cannot set postcode to null");
-        } else {
-            this.postcode = postcode;
-            return true;
-        }
+    public Boolean setPostcode(String postcode)  throws IllegalArgumentException {
+        if (postcode == null)
+            throw new IllegalArgumentException("Enter a postcode.");
+        this.postcode = postcode;
+        return this.postcode.equals(postcode);
     }
-
     @Override
     public Integer getSocialId() {
         return socialMediaID;
@@ -442,24 +411,15 @@ public class Venue implements IVenue {
     }
 
     @Override
-    public IReview getReview(Integer customerID) {
-        if (customerID == null) {
+    public IReview getReview(Integer customerID) throws IllegalArgumentException {
+        if (customerID == null)
             throw new NullPointerException();
-        } else {
-            Boolean valid = idValidator(customerID);
-
-            if (valid) {
-                for (IReview r : reviews) {
-                    if (r.getCustomerID().equals(customerID)) {
-                        return r;
-                    }
-                }
-                throw new IllegalArgumentException("No customers with that ID have " + "written a review for this venue.");
-
-            } else {
-                throw new IllegalArgumentException("Invalid ID");
+        for (IReview r : reviews) {
+            if (r.getCustomerID().equals(customerID)) {
+                return r;
             }
         }
+        throw new IllegalArgumentException("No customers with that ID have " + "written a review for this venue.");
 
     }
 
@@ -524,7 +484,7 @@ public class Venue implements IVenue {
     }
 
     @Override
-    public Boolean setFacebook(String fb) {
+    public Boolean setFacebook(String fb) throws IllegalArgumentException {
         return socialMedia.setFacebook(fb);
     }
 
@@ -534,7 +494,7 @@ public class Venue implements IVenue {
     }
 
     @Override
-    public Boolean setTwitter(String tw) {
+    public Boolean setTwitter(String tw) throws IllegalArgumentException {
         return socialMedia.setTwitter(tw);
     }
 
@@ -544,7 +504,7 @@ public class Venue implements IVenue {
     }
 
     @Override
-    public Boolean setInstagram(String insta) {
+    public Boolean setInstagram(String insta) throws IllegalArgumentException {
         return socialMedia.setInstagram(insta);
     }
 
@@ -554,7 +514,7 @@ public class Venue implements IVenue {
     }
 
     @Override
-    public Boolean setSoundcloud(String sc) {
+    public Boolean setSoundcloud(String sc) throws IllegalArgumentException {
         return socialMedia.setSoundcloud(sc);
     }
 
@@ -564,7 +524,7 @@ public class Venue implements IVenue {
     }
 
     @Override
-    public Boolean setWebsite(String web) {
+    public Boolean setWebsite(String web) throws IllegalArgumentException {
         return socialMedia.setWebsite(web);
     }
 
@@ -574,7 +534,7 @@ public class Venue implements IVenue {
     }
 
     @Override
-    public Boolean setSpotify(String sp) {
+    public Boolean setSpotify(String sp) throws IllegalArgumentException {
         return socialMedia.setSpotify(sp);
     }
 }

@@ -21,10 +21,12 @@ import java.util.List;
 import java.util.Locale;
 
 import static com.google.jkellaway.androidapp_datamodel.database.APIHandle.createContract;
+import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.nameValidator;
 
 /**
  * The child of a parent event, containing lineup and venue details, as well
  * as a further description and start/end times.
+ *
  * @author 10512691
  */
 public class ChildEvent implements IChildEvent {
@@ -35,7 +37,7 @@ public class ChildEvent implements IChildEvent {
     private List<ITicket> tickets;
     private IVenue venue;
     private Integer venueID;
-    
+
     private Integer childEventID;
     private String childEventName, childEventDescription;
     private String startDateTime, endDateTime;
@@ -46,9 +48,10 @@ public class ChildEvent implements IChildEvent {
 
 
     /**
-     * ID and 'cancelled' variables being passed, so this constructor will be used when 
+     * ID and 'cancelled' variables being passed, so this constructor will be used when
      * creating an object already stored in the database.
      * Therefore do not need to check validation - will already have been checked.
+     *
      * @param ID
      * @param name
      * @param description
@@ -68,31 +71,28 @@ public class ChildEvent implements IChildEvent {
         this.venueID = venueID;
         venue = (IVenue) APIHandle.getSingle(this.venueID, DatabaseTable.VENUE);
     }
-    
-    public ChildEvent(String name, String description, Date startTime, Date endTime, IVenue venue, IParentEvent parentEvent) {
+
+    public ChildEvent(String name, String description, Date startTime, Date endTime, IVenue venue, IParentEvent parentEvent)  throws IllegalArgumentException {
         childEventID = 0;
-        if (Validator.nameValidator(name)) {
-            if (Validator.descriptionValidator(description)) {
-                this.childEventName = name;
-                this.childEventDescription = description;
-                this.startDateTime = formatter.format(startTime);
-                this.endDateTime = formatter.format(endTime);
-                this.venue = venue;
-                this.cancelled = false;
-                this.table = DatabaseTable.CHILD_EVENT;
-                this.parentEvent = parentEvent;
-            } else {
-                throw new IllegalArgumentException("Invalid description");
-            }
-        } else {
-            throw new IllegalArgumentException("Invalid name");
-        }
+
+        nameValidator(name);
+        Validator.descriptionValidator(description);
+
+        this.childEventName = name;
+        this.childEventDescription = description;
+        this.startDateTime = formatter.format(startTime);
+        this.endDateTime = formatter.format(endTime);
+        this.venue = venue;
+        this.cancelled = false;
+        this.table = DatabaseTable.CHILD_EVENT;
+        this.parentEvent = parentEvent;
     }
 
     public ChildEvent() {
-        table = DatabaseTable.CHILD_EVENT;
+        this.childEventID = 0;
+        this.table = DatabaseTable.CHILD_EVENT;
     }
-    
+
     @Override
     public Integer getID() {
         return childEventID;
@@ -111,7 +111,7 @@ public class ChildEvent implements IChildEvent {
     @Override
     public Date getStartDateTime() {
         try {
-            return  formatter.parse(startDateTime);
+            return formatter.parse(startDateTime);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -134,34 +134,28 @@ public class ChildEvent implements IChildEvent {
     }
 
     @Override
-    public Boolean setName(String name) {
-        if (name == null) {
-            throw new NullPointerException("Null name!");
-        } else if (Validator.nameValidator(name)) {
-            childEventName = name;
-        } else {
-            throw new IllegalArgumentException("Invalid name");
-        }
+    public Boolean setName(String name) throws IllegalArgumentException {
+        if (name == null)
+            throw new IllegalArgumentException("Enter a name");
+        nameValidator(name);
+        childEventName = name;
         return childEventName.equals(name);
     }
 
     @Override
-    public Boolean setDescription(String description) {
-        if (description == null) {
-            throw new NullPointerException("Null description");
-        } else if (Validator.descriptionValidator(description)) {
-            childEventDescription = description;
-        } else {
-            throw new IllegalArgumentException("Invalid description");
-        }
+    public Boolean setDescription(String description) throws IllegalArgumentException {
+        if (description == null)
+            throw new IllegalArgumentException("Enter a description");
+        Validator.descriptionValidator(description);
+        childEventDescription = description;
         return childEventDescription.equals(description);
     }
 
     @Override
-    public Boolean setStartDateTime(Date startDateTime) {
+    public Boolean setStartDateTime(Date startDateTime) throws IllegalArgumentException {
 
         if (startDateTime == null) {
-            throw new NullPointerException("start time is null");
+            throw new IllegalArgumentException("Enter a Date and Time.");
         } else {
             this.startDateTime = formatter.format(startDateTime);
         }
@@ -169,9 +163,9 @@ public class ChildEvent implements IChildEvent {
     }
 
     @Override
-    public Boolean setEndDateTime(Date endDateTime) {
+    public Boolean setEndDateTime(Date endDateTime) throws IllegalArgumentException {
         if (endDateTime == null) {
-            throw new NullPointerException("end time is null");
+            throw new IllegalArgumentException("end time is null");
         } else {
             this.endDateTime = formatter.format(endDateTime);
         }
@@ -179,9 +173,9 @@ public class ChildEvent implements IChildEvent {
     }
 
     @Override
-    public Boolean setCancelled(Boolean cancelled) {
+    public Boolean setCancelled(Boolean cancelled) throws IllegalArgumentException {
         if (cancelled == null) {
-            throw new NullPointerException("Cannot set 'cancelled' flag to null");
+            throw new IllegalArgumentException("Cannot set 'cancelled' flag to null");
         } else {
             this.cancelled = cancelled;
         }
@@ -196,7 +190,7 @@ public class ChildEvent implements IChildEvent {
     @Override
     public List<IArtist> getArtistList() throws IOException {
         if (artists == null) {
-            artists = (List<IArtist>) (Object)APIHandle.getObjectsFromObject(this.childEventID, DatabaseTable.ARTIST, DatabaseTable.CHILD_EVENT);
+            artists = (List<IArtist>) (Object) APIHandle.getObjectsFromObject(this.childEventID, DatabaseTable.ARTIST, DatabaseTable.CHILD_EVENT);
             return new LinkedList<>(artists);
         } else {
             return new LinkedList<>(artists);
@@ -210,7 +204,7 @@ public class ChildEvent implements IChildEvent {
 
     @Override
     public IParentEvent getParentEvent() throws IOException {
-        if (this.parentEvent == null){
+        if (this.parentEvent == null) {
             parentEvent = (IParentEvent) APIHandle.getSingle(parentEventID, DatabaseTable.PARENT_EVENT);
             parentEventID = parentEvent.getID();
         }
@@ -218,9 +212,20 @@ public class ChildEvent implements IChildEvent {
     }
 
     @Override
+    public Boolean setParentEvent(IParentEvent event) {
+        if (event == null) {
+            return false;
+        } else {
+            this.parentEvent = event;
+            this.parentEventID = event.getID();
+            return true;
+        }
+    }
+
+    @Override
     public ITicket getTicket(Integer id) {
-        for (ITicket ticket : tickets){
-            if(ticket.getID().equals(id))
+        for (ITicket ticket : tickets) {
+            if (ticket.getID().equals(id))
                 return ticket;
         }
         throw new IllegalArgumentException("No item in the list contains that id.");
@@ -228,12 +233,12 @@ public class ChildEvent implements IChildEvent {
 
     @Override
     public List<ITicket> getTickets() throws IOException {
-        return (List<ITicket>)(Object) APIHandle.getObjectsFromObject(this.childEventID, DatabaseTable.TICKET, DatabaseTable.CHILD_EVENT);
+        return (List<ITicket>) (Object) APIHandle.getObjectsFromObject(this.childEventID, DatabaseTable.TICKET, DatabaseTable.CHILD_EVENT);
     }
 
     @Override
     public Boolean addTicket(ITicket ticket) {
-        if(ticket == null){
+        if (ticket == null) {
             throw new IllegalArgumentException("Cannot add a null ticket.");
         }
         return tickets.add(ticket);
@@ -241,7 +246,7 @@ public class ChildEvent implements IChildEvent {
 
     @Override
     public Boolean removeTicket(ITicket ticket) {
-        if(ticket == null){
+        if (ticket == null) {
             throw new IllegalArgumentException("Cannot remove a null ticket.");
         }
         return tickets.remove(ticket);
@@ -254,7 +259,7 @@ public class ChildEvent implements IChildEvent {
 
     @Override
     public void setSocialMedia(SocialMedia socialMedia) {
-        if (socialMedia == null){
+        if (socialMedia == null) {
             throw new IllegalArgumentException("SocialMedia cannot be null");
         }
         this.parentEvent.setSocialMedia(socialMedia);
@@ -262,7 +267,9 @@ public class ChildEvent implements IChildEvent {
 
     @Override
     public Boolean newContract(IArtist artist) throws IOException {
-        if(createContract(artist.getID(), this.childEventID)){
+        if (createContract(artist.getID(), this.childEventID)) {
+            if (artists == null)
+                artists = new LinkedList<>();
             artists.add(artist);
             return true;
         }
@@ -275,7 +282,8 @@ public class ChildEvent implements IChildEvent {
             throw new NullPointerException("Cannot set venue to null");
         } else {
             this.venue = venue;
-        } return true;
+        }
+        return true;
     }
 
     @Override

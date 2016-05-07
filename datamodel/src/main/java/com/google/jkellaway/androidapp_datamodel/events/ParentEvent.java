@@ -18,7 +18,6 @@ import java.util.Date;
 import java.util.List;
 
 import static com.google.jkellaway.androidapp_datamodel.database.APIHandle.getObjectsFromObject;
-import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.idValidator;
 
 /**
  *
@@ -181,26 +180,16 @@ public class ParentEvent implements IParentEvent {
     }
 
     @Override
-    public IReview getReview(Integer customerID) {
-        if (customerID == null) {
+    public IReview getReview(Integer customerID) throws IllegalArgumentException {
+        if (customerID == null)
             throw new NullPointerException();
-        } else {
-            Boolean valid = idValidator(customerID);
-
-            if (valid) {
-                for (IReview r : reviews) {
-                    if (r.getCustomerID().equals(customerID)) {
-                        return r;
-                    }
-                }
-                throw new IllegalArgumentException("No customers with that ID have "
-                        + "written a review for this venue.");
-
-            } else {
-                throw new IllegalArgumentException("Invalid ID");
+        for (IReview r : reviews) {
+            if (r.getCustomerID().equals(customerID)) {
+                return r;
             }
         }
-
+        throw new IllegalArgumentException("No customers with that ID have "
+                + "written a review for this venue.");
     }
 
     @Override
@@ -264,7 +253,7 @@ public class ParentEvent implements IParentEvent {
     }
 
     @Override
-    public Boolean setFacebook(String fb) {
+    public Boolean setFacebook(String fb) throws IllegalArgumentException {
         return socialMedia.setFacebook(fb);
     }
 
@@ -274,7 +263,7 @@ public class ParentEvent implements IParentEvent {
     }
 
     @Override
-    public Boolean setTwitter(String tw) {
+    public Boolean setTwitter(String tw) throws IllegalArgumentException {
         return socialMedia.setTwitter(tw);
     }
 
@@ -284,7 +273,7 @@ public class ParentEvent implements IParentEvent {
     }
 
     @Override
-    public Boolean setInstagram(String insta) {
+    public Boolean setInstagram(String insta) throws IllegalArgumentException {
         return socialMedia.setInstagram(insta);
     }
 
@@ -294,7 +283,7 @@ public class ParentEvent implements IParentEvent {
     }
 
     @Override
-    public Boolean setSoundcloud(String sc) {
+    public Boolean setSoundcloud(String sc) throws IllegalArgumentException {
         return socialMedia.setSoundcloud(sc);
     }
 
@@ -304,7 +293,7 @@ public class ParentEvent implements IParentEvent {
     }
 
     @Override
-    public Boolean setWebsite(String web) {
+    public Boolean setWebsite(String web) throws IllegalArgumentException {
         return socialMedia.setWebsite(web);
     }
 
@@ -314,7 +303,7 @@ public class ParentEvent implements IParentEvent {
     }
 
     @Override
-    public Boolean setSpotify(String sp) {
+    public Boolean setSpotify(String sp) throws IllegalArgumentException {
         return socialMedia.setSpotify(sp);
     }
 }

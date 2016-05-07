@@ -30,8 +30,27 @@ public class SocialMedia implements ISocial {
         id = 0;
     }
 
+    public SocialMedia(List<Bitmap> images, String facebook, String twitter, String instagram, String soundcloud, String website, String spotify) throws IllegalArgumentException {
+
+        Validator.URLValidator(facebook);
+        Validator.URLValidator(twitter);
+        Validator.URLValidator(instagram);
+        Validator.URLValidator(soundcloud);
+        Validator.URLValidator(website);
+        Validator.URLValidator(spotify);
+
+        this.id = 0;
+        this.images = images;
+        this.facebook = facebook;
+        this.twitter = twitter;
+        this.instagram = instagram;
+        this.soundcloud = soundcloud;
+        this.website = website;
+        this.spotify = spotify;
+    }
+
     public SocialMedia(Integer id, List<Bitmap> images, String facebook, String twitter,
-                       String instagram, String soundcloud, String website, String spoify){
+                       String instagram, String soundcloud, String website, String spotify) {
 
         this.id = id;
         this.images = images;
@@ -40,7 +59,7 @@ public class SocialMedia implements ISocial {
         this.instagram = instagram;
         this.soundcloud = soundcloud;
         this.website = website;
-        this.spotify = spoify;
+        this.spotify = spotify;
     }
     
 
@@ -59,11 +78,8 @@ public class SocialMedia implements ISocial {
      */
     @Override
     public Boolean setSocialId(Integer id) {
-        Boolean valid = Validator.idValidator(id);
-        if (valid) {
-            this.id = id;
-        }
-        return valid;
+        this.id = id;
+        return this.id.equals(id);
     }
 
     @Override
@@ -103,12 +119,11 @@ public class SocialMedia implements ISocial {
     }
 
     @Override
-    public Boolean setFacebook(String fb) {
-        Boolean valid = Validator.URLValidator(fb);
-        if (valid) {
-            facebook = fb;
-        }
-        return valid;
+    public Boolean setFacebook(String fb) throws IllegalArgumentException {
+        Validator.URLValidator(fb);
+            this.facebook = fb;
+        return this.facebook.equals(fb
+        );
     }
 
     @Override
@@ -117,12 +132,10 @@ public class SocialMedia implements ISocial {
     }
 
     @Override
-    public Boolean setTwitter(String tw) {
-        Boolean valid = Validator.URLValidator(tw);
-        if (valid) {
+    public Boolean setTwitter(String tw) throws IllegalArgumentException {
+        Validator.URLValidator(tw);
             twitter = tw;
-        }
-        return valid;
+        return this.twitter.equals(tw);
     }
 
     @Override
@@ -131,12 +144,10 @@ public class SocialMedia implements ISocial {
     }
 
     @Override
-    public Boolean setInstagram(String insta) {
-        Boolean valid = Validator.URLValidator(insta);
-        if (valid) {
+    public Boolean setInstagram(String insta) throws IllegalArgumentException {
+        Validator.URLValidator(insta);
             instagram = insta;
-        }
-        return valid;
+        return this.instagram.equals(insta);
     }
 
     @Override
@@ -145,12 +156,10 @@ public class SocialMedia implements ISocial {
     }
 
     @Override
-    public Boolean setSoundcloud(String sc) {
-        Boolean valid = Validator.URLValidator(sc);
-        if (valid) {
-            soundcloud = sc;
-        }
-        return valid;
+    public Boolean setSoundcloud(String sc) throws IllegalArgumentException {
+        Validator.URLValidator(sc);
+        soundcloud = sc;
+        return this.soundcloud.equals(sc);
     }
 
     @Override
@@ -159,12 +168,10 @@ public class SocialMedia implements ISocial {
     }
 
     @Override
-    public Boolean setWebsite(String web) {
-        Boolean valid = Validator.URLValidator(web);
-        if (valid) {
-            website = web;
-        }
-        return valid;
+    public Boolean setWebsite(String web) throws IllegalArgumentException {
+        Validator.URLValidator(web);
+        website = web;
+        return this.website.equals(web);
     }
 
     @Override
@@ -173,11 +180,9 @@ public class SocialMedia implements ISocial {
     }
 
     @Override
-    public Boolean setSpotify(String sp) {
-        Boolean valid = Validator.URLValidator(sp);
-        if (valid) {
+    public Boolean setSpotify(String sp) throws IllegalArgumentException {
+        Validator.URLValidator(sp);
             spotify = sp;
-        }
-        return valid;
+        return this.spotify.equals(sp);
     }
 }

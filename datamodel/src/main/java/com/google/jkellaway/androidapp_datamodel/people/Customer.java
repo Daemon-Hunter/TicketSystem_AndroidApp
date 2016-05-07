@@ -17,7 +17,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static com.google.jkellaway.androidapp_datamodel.utilities.HashString.Encrypt;
-import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.idValidator;
 
 /**
  * @author 10512691

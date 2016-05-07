@@ -24,11 +24,11 @@ public interface IChildEvent extends ISocial {
     Date    getEndDateTime();
     Boolean getCancelled();
     
-    Boolean setName(String name);
-    Boolean setDescription(String description);
-    Boolean setStartDateTime(Date startDateTime);
-    Boolean setEndDateTime(Date endDateTime);
-    Boolean setCancelled(Boolean cancelled);
+    Boolean setName(String name) throws IllegalArgumentException;
+    Boolean setDescription(String description) throws IllegalArgumentException;
+    Boolean setStartDateTime(Date startDateTime) throws IllegalArgumentException;
+    Boolean setEndDateTime(Date endDateTime) throws IllegalArgumentException;
+    Boolean setCancelled(Boolean cancelled) throws IllegalArgumentException;
 
     Integer getVenueID();
     Boolean setVenue(IVenue venue);
@@ -38,6 +38,7 @@ public interface IChildEvent extends ISocial {
 
     Integer getParentEventID();
     IParentEvent getParentEvent() throws IOException;
+    Boolean setParentEvent(IParentEvent event);
 
     ITicket getTicket(Integer id);
     List<ITicket> getTickets() throws IOException;

@@ -35,16 +35,16 @@ public interface IVenue extends ISocial, IReviewable {
     void setSocialMedia(SocialMedia socialMedia);
     SocialMedia getSocialMedia();
 
-    Boolean setName(String name) throws IOException;
-    Boolean setDescription(String description) throws IOException;
-    Boolean setStandingCapacity(Integer standing) throws IOException;
-    Boolean setSeatingCapacity(Integer seating) throws IOException;
-    Boolean setDisabledAccess(Boolean access) throws IOException;
-    Boolean setFacilites(String facilities) throws IOException;
-    Boolean setParking(Integer parking) throws IOException;
-    Boolean setEmail(String email) throws IOException;
-    Boolean setPhoneNumber(String phoneNumber) throws IOException;
-    Boolean setAddress(String address) throws IOException;
-    Boolean setCity(String city);
-    Boolean setPostcode(String postcode) throws IOException;
+    Boolean setName(String name)  throws IllegalArgumentException;
+    Boolean setDescription(String description)  throws IllegalArgumentException;
+    Boolean setStandingCapacity(Integer standing)  throws IllegalArgumentException;
+    Boolean setSeatingCapacity(Integer seating)  throws IllegalArgumentException;
+    Boolean setDisabledAccess(Boolean access)  throws IllegalArgumentException;
+    Boolean setFacilites(String facilities)  throws IllegalArgumentException;
+    Boolean setParking(Integer parking)  throws IllegalArgumentException;
+    Boolean setEmail(String email)  throws IllegalArgumentException;
+    Boolean setPhoneNumber(String phoneNumber)  throws IllegalArgumentException;
+    Boolean setAddress(String address)  throws IllegalArgumentException;
+    Boolean setCity(String city) throws IllegalArgumentException;
+    Boolean setPostcode(String postcode) throws IllegalArgumentException;
 }
