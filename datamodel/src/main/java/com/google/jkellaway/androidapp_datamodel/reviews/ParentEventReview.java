@@ -6,6 +6,7 @@
 package com.google.jkellaway.androidapp_datamodel.reviews;
 
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
+
 import java.util.Date;
 
 /**
@@ -25,7 +26,7 @@ public class ParentEventReview extends Review {
      * @param verified 
      */
     public ParentEventReview(Integer baseID, Integer customerID, Integer rating, 
-            Date date, String body, Boolean verified) 
+            Date date, String body, Boolean verified) throws IllegalArgumentException
     {
         super(baseID, customerID, rating, date, body, verified);
         table = DatabaseTable.PARENT_EVENT_REVIEW;

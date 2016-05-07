@@ -6,6 +6,7 @@
 package com.google.jkellaway.androidapp_datamodel.reviews;
 
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
+
 import java.util.Date;
 
 /**
@@ -26,7 +27,7 @@ public class ArtistReview extends Review {
      * @param verified
      */
     public ArtistReview(Integer baseID, Integer customerID, Integer rating, Date date, String body,
-                        Boolean verified) {
+                        Boolean verified) throws IllegalArgumentException {
         super(baseID, customerID, rating, date, body, verified);
         table = DatabaseTable.ARTIST_REVIEW;
     }

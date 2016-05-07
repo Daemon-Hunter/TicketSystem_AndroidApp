@@ -8,7 +8,6 @@ package com.google.jkellaway.androidapp_datamodel.reviews;
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
 
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
@@ -37,46 +36,33 @@ public abstract class Review implements IReview {
      * @param verified 
      */
     public Review(Integer baseID, Integer customerID, Integer rating, 
-                    Date date, String body, Boolean verified) 
+                    Date date, String body, Boolean verified) throws IllegalArgumentException
     {
         // Check to see if any of the arguments were null
         if (baseID == null || customerID == null) 
         {
-            throw new NullPointerException("Review base & customer ID's cannot be null");
+            throw new IllegalArgumentException("Sorry, we've had an internal error :( please try again.");
         } 
         else if (rating == null || body == null) 
         {
-            throw new NullPointerException("Rating or body cannot be null");
+            throw new IllegalArgumentException("Review rating, or body, hasn't been set - please try again.");
         } 
-        else if (verified == null) {
-            throw new NullPointerException("Verified cannot be null");
+        else if (verified == null)
+        {
+            throw new IllegalArgumentException("Sorry, we've had an internal error whilst checking review verification :( please try again.");
         }
+
         else {
-            
-            // Given no arguments were null, see if they're valid
-            if (Validator.idValidator(baseID)) {
-                if (Validator.idValidator(customerID)) {
-                    if (Validator.ratingValidator(rating)) {
-                        if (Validator.reviewBodyValidator(body)) {
-                                // Everything is valid -> initialise variables
-                                reviewBaseID = baseID;
-                                this.customerID = customerID;
-                                this.rating = rating;
-                                dateTime = date;
-                                reviewBody = body;
-                                this.verified = verified;
-                    } else {
-                        throw new IllegalArgumentException("Body invalid");
-                    }
-                } else {
-                    throw new IllegalArgumentException("Rating invalid");
-                }
-            } else {
-                throw new IllegalArgumentException("CustomerID invalid");
-            }
-        } else {
-                throw new IllegalArgumentException("ReviewBaseID invalid");
-            }
+            Validator.ratingValidator(rating);
+            Validator.reviewBodyValidator(body);
+
+            // Everything is valid -> initialise variables
+            reviewBaseID = baseID;
+            this.customerID = customerID;
+            this.rating = rating;
+            dateTime = date;
+            reviewBody = body;
+            this.verified = verified;
         }
     }
     
@@ -88,44 +74,30 @@ public abstract class Review implements IReview {
      * @param rating
      * @param body
      */
-    public Review(Integer baseID, Integer customerID, Integer rating, String body) 
+    public Review(Integer baseID, Integer customerID, Integer rating, String body) throws IllegalArgumentException
     {
         // Check to see if any of the arguments were null
         if (baseID == null || customerID == null) 
         {
-            throw new NullPointerException("Review base & customer ID's cannot be null");
+            throw new IllegalArgumentException("Sorry, we've had an internal error :( please try again.");
         } 
         else if (rating == null || body == null) 
         {
-            throw new NullPointerException("Rating or body cannot be null");
+            throw new IllegalArgumentException("Review rating, or body, hasn't been set - please try again.");
         } 
         else {
             
             // Given no arguments were null, see if they're valid
-            if (Validator.idValidator(baseID)) {
-                if (Validator.idValidator(customerID)) {
-                    if (Validator.ratingValidator(rating)) {
-                        if (Validator.reviewBodyValidator(body)) {
+            Validator.ratingValidator(rating);
+            Validator.reviewBodyValidator(body);
                             
-                            // Everything is valid -> initialise variables
-                            reviewBaseID = baseID;
-                            this.customerID = customerID;
-                            this.rating = rating;
-                            dateTime = Calendar.getInstance().getTime();
-                            reviewBody = body;
-                            this.verified = false;
-                        } else {
-                            throw new IllegalArgumentException("Review body invalid");
-                        }
-                    } else {
-                        throw new IllegalArgumentException("Rating invalid");
-                    }
-                } else {
-                    throw new IllegalArgumentException("CustomerID invalid");
-                }
-            } else {
-                throw new IllegalArgumentException("ReviewBaseID invalid");
-            }
+            // Everything is valid -> initialise variables
+            reviewBaseID = baseID;
+            this.customerID = customerID;
+            this.rating = rating;
+            dateTime = Calendar.getInstance().getTime();
+            reviewBody = body;
+            this.verified = false;
         }
     }
 
@@ -161,12 +133,12 @@ public abstract class Review implements IReview {
     }
 
     @Override
-    public Boolean setDateTime(Date datetime) {
+    public Boolean setDateTime(Date datetime) throws IllegalArgumentException {
         if (datetime == null) {
-            throw new NullPointerException("Cannot set date / time to null");
+            throw new IllegalArgumentException("Cannot set the date / time to nothing!");
         }
         dateTime = datetime;
-        return dateTime == datetime;
+        return true;
         
     }
 
@@ -180,16 +152,14 @@ public abstract class Review implements IReview {
     }
 
     @Override
-    public Boolean setRating(Integer rating) throws IOException {
-        if (rating == null) {
-            throw new NullPointerException("Cannot set rating to null");
-        } else {
-            Boolean valid = Validator.ratingValidator(rating);
-            if (valid) {
-                this.rating = rating;
-            }
-            return Objects.equals(this.rating, rating);
-        }
+    public Boolean setRating(Integer rating) throws IllegalArgumentException {
+        if (rating == null)
+            throw new IllegalArgumentException("Cannot set the review's rating to nothing!");
+
+        Validator.ratingValidator(rating);
+
+        this.rating = rating;
+        return this.rating.equals(rating);
     }
 
     @Override
@@ -202,16 +172,14 @@ public abstract class Review implements IReview {
     }
 
     @Override
-    public Boolean SetBody(String body) throws IOException {
-        if (body == null) {
+    public Boolean SetBody(String body) throws IllegalArgumentException {
+        if (body == null)
             throw new NullPointerException("Cannot set review body to null");
-        } else {
-            Boolean valid = Validator.reviewBodyValidator(body);
-            if (valid) {
-                reviewBody = body;
-            }
-            return reviewBody.equals(body);
-        }
+
+        Validator.reviewBodyValidator(body);
+
+        reviewBody = body;
+        return reviewBody.equals(body);
     }
 
     @Override

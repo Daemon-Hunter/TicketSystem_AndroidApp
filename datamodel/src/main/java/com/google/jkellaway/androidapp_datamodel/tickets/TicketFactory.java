@@ -14,7 +14,7 @@ import com.google.jkellaway.androidapp_datamodel.events.ChildEvent;
 public class TicketFactory implements ITicketFactory {
 
     @Override
-    public Ticket createTicket(ChildEvent event, Double price, String description, Integer remaining, String type) {
+    public Ticket createTicket(ChildEvent event, Double price, String description, Integer remaining, String type) throws IllegalArgumentException {
         return new Ticket(event, price, description, remaining, type);
     }
     

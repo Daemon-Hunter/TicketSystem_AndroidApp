@@ -125,13 +125,13 @@ public class Ticket implements ITicket {
     }
 
     @Override
-    public Boolean setDescription(String description) {
-        if (descriptionValidator(description)) {
-            this.description = description;
-            return this.description.equals(description);
-        } else {
-            return false;
+    public Boolean setDescription(String description) throws IllegalArgumentException {
+        if (description == null) {
+            throw new IllegalArgumentException("Please enter a description.");
         }
+        descriptionValidator(description);
+        this.description = description;
+        return this.description.equals(description);
     }
 
     @Override

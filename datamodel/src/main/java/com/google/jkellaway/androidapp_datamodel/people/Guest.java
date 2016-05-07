@@ -31,12 +31,18 @@ public class Guest implements IGuest {
      * @param address
      * @param postcode
      */
-    public Guest(String email, String address, String postcode)
+    public Guest(String email, String address, String postcode) throws IllegalArgumentException
     {
-        this.ID = -1;
+        // Validate arguments, IllegalArgument will be thrown if they fail.
+        Validator.emailValidator(email);
+        Validator.addressValidator(address);
+        Validator.postcodeValidator(postcode);
+
+        // Given valid arguments, set variables.
         this.email = email;
         this.address = address;
         this.postcode = postcode;
+
         table = DatabaseTable.GUEST_BOOKING;
     }
     
@@ -48,29 +54,19 @@ public class Guest implements IGuest {
      * @param address
      * @param postcode
      */
-    public Guest(Integer ID, String email, String address, String postcode)
+    public Guest(Integer ID, String email, String address, String postcode) throws IllegalArgumentException
     {
         // Check email. Email can be null.
-        if (email != null) {
-            if (Validator.emailValidator(email)) {
-                this.email = email;
-            } else {
-                throw new IllegalArgumentException("Invalid email address");
-            }
-        } else {
-            this.email = null;
-        }
+        if (email == null)
+            throw new IllegalArgumentException("Please enter a valid email address. None was found when creating guest.");
+        if (address == null)
+            throw new IllegalArgumentException("Please enter a valid address. None was found when creating guest.");
 
-        // Check address. Users don't have to have an address, so it can be set to null
-        if (address != null) {
-            if (Validator.addressValidator(address)) {
-                this.address = address;
-            } else {
-                throw new IllegalArgumentException("Invalid address.");
-            }
-        } else {
-            this.address = null;
-        }
+        Validator.emailValidator(email);
+        Validator.addressValidator(address);
+
+        this.email = email;
+        this.address = address;
 
         // Check the users postcode. Users don't have to have a postcode - so can be null
         if (postcode != null) {
