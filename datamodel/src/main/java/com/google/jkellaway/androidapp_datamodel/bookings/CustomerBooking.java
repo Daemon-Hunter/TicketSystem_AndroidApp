@@ -82,7 +82,7 @@ public class CustomerBooking implements IBooking {
 
     public IOrder getOrder() throws IOException {
         if (order == null) {
-            APIHandle.getSingle(orderID, DatabaseTable.ORDER);
+            order = (IOrder) APIHandle.getSingle(orderID, DatabaseTable.ORDER);
         }
         return order;
     }
