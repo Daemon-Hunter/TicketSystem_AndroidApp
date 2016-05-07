@@ -8,7 +8,6 @@ package com.google.jkellaway.androidapp_datamodel.utilities;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,65 +17,52 @@ import java.util.regex.Pattern;
  */
 public final class Validator {
 
-    private static final Pattern EMAIL_REGEX    = Pattern.compile("^[A-Z0-9._%\\+-]\\+@[A-Z0-9.-]+\\\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+    private static final Pattern EMAIL_REGEX    = Pattern.compile("^[A-Z0-9._%\\+-]+@[A-Z0-9.-]+.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
     private static final Pattern POSTCODE_REGEX = Pattern.compile("[a-zA-Z]{1,2}[0-9][0-9a-zA-Z]?[0-9][a-zA-Z]{2}");
 
     // Matches landlines and mobile numbers - e.g. 07534951289 || +447534951289 || 01934862045
-    private static final Pattern PHONE_REGEX = Pattern.compile("^((0{1})|([\\+][4]{2}))(1237){1}\\d{8,9}$");
+    private static final Pattern PHONE_REGEX    = Pattern.compile("[\\+][4]{2}[1237][\\d]{8,9}");
 
     private static final Pattern ID_REGEX       = Pattern.compile("[1-9]{1}[0-9]{0,7}");
 
-    public static Boolean quantityValidator(Integer qty) {
-        return 0 < qty;
+
+    public static void quantityValidator(Integer qty) throws IllegalArgumentException
+    {
+        if (!(0 < qty))
+            throw new IllegalArgumentException("You cannot have a negative quantity!");
     }
 
     /**
      * Checks the rating is in range '0 to 5'
      * @param rating
-     * @return
      */
-    public static Boolean ratingValidator(Integer rating) {
-        return 0 <+ rating
-                && rating <= 5;
+    public static void ratingValidator(Integer rating) throws IllegalArgumentException
+    {
+        if (!(0 < rating && rating <= 5))
+            throw new IllegalArgumentException("Rating needs to between 1 and 5.");
     }
 
     /**
      * Returns true if the review body is between 15 & 100 characters.
      * @param body
-     * @return
      */
-    public static Boolean reviewBodyValidator(String body) {
-        return (body.length() <= 140
-                && 5 <= body.length()
-                && !Blacklist.contains(body));
-    }
+    public static void reviewBodyValidator(String body) throws IllegalArgumentException
+    {
+        if (Blacklist.contains(body))
+            throw new IllegalArgumentException("Review body contains blacklisted words. Please remove, and try again.");
 
-    /**
-     * Returns true if the ID has been initialized.
-     * @param id
-     * @return
-     */
-    public static Boolean idValidator(Integer id) {
-
-//      ************ Remove this statement in final version!! *****************
-        if (id == 0) {
-            System.out.println("Object has not been set a valid ID!");
-            return false;
-            // return false!
-        } else {
-            Matcher matcher = ID_REGEX.matcher(id.toString());
-            return matcher.matches();
-        }
+        if (!(body.length() <= 150 && 5 <= body.length()))
+            throw new IllegalArgumentException("Review body length needs to be between 5 and 150 characters in length.");
     }
 
     /**
      * Tries to make a connection with the given URL.
      * Returns true if a connection is made, false if not.
      * @param url
-     * @return True if a connection is made
      */
-    public static Boolean URLValidator(String url) {
+    public static void URLValidator(String url) throws IllegalArgumentException
+    {
         try
         {
             // Create an instance of a URL object.
@@ -85,14 +71,13 @@ public final class Validator {
             try {
                 // Try to make a connection.
                 website.openConnection();
-                return true;
             }
             catch (IOException ex) {
-                return false;
+                throw new IllegalArgumentException("Could not make a connection to the URL. Review the web location and try again.");
             }
         }
         catch (MalformedURLException ex) {
-            return false;
+            throw new IllegalArgumentException("Could not make a connection to the URL - malformed URL string.");
         }
     }
 
@@ -100,30 +85,28 @@ public final class Validator {
      * returns true if the name does not contain any blacklisted words,
      * and is between 2 & 20 characters long.
      * @param name
-     * @return
      */
-    public static Boolean nameValidator(String name)
+    public static void nameValidator(String name) throws IllegalArgumentException
     {
-        if (!Blacklist.contains(name)) {
-            return 2 <= name.length()
-                    && name.length() <= 30;
-        } else
-            return true;
+        if (Blacklist.contains(name))
+            throw new IllegalArgumentException("Name contains blacklisted words. Please remove, and try again.");
+
+        if (!(2 <= name.length() && name.length() <= 30))
+            throw new IllegalArgumentException("The name's length must be between 2 and 30 characters. Please try again.");
     }
 
     /**
      * Description must be between 10 & 100 characters long,
      * and not contain blacklisted words...
      * @param description
-     * @return
      */
-    public static Boolean descriptionValidator(String description) {
-        if (Blacklist.contains(description)) {
-            return false;
-        } else {
-            return 10 <= description.length()
-                    && description.length() <= 500;
-        }
+    public static void descriptionValidator(String description) throws IllegalArgumentException
+    {
+        if (Blacklist.contains(description))
+            throw new IllegalArgumentException("Description cannot contain blacklisted words. Please remove, and try again.");
+
+        if (!(10 <= description.length() && description.length() <= 500))
+            throw new IllegalArgumentException("Description must be over length 10 and under 500.");
     }
 
     /**
@@ -131,10 +114,10 @@ public final class Validator {
      * @param capacity
      * @return
      */
-    public static Boolean capacityValidator(Integer capacity) {
-        return capacity != null
-                && capacity >= 0
-                && capacity <= 1000000;
+    public static void capacityValidator(Integer capacity) throws IllegalArgumentException
+    {
+        if (!(capacity >= 0 && capacity <= 1000000))
+            throw new IllegalArgumentException("Capacity must be greater than 0 and under 1 million.");
     }
 
     /**
@@ -142,33 +125,45 @@ public final class Validator {
      * @param facilities
      * @return
      */
-    public static Boolean facilitiesValidator(String facilities) {
-        return !Blacklist.contains(facilities) && facilities.length() <= 100;
+    public static void facilitiesValidator(String facilities) {
+        if (Blacklist.contains(facilities))
+            throw new IllegalArgumentException("Facilities description contains blacklisted words. Please edit, and try again.");
+
+        if (!(facilities.length() <= 100))
+            throw new IllegalArgumentException("Facilities description length must be under 100 characters.");
     }
 
-    public static Boolean parkingSpaceValidator(Integer parking) {
-        return parking <=  100000 && parking >= 0;
+    public static void parkingSpaceValidator(Integer parking) {
+        if (!(parking <=  100000))
+            throw new IllegalArgumentException("Cannot have more than 100000 parking spaces.");
+
+        if (!(parking >= 0))
+            throw new IllegalArgumentException("Cannot set the number of parking spaces to a negative number.");
     }
 
-    public static  Boolean emailValidator(String email) {
+    public static void emailValidator(String email) {
         Matcher m = EMAIL_REGEX.matcher(email);
-        return m.matches();
+        if (!m.matches())
+            throw new IllegalArgumentException("You've entered an invalid email address. Please review and try again.");
     }
 
-    public static Boolean phoneNumberValidator(String phoneNumber) {
+    public static void phoneNumberValidator(String phoneNumber) {
         phoneNumber = phoneNumber.replace(" ", "");
         if (phoneNumber.startsWith("0")) {
             phoneNumber = "+44" + phoneNumber.substring(1);
         }
         Matcher m = PHONE_REGEX.matcher(phoneNumber);
-        return m.matches();
+        if (!m.matches())
+            throw new IllegalArgumentException("You've entered an invalid UK phone number. Please review and try again.");
     }
 
     // Check against other addresses? Cannot have 2 venues at same place?
-    public static Boolean addressValidator(String address) {
-        return !Blacklist.contains(address)
-                && address.length() <= 200
-                && 5 <= address.length();
+    public static void addressValidator(String address) {
+        if (Blacklist.contains(address))
+            throw new IllegalArgumentException("The address you've entered contains blacklisted words. Please review and try again.");
+
+        if (!(address.length() <= 200 && 5 <= address.length()))
+            throw new IllegalArgumentException("The address must be between 5 and 200 characters long.");
     }
 
     /**
@@ -176,21 +171,14 @@ public final class Validator {
      * @param postcode
      * @return
      */
-    public static Boolean postcodeValidator(String postcode) {
-        postcode = postcode.replace(" ", "");
+    public static void postcodeValidator(String postcode) {
         Matcher m = POSTCODE_REGEX.matcher(postcode);
-        return m.matches();
+        if (!m.matches())
+            throw new IllegalArgumentException("The postcode you've entered is invalid. please enter a valid UK postcode.");
     }
 
-    public static Boolean tagValidator(String tag) {
-        return !Blacklist.contains(tag);
-    }
-
-    public static String formatPrice(Double price) {
-
-        DecimalFormat df = new DecimalFormat("£0.00");
-        String formattedPrice = df.format(price);
-
-        return formattedPrice;
+    public static void tagValidator(String tag) {
+        if (Blacklist.contains(tag))
+            throw new IllegalArgumentException("The tag you've entered ");
     }
 }
