@@ -18,29 +18,18 @@ import java.util.regex.Pattern;
  */
 public final class Validator {
 
+    private static final Pattern EMAIL_REGEX    = Pattern.compile("^[A-Z0-9._%\\+-]\\+@[A-Z0-9.-]+\\\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+
+    private static final Pattern POSTCODE_REGEX = Pattern.compile("[a-zA-Z]{1,2}[0-9][0-9a-zA-Z]?[0-9][a-zA-Z]{2}");
+
+    // Matches landlines and mobile numbers - e.g. 07534951289 || +447534951289 || 01934862045
+    private static final Pattern PHONE_REGEX = Pattern.compile("^((0{1})|([\\+][4]{2}))(1237){1}\\d{8,9}$");
+
+    private static final Pattern ID_REGEX       = Pattern.compile("[1-9]{1}[0-9]{0,7}");
+
     public static Boolean quantityValidator(Integer qty) {
         return 0 < qty;
     }
-
-//    /**
-//     * Checks whether the date / time is in a valid time period.
-//     * @param time
-//     * @return 
-//     */
-//    public static Boolean dateTimeValidator(Date time) {
-//        
-//        // Initialise date object with values from first launch.
-//        Date date = new Date();
-//        date.setDate(22);
-//        date.setHours(12);
-//        date.setMinutes(0);
-//        date.setMonth(2);
-//        date.setSeconds(0);
-//        date.setYear(2016);
-//        
-//        // Check whether the date object is in a valid time period.
-//        return time.after(date) && time.before(new Date()); 
-//    }
 
     /**
      * Checks the rating is in range '0 to 5'
@@ -48,7 +37,8 @@ public final class Validator {
      * @return
      */
     public static Boolean ratingValidator(Integer rating) {
-        return 0 <+ rating && rating <= 5;
+        return 0 <+ rating
+                && rating <= 5;
     }
 
     /**
@@ -57,7 +47,9 @@ public final class Validator {
      * @return
      */
     public static Boolean reviewBodyValidator(String body) {
-        return (body.length() <= 140 && 5 <= body.length() && !Blacklist.contains(body));
+        return (body.length() <= 140
+                && 5 <= body.length()
+                && !Blacklist.contains(body));
     }
 
     /**
@@ -70,11 +62,10 @@ public final class Validator {
 //      ************ Remove this statement in final version!! *****************
         if (id == 0) {
             System.out.println("Object has not been set a valid ID!");
-            return true;
+            return false;
             // return false!
         } else {
-            Pattern idPattern = Pattern.compile("[1-9]{1}[0-9]{0,7}");
-            Matcher matcher = idPattern.matcher(id.toString());
+            Matcher matcher = ID_REGEX.matcher(id.toString());
             return matcher.matches();
         }
     }
@@ -106,7 +97,7 @@ public final class Validator {
     }
 
     /**
-     * returns true if the name does not contain any blacklisted words, 
+     * returns true if the name does not contain any blacklisted words,
      * and is between 2 & 20 characters long.
      * @param name
      * @return
@@ -127,7 +118,6 @@ public final class Validator {
      * @return
      */
     public static Boolean descriptionValidator(String description) {
-
         if (Blacklist.contains(description)) {
             return false;
         } else {
@@ -136,10 +126,22 @@ public final class Validator {
         }
     }
 
-    public static Boolean capacityValidator(Integer standing) {
-        return true;
+    /**
+     * Integer value must be between 0 & 1 million.
+     * @param capacity
+     * @return
+     */
+    public static Boolean capacityValidator(Integer capacity) {
+        return capacity != null
+                && capacity >= 0
+                && capacity <= 1000000;
     }
 
+    /**
+     * Facilities description cannot contain blacklisted words, and must be under 100 characters.
+     * @param facilities
+     * @return
+     */
     public static Boolean facilitiesValidator(String facilities) {
         return !Blacklist.contains(facilities) && facilities.length() <= 100;
     }
@@ -149,11 +151,14 @@ public final class Validator {
     }
 
     public static  Boolean emailValidator(String email) {
-        return true;
+        Matcher m = EMAIL_REGEX.matcher(email);
+        return m.matches();
     }
 
     public static Boolean phoneNumberValidator(String phoneNumber) {
-        return true;
+        phoneNumber = phoneNumber.replace(" ", "");
+        Matcher m = PHONE_REGEX.matcher(phoneNumber);
+        return m.matches();
     }
 
     // Check against other addresses? Cannot have 2 venues at same place?
@@ -164,13 +169,12 @@ public final class Validator {
     }
 
     /**
-    * Postcode cannot contain spaces.
-    * @param postcode
-    * @return
-    */
+     * Postcode cannot contain spaces.
+     * @param postcode
+     * @return
+     */
     public static Boolean postcodeValidator(String postcode) {
-        Pattern postcodeRegex = Pattern.compile("[a-zA-Z]{1,2}[0-9][0-9a-zA-Z]?[0-9][a-zA-Z]{2}");
-        Matcher m = postcodeRegex.matcher(postcode);
+        Matcher m = POSTCODE_REGEX.matcher(postcode);
         return m.matches();
     }
 
