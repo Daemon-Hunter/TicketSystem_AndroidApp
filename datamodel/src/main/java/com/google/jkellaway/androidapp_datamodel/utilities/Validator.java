@@ -157,6 +157,9 @@ public final class Validator {
 
     public static Boolean phoneNumberValidator(String phoneNumber) {
         phoneNumber = phoneNumber.replace(" ", "");
+        if (phoneNumber.startsWith("0")) {
+            phoneNumber = "+44" + phoneNumber.substring(1);
+        }
         Matcher m = PHONE_REGEX.matcher(phoneNumber);
         return m.matches();
     }
@@ -174,6 +177,7 @@ public final class Validator {
      * @return
      */
     public static Boolean postcodeValidator(String postcode) {
+        postcode = postcode.replace(" ", "");
         Matcher m = POSTCODE_REGEX.matcher(postcode);
         return m.matches();
     }

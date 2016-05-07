@@ -121,7 +121,7 @@ public class DesktopWrapper implements IDesktopWrapper {
         } else {
             //venueList = APIHandle.getVenueAmount(amountToLoad, venueList.get(venueList.size()).getVenueID());
             venueList = new LinkedList<>((List<IVenue>)(Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.VENUE));
-            return venueList;
+            return new LinkedList<>(venueList);
         }
     }
 
@@ -263,7 +263,7 @@ public class DesktopWrapper implements IDesktopWrapper {
             return new LinkedList<>(customerList);
         }
         customerList = (List<ICustomer>) (Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.CUSTOMER);
-        return customerList;
+        return new LinkedList<>(customerList);
     }
 
     @Override
@@ -324,7 +324,7 @@ public class DesktopWrapper implements IDesktopWrapper {
             return new LinkedList<>(adminList);
         }
         adminList = (List<IAdmin>) (Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.ADMIN);
-        return adminList;
+        return new LinkedList<>(adminList);
     }
 
     @Override
@@ -364,7 +364,7 @@ public class DesktopWrapper implements IDesktopWrapper {
             return new LinkedList<>(guestList);
         }
         guestList = (List<IGuest>) (Object)APIHandle.getObjectAmount(amountToLoad, 0, DatabaseTable.GUEST_BOOKING);
-        return guestList;
+        return new LinkedList<>(guestList);
     }
 
     @Override

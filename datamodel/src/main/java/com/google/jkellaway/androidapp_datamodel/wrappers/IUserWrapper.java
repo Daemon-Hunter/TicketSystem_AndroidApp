@@ -5,6 +5,7 @@
  */
 package com.google.jkellaway.androidapp_datamodel.wrappers;
 
+import com.google.jkellaway.androidapp_datamodel.bookings.GuestBooking;
 import com.google.jkellaway.androidapp_datamodel.bookings.IOrder;
 import com.google.jkellaway.androidapp_datamodel.people.IUser;
 import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
@@ -23,4 +24,6 @@ public interface IUserWrapper extends IWrapper {
     IUser registerUser(IUser customer) throws IOException;
 
     IOrder makeCustomerBooking(List<ITicket> tickets, List<Integer> quantities) throws IOException;
+
+    List<GuestBooking> makeGuestBookings(List<GuestBooking> guestBookings) throws IOException;
 }

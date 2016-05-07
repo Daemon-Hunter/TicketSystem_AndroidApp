@@ -6,6 +6,7 @@
 package com.google.jkellaway.androidapp_datamodel.wrappers;
 
 import com.google.jkellaway.androidapp_datamodel.bookings.CustomerBooking;
+import com.google.jkellaway.androidapp_datamodel.bookings.GuestBooking;
 import com.google.jkellaway.androidapp_datamodel.bookings.IBooking;
 import com.google.jkellaway.androidapp_datamodel.bookings.IOrder;
 import com.google.jkellaway.androidapp_datamodel.bookings.Order;
@@ -88,6 +89,15 @@ public class UserWrapper implements IUserWrapper {
     }
 
     @Override
+    public List<GuestBooking> makeGuestBookings(List<GuestBooking> guestBookings) throws IOException {
+        List<GuestBooking> madeBookings = new LinkedList<>();
+        for (GuestBooking guestBooking: guestBookings) {
+            madeBookings.add((GuestBooking) pushObjectToDatabase(guestBooking, DatabaseTable.GUEST_BOOKING));
+        }
+        return madeBookings;
+    }
+
+    @Override
     public LinkedList getParentEvents() throws IOException {
         if (parentEventList != null){
             return new LinkedList<>(parentEventList);
@@ -161,7 +171,7 @@ public class UserWrapper implements IUserWrapper {
             return new LinkedList<>(venueList);
         } else {
             venueList = (List<IVenue>) (Object) getObjectAmount(amountToLoad, 0, DatabaseTable.VENUE);
-            return venueList;
+            return new LinkedList<>(venueList);
         }
     }
 

@@ -165,7 +165,7 @@ public class ChildEvent implements IChildEvent {
         } else {
             this.startDateTime = formatter.format(startDateTime);
         }
-        return this.startDateTime.equals(startDateTime);
+        return this.startDateTime.equals(formatter.format(startDateTime));
     }
 
     @Override
@@ -175,7 +175,7 @@ public class ChildEvent implements IChildEvent {
         } else {
             this.endDateTime = formatter.format(endDateTime);
         }
-        return this.endDateTime.equals(endDateTime);
+        return this.endDateTime.equals(formatter.format(endDateTime));
     }
 
     @Override
