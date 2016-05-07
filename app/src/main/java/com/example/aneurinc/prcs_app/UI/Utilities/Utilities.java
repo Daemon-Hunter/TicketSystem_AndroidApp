@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.view.Display;
 
+import java.text.DecimalFormat;
+
 /**
  * Created by denni on 20/04/2016.
  */
@@ -31,5 +33,12 @@ public final class Utilities {
         return (startDate.equals(endDate)) ? startDate : startDate + " - " + endDate;
     }
 
+    public static String formatPrice(Double price) {
+
+        DecimalFormat df = new DecimalFormat("£0.00");
+        String formattedPrice = df.format(price);
+
+        return formattedPrice;
+    }
 
 }

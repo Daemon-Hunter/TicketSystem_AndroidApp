@@ -8,13 +8,12 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
+import com.example.aneurinc.prcs_app.UI.utilities.Utilities;
 import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
 import com.google.jkellaway.androidapp_datamodel.events.IVenue;
 import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
 
 import java.util.List;
-
-import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.formatPrice;
 
 /**
  * Created by aneurinc on 11/04/2016.
@@ -73,7 +72,8 @@ public class TicketFragAdapter extends ArrayAdapter<ITicket> {
         }
 
         viewHolder.eventName.setText(mChildEvents.get(position).getName());
-        viewHolder.ticketCost.setText(formatPrice(Double.parseDouble(currTicket.getPrice().toString())));
+        viewHolder.ticketCost.setText(Utilities.formatPrice(Double.parseDouble(currTicket.getPrice()
+                .toString())));
         viewHolder.ticketType.setText(currTicket.getType());
         viewHolder.venueName.setText(mVenues.get(position).getName());
 

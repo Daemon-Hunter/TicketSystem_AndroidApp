@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -168,7 +167,7 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(getActivity(), ArtistActivity.class);
         intent.putExtra(ArtistActivity.ARTIST_ID, mArtists.get(position).getID());
-        getActivity().startActivity(intent);
+        startActivity(intent);
         getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
@@ -230,7 +229,6 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
 
         @Override
         protected void onPreExecute() {
-            Log.d(MainActivity.DEBUG_TAG, "onPreExecute: Read Artist thread started");
             showProgress(mReadProgressBar, true);
         }
 
@@ -257,13 +255,10 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
                 }
             }
 
-            Log.d(MainActivity.DEBUG_TAG, "onPostExecute: Read Artists thread finished");
-
         }
 
         @Override
         protected void onCancelled() {
-            Log.d(MainActivity.DEBUG_TAG, "onCancelled: Read Artists thread cancelled");
             showProgress(mReadProgressBar, false);
         }
     }
@@ -272,7 +267,6 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
 
         @Override
         protected void onPreExecute() {
-            Log.d(MainActivity.DEBUG_TAG, "onPreExecute: Load More Artist thread started");
             showProgress(mLoadProgressBar, true);
         }
 
@@ -280,7 +274,7 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
         protected Void doInBackground(Void... params) {
             try {
                 mArtists.addAll(UserWrapper.getInstance().loadMoreArtists());
-                Thread.sleep(750);
+                Thread.sleep(500);
             } catch (IOException e) {
             } catch (InterruptedException e) {
             }
@@ -291,13 +285,11 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
         protected void onPostExecute(Void aVoid) {
             showProgress(mLoadProgressBar, false);
             refreshAdapter();
-            Log.d(MainActivity.DEBUG_TAG, "onPostExecute: Load More Artists thread finished");
         }
 
         @Override
         protected void onCancelled() {
             showProgress(mLoadProgressBar, false);
-            Log.d(MainActivity.DEBUG_TAG, "onCancelled: Load More Artist thread cancelled");
         }
     }
 
@@ -307,11 +299,6 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
 
         public SearchArtists(String query) {
             mQuery = query;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            Log.d(MainActivity.DEBUG_TAG, "onPreExecute: Artist Search thread started");
         }
 
         @Override
@@ -328,12 +315,6 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
         @Override
         protected void onPostExecute(Void aVoid) {
             refreshAdapter();
-            Log.d(MainActivity.DEBUG_TAG, "onPostExecute: Artist Search thread finished");
-        }
-
-        @Override
-        protected void onCancelled() {
-            Log.d(MainActivity.DEBUG_TAG, "onCancelled: Artist Search thread cancelled");
         }
     }
 }

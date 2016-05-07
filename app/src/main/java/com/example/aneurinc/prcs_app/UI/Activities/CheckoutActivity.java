@@ -49,8 +49,7 @@ public class CheckoutActivity extends AppCompatActivity implements OnClickListen
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        menu.findItem(R.id.tb_search).setVisible(false);
+        getMenuInflater().inflate(R.menu.menu2, menu);
         return true;
     }
 

@@ -214,7 +214,6 @@ public class TicketFragment extends Fragment {
 
         @Override
         protected void onPreExecute() {
-            Log.d(MainActivity.DEBUG_TAG, "onPreExecute: Ticket Thread started");
             showProgress(true);
         }
 
@@ -245,13 +244,10 @@ public class TicketFragment extends Fragment {
                     refreshAdapter();
                 }
             }
-
-            Log.d(MainActivity.DEBUG_TAG, "onPostExecute: Ticket thread finished");
         }
 
         @Override
         protected void onCancelled() {
-            Log.d(MainActivity.DEBUG_TAG, "onCancelled: Ticket Thread cancelled");
             showProgress(false);
         }
     }

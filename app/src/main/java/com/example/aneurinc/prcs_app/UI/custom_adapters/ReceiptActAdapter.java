@@ -8,31 +8,48 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.utilities.Constants;
+import com.example.aneurinc.prcs_app.UI.utilities.Utilities;
+import com.google.jkellaway.androidapp_datamodel.bookings.IBooking;
+import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
 
-import java.text.DecimalFormat;
+import java.util.List;
 
 /**
  * Created by aneurinc on 03/04/2016.
  */
-public class ReceiptActAdapter extends ArrayAdapter<String> {
+public class ReceiptActAdapter extends ArrayAdapter<ITicket> {
 
 
     private final Activity context;
+    private List<ITicket> mTickets;
+    private List<IBooking> mBookings;
 
-    public ReceiptActAdapter(Activity c) {
+    public ReceiptActAdapter(Activity c, List<ITicket> tickets, List<IBooking> bookings) {
 
-        super(c, R.layout.list_invoice, Constants.ticketType);
+        super(c, R.layout.list_invoice);
 
         this.context = c;
+
+        mTickets = tickets;
+
+        mBookings = bookings;
     }
 
+    @Override
+    public ITicket getItem(int position) {
+        return mTickets.get(position);
+    }
 
+    @Override
+    public int getCount() {
+        return mTickets.size();
+    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder viewHolder;
+        ITicket currTicket = getItem(position);
 
         if (convertView == null) {
 
@@ -57,56 +74,11 @@ public class ReceiptActAdapter extends ArrayAdapter<String> {
         }
 
         // get text view from view holder and update value
-        viewHolder.ticketType.setText(Constants.ticketType[position]);
-        viewHolder.ticketCost.setText(Constants.ticketCost[position]);
-        viewHolder.ticketQty.setText(Constants.ticketQty[position]);
-
-        // set parent cost and parent qty values to 0 if getView is called
-        if (position == 0) {
-            TextView parentCost = (TextView) context.findViewById(R.id.total_cost);
-            TextView parentQty = (TextView) context.findViewById(R.id.total_qty);
-            parentCost.setText(R.string.zero_cost);
-            parentQty.setText(R.string.zero_qty);
-        }
-
-        updateTotal(convertView);
+        viewHolder.ticketType.setText(currTicket.getType());
+        viewHolder.ticketCost.setText(Utilities.formatPrice(currTicket.getPrice()));
+        viewHolder.ticketQty.setText(mBookings.get(position).getQuantity().toString());
 
         return convertView;
-    }
-
-    private void updateTotal(View rowView) {
-
-        // get reference to parent total rowCost text view and convert to double
-        TextView parentCost = (TextView) context.findViewById(R.id.total_cost);
-        String parentCostStr = parentCost.getText().toString();
-        parentCostStr = parentCostStr.replace("£", "");
-        double parentTotalVal = Double.parseDouble(parentCostStr);
-
-        // get reference to parent total row qty text view and convert to int
-        TextView parentQty = (TextView) context.findViewById(R.id.total_qty);
-        String parentQtyStr = parentQty.getText().toString();
-        int parentQtyVal = Integer.parseInt(parentQtyStr);
-
-        // get reference to ticket row qty text view and convert to int
-        TextView rowQty = (TextView) rowView.findViewById(R.id.ticket_qty);
-        String rowQtyStr = rowQty.getText().toString();
-        int rowQtyVal = Integer.parseInt(rowQtyStr);
-
-        // get reference to ticket row cost text view and convert to double
-        TextView rowCost = (TextView) rowView.findViewById(R.id.ticket_cost);
-        String rowCostStr = rowCost.getText().toString();
-        rowCostStr = rowCostStr.replace("£", "");
-        double rowCostVal = Double.parseDouble(rowCostStr);
-
-        // calculate new value of total ticket price and output total rowCost
-        double totalCost = parentTotalVal + rowQtyVal * rowCostVal;
-        DecimalFormat df = new DecimalFormat("#0.00");
-        parentCost.setText("£" + df.format(totalCost));
-
-        // calculate new value of total ticket rowQty and output total rowQty
-        int totalQty = parentQtyVal + rowQtyVal;
-        parentQty.setText(String.valueOf(totalQty));
-
     }
 
     static class ViewHolder {

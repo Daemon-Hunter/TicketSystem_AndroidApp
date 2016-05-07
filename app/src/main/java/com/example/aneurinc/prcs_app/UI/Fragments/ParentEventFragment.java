@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -229,11 +228,6 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
         }
 
         @Override
-        protected void onPreExecute() {
-            Log.d(MainActivity.DEBUG_TAG, "onPreExecute: ParentEvent Search thread started");
-        }
-
-        @Override
         protected Void doInBackground(Void... params) {
             try {
                 mParentEvents = UserWrapper.getInstance().searchParentEvents(mQuery);
@@ -247,12 +241,6 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
         @Override
         protected void onPostExecute(Void aVoid) {
             refreshAdapter();
-            Log.d(MainActivity.DEBUG_TAG, "onPostExecute: ParentEvent search thread finished");
-        }
-
-        @Override
-        protected void onCancelled() {
-            Log.d(MainActivity.DEBUG_TAG, "onCancelled: ParentEvent Search thread cancelled");
         }
     }
 
@@ -260,7 +248,6 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
 
         @Override
         protected void onPreExecute() {
-            Log.d(MainActivity.DEBUG_TAG, "onPreExecute: ParentEvent Thread started");
             showProgress(mReadProgressBar, true);
         }
 
@@ -287,13 +274,10 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
                     refreshAdapter();
                 }
             }
-
-            Log.d(MainActivity.DEBUG_TAG, "onPostExecute: ParentEvent thread finished");
         }
 
         @Override
         protected void onCancelled() {
-            Log.d(MainActivity.DEBUG_TAG, "onCancelled: ParentEvent Thread cancelled");
             showProgress(mReadProgressBar, false);
         }
     }
@@ -302,7 +286,6 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
 
         @Override
         protected void onPreExecute() {
-            Log.d(MainActivity.DEBUG_TAG, "onPreExecute: ParentEvent Load More thread started");
             showProgress(mLoadProgressBar, true);
         }
 
@@ -311,7 +294,7 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
 
             try {
                 mParentEvents.addAll(UserWrapper.getInstance().loadMoreParentEvents());
-                Thread.sleep(750);
+                Thread.sleep(500);
             } catch (IOException e) {
             } catch (InterruptedException e) {
             }
@@ -321,16 +304,12 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
 
         @Override
         protected void onPostExecute(Void aVoid) {
-
             showProgress(mLoadProgressBar, false);
             refreshAdapter();
-
-            Log.d(MainActivity.DEBUG_TAG, "onPostExecute: ParentEvent Load More thread " + "finished");
         }
 
         @Override
         protected void onCancelled() {
-            Log.d(MainActivity.DEBUG_TAG, "onCancelled: ParentEvent Load More thread cancelled");
             showProgress(mLoadProgressBar, false);
         }
     }

@@ -14,7 +14,6 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,6 +31,7 @@ import com.example.aneurinc.prcs_app.UI.fragments.FragmentType;
 import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
 import java.io.IOException;
+import java.io.InterruptedIOException;
 
 /**
  * A login screen that offers login via email/password.
@@ -70,7 +70,7 @@ public class SignInActivity extends AppCompatActivity implements OnEditorActionL
 
         //// TODO: 21/04/2016 REMOVE THIS 
         mPasswordView.setText("fucker");
-        mEmailView.setText("boatymcboatface@plymouthboats.co.uk");
+        mEmailView.setText("dennis358.jk@gmail.com");
     }
 
     @Override
@@ -85,8 +85,7 @@ public class SignInActivity extends AppCompatActivity implements OnEditorActionL
         String strSignIn = tvSignIn.getText().toString();
 
         SpannableString ssSignIn = new SpannableString(strSignIn);
-        ssSignIn.setSpan(new CustomClickableSpan(this), 14, strSignIn.length() - 1,
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ssSignIn.setSpan(new CustomClickableSpan(this), 14, strSignIn.length() - 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         tvSignIn.setText(ssSignIn);
         tvSignIn.setMovementMethod(LinkMovementMethod.getInstance());
@@ -166,8 +165,7 @@ public class SignInActivity extends AppCompatActivity implements OnEditorActionL
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+            mLoginFormView.animate().setDuration(shortAnimTime).alpha(show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
@@ -175,8 +173,7 @@ public class SignInActivity extends AppCompatActivity implements OnEditorActionL
             });
 
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+            mProgressView.animate().setDuration(shortAnimTime).alpha(show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
@@ -215,7 +212,7 @@ public class SignInActivity extends AppCompatActivity implements OnEditorActionL
     private void closeKeyboard() {
         View view = this.getCurrentFocus();
         if (view != null) {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
@@ -245,13 +242,14 @@ public class SignInActivity extends AppCompatActivity implements OnEditorActionL
         protected Boolean doInBackground(Void... params) {
             try {
                 UserWrapper.getInstance().loginUser(mEmail, mPassword);
+                Thread.sleep(750);
             } catch (IOException e) {
-                Log.e("IO Exception", "doInBackground:  " + "");
                 return false;
-            } catch (IllegalArgumentException ex) {
+            } catch (IllegalArgumentException e) {
                 return false;
-            }
-            return true;
+            } catch (InterruptedException e) {
+                return false;
+            } return true;
         }
 
         @Override

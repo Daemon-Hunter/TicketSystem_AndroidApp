@@ -11,8 +11,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
+import com.example.aneurinc.prcs_app.UI.utilities.Utilities;
 import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
-import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
 
 import java.text.DecimalFormat;
 import java.util.Collection;
@@ -108,7 +108,7 @@ public class TicketActAdapter extends ArrayAdapter<ITicket> {
 
         // get text view from view holder and update value
         viewHolder.ticketType.setText(currTicket.getType());
-        viewHolder.ticketCost.setText(Validator.formatPrice(currTicket.getPrice()));
+        viewHolder.ticketCost.setText(Utilities.formatPrice(currTicket.getPrice()));
 
 
         convertView.setBackgroundColor(getRowColour(position));
