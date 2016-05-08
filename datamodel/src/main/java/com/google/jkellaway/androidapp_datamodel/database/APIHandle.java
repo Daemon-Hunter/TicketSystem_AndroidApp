@@ -7,6 +7,7 @@ package com.google.jkellaway.androidapp_datamodel.database;
 
 import com.google.jkellaway.androidapp_datamodel.bookings.CustomerBooking;
 import com.google.jkellaway.androidapp_datamodel.bookings.GuestBooking;
+import com.google.jkellaway.androidapp_datamodel.bookings.IBooking;
 import com.google.jkellaway.androidapp_datamodel.bookings.IOrder;
 import com.google.jkellaway.androidapp_datamodel.events.IArtist;
 import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
@@ -162,6 +163,39 @@ public final class APIHandle{
         return objectList;
     }
 
+    public static List<IBooking> getBookingAmount(Integer orderID, Integer amount, Integer lowestID) throws IOException {
+        List<IBooking> objectList = new LinkedList<>();
+
+        int threads = Runtime.getRuntime().availableProcessors();
+        ExecutorService service = Executors.newFixedThreadPool(threads);
+        List<Future<IBooking>> futures = new LinkedList<>();
+        List<Map<String, String>> objectMapList;
+
+        objectMapList = APIConnection.readTicketAmount(orderID, amount, lowestID);
+
+        for (final Map<String, String> objectMap : objectMapList) {
+            Callable<IBooking> callable = new Callable<IBooking>() {
+                @Override
+                public IBooking call() throws Exception {
+                    return MapToCustomerBooking(objectMap);
+                }
+            };
+
+            futures.add(service.submit(callable));
+        }
+
+        service.shutdown();
+
+        for (Future<IBooking> future : futures){
+            try {
+                objectList.add(future.get());
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+        return objectList;
+    }
+
     public static List<Object> getObjectAmount(Integer amount, Integer lastID, final DatabaseTable table) throws IOException {
 
         List<Object> objectList = new LinkedList<>();
@@ -169,8 +203,9 @@ public final class APIHandle{
         int threads = Runtime.getRuntime().availableProcessors();
         ExecutorService service = Executors.newFixedThreadPool(threads);
         List<Future<Object>> futures = new LinkedList<>();
+        List<Map<String, String>> objectMapList;
 
-        List<Map<String, String>> objectMapList = APIConnection.readAmount(table, amount, lastID);
+        objectMapList = APIConnection.readAmount(table, amount, lastID);
 
 
         for (final Map<String, String> objectMap : objectMapList) {

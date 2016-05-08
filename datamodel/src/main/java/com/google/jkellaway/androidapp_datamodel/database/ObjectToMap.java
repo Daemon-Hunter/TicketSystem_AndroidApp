@@ -14,6 +14,7 @@ import com.google.jkellaway.androidapp_datamodel.people.IAdmin;
 import com.google.jkellaway.androidapp_datamodel.people.IUser;
 import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -34,11 +35,11 @@ final class ObjectToMap {
         return adminMap;
     }
 
-    public static Map<String, String> customerBookingToMap(CustomerBooking booking) {
+    public static Map<String, String> customerBookingToMap(CustomerBooking booking) throws IOException {
         Map<String,String> returnMap = new HashMap<>();
         returnMap.put("BOOKING_ID",Integer.toString(booking.getBookingID()));
         returnMap.put("TICKET_ID", Integer.toString(booking.getTicketID()));
-        returnMap.put("ORDER_ID",Integer.toString(booking.getOrder().getOrderID()));
+        returnMap.put("ORDER_ID",Integer.toString(booking.getOrderID()));
         returnMap.put("BOOKING_QUANTITY",Integer.toString(booking.getQuantity()));
         returnMap.put("BOOKING_DATE_TIME",formatter.format(booking.getBookingTime()));
         return returnMap;

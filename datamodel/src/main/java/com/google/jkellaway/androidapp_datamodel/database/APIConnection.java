@@ -203,6 +203,10 @@ final class APIConnection {
         return Connection(URI + "functions/get" + DBTableToString(objectsToGet) + "Of" + objectToUse.toString() + "/" + artistID.toString());
     }
 
+    public static List<Map<String, String>> readTicketAmount(Integer orderID, Integer amountToRead, Integer lowestID) throws IOException {
+        return Connection(URI + "functions/getBookingsOfOrderAmount/" + orderID.toString() + "/" + amountToRead.toString() + "/" + lowestID.toString());
+    }
+
     public static Boolean createContract(Integer artistID, Integer childEventID) throws IOException {
         URL url;
         boolean result;
