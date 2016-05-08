@@ -83,8 +83,13 @@ public class CustomerBooking implements IBooking {
     public IOrder getOrder() throws IOException {
         if (order == null) {
             order = (IOrder) APIHandle.getSingle(orderID, DatabaseTable.ORDER);
+            orderID = order.getOrderID();
         }
         return order;
+    }
+
+    public Integer getOrderID(){
+        return orderID;
     }
 
     public Boolean setOrder(IOrder order) {
