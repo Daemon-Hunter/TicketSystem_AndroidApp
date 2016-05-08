@@ -24,5 +24,6 @@ public interface ICustomer extends IUser, IHaveReviews{
     Boolean removeOrder(IOrder order);
 
     List<IBooking> getBookings() throws IOException;
+    List<IBooking> loadMoreBookings() throws IOException;
     
 }

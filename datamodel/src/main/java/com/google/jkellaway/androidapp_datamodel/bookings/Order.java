@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-import static com.google.jkellaway.androidapp_datamodel.database.APIHandle.getBookingAmount;
+import static com.google.jkellaway.androidapp_datamodel.database.APIHandle.getObjectsFromObject;
 
 /**
  *
@@ -77,7 +77,7 @@ public class Order implements IOrder {
      */
     @Override
     public List<IBooking> getBookingList() throws IOException {
-        bookingList = getBookingAmount(this.orderID, 4, 0);
+        bookingList = (List<IBooking>) (Object) getObjectsFromObject(this.orderID, DatabaseTable.BOOKING, DatabaseTable.ORDER);
         return new LinkedList(bookingList);
     }
 
@@ -89,18 +89,6 @@ public class Order implements IOrder {
     @Override
     public IBooking getBooking(Integer bookingID) {
         return bookingList.get(bookingID);
-    }
-
-    @Override
-    public List<IBooking> loadMoreBookings() throws IOException {
-        int lowestID = 0;
-        for (IBooking booking : bookingList){
-            if (booking.getBookingID() < lowestID || lowestID == 0)
-                lowestID = booking.getBookingID();
-        }
-        List<IBooking> newData = getBookingAmount(this.orderID, 9, 0);
-        bookingList.addAll(newData);
-        return new LinkedList<>(newData);
     }
 
     @Override
