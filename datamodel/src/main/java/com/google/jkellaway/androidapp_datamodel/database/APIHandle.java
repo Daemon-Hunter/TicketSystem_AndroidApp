@@ -142,6 +142,8 @@ public final class APIHandle{
                             artist.setType(MapToArtistType(APIConnection.readSingle(artist.getTypeID(), DatabaseTable.ARTIST_TYPE)));
                             artist.setSocialMedia(MapToSocialMedia(APIConnection.readSingle(artist.getSocialId(), DatabaseTable.SOCIAL_MEDIA)));
                             return artist;
+                        case CUSTOMER:
+                            return MapToCustomer(objectMap);
                         default: throw new IllegalArgumentException();
                     }
                 }

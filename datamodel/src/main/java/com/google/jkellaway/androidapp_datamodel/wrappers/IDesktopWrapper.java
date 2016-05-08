@@ -23,6 +23,7 @@ public interface IDesktopWrapper extends IWrapper {
     Boolean      removeCustomer(ICustomer customer);
     List<ICustomer>  loadMoreCustomers() throws IOException;
     List<ICustomer>  refreshCustomers() throws IOException;
+    List<ICustomer> searchCustomers(String string) throws IOException;
     
     Boolean      addAdmin(IAdmin admin);
     IAdmin       getAdmin(Integer index) throws IOException;
