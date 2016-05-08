@@ -199,6 +199,8 @@ public class ChildEvent implements IChildEvent {
 
     @Override
     public Integer getParentEventID() {
+        if (parentEventID == null)
+            parentEventID = parentEvent.getID();
         return parentEventID;
     }
 
