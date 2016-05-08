@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -95,6 +96,7 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
 
     private void readParentEvents() {
         if (!isTaskRunning(mReadTask)) {
+            showProgress(mReadProgressBar, true);
             mReadTask = new ReadParentEvents();
             mReadTask.execute();
         }
@@ -102,6 +104,7 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
 
     private void loadMoreParentEvents() {
         if (!isTaskRunning(mLoadMoreTask)) {
+            showProgress(mLoadProgressBar, true);
             mLoadMoreTask = new LoadMoreParentEvents();
             mLoadMoreTask.execute();
         }
@@ -155,9 +158,11 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
 
     private void handleQuit() {
         if (isTaskRunning(mReadTask)) {
+            showProgress(mReadProgressBar, false);
             mReadTask.cancel(true);
         }
         if (isTaskRunning(mLoadMoreTask)) {
+            showProgress(mLoadProgressBar, false);
             mLoadMoreTask.cancel(true);
         }
         if (isTaskRunning(mSearchTask)) {
@@ -246,6 +251,7 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
 
         @Override
         protected void onCancelled() {
+            super.onCancelled();
             mSearchTask = null;
         }
     }
@@ -253,13 +259,8 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
     private class ReadParentEvents extends AsyncTask<Void, Void, Void> {
 
         @Override
-        protected void onPreExecute() {
-            showProgress(mReadProgressBar, true);
-        }
-
-        @Override
         protected Void doInBackground(Void... params) {
-
+            Log.d(MainActivity.DEBUG_TAG, "event fragment thread started");
             try {
                 UserWrapper.getInstance().setAmountToLoad(18);
                 mParentEvents = UserWrapper.getInstance().getParentEvents();
@@ -272,6 +273,8 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
 
         @Override
         protected void onPostExecute(Void aVoid) {
+
+            Log.d(MainActivity.DEBUG_TAG, "event fragment thread completed");
 
             mReadTask = null;
 
@@ -286,17 +289,14 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
 
         @Override
         protected void onCancelled() {
+            Log.d(MainActivity.DEBUG_TAG, "event fragment thread cancelled");
+            super.onCancelled();
             mReadTask = null;
             showProgress(mReadProgressBar, false);
         }
     }
 
     private class LoadMoreParentEvents extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected void onPreExecute() {
-            showProgress(mLoadProgressBar, true);
-        }
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -320,6 +320,7 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
 
         @Override
         protected void onCancelled() {
+            super.onCancelled();
             mLoadMoreTask = null;
             showProgress(mLoadProgressBar, false);
         }

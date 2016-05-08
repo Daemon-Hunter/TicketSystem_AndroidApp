@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,6 +52,7 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
 
     private void readParentEvent() {
         if (!isTaskRunning(mReadTask)) {
+            showProgress(true);
             mReadTask = new ReadParentEvent(this);
             mReadTask.execute();
         }
@@ -76,6 +78,7 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
 
     private void handleQuit() {
         if (isTaskRunning(mReadTask)) {
+            showProgress(false);
             mReadTask.cancel(true);
         }
     }
@@ -177,13 +180,8 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
         }
 
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            showProgress(true);
-        }
-
-        @Override
         protected IParentEvent doInBackground(Void... params) {
+            Log.d(MainActivity.DEBUG_TAG, "parent event activity thread started");
             try {
                 mParentEvent = UserWrapper.getInstance().getParentEvent(getIntent().getExtras().getInt(PARENT_EVENT_ID));
             } catch (IOException e) {
@@ -201,7 +199,7 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
 
         @Override
         protected void onPostExecute(IParentEvent parentEvent) {
-
+            Log.d(MainActivity.DEBUG_TAG, "parent event activity thread completed");
             mReadTask = null;
 
             showProgress(false);
@@ -257,6 +255,8 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
 
         @Override
         protected void onCancelled() {
+            Log.d(MainActivity.DEBUG_TAG, "parent event activity thread cancelled");
+            super.onCancelled();
             mReadTask = null;
             showProgress(false);
         }

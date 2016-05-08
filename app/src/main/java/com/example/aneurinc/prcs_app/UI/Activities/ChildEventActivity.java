@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -54,6 +55,7 @@ public class ChildEventActivity extends AppCompatActivity implements AdapterView
 
     private void readChildEvent() {
         if (!isTaskRunning(mReadTask)) {
+            showProgress(true);
             mReadTask = new ReadChildEvent(this);
             mReadTask.execute();
         }
@@ -79,6 +81,7 @@ public class ChildEventActivity extends AppCompatActivity implements AdapterView
 
     private void handleQuit() {
         if (isTaskRunning(mReadTask)) {
+            showProgress(false);
             mReadTask.cancel(true);
         }
     }
@@ -165,13 +168,8 @@ public class ChildEventActivity extends AppCompatActivity implements AdapterView
         }
 
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            showProgress(true);
-        }
-
-        @Override
         protected Void doInBackground(Void... params) {
+            Log.d(MainActivity.DEBUG_TAG, "child event activity thread started");
             try {
                 int childID = getIntent().getExtras().getIntArray(EVENT_ID)[0];
                 int parentID = getIntent().getExtras().getIntArray(EVENT_ID)[1];
@@ -185,6 +183,8 @@ public class ChildEventActivity extends AppCompatActivity implements AdapterView
 
         @Override
         protected void onPostExecute(Void aVoid) {
+
+            Log.d(MainActivity.DEBUG_TAG, "child event activity thread completed");
 
             mReadTask = null;
 
@@ -226,6 +226,8 @@ public class ChildEventActivity extends AppCompatActivity implements AdapterView
 
         @Override
         protected void onCancelled() {
+            Log.d(MainActivity.DEBUG_TAG, "artist activity thread cancelled");
+            super.onCancelled();
             mReadTask = null;
             showProgress(false);
         }

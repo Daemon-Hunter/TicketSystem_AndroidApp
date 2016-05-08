@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -59,6 +60,7 @@ public class ReceiptActivity extends AppCompatActivity implements OnClickListene
 
     private void readOrder() {
         if (!isTaskRunning(mReadTask)) {
+            showProgress(true);
             mReadTask = new ReadOrder(this);
             mReadTask.execute();
         }
@@ -84,6 +86,7 @@ public class ReceiptActivity extends AppCompatActivity implements OnClickListene
 
     private void handleQuit() {
         if (isTaskRunning(mReadTask)) {
+            showProgress(false);
             mReadTask.cancel(true);
         }
     }
@@ -148,7 +151,6 @@ public class ReceiptActivity extends AppCompatActivity implements OnClickListene
         mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
-
     private class ReadOrder extends AsyncTask<Void, Void, Void> {
 
         private Activity mContext;
@@ -158,13 +160,9 @@ public class ReceiptActivity extends AppCompatActivity implements OnClickListene
         }
 
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            showProgress(true);
-        }
-
-        @Override
         protected Void doInBackground(Void... params) {
+
+            Log.d(MainActivity.DEBUG_TAG, "receipt activity thread started");
 
             try {
                 mCustomer = (ICustomer) UserWrapper.getInstance().getUser();
@@ -185,6 +183,8 @@ public class ReceiptActivity extends AppCompatActivity implements OnClickListene
 
         @Override
         protected void onPostExecute(Void aVoid) {
+
+            Log.d(MainActivity.DEBUG_TAG, "receipt activity thread completed");
 
             showProgress(false);
             mReadTask = null;
@@ -231,6 +231,8 @@ public class ReceiptActivity extends AppCompatActivity implements OnClickListene
 
         @Override
         protected void onCancelled() {
+            Log.d(MainActivity.DEBUG_TAG, "receipt activity thread cancelled");
+            super.onCancelled();
             showProgress(false);
             mReadTask = null;
         }

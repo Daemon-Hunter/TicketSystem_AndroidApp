@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -100,6 +101,7 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
 
     private void readVenues() {
         if (!isTaskRunning(mReadTask)) {
+            showProgress(mReadProgressBar, true);
             mReadTask = new ReadVenues(getActivity());
             mReadTask.execute();
         }
@@ -107,6 +109,7 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
 
     private void loadMoreVenues() {
         if (!isTaskRunning(mLoadMoreTask)) {
+            showProgress(mLoadProgressBar, true);
             mLoadMoreTask = new LoadMoreVenues();
             mLoadMoreTask.execute();
         }
@@ -161,10 +164,12 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
 
     private void handleQuit() {
         if (isTaskRunning(mReadTask)) {
+            showProgress(mReadProgressBar, false);
             mReadTask.cancel(true);
         }
 
         if (isTaskRunning(mLoadMoreTask)) {
+            showProgress(mLoadProgressBar, false);
             mLoadMoreTask.cancel(true);
         }
 
@@ -235,12 +240,8 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
         }
 
         @Override
-        protected void onPreExecute() {
-            showProgress(mReadProgressBar, true);
-        }
-
-        @Override
         protected Void doInBackground(Void... params) {
+            Log.d(MainActivity.DEBUG_TAG, "venue fragment thread started");
             try {
                 UserWrapper.getInstance().setAmountToLoad(9);
                 mVenues = UserWrapper.getInstance().getVenues();
@@ -253,6 +254,7 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
         @Override
         protected void onPostExecute(Void aVoid) {
 
+            Log.d(MainActivity.DEBUG_TAG, "venue fragment thread completed");
             mReadTask = null;
 
             showProgress(mReadProgressBar, false);
@@ -267,17 +269,14 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
 
         @Override
         protected void onCancelled() {
+            Log.d(MainActivity.DEBUG_TAG, "venue fragment thread cancelled");
+            super.onCancelled();
             mReadTask = null;
             showProgress(mReadProgressBar, false);
         }
     }
 
     private class LoadMoreVenues extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected void onPreExecute() {
-            showProgress(mLoadProgressBar, true);
-        }
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -301,6 +300,7 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
 
         @Override
         protected void onCancelled() {
+            super.onCancelled();
             mLoadMoreTask = null;
             showProgress(mLoadProgressBar, false);
         }
@@ -332,6 +332,7 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
 
         @Override
         protected void onCancelled() {
+            super.onCancelled();
             mSearchTask = null;
         }
     }

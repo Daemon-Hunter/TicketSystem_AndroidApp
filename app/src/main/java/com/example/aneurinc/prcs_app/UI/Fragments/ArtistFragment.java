@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -128,9 +129,11 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
 
     private void handleQuit() {
         if (isTaskRunning(mReadTask)) {
+            showProgress(mReadProgressBar, false);
             mReadTask.cancel(true);
         }
         if (isTaskRunning(mLoadMoreTask)) {
+            showProgress(mLoadProgressBar, false);
             mLoadMoreTask.cancel(true);
         }
         if (isTaskRunning(mSearchTask)) {
@@ -144,6 +147,7 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
 
     private void readArtists() {
         if (!isTaskRunning(mReadTask)) {
+            showProgress(mReadProgressBar, true);
             mReadTask = new ReadArtists();
             mReadTask.execute();
         }
@@ -158,6 +162,7 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
 
     private void loadMoreArtists() {
         if (!isTaskRunning(mLoadMoreTask)) {
+            showProgress(mLoadProgressBar, true);
             mLoadMoreTask = new LoadMoreArtists();
             mLoadMoreTask.execute();
         }
@@ -233,13 +238,9 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
     private class ReadArtists extends AsyncTask<Void, Void, Void> {
 
         @Override
-        protected void onPreExecute() {
-            showProgress(mReadProgressBar, true);
-        }
-
-        @Override
         protected Void doInBackground(Void... voids) {
 
+            Log.d(MainActivity.DEBUG_TAG, "artist fragment thread started");
             try {
                 UserWrapper.getInstance().setAmountToLoad(18);
                 mArtists = UserWrapper.getInstance().getArtists();
@@ -251,6 +252,8 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
 
         @Override
         protected void onPostExecute(Void aVoid) {
+
+            Log.d(MainActivity.DEBUG_TAG, "artist fragment thread completed");
 
             mReadTask = null;
 
@@ -266,17 +269,14 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
 
         @Override
         protected void onCancelled() {
+            Log.d(MainActivity.DEBUG_TAG, "artist fragment thread cancelled");
+            super.onCancelled();
             mReadTask = null;
             showProgress(mReadProgressBar, false);
         }
     }
 
     private class LoadMoreArtists extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected void onPreExecute() {
-            showProgress(mLoadProgressBar, true);
-        }
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -298,6 +298,7 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
 
         @Override
         protected void onCancelled() {
+            super.onCancelled();
             mLoadMoreTask = null;
             showProgress(mLoadProgressBar, false);
         }
@@ -330,6 +331,7 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
 
         @Override
         protected void onCancelled() {
+            super.onCancelled();
             mSearchTask = null;
         }
     }

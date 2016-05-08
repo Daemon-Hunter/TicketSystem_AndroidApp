@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -77,6 +78,7 @@ public class TicketActivity extends AppCompatActivity implements OnClickListener
 
     private void readTickets() {
         if (!isTaskRunning(mReadTask)) {
+            showProgress(true);
             mReadTask = new ReadTickets(this);
             mReadTask.execute();
         }
@@ -109,6 +111,7 @@ public class TicketActivity extends AppCompatActivity implements OnClickListener
 
     private void handleQuit() {
         if (isTaskRunning(mReadTask)) {
+            showProgress(false);
             mReadTask.cancel(true);
         }
         if (isTaskRunning(mOrderTask)) {
@@ -262,12 +265,9 @@ public class TicketActivity extends AppCompatActivity implements OnClickListener
         }
 
         @Override
-        protected void onPreExecute() {
-            showProgress(true);
-        }
-
-        @Override
         protected Void doInBackground(Void... params) {
+
+            Log.d(MainActivity.DEBUG_TAG, "ticket activity thread started");
 
             int childID = getIntent().getExtras().getIntArray(EVENT_ID)[0];
             int parentID = getIntent().getExtras().getIntArray(EVENT_ID)[1];
@@ -284,6 +284,8 @@ public class TicketActivity extends AppCompatActivity implements OnClickListener
 
         @Override
         protected void onPostExecute(Void aVoid) {
+
+            Log.d(MainActivity.DEBUG_TAG, "ticket activity thread completed");
 
             showProgress(false);
             mReadTask = null;
@@ -322,9 +324,10 @@ public class TicketActivity extends AppCompatActivity implements OnClickListener
 
         @Override
         protected void onCancelled() {
+            Log.d(MainActivity.DEBUG_TAG, "ticket activity thread cancelled");
+            super.onCancelled();
             mReadTask = null;
             showProgress(false);
-            super.onCancelled();
         }
     }
 }

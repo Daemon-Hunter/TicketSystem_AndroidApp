@@ -33,8 +33,7 @@ import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 import java.io.IOException;
 import java.util.List;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,
-        View.OnClickListener {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
 
     private static final float ZOOM_VAL = 16.0f;
     private LatLng mLocation;
@@ -57,10 +56,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         try {
             mVenue = UserWrapper.getInstance().getVenue(getIntent().getExtras().getInt(VENUE_ID));
         } catch (IOException e) {
-            e.printStackTrace();
             // TODO: 03/05/2016 handle
         }
-        mAddress = mVenue.getAddress() + ", " + mVenue.getCity() + ", " + mVenue.getPostcode();
+        mAddress = String.format("%s %s %s", mVenue.getAddress(), mVenue.getCity(), mVenue
+                .getPostcode());
 
         // geocode string address to get latitude and longitude
         mLocation = geocodeAddress(mAddress);
@@ -113,8 +112,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private void initMapFragment() {
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.venue_map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.venue_map);
         mapFragment.getMapAsync(this);
     }
 
@@ -127,30 +125,22 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
                 onBackPressed();
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
 
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu2, menu);
-        menu.findItem(R.id.tb_search).setVisible(false);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         switch (item.getItemId()) {
 
             case R.id.tb_home:
@@ -166,7 +156,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        if (googleMap != null) {
+        if (googleMap != null && mLocation != null) {
             mGoogleMap = googleMap;
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mLocation, ZOOM_VAL));
             googleMap.setInfoWindowAdapter(new CustomInfoWindow(this, mVenue));
@@ -186,7 +176,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         title.setText(mVenue.getName());
         phoneNo.setText(mVenue.getPhoneNumber());
         email.setText(mVenue.getEmail());
-        parking.setText(mVenue.getParking() + " spaces");
+        parking.setText(String.format("%s spaces", mVenue.getParking()));
 
         int xy = Utilities.getScreenWidth(this) / 4 + 30;
         Bitmap scaledImage = Utilities.scaleDown(mVenue.getImage(0), xy, xy);

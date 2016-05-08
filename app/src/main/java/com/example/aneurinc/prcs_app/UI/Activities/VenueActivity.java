@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -52,6 +53,7 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener,
 
     private void readChildEvents() {
         if (!isTaskRunning(mReadTask)) {
+            showProgress(true);
             mReadTask = new ReadChildEvents(this);
             mReadTask.execute();
         }
@@ -77,6 +79,7 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener,
 
     private void handleQuit() {
         if (isTaskRunning(mReadTask)) {
+            showProgress(false);
             mReadTask.cancel(true);
         }
     }
@@ -198,13 +201,9 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener,
         }
 
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            showProgress(true);
-        }
-
-        @Override
         protected Void doInBackground(Void... params) {
+
+            Log.d(MainActivity.DEBUG_TAG, "venue activity thread started");
 
             try {
                 mVenue = UserWrapper.getInstance().getVenue(getIntent().getExtras().getInt(VENUE_ID));
@@ -221,6 +220,8 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener,
 
         @Override
         protected void onPostExecute(Void aVoid) {
+
+            Log.d(MainActivity.DEBUG_TAG, "venue activity thread completed");
 
             mReadTask = null;
 
@@ -283,6 +284,8 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener,
 
         @Override
         protected void onCancelled() {
+            Log.d(MainActivity.DEBUG_TAG, "artist activity thread cancelled");
+            super.onCancelled();
             mReadTask = null;
             showProgress(false);
         }

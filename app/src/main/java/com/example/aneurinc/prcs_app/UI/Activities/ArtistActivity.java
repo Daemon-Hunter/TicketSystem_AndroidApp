@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -54,6 +55,7 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
 
     private void readArtist() {
         if (!isTaskRunning(mReadTask)) {
+            showProgress(true);
             mReadTask = new ReadArtist(this);
             mReadTask.execute();
         }
@@ -80,6 +82,7 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
 
     private void handleQuit() {
         if (isTaskRunning(mReadTask)) {
+            showProgress(false);
             mReadTask.cancel(true);
         }
     }
@@ -204,13 +207,8 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            showProgress(true);
-        }
-
-        @Override
         protected Void doInBackground(Void... params) {
+            Log.d(MainActivity.DEBUG_TAG, "artist activity thread started");
             try {
                 int artistID = getIntent().getExtras().getIntArray(ARTIST_ID)[0];
                 mArtist = UserWrapper.getInstance().getArtist(artistID);
@@ -227,6 +225,8 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
 
         @Override
         protected void onPostExecute(Void aVoid) {
+
+            Log.d(MainActivity.DEBUG_TAG, "artist activity thread completed");
 
             mReadTask = null;
 
@@ -295,6 +295,8 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
 
         @Override
         protected void onCancelled() {
+            Log.d(MainActivity.DEBUG_TAG, "artist activity thread cancelled");
+            super.onCancelled();
             mReadTask = null;
             showProgress(false);
         }

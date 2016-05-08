@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,6 +88,7 @@ public class TicketFragment extends Fragment {
 
     private void readTickets() {
         if (!isTaskRunning(mReadTask)) {
+            showProgress(true);
             mReadTask = new ReadTickets(getActivity());
             mReadTask.execute();
         }
@@ -130,6 +132,7 @@ public class TicketFragment extends Fragment {
 
     private void handleQuit() {
         if (isTaskRunning(mReadTask)) {
+            showProgress(false);
             mReadTask.cancel(true);
         }
         if (isTaskRunning(mSearchTask)) {
@@ -171,6 +174,7 @@ public class TicketFragment extends Fragment {
 
         @Override
         protected void onCancelled() {
+            super.onCancelled();
             mSearchTask = null;
         }
     }
@@ -201,6 +205,7 @@ public class TicketFragment extends Fragment {
 
         @Override
         protected void onCancelled() {
+            super.onCancelled();
             mLoadTask = null;
         }
     }
@@ -214,19 +219,19 @@ public class TicketFragment extends Fragment {
         }
 
         @Override
-        protected void onPreExecute() {
-            showProgress(true);
-        }
-
-        @Override
         protected Void doInBackground(Void... params) {
+            Log.d(MainActivity.DEBUG_TAG, "ticket fragment thread started");
             try {
                 ICustomer customer = (ICustomer) UserWrapper.getInstance().getUser();
                 mBookings = customer.getBookings();
                 for (IBooking booking : mBookings) {
+                    if (isCancelled()) break;
                     mTickets.add(booking.getTicket());
+                    if (isCancelled()) break;
                     mOrderIDs.add(((CustomerBooking) booking).getOrderID());
+                    if (isCancelled()) break;
                     mChildEvents.add(booking.getTicket().getChildEvent());
+                    if (isCancelled()) break;
                     mVenues.add(booking.getTicket().getChildEvent().getVenue());
                 }
             } catch (IOException e) {
@@ -239,6 +244,7 @@ public class TicketFragment extends Fragment {
         @Override
         protected void onPostExecute(Void aVoid) {
 
+            Log.d(MainActivity.DEBUG_TAG, "ticket fragment thread completed");
             mReadTask = null;
 
             showProgress(false);
@@ -252,6 +258,8 @@ public class TicketFragment extends Fragment {
 
         @Override
         protected void onCancelled() {
+            Log.d(MainActivity.DEBUG_TAG, "ticket fragment thread cancelled");
+            super.onCancelled();
             mReadTask = null;
             showProgress(false);
         }
