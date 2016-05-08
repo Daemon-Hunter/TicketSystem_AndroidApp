@@ -97,6 +97,7 @@ public class CustomerBooking implements IBooking {
             throw new NullPointerException("Cannot set user to null");
         } else {
             this.order = order;
+            this.orderID = order.getOrderID();
             return true;
         }
     }
