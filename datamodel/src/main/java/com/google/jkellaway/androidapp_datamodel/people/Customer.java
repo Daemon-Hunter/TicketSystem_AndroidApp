@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
+import static com.google.jkellaway.androidapp_datamodel.database.APIHandle.getBookingAmount;
 import static com.google.jkellaway.androidapp_datamodel.utilities.HashString.Encrypt;
 
 /**
@@ -28,6 +29,7 @@ public class Customer implements ICustomer {
     private Integer ID;
     private List<IReview> reviews;
     private List<IOrder> orders;
+    List<IBooking> bookings;
 
 
     /**
@@ -195,12 +197,20 @@ public class Customer implements ICustomer {
 
     @Override
     public List<IBooking> getBookings() throws IOException {
-        List<IBooking> bookings = new LinkedList<>();
-        getOrderList();
-        for (IOrder order : orders) {
-            bookings.addAll(order.getBookingList());
-        }
+        bookings = APIHandle.getBookingAmount(this.ID, 4, 0);
         return bookings;
+    }
+
+    @Override
+    public List<IBooking> loadMoreBookings() throws IOException {
+        int lowestID = 0;
+        for (IBooking booking : bookings){
+            if (booking.getBookingID() < lowestID || lowestID == 0)
+                lowestID = booking.getBookingID();
+        }
+        List<IBooking> newData = getBookingAmount(this.ID, 4, 0);
+        bookings.addAll(newData);
+        return new LinkedList<>(newData);
     }
 
     @Override

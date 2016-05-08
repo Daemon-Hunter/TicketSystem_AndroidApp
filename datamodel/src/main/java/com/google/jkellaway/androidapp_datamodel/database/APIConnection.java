@@ -102,7 +102,7 @@ final class APIConnection {
     }
 
     public static Map<String, String> add(Map<String, String> mapToAdd, DatabaseTable table) throws IOException {
-        int httpCode = 500;
+        int httpCode;
         Map<String, String> map;
         String urlToPost = URI + DBTableToString(table);  // URL of where to add to the table.
         URL url = null;
@@ -125,9 +125,12 @@ final class APIConnection {
         writer.write(createJsonString(mapToAdd));
         writer.close();
         os.close();
+
+        if (connection.getResponseCode() != 201)
+            throw new IOException("Request violated database constraint.");
+
         try (BufferedReader in = new BufferedReader(
                 new InputStreamReader(connection.getInputStream()))) {
-
             // inputValues of the JSON
             String inputLine = in.readLine();
 
@@ -204,7 +207,7 @@ final class APIConnection {
     }
 
     public static List<Map<String, String>> readTicketAmount(Integer orderID, Integer amountToRead, Integer lowestID) throws IOException {
-        return Connection(URI + "functions/getBookingsOfOrderAmount/" + orderID.toString() + "/" + amountToRead.toString() + "/" + lowestID.toString());
+        return Connection(URI + "functions/getBookingsOfCustomerAmount/" + orderID.toString() + "/" + amountToRead.toString() + "/" + lowestID.toString());
     }
 
     public static Boolean createContract(Integer artistID, Integer childEventID) throws IOException {
@@ -261,7 +264,6 @@ final class APIConnection {
             return listOfEntities;
         }
     }
-
 
     private static List<Map<String, String>> JSONBreakDown(String JSONString) {
 

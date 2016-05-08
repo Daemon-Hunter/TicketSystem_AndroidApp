@@ -163,7 +163,7 @@ public final class APIHandle{
         return objectList;
     }
 
-    public static List<IBooking> getBookingAmount(Integer orderID, Integer amount, Integer lowestID) throws IOException {
+    public static List<IBooking> getBookingAmount(Integer userID, Integer amount, Integer lowestID) throws IOException {
         List<IBooking> objectList = new LinkedList<>();
 
         int threads = Runtime.getRuntime().availableProcessors();
@@ -171,7 +171,7 @@ public final class APIHandle{
         List<Future<IBooking>> futures = new LinkedList<>();
         List<Map<String, String>> objectMapList;
 
-        objectMapList = APIConnection.readTicketAmount(orderID, amount, lowestID);
+        objectMapList = APIConnection.readTicketAmount(userID, amount, lowestID);
 
         for (final Map<String, String> objectMap : objectMapList) {
             Callable<IBooking> callable = new Callable<IBooking>() {

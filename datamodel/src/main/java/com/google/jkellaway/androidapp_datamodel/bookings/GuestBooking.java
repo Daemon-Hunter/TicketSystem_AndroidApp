@@ -75,6 +75,7 @@ public class GuestBooking implements IBooking {
             throw new NullPointerException("Null ticket");
         } else {
             this.ticket = ticket;
+            this.ticketID = ticket.getID();
 
             Validator.quantityValidator(ticketQty);
             this.ticketQuantity = ticketQty;

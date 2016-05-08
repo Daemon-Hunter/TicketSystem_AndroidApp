@@ -22,7 +22,6 @@ public interface IOrder {
     Integer getUserID();
     List<IBooking> getBookingList() throws IOException;
     IBooking getBooking(Integer bookingID);
-    List<IBooking> loadMoreBookings() throws IOException;
     Boolean addBooking(IBooking booking);
 
 }

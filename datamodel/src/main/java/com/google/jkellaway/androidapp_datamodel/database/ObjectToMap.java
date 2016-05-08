@@ -231,9 +231,15 @@ final class ObjectToMap {
     }
 
     public static Map<String, String> guestBookingToMap(GuestBooking guestBooking) {
-        return null;
+        Map<String, String> guestBookingMap = new HashMap<>();
+        guestBookingMap.put("GUEST_BOOKING_ID", guestBooking.getBookingID().toString());
+        guestBookingMap.put("TICKET_ID", guestBooking.getTicketID().toString());
+        guestBookingMap.put("GUEST_EMAIL", guestBooking.getGuest().getEmail());
+        guestBookingMap.put("GUEST_ADDRESS", guestBooking.getGuest().getAddress());
+        guestBookingMap.put("GUEST_POSTCODE", guestBooking.getGuest().getPostcode());
+        guestBookingMap.put("GUEST_BOOKING_QUANTITY", guestBooking.getQuantity().toString());
+        guestBookingMap.put("GUEST_BOOKING_DATE_TIME", formatter.format(guestBooking.getBookingTime()));
+        return guestBookingMap;
     }
-
-
 }
 
