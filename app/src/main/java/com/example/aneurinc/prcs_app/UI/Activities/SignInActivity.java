@@ -31,7 +31,6 @@ import com.example.aneurinc.prcs_app.UI.fragments.FragmentType;
 import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
 import java.io.IOException;
-import java.io.InterruptedIOException;
 
 /**
  * A login screen that offers login via email/password.
@@ -52,6 +51,12 @@ public class SignInActivity extends AppCompatActivity implements OnEditorActionL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        View decorView = getWindow().getDecorView();
+        // Hide the status bar.
+        int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+
         setContentView(R.layout.activity_sign_in);
 
         // Set up the login form.
@@ -60,7 +65,7 @@ public class SignInActivity extends AppCompatActivity implements OnEditorActionL
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(this);
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.btn_confirm);
+        Button mEmailSignInButton = (Button) findViewById(R.id.confirm_order);
         mEmailSignInButton.setOnClickListener(this);
 
         mLoginFormView = findViewById(R.id.form);
@@ -200,7 +205,7 @@ public class SignInActivity extends AppCompatActivity implements OnEditorActionL
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_confirm:
+            case R.id.confirm_order:
                 closeKeyboard();
                 attemptLogin();
                 break;
@@ -249,7 +254,8 @@ public class SignInActivity extends AppCompatActivity implements OnEditorActionL
                 return false;
             } catch (InterruptedException e) {
                 return false;
-            } return true;
+            }
+            return true;
         }
 
         @Override

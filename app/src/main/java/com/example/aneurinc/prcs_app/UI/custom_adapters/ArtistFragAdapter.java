@@ -81,8 +81,9 @@ public class ArtistFragAdapter extends ArrayAdapter<IArtist> {
             // get width of single grid
             int xy = mContext.findViewById(R.id.artist_grid_view).getWidth() / 3;
             // resize image to fit single grid
-            viewHolder.gridImage.setImageBitmap(Utilities.scaleDown(currArtist.getImage(0), xy,
-                    xy));
+            if (xy > 0) {
+                viewHolder.gridImage.setImageBitmap(Utilities.scaleDown(currArtist.getImage(0), xy, xy));
+            }
         }
 
         viewHolder.gridText.setText(currArtist.getName());

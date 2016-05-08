@@ -3,28 +3,25 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="15dp">
+    android:background="@color/colorGrey400"
+    android:orientation="horizontal">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="27"
-        android:background="@color/colorGrey400">
+        android:layout_weight="29">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/qrcode"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/qrcode"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="63"
-        android:background="@color/colorGrey300"
+        android:layout_weight="71"
         android:orientation="vertical">
 
         <TextView
@@ -33,9 +30,16 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="7dp"
             android:layout_marginTop="5dp"
-            android:layout_toLeftOf="@+id/ticket_event_image"
-            android:layout_alignParentLeft="true"
             android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/ticket_qty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="5dp"
+            android:textSize="12sp"/>
 
         <TextView
             android:id="@+id/event_venue"
@@ -43,10 +47,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/event_name"
             android:layout_marginLeft="7dp"
-            android:layout_marginTop="5dp"/>
+            android:layout_marginTop="3dp"/>
 
         <TextView
-            android:id="@+id/ticket_qty"
+            android:id="@+id/ticket_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/event_venue"
@@ -56,9 +60,18 @@
             android:id="@+id/event_cost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/ticket_qty"
+            android:layout_below="@id/ticket_type"
             android:layout_marginLeft="7dp"/>
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/booking_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ticket_type"
+            android:layout_toRightOf="@id/ticket_cost"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="8dp"/>
+
+    </RelativeLayout>
 
 </LinearLayout>

@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +15,7 @@ import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.activities.MainActivity;
 import com.example.aneurinc.prcs_app.UI.custom_adapters.TicketFragAdapter;
 import com.example.aneurinc.prcs_app.UI.custom_listeners.OnSwipeTouchListener;
+import com.google.jkellaway.androidapp_datamodel.bookings.CustomerBooking;
 import com.google.jkellaway.androidapp_datamodel.bookings.IBooking;
 import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
 import com.google.jkellaway.androidapp_datamodel.events.IVenue;
@@ -43,8 +43,10 @@ public class TicketFragment extends Fragment {
     private MainActivity mMainActivity;
 
     private List<ITicket> mTickets;
+    private List<IBooking> mBookings;
     private List<IChildEvent> mChildEvents;
     private List<IVenue> mVenues;
+    private List<Integer> mOrderIDs;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,6 +60,8 @@ public class TicketFragment extends Fragment {
         mTickets = new ArrayList<>();
         mChildEvents = new ArrayList<>();
         mVenues = new ArrayList<>();
+        mOrderIDs = new ArrayList<>();
+        mBookings = new ArrayList<>();
 
         if (getActivity() instanceof MainActivity) {
             mMainActivity = (MainActivity) getActivity();
@@ -141,7 +145,7 @@ public class TicketFragment extends Fragment {
     }
 
     private void refreshAdapter() {
-        mListView.setAdapter(new TicketFragAdapter(getActivity(), mTickets, mChildEvents, mVenues));
+        mListView.setAdapter(new TicketFragAdapter(getActivity(), mTickets, mBookings, mOrderIDs, mChildEvents, mVenues));
     }
 
     private class SearchTickets extends AsyncTask<Void, Void, Void> {
@@ -155,23 +159,19 @@ public class TicketFragment extends Fragment {
         }
 
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
         protected Void doInBackground(Void... params) {
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            mSearchTask = null;
             super.onPostExecute(aVoid);
         }
 
         @Override
         protected void onCancelled() {
-            super.onCancelled();
+            mSearchTask = null;
         }
     }
 
@@ -195,12 +195,13 @@ public class TicketFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            mLoadTask = null;
             super.onPostExecute(aVoid);
         }
 
         @Override
         protected void onCancelled() {
-            super.onCancelled();
+            mLoadTask = null;
         }
     }
 
@@ -221,9 +222,10 @@ public class TicketFragment extends Fragment {
         protected Void doInBackground(Void... params) {
             try {
                 ICustomer customer = (ICustomer) UserWrapper.getInstance().getUser();
-                List<IBooking> bookings = customer.getBookings();
-                for (IBooking booking : bookings) {
+                mBookings = customer.getBookings();
+                for (IBooking booking : mBookings) {
                     mTickets.add(booking.getTicket());
+                    mOrderIDs.add(((CustomerBooking) booking).getOrderID());
                     mChildEvents.add(booking.getTicket().getChildEvent());
                     mVenues.add(booking.getTicket().getChildEvent().getVenue());
                 }
@@ -237,10 +239,12 @@ public class TicketFragment extends Fragment {
         @Override
         protected void onPostExecute(Void aVoid) {
 
+            mReadTask = null;
+
             showProgress(false);
 
             if (mContext != null && isAdded()) {
-                if (!mTickets.isEmpty()) {
+                if (!mBookings.isEmpty()) {
                     refreshAdapter();
                 }
             }
@@ -248,6 +252,7 @@ public class TicketFragment extends Fragment {
 
         @Override
         protected void onCancelled() {
+            mReadTask = null;
             showProgress(false);
         }
     }

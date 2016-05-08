@@ -166,7 +166,12 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(getActivity(), ArtistActivity.class);
-        intent.putExtra(ArtistActivity.ARTIST_ID, mArtists.get(position).getID());
+
+        int[] data = new int[2];
+        data[0] = mArtists.get(position).getID();
+        data[1] = 1;
+
+        intent.putExtra(ArtistActivity.ARTIST_ID, data);
         startActivity(intent);
         getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
@@ -247,6 +252,8 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
         @Override
         protected void onPostExecute(Void aVoid) {
 
+            mReadTask = null;
+
             showProgress(mReadProgressBar, false);
 
             if (isAdded()) {
@@ -259,6 +266,7 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
 
         @Override
         protected void onCancelled() {
+            mReadTask = null;
             showProgress(mReadProgressBar, false);
         }
     }
@@ -283,12 +291,14 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            mLoadMoreTask = null;
             showProgress(mLoadProgressBar, false);
             refreshAdapter();
         }
 
         @Override
         protected void onCancelled() {
+            mLoadMoreTask = null;
             showProgress(mLoadProgressBar, false);
         }
     }
@@ -314,7 +324,13 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            mSearchTask = null;
             refreshAdapter();
+        }
+
+        @Override
+        protected void onCancelled() {
+            mSearchTask = null;
         }
     }
 }

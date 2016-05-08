@@ -36,6 +36,7 @@ public class ChildEventActivity extends AppCompatActivity implements AdapterView
     public static String EVENT_ID;
     private IChildEvent mChildEvent;
     private List<IArtist> mArtists;
+    private ReadChildEvent mReadTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,20 +45,46 @@ public class ChildEventActivity extends AppCompatActivity implements AdapterView
 
         setupToolbar();
 
-        addOnClickListeners();
+        ImageView tickets = (ImageView) findViewById(R.id.buy_tickets);
+        tickets.setOnClickListener(this);
 
         readChildEvent();
 
     }
 
     private void readChildEvent() {
-        ReadChildEvent task = new ReadChildEvent(this);
-        task.execute();
+        if (!isTaskRunning(mReadTask)) {
+            mReadTask = new ReadChildEvent(this);
+            mReadTask.execute();
+        }
     }
 
-    private void addOnClickListeners() {
-        ImageView tickets = (ImageView) findViewById(R.id.buy_tickets);
-        tickets.setOnClickListener(this);
+    @Override
+    public void onPause() {
+        handleQuit();
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        handleQuit();
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        handleQuit();
+        super.onDestroy();
+    }
+
+    private void handleQuit() {
+        if (isTaskRunning(mReadTask)) {
+            mReadTask.cancel(true);
+        }
+    }
+
+    private boolean isTaskRunning(AsyncTask task) {
+        return task != null && task.getStatus() == AsyncTask.Status.RUNNING;
     }
 
     private void setupToolbar() {
@@ -69,16 +96,9 @@ public class ChildEventActivity extends AppCompatActivity implements AdapterView
             @Override
             public void onClick(View v) {
                 onBackPressed();
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
-    }
-
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(this, ParentEventActivity.class);
-        intent.putExtra(ParentEventActivity.PARENT_EVENT_ID, getIntent().getExtras().getIntArray(EVENT_ID)[1]);
-        startActivity(intent);
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
     @Override
@@ -106,7 +126,9 @@ public class ChildEventActivity extends AppCompatActivity implements AdapterView
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(this, ArtistActivity.class);
-        intent.putExtra(ArtistActivity.ARTIST_ID, mArtists.get(position).getID());
+        int[] data = new int[1];
+        data[0] = mArtists.get(position).getID();
+        intent.putExtra(ArtistActivity.ARTIST_ID, data);
         startActivity(intent);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
@@ -164,12 +186,15 @@ public class ChildEventActivity extends AppCompatActivity implements AdapterView
         @Override
         protected void onPostExecute(Void aVoid) {
 
+            mReadTask = null;
+
             showProgress(false);
             TextView name = (TextView) mContext.findViewById(R.id.child_event_title);
             TextView date = (TextView) mContext.findViewById(R.id.child_event_date);
             TextView city = (TextView) mContext.findViewById(R.id.child_event_city);
             TextView desc = (TextView) mContext.findViewById(R.id.child_event_description);
             ImageView image = (ImageView) mContext.findViewById(R.id.child_event_venue_image);
+            ImageView buyTickets = (ImageView) mContext.findViewById(R.id.buy_tickets);
             RelativeLayout container = (RelativeLayout) mContext.findViewById(R.id.artist_lineup_container);
 
             String startDate = mChildEvent.getStartDateTime().toString().substring(0, 10);
@@ -196,10 +221,12 @@ public class ChildEventActivity extends AppCompatActivity implements AdapterView
             city.setText(mChildEvent.getVenue().getCity());
             desc.setText(mChildEvent.getDescription());
             image.setImageBitmap(scaledImage);
+            buyTickets.setVisibility(View.VISIBLE);
         }
 
         @Override
         protected void onCancelled() {
+            mReadTask = null;
             showProgress(false);
         }
     }

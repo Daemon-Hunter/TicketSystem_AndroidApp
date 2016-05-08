@@ -78,7 +78,9 @@ public class VenueFragAdapter extends ArrayAdapter<IVenue> {
 
         int xy = mContext.findViewById(R.id.venue_list).getWidth() / 4;
 
-        viewHolder.venueImage.setImageBitmap(Utilities.scaleDown(currVenue.getImage(0), xy, xy));
+        if (xy > 0) {
+            viewHolder.venueImage.setImageBitmap(Utilities.scaleDown(currVenue.getImage(0), xy, xy));
+        }
         viewHolder.venueName.setText(currVenue.getName());
         viewHolder.venueCity.setText(currVenue.getCity());
 

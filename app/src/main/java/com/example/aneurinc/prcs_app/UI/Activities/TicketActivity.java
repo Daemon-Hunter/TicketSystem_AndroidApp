@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +15,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -206,6 +206,11 @@ public class TicketActivity extends AppCompatActivity implements OnClickListener
         }
     }
 
+    private void showProgress(final boolean show) {
+        ProgressBar mProgressBar = (ProgressBar) findViewById(R.id.read_progress);
+        mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
     private void refreshAdapter() {
         TicketActAdapter mAdapter = (TicketActAdapter) mListView.getAdapter();
         mAdapter.clear();
@@ -229,11 +234,7 @@ public class TicketActivity extends AppCompatActivity implements OnClickListener
 
             try {
                 mOrder = UserWrapper.getInstance().makeCustomerBooking(ticketCopy, qtyCopy);
-                if (mOrder == null) {
-                    Log.d(MainActivity.DEBUG_TAG, "doInBackground: mOrder is null");
-                }
             } catch (IOException e) {
-                e.printStackTrace();
             }
 
             return null;
@@ -244,6 +245,11 @@ public class TicketActivity extends AppCompatActivity implements OnClickListener
             Intent intent = new Intent(TicketActivity.this, CheckoutActivity.class);
             intent.putExtra(CheckoutActivity.ORDER_ID, mOrder.getOrderID());
             startActivity(intent);
+        }
+
+        @Override
+        protected void onCancelled() {
+            mOrder = null;
         }
     }
 
@@ -257,7 +263,7 @@ public class TicketActivity extends AppCompatActivity implements OnClickListener
 
         @Override
         protected void onPreExecute() {
-            // TODO: 03/05/2016 add a spinner
+            showProgress(true);
         }
 
         @Override
@@ -279,10 +285,14 @@ public class TicketActivity extends AppCompatActivity implements OnClickListener
         @Override
         protected void onPostExecute(Void aVoid) {
 
+            showProgress(false);
+            mReadTask = null;
+
             ImageView eventImage = (ImageView) mContext.findViewById(R.id.ticket_event_image);
             TextView eventName = (TextView) mContext.findViewById(R.id.ticket_event_title);
             TextView eventDate = (TextView) mContext.findViewById(R.id.ticket_event_date);
             TextView eventVenue = (TextView) mContext.findViewById(R.id.ticket_venue);
+            RelativeLayout totalContainer = (RelativeLayout) mContext.findViewById(R.id.total_container);
 
             if (mTickets.isEmpty()) {
                 ImageView soldOutImage = (ImageView) mContext.findViewById(R.id.sold_out_image);
@@ -307,10 +317,13 @@ public class TicketActivity extends AppCompatActivity implements OnClickListener
             eventDate.setText(Utilities.formatDateDuration(startDate, endDate));
             eventName.setText(mChildEvent.getName());
             eventVenue.setText(mChildEvent.getVenue().getName());
+            totalContainer.setVisibility(View.VISIBLE);
         }
 
         @Override
         protected void onCancelled() {
+            mReadTask = null;
+            showProgress(false);
             super.onCancelled();
         }
     }

@@ -10,9 +10,11 @@
               tools:showIn="@layout/activity_receipt">
 
     <RelativeLayout
+        android:id="@+id/confirmation_message_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="22">
+        android:layout_weight="22"
+        android:visibility="invisible">
 
         <!--booking complete text view -->
         <TextView
@@ -39,9 +41,11 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/booking_details_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="43">
+        android:layout_weight="18"
+        android:visibility="invisible">
 
         <!--booking details header-->
         <TextView
@@ -111,12 +115,27 @@
 
         </LinearLayout>
 
+    </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/read_progress"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="25">
+
         <!-- invoice list view -->
         <ListView
             android:id="@+id/invoice_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/invoice_list_header"
             android:background="@null"
             android:fadeScrollbars="false"
             android:paddingLeft="25dp"
@@ -134,7 +153,8 @@
             android:id="@+id/total_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="25dp">
+            android:paddingLeft="25dp"
+            android:visibility="invisible">
 
             <!-- total text view-->
             <TextView
@@ -163,9 +183,11 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/customer_details_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="30">
+        android:layout_weight="30"
+        android:visibility="invisible">
 
         <!--customer details header-->
         <TextView
@@ -209,7 +231,7 @@
 
         <!-- confirm order button-->
         <ImageView
-            android:id="@+id/btn_confirm"
+            android:id="@+id/confirm_order"
             android:layout_width="150dp"
             android:layout_height="120dp"
             android:layout_below="@id/customer_email"

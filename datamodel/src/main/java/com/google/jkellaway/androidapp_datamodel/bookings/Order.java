@@ -77,7 +77,7 @@ public class Order implements IOrder {
      */
     @Override
     public List<IBooking> getBookingList() throws IOException {
-        bookingList = getBookingAmount(this.orderID, 9, 0);
+        bookingList = getBookingAmount(this.orderID, 4, 0);
         return new LinkedList(bookingList);
     }
 

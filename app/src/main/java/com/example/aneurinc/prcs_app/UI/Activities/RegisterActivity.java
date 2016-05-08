@@ -14,7 +14,6 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -51,6 +50,12 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        View decorView = getWindow().getDecorView();
+        // Hide the status bar.
+        int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+
         setContentView(R.layout.activity_register);
 
         // Set up the registration form.
@@ -61,7 +66,7 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
         mPostcode = (AutoCompleteTextView) findViewById(R.id.postcode);
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(this);
-        Button mEmailSignInButton = (Button) findViewById(R.id.btn_confirm);
+        Button mEmailSignInButton = (Button) findViewById(R.id.confirm_order);
         mEmailSignInButton.setOnClickListener(this);
         mLoginFormView = findViewById(R.id.form);
         mProgressView = findViewById(R.id.progress);
@@ -235,7 +240,7 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_confirm:
+            case R.id.confirm_order:
                 closeKeyboard();
                 attemptRegistration();
                 break;
@@ -283,13 +288,12 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
 
         @Override
         protected Boolean doInBackground(Void... params) {
+
             try {
                 UserWrapper.getInstance().registerUser(mCustomer);
             } catch (IOException e) {
-                Log.d(MainActivity.DEBUG_TAG, "IO EXCEPTION: " + Integer.toString(httpCode));
-                return false;
             }
-            Log.d(MainActivity.DEBUG_TAG, "doInBackground: " + Integer.toString(httpCode));
+
             return true;
         }
 

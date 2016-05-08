@@ -40,6 +40,7 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
     private IArtist mArtist;
     private List<IParentEvent> mParentEvents;
     private List<IChildEvent> mChildEvents;
+    private ReadArtist mReadTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +53,39 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void readArtist() {
-        ReadArtist task = new ReadArtist(this);
-        task.execute();
+        if (!isTaskRunning(mReadTask)) {
+            mReadTask = new ReadArtist(this);
+            mReadTask.execute();
+        }
+
+    }
+
+    @Override
+    public void onPause() {
+        handleQuit();
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        handleQuit();
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        handleQuit();
+        super.onDestroy();
+    }
+
+    private void handleQuit() {
+        if (isTaskRunning(mReadTask)) {
+            mReadTask.cancel(true);
+        }
+    }
+
+    private boolean isTaskRunning(AsyncTask task) {
+        return task != null && task.getStatus() == AsyncTask.Status.RUNNING;
     }
 
     private void addOnClickListeners() {
@@ -79,16 +111,20 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onClick(View v) {
                 onBackPressed();
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
     }
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra(MainActivity.FRAGMENT_ID, FragmentType.ARTIST.toString());
-        startActivity(intent);
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        if (getIntent().getExtras().getIntArray(ARTIST_ID).length > 1) {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra(MainActivity.FRAGMENT_ID, FragmentType.ARTIST.toString());
+            startActivity(intent);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -176,7 +212,7 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
         @Override
         protected Void doInBackground(Void... params) {
             try {
-                int artistID = getIntent().getExtras().getInt(ARTIST_ID);
+                int artistID = getIntent().getExtras().getIntArray(ARTIST_ID)[0];
                 mArtist = UserWrapper.getInstance().getArtist(artistID);
                 mChildEvents = mArtist.getChildEvents();
                 mParentEvents = new ArrayList<>();
@@ -191,6 +227,8 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
 
         @Override
         protected void onPostExecute(Void aVoid) {
+
+            mReadTask = null;
 
             showProgress(false);
             RelativeLayout container = (RelativeLayout) mContext.findViewById(R.id.upcoming_performances_container);
@@ -257,6 +295,7 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
 
         @Override
         protected void onCancelled() {
+            mReadTask = null;
             showProgress(false);
         }
     }

@@ -35,6 +35,7 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
     public static String PARENT_EVENT_ID;
     private IParentEvent mParentEvent;
     private List<IChildEvent> mChildEvents;
+    private ReadParentEvent mReadTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +45,43 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
 
         setupToolbar();
 
-        getParentEvent();
+        readParentEvent();
 
     }
 
-    private void getParentEvent() {
-        ReadParentEvent task = new ReadParentEvent(this);
-        task.execute();
+    private void readParentEvent() {
+        if (!isTaskRunning(mReadTask)) {
+            mReadTask = new ReadParentEvent(this);
+            mReadTask.execute();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        handleQuit();
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        handleQuit();
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        handleQuit();
+        super.onDestroy();
+    }
+
+    private void handleQuit() {
+        if (isTaskRunning(mReadTask)) {
+            mReadTask.cancel(true);
+        }
+    }
+
+    private boolean isTaskRunning(AsyncTask task) {
+        return task != null && task.getStatus() == AsyncTask.Status.RUNNING;
     }
 
     private void setupToolbar() {
@@ -171,6 +202,8 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
         @Override
         protected void onPostExecute(IParentEvent parentEvent) {
 
+            mReadTask = null;
+
             showProgress(false);
             RelativeLayout container = (RelativeLayout) mContext.findViewById(R.id.featured_events_container);
             ImageView image = (ImageView) mContext.findViewById(R.id.ticket_event_image);
@@ -224,6 +257,7 @@ public class ParentEventActivity extends AppCompatActivity implements AdapterVie
 
         @Override
         protected void onCancelled() {
+            mReadTask = null;
             showProgress(false);
         }
     }

@@ -240,7 +240,13 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            mSearchTask = null;
             refreshAdapter();
+        }
+
+        @Override
+        protected void onCancelled() {
+            mSearchTask = null;
         }
     }
 
@@ -267,6 +273,8 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
         @Override
         protected void onPostExecute(Void aVoid) {
 
+            mReadTask = null;
+
             showProgress(mReadProgressBar, false);
 
             if (isAdded()) {
@@ -278,6 +286,7 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
 
         @Override
         protected void onCancelled() {
+            mReadTask = null;
             showProgress(mReadProgressBar, false);
         }
     }
@@ -304,12 +313,14 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            mLoadMoreTask = null;
             showProgress(mLoadProgressBar, false);
             refreshAdapter();
         }
 
         @Override
         protected void onCancelled() {
+            mLoadMoreTask = null;
             showProgress(mLoadProgressBar, false);
         }
     }

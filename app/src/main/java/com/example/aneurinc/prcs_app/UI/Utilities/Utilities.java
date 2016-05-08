@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.view.Display;
 
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
 /**
@@ -36,6 +37,7 @@ public final class Utilities {
     public static String formatPrice(Double price) {
 
         DecimalFormat df = new DecimalFormat("£0.00");
+        df.setRoundingMode(RoundingMode.FLOOR);
         String formattedPrice = df.format(price);
 
         return formattedPrice;

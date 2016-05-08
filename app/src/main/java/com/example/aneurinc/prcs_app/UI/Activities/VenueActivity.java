@@ -39,19 +39,50 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener,
     private IVenue mVenue;
     private List<IChildEvent> mChildEvents;
     private List<IParentEvent> mParentEvents;
+    private ReadChildEvents mReadTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_venue);
         setupToolbar();
-        getChildEvents();
+        readChildEvents();
         addOnClickListeners();
     }
 
-    private void getChildEvents() {
-        ReadChildEvents task = new ReadChildEvents(this);
-        task.execute();
+    private void readChildEvents() {
+        if (!isTaskRunning(mReadTask)) {
+            mReadTask = new ReadChildEvents(this);
+            mReadTask.execute();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        handleQuit();
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        handleQuit();
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        handleQuit();
+        super.onDestroy();
+    }
+
+    private void handleQuit() {
+        if (isTaskRunning(mReadTask)) {
+            mReadTask.cancel(true);
+        }
+    }
+
+    private boolean isTaskRunning(AsyncTask task) {
+        return task != null && task.getStatus() == AsyncTask.Status.RUNNING;
     }
 
     private void addOnClickListeners() {
@@ -174,13 +205,9 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener,
 
         @Override
         protected Void doInBackground(Void... params) {
+
             try {
                 mVenue = UserWrapper.getInstance().getVenue(getIntent().getExtras().getInt(VENUE_ID));
-            } catch (IOException e) {
-                e.printStackTrace();
-                // TODO: 03/05/2016 handle
-            }
-            try {
                 mChildEvents = mVenue.getChildEvents();
                 mParentEvents = new ArrayList<>();
                 for (IChildEvent c : mChildEvents) {
@@ -194,6 +221,8 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener,
 
         @Override
         protected void onPostExecute(Void aVoid) {
+
+            mReadTask = null;
 
             showProgress(false);
             RelativeLayout container = (RelativeLayout) mContext.findViewById(R.id.upcoming_events_container);
@@ -254,6 +283,7 @@ public class VenueActivity extends AppCompatActivity implements OnClickListener,
 
         @Override
         protected void onCancelled() {
+            mReadTask = null;
             showProgress(false);
         }
     }

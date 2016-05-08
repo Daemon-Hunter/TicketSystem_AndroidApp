@@ -89,7 +89,7 @@ public class TicketActAdapter extends ArrayAdapter<ITicket> {
             viewHolder = new ViewHolder();
             viewHolder.ticketType = (TextView) convertView.findViewById(R.id.ticket_type);
             viewHolder.ticketCost = (TextView) convertView.findViewById(R.id.ticket_cost);
-            viewHolder.ticketQty = (TextView) convertView.findViewById(R.id.ticket_qty);
+            viewHolder.ticketQty = (TextView) convertView.findViewById(R.id.ticket_type);
             viewHolder.plus = (ImageView) convertView.findViewById(R.id.plus);
             viewHolder.minus = (ImageView) convertView.findViewById(R.id.minus);
 

@@ -12,7 +12,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
@@ -46,7 +49,7 @@ public class ReceiptActivity extends AppCompatActivity implements OnClickListene
 
         setupToolbar();
 
-        ImageView btnOk = (ImageView) findViewById(R.id.btn_confirm);
+        ImageView btnOk = (ImageView) findViewById(R.id.confirm_order);
         btnOk.setOnClickListener(this);
 
         mListView = (ListView) findViewById(R.id.invoice_list);
@@ -102,7 +105,7 @@ public class ReceiptActivity extends AppCompatActivity implements OnClickListene
 
         switch (v.getId()) {
 
-            case R.id.btn_confirm:
+            case R.id.confirm_order:
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra(MainActivity.FRAGMENT_ID, FragmentType.PARENT_EVENT.toString());
                 startActivity(intent);
@@ -140,12 +143,24 @@ public class ReceiptActivity extends AppCompatActivity implements OnClickListene
         return super.onOptionsItemSelected(item);
     }
 
+    private void showProgress(final boolean show) {
+        ProgressBar mProgressBar = (ProgressBar) findViewById(R.id.read_progress);
+        mProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+
     private class ReadOrder extends AsyncTask<Void, Void, Void> {
 
         private Activity mContext;
 
         public ReadOrder(Activity context) {
             mContext = context;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgress(true);
         }
 
         @Override
@@ -171,11 +186,31 @@ public class ReceiptActivity extends AppCompatActivity implements OnClickListene
         @Override
         protected void onPostExecute(Void aVoid) {
 
+            showProgress(false);
+            mReadTask = null;
+
             TextView custName = (TextView) mContext.findViewById(R.id.customer_name);
             TextView custEmail = (TextView) mContext.findViewById(R.id.customer_email);
             TextView orderID = (TextView) mContext.findViewById(R.id.booking_id);
             TextView totalCost = (TextView) findViewById(R.id.total_cost);
             TextView totalQty = (TextView) findViewById(R.id.total_qty);
+            RelativeLayout customerContainer = (RelativeLayout) mContext.findViewById(R.id
+                    .customer_details_container);
+            RelativeLayout confirmationContainer = (RelativeLayout) mContext.findViewById(R.id
+                    .confirmation_message_container);
+            RelativeLayout bookingDetailsContainer = (RelativeLayout) mContext.findViewById(R.id
+                    .booking_details_container);
+            LinearLayout totalContainer = (LinearLayout) mContext.findViewById(R.id
+                    .total_header);
+
+            customerContainer.setVisibility(View.VISIBLE);
+            bookingDetailsContainer.setVisibility(View.VISIBLE);
+            confirmationContainer.setVisibility(View.VISIBLE);
+            totalContainer.setVisibility(View.VISIBLE);
+
+            custName.setText(String.format("%s %s", mCustomer.getFirstName(), mCustomer.getLastName()));
+            custEmail.setText(mCustomer.getEmail());
+            orderID.setText(mOrder.getOrderID().toString());
 
             double totalCostVal = 0.0;
             int totalQtyVal = 0;
@@ -187,14 +222,17 @@ public class ReceiptActivity extends AppCompatActivity implements OnClickListene
 
             totalCost.setText(Utilities.formatPrice(totalCostVal));
             totalQty.setText(Integer.toString(totalQtyVal));
-            custName.setText(String.format("%s %s", mCustomer.getFirstName(), mCustomer.getLastName()));
-            custEmail.setText(mCustomer.getEmail());
-            orderID.setText(mOrder.getOrderID().toString());
 
             if (!mTickets.isEmpty()) {
                 mListView.setAdapter(new ReceiptActAdapter(mContext, mTickets, mBookings));
             }
 
+        }
+
+        @Override
+        protected void onCancelled() {
+            showProgress(false);
+            mReadTask = null;
         }
     }
 }

@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -237,7 +236,6 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
 
         @Override
         protected void onPreExecute() {
-            Log.d(MainActivity.DEBUG_TAG, "onPreExecute: Venue Thread started");
             showProgress(mReadProgressBar, true);
         }
 
@@ -255,6 +253,8 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
         @Override
         protected void onPostExecute(Void aVoid) {
 
+            mReadTask = null;
+
             showProgress(mReadProgressBar, false);
 
             if (mContext != null && isAdded()) {
@@ -263,12 +263,11 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
                 }
             }
 
-            Log.d(MainActivity.DEBUG_TAG, "onPostExecute: Venue thread finished");
         }
 
         @Override
         protected void onCancelled() {
-            Log.d(MainActivity.DEBUG_TAG, "onCancelled: Venue Thread cancelled");
+            mReadTask = null;
             showProgress(mReadProgressBar, false);
         }
     }
@@ -277,7 +276,6 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
 
         @Override
         protected void onPreExecute() {
-            Log.d(MainActivity.DEBUG_TAG, "onPreExecute: Load More Venues thread started");
             showProgress(mLoadProgressBar, true);
         }
 
@@ -286,7 +284,7 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
 
             try {
                 mVenues.addAll(UserWrapper.getInstance().loadMoreVenues());
-                Thread.sleep(750);
+                Thread.sleep(500);
             } catch (IOException e) {
             } catch (InterruptedException e) {
             }
@@ -296,14 +294,14 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            mLoadMoreTask = null;
             showProgress(mLoadProgressBar, false);
             refreshAdapter();
-            Log.d(MainActivity.DEBUG_TAG, "onPostExecute: Load More Venues thread finished");
         }
 
         @Override
         protected void onCancelled() {
-            Log.d(MainActivity.DEBUG_TAG, "onCancelled: Load More Venues thread cancelled");
+            mLoadMoreTask = null;
             showProgress(mLoadProgressBar, false);
         }
     }
@@ -314,11 +312,6 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
 
         public SearchVenues(String query) {
             mQuery = query;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            Log.d(MainActivity.DEBUG_TAG, "onPreExecute: Search Venues thread started");
         }
 
         @Override
@@ -333,13 +326,13 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            mSearchTask = null;
             refreshAdapter();
-            Log.d(MainActivity.DEBUG_TAG, "onPostExecute: Search Venues thread finished");
         }
 
         @Override
         protected void onCancelled() {
-            Log.d(MainActivity.DEBUG_TAG, "onCancelled: Search Venue thread cancelled");
+            mSearchTask = null;
         }
     }
 }

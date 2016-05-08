@@ -101,5 +101,7 @@
     <string name="no_artist_lineup">No Artist Lineup</string>
     <string name="tickets_sold_out">No Tickets left. Sold out!</string>
     <string name="event_ticket_types">Event Ticket Types</string>
+    <string name="booking_id_placeholder">Booking ID:</string>
+    <string name="profile_settings">Profile Settings</string>
 
 </resources>
