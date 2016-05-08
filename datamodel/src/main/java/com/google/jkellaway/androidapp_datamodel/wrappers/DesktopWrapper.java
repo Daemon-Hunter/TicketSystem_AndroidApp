@@ -5,6 +5,7 @@
  */
 package com.google.jkellaway.androidapp_datamodel.wrappers;
 
+import com.google.jkellaway.androidapp_datamodel.bookings.GuestBooking;
 import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.events.IArtist;
@@ -17,6 +18,8 @@ import com.google.jkellaway.androidapp_datamodel.people.IGuest;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+
+import static com.google.jkellaway.androidapp_datamodel.database.APIHandle.pushObjectToDatabase;
 
 /**
  *
@@ -435,5 +438,14 @@ public class DesktopWrapper implements IDesktopWrapper {
     @Override
     public Object updateObject(Object object, DatabaseTable table) throws IOException {
         return APIHandle.updateObjectToDatabase(object, table);
+    }
+
+    @Override
+    public List<GuestBooking> makeGuestBookings(List<GuestBooking> guestBookings) throws IOException {
+        List<GuestBooking> madeBookings = new LinkedList<>();
+        for (GuestBooking guestBooking: guestBookings) {
+            madeBookings.add((GuestBooking) pushObjectToDatabase(guestBooking, DatabaseTable.GUEST_BOOKING));
+        }
+        return madeBookings;
     }
 }

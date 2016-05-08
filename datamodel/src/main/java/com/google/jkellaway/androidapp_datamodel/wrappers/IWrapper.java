@@ -5,6 +5,7 @@
  */
 package com.google.jkellaway.androidapp_datamodel.wrappers;
 
+import com.google.jkellaway.androidapp_datamodel.bookings.GuestBooking;
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.events.IArtist;
 import com.google.jkellaway.androidapp_datamodel.events.IParentEvent;
@@ -50,4 +51,6 @@ public interface IWrapper {
 
     Object createNewObject(Object object, DatabaseTable table) throws IOException;
     Object updateObject(Object object, DatabaseTable table) throws IOException;
+
+    List<GuestBooking> makeGuestBookings(List<GuestBooking> guestBookings) throws IOException;
 }
