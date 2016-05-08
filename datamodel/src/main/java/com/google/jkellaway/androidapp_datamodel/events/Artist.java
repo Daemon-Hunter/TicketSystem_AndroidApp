@@ -243,6 +243,8 @@ public class Artist implements IArtist {
     @Override
     public Boolean newContract(IChildEvent childEvent) throws IOException {
         if(createContract(this.ID, childEvent.getID())){
+            if (childEvents == null)
+                childEvents = new LinkedList<>();
             childEvents.add(childEvent);
             return true;
         }
