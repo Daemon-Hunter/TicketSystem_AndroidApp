@@ -103,5 +103,10 @@
     <string name="event_ticket_types">Event Ticket Types</string>
     <string name="booking_id_placeholder">Booking ID:</string>
     <string name="profile_settings">Profile Settings</string>
+    <string name="update_profile">Update Profile</string>
+    <string name="settings">Settings</string>
+    <string name="about_us">About Us</string>
+    <string name="log_out">Log Out</string>
+    <string name="company_info">Since the turn of the millennium, the Function Junction team has been dedicated to bringing you the easiest way to find events and buy tickets no matter where you live or what you\'re into. Live music, stand-up comedy, festivals, sporting events, theatre, family days out, or cinema - you\'ll find events of all kinds listed on functionjunction.com and we work with literally thousands of venues and ticket suppliers to bring you everything you need.\n\nNeed a ticket? We\'ve got your back. Contact our customer service team on 01752 7573734 for more information, or view out website on www.functionjunction.com/fuckyou</string>
 
 </resources>

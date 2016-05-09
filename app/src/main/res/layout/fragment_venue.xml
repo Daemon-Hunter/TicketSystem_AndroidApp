@@ -21,7 +21,6 @@
         android:id="@+id/venue_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/upcoming_message_container"
         android:background="@android:color/white"
         android:clickable="false"
         android:fadeScrollbars="false"

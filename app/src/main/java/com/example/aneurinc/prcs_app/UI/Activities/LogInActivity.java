@@ -35,7 +35,7 @@ import java.io.IOException;
 /**
  * A login screen that offers login via email/password.
  */
-public class SignInActivity extends AppCompatActivity implements OnEditorActionListener, OnClickListener {
+public class LogInActivity extends AppCompatActivity implements OnEditorActionListener, OnClickListener {
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.

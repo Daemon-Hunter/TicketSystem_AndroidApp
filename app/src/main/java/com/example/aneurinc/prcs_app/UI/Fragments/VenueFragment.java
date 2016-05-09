@@ -132,6 +132,11 @@ public class VenueFragment extends Fragment implements AdapterView.OnItemClickLi
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return false;
+    }
+
+    @Override
     public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
         Intent intent = new Intent(getActivity(), VenueActivity.class);
         intent.putExtra(VenueActivity.VENUE_ID, mVenues.get(position).getID());

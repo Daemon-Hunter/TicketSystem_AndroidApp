@@ -94,6 +94,11 @@ public class ParentEventFragment extends Fragment implements AdapterView.OnItemC
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return false;
+    }
+
     private void readParentEvents() {
         if (!isTaskRunning(mReadTask)) {
             showProgress(mReadProgressBar, true);

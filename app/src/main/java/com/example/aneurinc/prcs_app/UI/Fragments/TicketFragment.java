@@ -7,6 +7,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -53,6 +56,8 @@ public class TicketFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ticket, container, false);
 
+        setHasOptionsMenu(true);
+
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.my_tickets);
 
         mListView = (ListView) view.findViewById(R.id.my_tickets_list);
@@ -76,6 +81,23 @@ public class TicketFragment extends Fragment {
 
         return view;
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+//        MenuItem item = menu.getItem(0);
+//        mSearchView = (SearchView) item.getActionView();
+//        mSearchView.setOnQueryTextListener(this);
+//        mSearchView.addOnAttachStateChangeListener(this);
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return false;
+    }
+
 
     private void setSwipe(View v) {
         v.setOnTouchListener(new OnSwipeTouchListener(getActivity()) {

@@ -236,8 +236,10 @@ public class TicketActivity extends AppCompatActivity implements OnClickListener
             }
 
             try {
+                // make booking
                 mOrder = UserWrapper.getInstance().makeCustomerBooking(ticketCopy, qtyCopy);
             } catch (IOException e) {
+                
             }
 
             return null;

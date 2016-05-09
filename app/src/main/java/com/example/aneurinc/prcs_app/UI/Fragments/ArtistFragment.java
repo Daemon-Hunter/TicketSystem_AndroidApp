@@ -95,6 +95,11 @@ public class ArtistFragment extends Fragment implements AdapterView.OnItemClickL
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return false;
+    }
+
     public void setSwipe(View v) {
         v.setOnTouchListener(new OnSwipeTouchListener(getActivity()) {
             @Override

@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.custom_adapters.ReceiptActAdapter;
@@ -76,6 +77,11 @@ public class ReceiptActivity extends AppCompatActivity implements OnClickListene
     public void onStop() {
         handleQuit();
         super.onStop();
+    }
+
+    private void handleIOException() {
+        Toast.makeText(this, "Ooops! There has been an internal error. Please try again.", Toast
+                .LENGTH_LONG).show();
     }
 
     @Override
