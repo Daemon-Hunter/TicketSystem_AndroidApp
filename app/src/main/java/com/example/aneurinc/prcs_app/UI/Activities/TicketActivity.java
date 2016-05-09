@@ -165,6 +165,7 @@ public class TicketActivity extends AppCompatActivity implements OnClickListener
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra(MainActivity.FRAGMENT_ID, FragmentType.PARENT_EVENT.toString());
                 startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 break;
 
         }
@@ -250,6 +251,7 @@ public class TicketActivity extends AppCompatActivity implements OnClickListener
             Intent intent = new Intent(TicketActivity.this, CheckoutActivity.class);
             intent.putExtra(CheckoutActivity.ORDER_ID, mOrder.getOrderID());
             startActivity(intent);
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         }
 
         @Override

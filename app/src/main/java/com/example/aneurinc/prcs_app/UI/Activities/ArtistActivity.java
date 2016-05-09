@@ -114,13 +114,9 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onClick(View v) {
                 onBackPressed();
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
     @Override
@@ -151,6 +147,7 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
 
         intent.putExtra(ChildEventActivity.EVENT_ID, IDs);
         startActivity(intent);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
     }
 
