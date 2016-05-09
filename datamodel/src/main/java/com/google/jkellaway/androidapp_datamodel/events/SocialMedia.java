@@ -121,9 +121,8 @@ public class SocialMedia implements ISocial {
     @Override
     public Boolean setFacebook(String fb) throws IllegalArgumentException {
         Validator.URLValidator(fb);
-            this.facebook = fb;
-        return this.facebook.equals(fb
-        );
+        this.facebook = fb;
+        return this.facebook.equals(fb) || facebook == null;
     }
 
     @Override
@@ -134,8 +133,8 @@ public class SocialMedia implements ISocial {
     @Override
     public Boolean setTwitter(String tw) throws IllegalArgumentException {
         Validator.URLValidator(tw);
-            twitter = tw;
-        return this.twitter.equals(tw);
+        twitter = tw;
+        return this.twitter.equals(tw) || twitter == null;
     }
 
     @Override
@@ -146,8 +145,8 @@ public class SocialMedia implements ISocial {
     @Override
     public Boolean setInstagram(String insta) throws IllegalArgumentException {
         Validator.URLValidator(insta);
-            instagram = insta;
-        return this.instagram.equals(insta);
+        instagram = insta;
+        return this.instagram.equals(insta) || instagram == null;
     }
 
     @Override
@@ -159,7 +158,7 @@ public class SocialMedia implements ISocial {
     public Boolean setSoundcloud(String sc) throws IllegalArgumentException {
         Validator.URLValidator(sc);
         soundcloud = sc;
-        return this.soundcloud.equals(sc);
+        return this.soundcloud.equals(sc) || soundcloud == null;
     }
 
     @Override
@@ -171,7 +170,7 @@ public class SocialMedia implements ISocial {
     public Boolean setWebsite(String web) throws IllegalArgumentException {
         Validator.URLValidator(web);
         website = web;
-        return this.website.equals(web);
+        return this.website.equals(web) || website == null;
     }
 
     @Override
@@ -182,7 +181,7 @@ public class SocialMedia implements ISocial {
     @Override
     public Boolean setSpotify(String sp) throws IllegalArgumentException {
         Validator.URLValidator(sp);
-            spotify = sp;
-        return this.spotify.equals(sp);
+        spotify = sp;
+        return this.spotify.equals(sp) || spotify == null;
     }
 }
