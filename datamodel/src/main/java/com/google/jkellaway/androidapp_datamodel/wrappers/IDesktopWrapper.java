@@ -40,5 +40,6 @@ public interface IDesktopWrapper extends IWrapper {
     List<IGuest>  refreshGuests() throws IOException;
 
     Boolean loginAdmin(String email, String password) throws IOException;
+    Boolean checkAdminPassword(String email, String password) throws IOException;
     IAdmin  getCurrentAdmin();
 }

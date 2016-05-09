@@ -14,6 +14,7 @@ import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
 import com.google.jkellaway.androidapp_datamodel.events.IParentEvent;
 import com.google.jkellaway.androidapp_datamodel.events.IVenue;
 import com.google.jkellaway.androidapp_datamodel.events.SocialMedia;
+import com.google.jkellaway.androidapp_datamodel.people.IAdmin;
 import com.google.jkellaway.androidapp_datamodel.people.IPerson;
 import com.google.jkellaway.androidapp_datamodel.people.IUser;
 import com.google.jkellaway.androidapp_datamodel.reviews.IReview;
@@ -42,6 +43,7 @@ import static com.google.jkellaway.androidapp_datamodel.database.MapToObject.Map
 import static com.google.jkellaway.androidapp_datamodel.database.MapToObject.MapToSocialMedia;
 import static com.google.jkellaway.androidapp_datamodel.database.MapToObject.MapToTicket;
 import static com.google.jkellaway.androidapp_datamodel.database.MapToObject.MapToVenue;
+import static com.google.jkellaway.androidapp_datamodel.database.ObjectToMap.adminToMap;
 import static com.google.jkellaway.androidapp_datamodel.database.ObjectToMap.artistToMap;
 import static com.google.jkellaway.androidapp_datamodel.database.ObjectToMap.childEventToMap;
 import static com.google.jkellaway.androidapp_datamodel.database.ObjectToMap.customerBookingToMap;
@@ -327,9 +329,8 @@ public final class APIHandle{
 
     public static Object pushObjectToDatabase(Object object, DatabaseTable table) throws IOException{
         switch (table){
-//            case ADMIN:
-//                //objectMap = AdminToMap
-//                break;
+            case ADMIN:
+                return MapToAdmin(APIConnection.add(adminToMap((IAdmin) object), DatabaseTable.ADMIN));
             case ARTIST:
                 IArtist artist = (IArtist) object;
                 artist.setSocialMedia((SocialMedia)pushObjectToDatabase(artist.getSocialMedia(), DatabaseTable.SOCIAL_MEDIA));

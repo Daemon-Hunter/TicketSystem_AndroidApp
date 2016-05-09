@@ -235,7 +235,9 @@ public class ChildEvent implements IChildEvent {
 
     @Override
     public List<ITicket> getTickets() throws IOException {
-        return (List<ITicket>) (Object) APIHandle.getObjectsFromObject(this.childEventID, DatabaseTable.TICKET, DatabaseTable.CHILD_EVENT);
+        if (tickets == null)
+            tickets = (List<ITicket>) (Object) APIHandle.getObjectsFromObject(this.childEventID, DatabaseTable.TICKET, DatabaseTable.CHILD_EVENT);
+        return tickets;
     }
 
     @Override
