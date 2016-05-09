@@ -2,7 +2,6 @@ package com.example.aneurinc.prcs_app.UI.custom_views;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.view.View;
@@ -45,7 +44,6 @@ public class CustomClickableSpan extends ClickableSpan {
     @Override
     public void updateDrawState(TextPaint ds) {
 
-        ds.setColor(Color.WHITE);
         ds.setUnderlineText(true);
 
     }

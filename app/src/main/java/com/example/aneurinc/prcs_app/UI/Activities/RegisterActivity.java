@@ -42,6 +42,7 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
     private AutoCompleteTextView mForenameView;
     private AutoCompleteTextView mSurnameView;
     private AutoCompleteTextView mAddress;
+    private AutoCompleteTextView mCity;
     private AutoCompleteTextView mPostcode;
     private EditText mPasswordView;
     private View mProgressView;
@@ -63,6 +64,7 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
         mForenameView = (AutoCompleteTextView) findViewById(R.id.forename);
         mSurnameView = (AutoCompleteTextView) findViewById(R.id.surname);
         mAddress = (AutoCompleteTextView) findViewById(R.id.address);
+        mCity = (AutoCompleteTextView) findViewById(R.id.city);
         mPostcode = (AutoCompleteTextView) findViewById(R.id.postcode);
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(this);
@@ -105,6 +107,7 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
         mAddress.setError(null);
         mPostcode.setError(null);
         mPasswordView.setError(null);
+        mCity.setError(null);
 
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
@@ -113,6 +116,7 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
         String address = mAddress.getText().toString();
         String postcode = mPostcode.getText().toString();
         String password = mPasswordView.getText().toString();
+        String city = mCity.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -157,6 +161,13 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
         if (TextUtils.isEmpty(address)) {
             mAddress.setError(getString(R.string.error_field_required));
             focusView = mAddress;
+            cancel = true;
+        }
+
+        // check for a valid city, if the user entered one.
+        if (TextUtils.isEmpty(city)) {
+            mCity.setError(getString(R.string.error_field_required));
+            focusView = mCity;
             cancel = true;
         }
 
@@ -333,4 +344,3 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
         }
     }
 }
-

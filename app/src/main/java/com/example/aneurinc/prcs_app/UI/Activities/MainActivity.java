@@ -249,22 +249,29 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setGravity(Gravity.RIGHT);
 
-        menu.findItem(R.id.tb_home).setVisible(false);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        switch (item.getItemId()) {
 
-            case R.id.tb_search:
+        switch (item.getItemId()) {
+            case R.id.about_us:
+                startActivity(new Intent(this, AboutActivity.class));
+                break;
+            case R.id.log_out:
+                startActivity(new Intent(this, LogInActivity.class));
+                finish();
+                break;
+            case R.id.profile_settings:
+                startActivity(new Intent(this, ProfileActivity.class));
+                break;
+            default:
                 break;
         }
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     @Override

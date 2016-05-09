@@ -90,7 +90,8 @@ public class LogInActivity extends AppCompatActivity implements OnEditorActionLi
         String strSignIn = tvSignIn.getText().toString();
 
         SpannableString ssSignIn = new SpannableString(strSignIn);
-        ssSignIn.setSpan(new CustomClickableSpan(this), 14, strSignIn.length() - 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ssSignIn.setSpan(new CustomClickableSpan(this), 14, strSignIn.length() - 1,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         tvSignIn.setText(ssSignIn);
         tvSignIn.setMovementMethod(LinkMovementMethod.getInstance());

@@ -11,12 +11,12 @@ import android.view.View;
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.fragments.FragmentType;
 
-public class AboutActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
+        setContentView(R.layout.activity_profile);
         createToolbar();
     }
 
@@ -43,7 +43,7 @@ public class AboutActivity extends AppCompatActivity {
 
     private void createToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.about_us);
+        toolbar.setTitle(R.string.edit_profile);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -54,4 +54,5 @@ public class AboutActivity extends AppCompatActivity {
             }
         });
     }
+
 }
