@@ -420,6 +420,11 @@ public class DesktopWrapper implements IDesktopWrapper {
     }
 
     @Override
+    public Boolean checkAdminPassword(String email, String password) throws IOException {
+        return !((IAdmin) APIHandle.isPasswordTrue(email, password, DatabaseTable.ADMIN)).getID().equals(-1);
+    }
+
+    @Override
     public IAdmin getCurrentAdmin() {
         return currentAdmin;
     }
