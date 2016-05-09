@@ -122,7 +122,9 @@ public class SocialMedia implements ISocial {
     public Boolean setFacebook(String fb) throws IllegalArgumentException {
         Validator.URLValidator(fb);
         this.facebook = fb;
-        return this.facebook.equals(fb) || facebook == null;
+        if (fb == null)
+            return true;
+        return this.facebook.equals(fb);
     }
 
     @Override
@@ -134,7 +136,9 @@ public class SocialMedia implements ISocial {
     public Boolean setTwitter(String tw) throws IllegalArgumentException {
         Validator.URLValidator(tw);
         twitter = tw;
-        return this.twitter.equals(tw) || twitter == null;
+        if (tw == null)
+            return true;
+        return this.twitter.equals(tw);
     }
 
     @Override
@@ -146,7 +150,9 @@ public class SocialMedia implements ISocial {
     public Boolean setInstagram(String insta) throws IllegalArgumentException {
         Validator.URLValidator(insta);
         instagram = insta;
-        return this.instagram.equals(insta) || instagram == null;
+        if (insta == null)
+            return true;
+        return this.instagram.equals(insta);
     }
 
     @Override
@@ -158,7 +164,9 @@ public class SocialMedia implements ISocial {
     public Boolean setSoundcloud(String sc) throws IllegalArgumentException {
         Validator.URLValidator(sc);
         soundcloud = sc;
-        return this.soundcloud.equals(sc) || soundcloud == null;
+        if (sc == null)
+            return true;
+        return this.soundcloud.equals(sc);
     }
 
     @Override
@@ -170,7 +178,9 @@ public class SocialMedia implements ISocial {
     public Boolean setWebsite(String web) throws IllegalArgumentException {
         Validator.URLValidator(web);
         website = web;
-        return this.website.equals(web) || website == null;
+        if (web == null)
+            return true;
+        return this.website.equals(web);
     }
 
     @Override
@@ -182,6 +192,8 @@ public class SocialMedia implements ISocial {
     public Boolean setSpotify(String sp) throws IllegalArgumentException {
         Validator.URLValidator(sp);
         spotify = sp;
-        return this.spotify.equals(sp) || spotify == null;
+        if (sp == null)
+            return true;
+        return this.spotify.equals(sp);
     }
 }
