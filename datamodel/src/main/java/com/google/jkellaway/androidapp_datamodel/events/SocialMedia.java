@@ -121,9 +121,10 @@ public class SocialMedia implements ISocial {
     @Override
     public Boolean setFacebook(String fb) throws IllegalArgumentException {
         Validator.URLValidator(fb);
-            this.facebook = fb;
-        return this.facebook.equals(fb
-        );
+        this.facebook = fb;
+        if (fb == null)
+            return true;
+        return this.facebook.equals(fb);
     }
 
     @Override
@@ -134,7 +135,9 @@ public class SocialMedia implements ISocial {
     @Override
     public Boolean setTwitter(String tw) throws IllegalArgumentException {
         Validator.URLValidator(tw);
-            twitter = tw;
+        twitter = tw;
+        if (tw == null)
+            return true;
         return this.twitter.equals(tw);
     }
 
@@ -146,7 +149,9 @@ public class SocialMedia implements ISocial {
     @Override
     public Boolean setInstagram(String insta) throws IllegalArgumentException {
         Validator.URLValidator(insta);
-            instagram = insta;
+        instagram = insta;
+        if (insta == null)
+            return true;
         return this.instagram.equals(insta);
     }
 
@@ -159,6 +164,8 @@ public class SocialMedia implements ISocial {
     public Boolean setSoundcloud(String sc) throws IllegalArgumentException {
         Validator.URLValidator(sc);
         soundcloud = sc;
+        if (sc == null)
+            return true;
         return this.soundcloud.equals(sc);
     }
 
@@ -171,6 +178,8 @@ public class SocialMedia implements ISocial {
     public Boolean setWebsite(String web) throws IllegalArgumentException {
         Validator.URLValidator(web);
         website = web;
+        if (web == null)
+            return true;
         return this.website.equals(web);
     }
 
@@ -182,7 +191,9 @@ public class SocialMedia implements ISocial {
     @Override
     public Boolean setSpotify(String sp) throws IllegalArgumentException {
         Validator.URLValidator(sp);
-            spotify = sp;
+        spotify = sp;
+        if (sp == null)
+            return true;
         return this.spotify.equals(sp);
     }
 }
