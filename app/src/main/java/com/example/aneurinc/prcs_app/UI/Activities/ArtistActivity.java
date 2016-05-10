@@ -21,7 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
-import com.example.aneurinc.prcs_app.UI.custom_adapters.ArtistActAdapter;
+import com.example.aneurinc.prcs_app.UI.custom_adapters.ArtistActListView;
 import com.example.aneurinc.prcs_app.UI.fragments.FragmentType;
 import com.example.aneurinc.prcs_app.UI.utilities.Utilities;
 import com.google.jkellaway.androidapp_datamodel.events.IArtist;
@@ -249,7 +249,7 @@ public class ArtistActivity extends AppCompatActivity implements View.OnClickLis
                 noEventsMessage.setVisibility(View.VISIBLE);
             } else {
                 ListView mListView = (ListView) findViewById(R.id.artist_lineup_list);
-                mListView.setAdapter(new ArtistActAdapter(ArtistActivity.this, mChildEvents));
+                mListView.setAdapter(new ArtistActListView(ArtistActivity.this, mChildEvents));
                 mListView.setOnItemClickListener(ArtistActivity.this);
                 container.setVisibility(View.VISIBLE);
             }

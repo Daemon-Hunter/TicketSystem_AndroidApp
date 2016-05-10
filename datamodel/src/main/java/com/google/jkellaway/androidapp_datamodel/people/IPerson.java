@@ -5,8 +5,6 @@
  */
 package com.google.jkellaway.androidapp_datamodel.people;
 
-import java.io.IOException;
-
 /**
  *
  * @author 10512691
@@ -14,13 +12,13 @@ import java.io.IOException;
 public interface IPerson {
     
     String  getFirstName();
-    Boolean setFirstName(String name) throws IOException;
+    Boolean setFirstName(String name);
     
     String getLastName();
-    Boolean setLastName(String name) throws IOException;
+    Boolean setLastName(String name);
     
     String  getEmail();
-    Boolean setEmail(String email) throws IOException;
+    Boolean setEmail(String email);
 
     Boolean setPassword(String password);
     String getPassword();

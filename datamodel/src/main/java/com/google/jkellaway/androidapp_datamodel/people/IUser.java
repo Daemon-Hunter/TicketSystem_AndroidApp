@@ -5,11 +5,6 @@
  */
 package com.google.jkellaway.androidapp_datamodel.people;
 
-import com.google.jkellaway.androidapp_datamodel.bookings.IBooking;
-
-import java.io.IOException;
-import java.util.List;
-
 /**
  *
  * @author 10512691
@@ -17,10 +12,10 @@ import java.util.List;
 public interface IUser extends IPerson {
     
     String getAddress();
-    Boolean setAddress(String address) throws IOException;
+    Boolean setAddress(String address);
     
     Integer getID();
     
     String getPostcode();
-    Boolean setPostcode(String postcode) throws IOException;
+    Boolean setPostcode(String postcode);
 }

@@ -17,6 +17,8 @@ import android.text.method.LinkMovementMethod;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
@@ -52,10 +54,16 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        View decorView = getWindow().getDecorView();
-        // Hide the status bar.
-        int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
-        decorView.setSystemUiVisibility(uiOptions);
+        Window window = getWindow();
+
+        // clear FLAG_TRANSLUCENT_STATUS flag:
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+        // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+        // finally change the color
+        window.setStatusBarColor(getResources().getColor(R.color.colorTeal));
 
         setContentView(R.layout.activity_register);
 
@@ -82,8 +90,7 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
         String strSignIn = tvSignIn.getText().toString();
 
         SpannableString ssSignIn = new SpannableString(strSignIn);
-        ssSignIn.setSpan(new CustomClickableSpan(this), 20, strSignIn.length() - 1,
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ssSignIn.setSpan(new CustomClickableSpan(this), 20, strSignIn.length() - 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         tvSignIn.setText(ssSignIn);
         tvSignIn.setMovementMethod(LinkMovementMethod.getInstance());
@@ -140,19 +147,11 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
-        } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
-            cancel = true;
         }
 
         // Check for a valid password, if the user entered one.
         if (TextUtils.isEmpty(password)) {
             mPasswordView.setError(getString(R.string.error_field_required));
-            focusView = mPasswordView;
-            cancel = true;
-        } else if (!isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
         }
@@ -176,10 +175,6 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
             mPostcode.setError(getString(R.string.error_field_required));
             focusView = mPostcode;
             cancel = true;
-        } else if (!isPostcodeValid(postcode)) {
-            mPostcode.setError(getString(R.string.error_invalid_postcode));
-            focusView = mPostcode;
-            cancel = true;
         }
 
         if (cancel) {
@@ -191,25 +186,9 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
             // perform the user register attempt.
             showProgress(true);
             Customer cust = new Customer(forename, surname, email, address, postcode, password);
-
             mAuthTask = new UserLoginTask(this, cust);
             mAuthTask.execute((Void) null);
         }
-    }
-
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
-    }
-
-    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
-    }
-
-    private boolean isPostcodeValid(String postcode) {
-//        return postcode.length() == 7;
-        return true;
     }
 
     /**
@@ -224,8 +203,7 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
+            mLoginFormView.animate().setDuration(shortAnimTime).alpha(show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
@@ -233,8 +211,7 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
             });
 
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
+            mProgressView.animate().setDuration(shortAnimTime).alpha(show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
@@ -320,18 +297,15 @@ public class RegisterActivity extends AppCompatActivity implements OnEditorActio
             } else {
                 switch (httpCode) {
                     case 409:
-                        Toast.makeText(mContext, "An account with this email already " +
-                                "has an account, please log in instead", Toast.LENGTH_LONG).show();
+                        Toast.makeText(mContext, "An account with this email already " + "has an account, please log in instead", Toast.LENGTH_LONG).show();
                         break;
 
                     case 502:
-                        Toast.makeText(mContext, "Could not register an account at this time" +
-                                "- Server unreachable", Toast.LENGTH_LONG).show();
+                        Toast.makeText(mContext, "Could not register an account at this time" + "- Server unreachable", Toast.LENGTH_LONG).show();
                         break;
 
                     default:
-                        Toast.makeText(mContext, "Could not register an account at this time" +
-                                "please try again", Toast.LENGTH_LONG).show();
+                        Toast.makeText(mContext, "Could not register an account at this time" + "please try again", Toast.LENGTH_LONG).show();
                         break;
                 }
             }

@@ -18,14 +18,14 @@ import java.util.List;
 /**
  * Created by aneurinc on 19/03/2016.
  */
-public class ArtistActAdapter extends ArrayAdapter<IChildEvent> {
+public class ArtistActListView extends ArrayAdapter<IChildEvent> {
 
     private final Activity mContext;
     private List<IChildEvent> mChildEvents;
     private static final int ROW_COLOUR1 = 0x3003a9f4;
     private static final int ROW_COLOUR2 = 0x3081d4fa;
 
-    public ArtistActAdapter(Activity context, List<IChildEvent> childEvents) {
+    public ArtistActListView(Activity context, List<IChildEvent> childEvents) {
         super(context, R.layout.list_row_artist_child_events);
         mContext = context;
         mChildEvents = childEvents;

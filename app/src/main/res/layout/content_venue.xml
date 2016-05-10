@@ -86,7 +86,8 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:layout_below="@id/venue_image"
-            android:src="@drawable/google_maps_icon"/>
+            android:src="@drawable/google_maps_icon"
+            android:visibility="invisible"/>
 
     </RelativeLayout>
 

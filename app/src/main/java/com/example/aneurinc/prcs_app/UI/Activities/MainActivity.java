@@ -264,7 +264,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 finish();
                 break;
             case R.id.profile_settings:
-                startActivity(new Intent(this, ProfileActivity.class));
+                startActivity(new Intent(this, UserProfileActivity.class));
                 break;
             default:
                 break;

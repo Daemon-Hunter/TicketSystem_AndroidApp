@@ -51,7 +51,6 @@ public class ArtistFragAdapter extends ArrayAdapter<IArtist> {
         return mArtistList.get(position);
     }
 
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
