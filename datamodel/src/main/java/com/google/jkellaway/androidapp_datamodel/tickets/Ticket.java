@@ -10,8 +10,8 @@ package com.google.jkellaway.androidapp_datamodel.tickets;
 import com.google.jkellaway.androidapp_datamodel.bookings.IBooking;
 import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
-import com.google.jkellaway.androidapp_datamodel.events.ChildEvent;
 import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
+import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,55 +20,69 @@ import static com.google.jkellaway.androidapp_datamodel.utilities.Blacklist.cont
 import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.descriptionValidator;
 
 /**
- *
  * @author 10512691
  */
 public class Ticket implements ITicket {
 
-    private Integer         ticketID;
-    private IChildEvent     childEvent;
-    private Double          price;
-    private String          description;
-    private Integer         amountRemaining;
-    private String          type;
-    private Integer         childEventID;
-    private List<IBooking>  bookings;
-    private DatabaseTable   table;
+    private Integer ticketID;
+    private IChildEvent childEvent;
+    private Double price;
+    private String description;
+    private Integer amountRemaining;
+    private String type;
+    private Integer childEventID;
+    private List<IBooking> bookings;
+    private DatabaseTable table;
 
     /**
      * Use this constructor when creating a new ticket object.
      * Use the constructor when creating an object from the database.
-     * @param ID Unique number for the ticket given by the database.
+     *
+     * @param ID           Unique number for the ticket given by the database.
      * @param childEventID The event the ticket is for.
-     * @param price Price of the ticket.
-     * @param desc Description of the ticket.
-     * @param remaining Number remaining (total number of tickets at time of construction).
-     * @param type The ticket type (standing / seating / weekend etc.)
+     * @param price        Price of the ticket.
+     * @param desc         Description of the ticket.
+     * @param remaining    Number remaining (total number of tickets at time of construction).
+     * @param type         The ticket type (standing / seating / weekend etc.)
      */
-    public Ticket(Integer ID, Integer childEventID, Double price, String desc,
-                  Integer remaining, String type) {
-        ticketID = ID;
+    public Ticket(Integer ID, Integer childEventID, Double price, String desc, Integer remaining, String type) {
+        this.ticketID = ID;
         this.childEventID = childEventID;
         this.price = price;
-        description = desc;
-        amountRemaining = remaining;
+        this.description = desc;
+        this.amountRemaining = remaining;
         this.type = type;
         this.table = DatabaseTable.TICKET;
     }
 
-    public Ticket(ChildEvent event, Double price, String desc, Integer remaining,
-                  String type) {
-        if (event == null) {
-            throw new NullPointerException("Cannot make a ticket for a null event");
-        } else {
-            this.childEvent = event;
-        }
+    public Ticket(IChildEvent event, Double price, String desc, Integer remaining, String type)
+            throws IllegalArgumentException {
+        if (event == null)
+            throw new IllegalArgumentException("Cannot make a ticket for a null event.");
 
-        if (0 <= price) {
-            this.price = price;
-        } else {
-            throw new IllegalArgumentException("Cannot set a price below 0!");
-        }
+        if (price == null)
+            throw new IllegalArgumentException("Cannot make a ticket with a null price.");
+
+        if (desc == null)
+            throw new IllegalArgumentException("Cannot make a ticket with a null description.");
+
+        if (remaining == null)
+            throw new IllegalArgumentException("Cannot make a ticket with a null amount remaining");
+
+        if (type == null)
+            throw new IllegalArgumentException("Cannot make a ticket with a null type.");
+
+        Validator.descriptionValidator(desc);
+        Validator.nameValidator(type);
+        Validator.priceValidator(price.toString());
+
+        this.ticketID = 0;
+        this.childEvent = event;
+        this.childEventID = event.getID();
+        this.price = price;
+        this.description = desc;
+        this.amountRemaining = remaining;
+        this.type = type;
     }
 
     public DatabaseTable getTable() {
@@ -164,7 +178,7 @@ public class Ticket implements ITicket {
 
     @Override
     public List<IBooking> getBookings() throws IOException {
-        bookings = (List<IBooking>)(Object) APIHandle.getObjectsFromObject(this.ticketID, DatabaseTable.BOOKING, DatabaseTable.TICKET);
+        bookings = (List<IBooking>) (Object) APIHandle.getObjectsFromObject(this.ticketID, DatabaseTable.BOOKING, DatabaseTable.TICKET);
         return bookings;
     }
 

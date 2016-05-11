@@ -26,7 +26,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 /**
- *
  * @author 10512691
  */
 final class APIConnection {
@@ -208,6 +207,10 @@ final class APIConnection {
 
     public static List<Map<String, String>> readTicketAmount(Integer orderID, Integer amountToRead, Integer lowestID) throws IOException {
         return Connection(URI + "functions/getBookingsOfCustomerAmount/" + orderID.toString() + "/" + amountToRead.toString() + "/" + lowestID.toString());
+    }
+
+    public static List<Map<String, String>> getSTRING(String string) throws IOException {
+        return Connection(URI + "functions/get" + string);
     }
 
     public static Boolean createContract(Integer artistID, Integer childEventID) throws IOException {

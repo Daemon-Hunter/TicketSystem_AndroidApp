@@ -5,14 +5,11 @@
  */
 package com.google.jkellaway.androidapp_datamodel.tickets;
 
-import com.google.jkellaway.androidapp_datamodel.events.ChildEvent;
-
 /**
  *
  * @author 10512691
  */
 public interface ITicketFactory {
-    
-    public Ticket createTicket(ChildEvent event, Double price, 
-            String description, Integer remaining, String type);
+
+    ITicket createTicket(Double price, String description, Integer remaining, String type);
 }

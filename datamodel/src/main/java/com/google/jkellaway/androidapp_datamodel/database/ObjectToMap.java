@@ -36,68 +36,61 @@ final class ObjectToMap {
     }
 
     public static Map<String, String> customerBookingToMap(CustomerBooking booking) throws IOException {
-        Map<String,String> returnMap = new HashMap<>();
-        returnMap.put("BOOKING_ID",Integer.toString(booking.getBookingID()));
+        Map<String, String> returnMap = new HashMap<>();
+        returnMap.put("BOOKING_ID", Integer.toString(booking.getBookingID()));
         returnMap.put("TICKET_ID", Integer.toString(booking.getTicketID()));
-        returnMap.put("ORDER_ID",Integer.toString(booking.getOrderID()));
-        returnMap.put("BOOKING_QUANTITY",Integer.toString(booking.getQuantity()));
-        returnMap.put("BOOKING_DATE_TIME",formatter.format(booking.getBookingTime()));
+        returnMap.put("ORDER_ID", Integer.toString(booking.getOrderID()));
+        returnMap.put("BOOKING_QUANTITY", Integer.toString(booking.getQuantity()));
+        returnMap.put("BOOKING_DATE_TIME", formatter.format(booking.getBookingTime()));
         return returnMap;
     }
 
     public static Map<String, String> customerToMap(IUser customer) {
-        Map<String,String> returnMap = new HashMap<>();
-        returnMap.put("CUSTOMER_ID",Integer.toString(customer.getID()));
-        returnMap.put("CUSTOMER_FIRST_NAME",customer.getFirstName());
-        returnMap.put("CUSTOMER_LAST_NAME",customer.getLastName());
-        returnMap.put("CUSTOMER_EMAIL",customer.getEmail());
+        Map<String, String> returnMap = new HashMap<>();
+        returnMap.put("CUSTOMER_ID", Integer.toString(customer.getID()));
+        returnMap.put("CUSTOMER_FIRST_NAME", customer.getFirstName());
+        returnMap.put("CUSTOMER_LAST_NAME", customer.getLastName());
+        returnMap.put("CUSTOMER_EMAIL", customer.getEmail());
         returnMap.put("CUSTOMER_ADDRESS", customer.getAddress());
-        returnMap.put("CUSTOMER_POSTCODE",customer.getPostcode());
-        returnMap.put("CUSTOMER_PASSWORD",customer.getPassword());
+        returnMap.put("CUSTOMER_POSTCODE", customer.getPostcode());
+        returnMap.put("CUSTOMER_PASSWORD", customer.getPassword());
         //May need to add password depending on where the registration is taking place.
         return returnMap;
     }
 
     public static Map<String, String> orderToMap(IOrder order) {
-        Map<String,String> orderMap = new HashMap<>();
+        Map<String, String> orderMap = new HashMap<>();
         orderMap.put("ORDER_ID", Integer.toString(order.getOrderID()));
         orderMap.put("CUSTOMER_ID", Integer.toString(order.getUserID()));
         return orderMap;
     }
 
     public static Map<String, String> artistToMap(IArtist artist) {
-        Map<String,String> returnMap = new HashMap<>();
+        Map<String, String> returnMap = new HashMap<>();
         String tags = "";
 
-        if(artist.getTags() != null && !artist.getTags().isEmpty()) {
+        if (artist.getTags() != null && !artist.getTags().isEmpty()) {
             for (String currTag : artist.getTags()) {
                 tags += currTag + ",";
             }
             tags = tags.substring(0, tags.length() - 1);
 
         }
-        if(artist.getSocialId() == null)
-        {
-            returnMap.put("SOCIAL_MEDIA_ID","");
+        if (artist.getSocialId() == null) {
+            returnMap.put("SOCIAL_MEDIA_ID", "");
+        } else {
+            returnMap.put("SOCIAL_MEDIA_ID", Integer.toString(artist.getSocialId()));
         }
-        else
-        {
-            returnMap.put("SOCIAL_MEDIA_ID",Integer.toString(artist.getSocialId()));
-        }
-        returnMap.put("ARTIST_ID",Integer.toString(artist.getID()));
-        returnMap.put("ARTIST_NAME",artist.getName());
-        returnMap.put("ARTIST_TAGS",tags);
-        returnMap.put("ARTIST_DESCRIPTION",artist.getDescription());
+        returnMap.put("ARTIST_ID", Integer.toString(artist.getID()));
+        returnMap.put("ARTIST_NAME", artist.getName());
+        returnMap.put("ARTIST_TAGS", tags);
+        returnMap.put("ARTIST_DESCRIPTION", artist.getDescription());
 
-        if(artist.getTypeID() == null)
-        {
-            returnMap.put("ARTIST_TYPE_ID","");
-        }
-        else {
+        if (artist.getTypeID() == null) {
+            returnMap.put("ARTIST_TYPE_ID", "");
+        } else {
             returnMap.put("ARTIST_TYPE_ID", Integer.toString(artist.getTypeID()));
         }
-
-
 
 
         return returnMap;
@@ -146,30 +139,17 @@ final class ObjectToMap {
             returnMap.put(imgKey, imgValue);
         }
         String fb, insta, tw, sc, www, sp;
-        if (socialMedia.getFacebook() == null)
-            fb = "";
-        else
-            fb = socialMedia.getFacebook();
-        if (socialMedia.getInstagram() == null)
-            insta = "";
-        else
-            insta = socialMedia.getInstagram();
-        if (socialMedia.getTwitter() == null)
-            tw = "";
-        else
-            tw = socialMedia.getTwitter();
-        if (socialMedia.getSoundcloud() == null)
-            sc = "";
-        else
-            sc = socialMedia.getSoundcloud();
-        if (socialMedia.getWebsite() == null)
-            www = "";
-        else
-            www = socialMedia.getWebsite();
-        if (socialMedia.getSpotify() == null)
-            sp = "";
-        else
-            sp = socialMedia.getSpotify();
+        fb = socialMedia.getFacebook();
+
+        insta = socialMedia.getInstagram();
+
+        tw = socialMedia.getTwitter();
+
+        sc = socialMedia.getSoundcloud();
+
+        www = socialMedia.getWebsite();
+
+        sp = socialMedia.getSpotify();
 
         returnMap.put("FACEBOOK", fb);
         returnMap.put("TWITTER", tw);
@@ -181,20 +161,20 @@ final class ObjectToMap {
     }
 
     public static Map<String, String> parentEventToMap(IParentEvent parentEvent) {
-        Map<String,String> returnMap = new HashMap<>();
-        returnMap.put("PARENT_EVENT_ID",Integer.toString(parentEvent.getID()));
-        returnMap.put("PARENT_EVENT_NAME",parentEvent.getName());
-        returnMap.put("PARENT_EVENT_DESCRIPTION",parentEvent.getDescription());
-        returnMap.put("SOCIAL_MEDIA_ID",Integer.toString(parentEvent.getSocialId()));
+        Map<String, String> returnMap = new HashMap<>();
+        returnMap.put("PARENT_EVENT_ID", Integer.toString(parentEvent.getID()));
+        returnMap.put("PARENT_EVENT_NAME", parentEvent.getName());
+        returnMap.put("PARENT_EVENT_DESCRIPTION", parentEvent.getDescription());
+        returnMap.put("SOCIAL_MEDIA_ID", Integer.toString(parentEvent.getSocialId()));
         return returnMap;
     }
 
     public static Map<String, String> childEventToMap(IChildEvent childEvent) {
-        Map<String,String> returnMap = new HashMap<>();
+        Map<String, String> returnMap = new HashMap<>();
         returnMap.put("CHILD_EVENT_ID", Integer.toString(childEvent.getID()));
-        returnMap.put("CHILD_EVENT_NAME",childEvent.getName());
-        returnMap.put("PARENT_EVENT_ID",Integer.toString(childEvent.getParentEventID()));
-        returnMap.put("VENUE_ID",Integer.toString(childEvent.getVenueID()));
+        returnMap.put("CHILD_EVENT_NAME", childEvent.getName());
+        returnMap.put("PARENT_EVENT_ID", Integer.toString(childEvent.getParentEventID()));
+        returnMap.put("VENUE_ID", Integer.toString(childEvent.getVenueID()));
         returnMap.put("CHILD_EVENT_DESCRIPTION", childEvent.getDescription());
         returnMap.put("START_DATE_TIME", formatter.format(childEvent.getStartDateTime()));
         returnMap.put("END_DATE_TIME", formatter.format(childEvent.getEndDateTime()));
@@ -202,11 +182,12 @@ final class ObjectToMap {
     }
 
     public static Map<String, String> ticketToMap(ITicket ticket) {
-        Map<String,String> ticketMap = new HashMap<>();
+        Map<String, String> ticketMap = new HashMap<>();
         ticketMap.put("TICKET_ID", Integer.toString(ticket.getID()));
         ticketMap.put("TICKET_PRICE", Double.toString(ticket.getPrice()));
         ticketMap.put("TICKET_DESCRIPTION", ticket.getDescription());
         ticketMap.put("TICKET_TYPE", ticket.getType());
+        ticketMap.put("TICKET_AMOUNT_REMAINING", Integer.toString(ticket.getRemaining()));
         ticketMap.put("CHILDEVENT_ID", Integer.toString(ticket.getChildEventID()));
         return ticketMap;
     }

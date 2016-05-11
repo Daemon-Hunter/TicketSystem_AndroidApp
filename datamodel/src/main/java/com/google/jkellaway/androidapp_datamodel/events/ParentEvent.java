@@ -11,6 +11,7 @@ import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.reviews.IReview;
 import com.google.jkellaway.androidapp_datamodel.reviews.IReviewFactory;
 import com.google.jkellaway.androidapp_datamodel.reviews.ParentEventReviewFactory;
+import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
 import com.google.jkellaway.androidapp_datamodel.utilities.observer.IObserver;
 
 import java.io.IOException;
@@ -20,7 +21,6 @@ import java.util.List;
 import static com.google.jkellaway.androidapp_datamodel.database.APIHandle.getObjectsFromObject;
 
 /**
- *
  * @author 10512691
  */
 public class ParentEvent implements IParentEvent {
@@ -34,9 +34,9 @@ public class ParentEvent implements IParentEvent {
     private DatabaseTable table;
     private int ID;
     private String name;
-    
+
     private List<IChildEvent> childEvents;
-    
+
     /**
      * Empty constructor initializes it's review factory and child event list.
      */
@@ -46,22 +46,39 @@ public class ParentEvent implements IParentEvent {
         table = DatabaseTable.PARENT_EVENT;
         reviewFactory = new ParentEventReviewFactory();
     }
-    
-    public ParentEvent(Integer ID, Integer social, String name, String description)
-    {
+
+    public ParentEvent(Integer socialID, String name, String description) throws IllegalArgumentException {
+        if (socialID == null)
+            throw new IllegalArgumentException("Cannot create a parent event with no social media object.");
+
+        if (description == null)
+            throw new IllegalArgumentException("Cannot create a parent event with no description.");
+
+        if (name == null)
+            throw new IllegalArgumentException("Cannot create a parent event with no name.");
+
+        Validator.nameValidator(name);
+        Validator.descriptionValidator(description);
+
+        this.description = description;
+        this.socialMediaID = socialID;
+        this.name = name;
+    }
+
+    public ParentEvent(Integer ID, Integer socialID, String name, String description) {
         this.ID = ID;
         this.name = name;
         this.description = description;
         this.table = DatabaseTable.PARENT_EVENT;
         this.reviewFactory = new ParentEventReviewFactory();
-        this.socialMediaID = social;
+        this.socialMediaID = socialID;
 
     }
 
     @Override
     public List<IChildEvent> getChildEvents() throws IOException {
         if (childEvents == null) {
-            childEvents = (List<IChildEvent>) (Object)getObjectsFromObject(this.ID, DatabaseTable.CHILD_EVENT, DatabaseTable.PARENT_EVENT);
+            childEvents = (List<IChildEvent>) (Object) getObjectsFromObject(this.ID, DatabaseTable.CHILD_EVENT, DatabaseTable.PARENT_EVENT);
         }
         return childEvents;
     }
@@ -121,7 +138,7 @@ public class ParentEvent implements IParentEvent {
 
     @Override
     public Boolean setName(String name) {
-        if (name == null){
+        if (name == null) {
             throw new IllegalArgumentException("Name cannot be null.");
         } else {
             this.name = name;
@@ -131,7 +148,7 @@ public class ParentEvent implements IParentEvent {
 
     @Override
     public Boolean setDescription(String description) {
-        if (description == null){
+        if (description == null) {
             throw new IllegalArgumentException("Description cannot be null");
         } else {
             this.description = description;
@@ -158,6 +175,7 @@ public class ParentEvent implements IParentEvent {
 
     /**
      * Checks the validity of the ID before assigning.
+     *
      * @param id
      * @return Boolean true if ID set.
      */
@@ -169,14 +187,13 @@ public class ParentEvent implements IParentEvent {
     }
 
 
-
     protected IReviewFactory getReviewFactory() {
         return reviewFactory;
     }
 
     @Override
     public IReview createReview(Integer customerID, Integer rating, String body, Date date, Boolean verified) {
-        return reviewFactory.createReview( ID, customerID, rating, date, body, verified);
+        return reviewFactory.createReview(ID, customerID, rating, date, body, verified);
     }
 
     @Override

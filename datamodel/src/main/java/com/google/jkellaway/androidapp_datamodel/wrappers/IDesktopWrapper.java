@@ -5,9 +5,13 @@
  */
 package com.google.jkellaway.androidapp_datamodel.wrappers;
 
+import com.google.jkellaway.androidapp_datamodel.bookings.GuestBooking;
+import com.google.jkellaway.androidapp_datamodel.bookings.IBooking;
+import com.google.jkellaway.androidapp_datamodel.bookings.IOrder;
+import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
 import com.google.jkellaway.androidapp_datamodel.people.IAdmin;
 import com.google.jkellaway.androidapp_datamodel.people.ICustomer;
-import com.google.jkellaway.androidapp_datamodel.people.IGuest;
+import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,7 +28,7 @@ public interface IDesktopWrapper extends IWrapper {
     List<ICustomer>  loadMoreCustomers() throws IOException;
     List<ICustomer>  refreshCustomers() throws IOException;
     List<ICustomer> searchCustomers(String string) throws IOException;
-    
+
     Boolean      addAdmin(IAdmin admin);
     IAdmin       getAdmin(Integer index) throws IOException;
     List<IAdmin> getAdmins() throws IOException;
@@ -32,14 +36,20 @@ public interface IDesktopWrapper extends IWrapper {
     List<IAdmin>  loadMoreAdmins() throws IOException;
     List<IAdmin>  refreshAdmins() throws IOException;
 
-    Boolean      addGuest(IGuest guest);
-    List<IGuest>  getGuests()throws IOException;
-    IGuest    getGuest(Integer index) throws IOException;
-    Boolean      removeGuest(IGuest customer);
-    List<IGuest>  loadMoreGuests() throws IOException;
-    List<IGuest>  refreshGuests() throws IOException;
+    IOrder makeCustomerBooking(ICustomer customer , ITicket ticket, Integer quantity) throws IOException;
+
+    Boolean      addGuestBooking(GuestBooking guest);
+    List<GuestBooking>  getGuestBookings()throws IOException;
+    GuestBooking    getGuestBooking(Integer index) throws IOException;
+    Boolean      removeGuestBooking(GuestBooking customer);
+    List<GuestBooking>  loadMoreGuestBookings() throws IOException;
+    List<GuestBooking>  refreshGuestBookings() throws IOException;
+    List<GuestBooking> searchGuestBookings(String string) throws IOException;
 
     Boolean loginAdmin(String email, String password) throws IOException;
     Boolean checkAdminPassword(String email, String password) throws IOException;
     IAdmin  getCurrentAdmin();
+
+    List<IBooking> getThisMonthsSales() throws IOException;
+    List<IChildEvent> getSoldOutEvents() throws IOException;
 }

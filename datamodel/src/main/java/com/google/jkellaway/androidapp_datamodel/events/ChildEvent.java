@@ -10,7 +10,8 @@ import android.graphics.Bitmap;
 import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
-import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
+import com.google.jkellaway.androidapp_datamodel.tickets.ITicketFactory;
+import com.google.jkellaway.androidapp_datamodel.tickets.TicketFactory;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.Locale;
 
 import static com.google.jkellaway.androidapp_datamodel.database.APIHandle.createContract;
+import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.descriptionValidator;
 import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.nameValidator;
 
 /**
@@ -35,9 +37,9 @@ public class ChildEvent implements IChildEvent {
     private IParentEvent parentEvent;
     private Integer parentEventID;
     private List<ITicket> tickets;
+    private ITicketFactory ticketFactory;
     private IVenue venue;
     private Integer venueID;
-
     private Integer childEventID;
     private String childEventName, childEventDescription;
     private String startDateTime, endDateTime;
@@ -76,7 +78,7 @@ public class ChildEvent implements IChildEvent {
         childEventID = 0;
 
         nameValidator(name);
-        Validator.descriptionValidator(description);
+        descriptionValidator(description);
 
         this.childEventName = name;
         this.childEventDescription = description;
@@ -88,9 +90,11 @@ public class ChildEvent implements IChildEvent {
         this.parentEvent = parentEvent;
     }
 
-    public ChildEvent() {
-        this.childEventID = 0;
-        this.table = DatabaseTable.CHILD_EVENT;
+    @Override
+        public ITicketFactory getTicketFactory() {
+        if (ticketFactory == null)
+            ticketFactory = new TicketFactory(this);
+        return ticketFactory;
     }
 
     @Override
@@ -146,7 +150,7 @@ public class ChildEvent implements IChildEvent {
     public Boolean setDescription(String description) throws IllegalArgumentException {
         if (description == null)
             throw new IllegalArgumentException("Enter a description");
-        Validator.descriptionValidator(description);
+        descriptionValidator(description);
         childEventDescription = description;
         return childEventDescription.equals(description);
     }
@@ -225,11 +229,14 @@ public class ChildEvent implements IChildEvent {
     }
 
     @Override
-    public ITicket getTicket(Integer id) {
-        for (ITicket ticket : tickets) {
-            if (ticket.getID().equals(id))
-                return ticket;
+    public ITicket getTicket(Integer id) throws IOException {
+        if (tickets != null) {
+            for (ITicket ticket : tickets) {
+                if (ticket.getID().equals(id))
+                    return ticket;
+            }
         }
+        APIHandle.getSingle(id, DatabaseTable.TICKET);
         throw new IllegalArgumentException("No item in the list contains that id.");
     }
 
