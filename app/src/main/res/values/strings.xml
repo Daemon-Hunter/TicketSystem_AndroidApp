@@ -116,5 +116,6 @@
     <string name="update_email">Update Email</string>
     <string name="update_name">Update Name</string>
     <string name="update_password">Update Password</string>
+    <string name="my_profile">My Profile</string>
 
 </resources>

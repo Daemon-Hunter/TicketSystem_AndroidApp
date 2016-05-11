@@ -55,7 +55,7 @@ final class MapToObject {
     private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
 
     public static IUser MapToCustomer(Map<String, String> custMap) {
-        String firstName, lastName, address, email, postcode;
+        String firstName, lastName, address, email, postcode, password;
         int ID = Integer.parseInt(custMap.get("CUSTOMER_ID"));
 
         firstName = custMap.get("CUSTOMER_FIRST_NAME");
@@ -63,8 +63,9 @@ final class MapToObject {
         address = custMap.get("CUSTOMER_ADDRESS");
         email = custMap.get("CUSTOMER_EMAIL");
         postcode = custMap.get("CUSTOMER_POSTCODE");
+        password = custMap.get("CUSTOMER_PASSWORD");
 
-        return new Customer(ID, firstName, lastName, email, address, postcode);
+        return new Customer(ID, firstName, lastName, email, address, postcode, password);
     }
 
     public static Artist MapToArtist(Map<String, String> artistMap) {

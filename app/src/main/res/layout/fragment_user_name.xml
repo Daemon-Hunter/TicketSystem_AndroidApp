@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
     <android.support.design.widget.TextInputLayout
+        android:id="@+id/forename_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -22,8 +22,10 @@
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
+        android:id="@+id/surname_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/forename_container"
         android:layout_marginTop="10dp"
         android:background="@android:color/white">
 
@@ -39,19 +41,23 @@
     </android.support.design.widget.TextInputLayout>
 
     <Button
+        android:id="@+id/update_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
-        android:layout_marginTop="20dp"
+        android:layout_below="@id/surname_container"
+        android:layout_marginTop="10dp"
         android:text="@string/update_name"
         android:textColor="@android:color/white"
         android:textSize="16sp"/>
 
     <ImageView
         android:layout_width="wrap_content"
+        android:layout_below="@id/update_name"
+        android:layout_marginBottom="10dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:src="@drawable/update_profile"/>
 
-</LinearLayout>
+</RelativeLayout>

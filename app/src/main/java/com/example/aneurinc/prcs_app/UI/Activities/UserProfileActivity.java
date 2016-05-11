@@ -23,16 +23,88 @@ public class UserProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         createToolbar();
 
-        switchFragment(new UserDetailsFragment());
+        switchFragment(new UserDetailsFragment(), FragmentType.USER_DETAILS);
 
     }
 
-    public void switchFragment(Fragment fragment) {
+    public void switchFragment(Fragment fragment, FragmentType type) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.user_detail_fragment, fragment);
+        setCustomAnimation(transaction);
+        transaction.replace(R.id.user_detail_fragment, fragment, type.toString());
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getFragmentTag() == FragmentType.USER_DETAILS) {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra(MainActivity.FRAGMENT_ID, FragmentType.PARENT_EVENT.toString());
+            startActivity(intent);
+            overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
+        } else {
+            switchFragment(new UserDetailsFragment(), FragmentType.USER_DETAILS);
+        }
+    }
+
+    private void setCustomAnimation(FragmentTransaction trans) {
+
+        switch (getFragmentTag()) {
+
+            case NAME:
+                trans.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right);
+                break;
+
+            case EMAIL:
+                trans.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right);
+                break;
+
+            case PASSWORD:
+                trans.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right);
+                break;
+
+            case ADDRESS:
+                trans.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right);
+                break;
+
+            case USER_DETAILS:
+                trans.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_left);
+                break;
+
+            default:
+                break;
+        }
+
+    }
+
+    private FragmentType getFragmentTag() {
+
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag(FragmentType.NAME.toString());
+
+        if (fragment != null && fragment.isVisible()) {
+            return FragmentType.NAME;
+        }
+
+        fragment = getSupportFragmentManager().findFragmentByTag(FragmentType.EMAIL.toString());
+
+        if (fragment != null && fragment.isVisible()) {
+            return FragmentType.EMAIL;
+        }
+
+        fragment = getSupportFragmentManager().findFragmentByTag(FragmentType.PASSWORD.toString());
+
+        if (fragment != null && fragment.isVisible()) {
+            return FragmentType.PASSWORD;
+        }
+
+        fragment = getSupportFragmentManager().findFragmentByTag(FragmentType.ADDRESS.toString());
+
+        if (fragment != null && fragment.isVisible()) {
+            return FragmentType.ADDRESS;
+        }
+
+        return FragmentType.USER_DETAILS;
     }
 
     @Override
@@ -58,7 +130,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private void createToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.edit_profile);
+        toolbar.setTitle(R.string.my_profile);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {

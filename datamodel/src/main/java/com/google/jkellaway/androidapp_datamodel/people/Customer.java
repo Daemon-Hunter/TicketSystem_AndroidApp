@@ -42,13 +42,15 @@ public class Customer implements ICustomer {
      * @param address
      * @param postcode
      */
-    public Customer(Integer ID, String firstName, String lastName, String email, String address, String postcode) {
+    public Customer(Integer ID, String firstName, String lastName, String email, String address,
+                    String postcode, String password) {
         this.ID = ID;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.address = address;
         this.postcode = postcode;
+        this.password = password;
         this.table = DatabaseTable.CUSTOMER;
     }
 

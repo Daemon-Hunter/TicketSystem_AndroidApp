@@ -42,16 +42,16 @@ public class UserDetailsFragment extends Fragment implements AdapterView.OnItemC
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         switch (position) {
             case 0:
-                mUserProfileActivity.switchFragment(new UserNameFragment());
+                mUserProfileActivity.switchFragment(new UserNameFragment(), FragmentType.NAME);
                 break;
             case 1:
-                mUserProfileActivity.switchFragment(new UserEmailFragment());
+                mUserProfileActivity.switchFragment(new UserEmailFragment(), FragmentType.EMAIL);
                 break;
             case 2:
-                mUserProfileActivity.switchFragment(new UserPasswordFragment());
+                mUserProfileActivity.switchFragment(new UserPasswordFragment(), FragmentType.PASSWORD);
                 break;
             case 3:
-                mUserProfileActivity.switchFragment(new UserAddressFragment());
+                mUserProfileActivity.switchFragment(new UserAddressFragment(), FragmentType.ADDRESS);
                 break;
             default:
                 break;

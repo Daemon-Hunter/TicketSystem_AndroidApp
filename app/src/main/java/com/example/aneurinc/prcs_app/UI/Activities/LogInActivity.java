@@ -14,6 +14,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,6 +29,7 @@ import android.widget.TextView.OnEditorActionListener;
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.custom_views.CustomClickableSpan;
 import com.example.aneurinc.prcs_app.UI.fragments.FragmentType;
+import com.google.jkellaway.androidapp_datamodel.utilities.HashString;
 import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
 import java.io.IOException;
@@ -74,8 +76,9 @@ public class LogInActivity extends AppCompatActivity implements OnEditorActionLi
         setClickableSpan();
 
         //// TODO: 21/04/2016 REMOVE THIS 
-        mPasswordView.setText("fucker");
-        mEmailView.setText("dennis358.jk@gmail.com");
+        mPasswordView.setText("bigtimer123");
+        mEmailView.setText("trevgomez@gmail.com");
+
     }
 
     @Override
