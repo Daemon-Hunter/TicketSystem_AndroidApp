@@ -10,6 +10,7 @@ import com.google.jkellaway.androidapp_datamodel.bookings.IOrder;
 import com.google.jkellaway.androidapp_datamodel.database.APIHandle;
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.reviews.IReview;
+import com.google.jkellaway.androidapp_datamodel.utilities.HashString;
 import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
 
 import java.io.IOException;
@@ -50,7 +51,7 @@ public class Customer implements ICustomer {
         this.email = email;
         this.address = address;
         this.postcode = postcode;
-        this.password = password;
+        this.password = HashString.Encrypt(password);
         this.table = DatabaseTable.CUSTOMER;
     }
 
@@ -114,7 +115,6 @@ public class Customer implements ICustomer {
         }
         throw new IllegalArgumentException("No customers with that ID have " + "written a review for this venue.");
     }
-
 
     @Override
     public Boolean deleteReview(IReview review) throws IOException {

@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.custom_adapters.TicketActAdapter;
-import com.example.aneurinc.prcs_app.UI.custom_views.CustomDialog;
+import com.example.aneurinc.prcs_app.UI.custom_views.CustomConfirmDialog;
 import com.example.aneurinc.prcs_app.UI.fragments.FragmentType;
 import com.example.aneurinc.prcs_app.UI.utilities.Utilities;
 import com.google.jkellaway.androidapp_datamodel.bookings.IBooking;
@@ -45,7 +45,7 @@ public class TicketActivity extends AppCompatActivity implements OnClickListener
     private List<IBooking> mBookings;
     private ListView mListView;
     private IOrder mOrder;
-    private CustomDialog mDialog;
+    private CustomConfirmDialog mDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +60,7 @@ public class TicketActivity extends AppCompatActivity implements OnClickListener
         ImageView checkout = (ImageView) findViewById(R.id.checkout);
         checkout.setClickable(false);
 
-        mDialog = new CustomDialog(this);
+        mDialog = new CustomConfirmDialog(this);
         mDialog.create();
         Button confirm = (Button) mDialog.findViewById(R.id.confirm);
         Button cancel = (Button) mDialog.findViewById(R.id.cancel);

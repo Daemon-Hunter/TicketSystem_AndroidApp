@@ -12,10 +12,10 @@ import com.example.aneurinc.prcs_app.R;
 /**
  * Created by aneurinc on 06/04/2016.
  */
-public class CustomDialog extends Dialog {
+public class CustomConfirmDialog extends Dialog {
 
 
-    public CustomDialog(Activity context) {
+    public CustomConfirmDialog(Activity context) {
         super(context);
     }
 
@@ -25,7 +25,7 @@ public class CustomDialog extends Dialog {
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        setContentView(R.layout.custom_dialog);
+        setContentView(R.layout.dialog_confirm);
 
         setCancelable(false);
 

@@ -117,5 +117,9 @@
     <string name="update_name">Update Name</string>
     <string name="update_password">Update Password</string>
     <string name="my_profile">My Profile</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="profile_updated">Profile Updated</string>
+    <string name="network_problem">There was a network problem. Please try again.</string>
+    <string name="invalid_password">Invalid Password.</string>
 
 </resources>

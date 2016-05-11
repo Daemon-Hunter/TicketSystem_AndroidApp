@@ -76,8 +76,9 @@ public class LogInActivity extends AppCompatActivity implements OnEditorActionLi
         setClickableSpan();
 
         //// TODO: 21/04/2016 REMOVE THIS 
-        mPasswordView.setText("bigtimer123");
+        mPasswordView.setText("qqqqq");
         mEmailView.setText("trevgomez@gmail.com");
+        Log.d(MainActivity.DEBUG_TAG, "onCreate: " + HashString.Encrypt(mPasswordView.getText().toString()));
 
     }
 
@@ -153,12 +154,10 @@ public class LogInActivity extends AppCompatActivity implements OnEditorActionLi
     }
 
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
         return email.contains("@");
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
         return password.length() > 4;
     }
 

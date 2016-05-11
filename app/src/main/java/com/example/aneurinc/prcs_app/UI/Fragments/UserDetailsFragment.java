@@ -1,11 +1,13 @@
 package com.example.aneurinc.prcs_app.UI.fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -34,8 +36,11 @@ public class UserDetailsFragment extends Fragment implements AdapterView.OnItemC
             mUserProfileActivity = (UserProfileActivity) getActivity();
         }
 
-        return view;
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity
+                .INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
+        return view;
     }
 
     @Override

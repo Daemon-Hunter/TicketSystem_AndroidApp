@@ -1,5 +1,7 @@
 package com.example.aneurinc.prcs_app.UI.fragments;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,10 +9,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.aneurinc.prcs_app.R;
+import com.example.aneurinc.prcs_app.UI.custom_views.CustomPasswordDialog;
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import com.google.jkellaway.androidapp_datamodel.people.Customer;
 import com.google.jkellaway.androidapp_datamodel.people.ICustomer;
@@ -27,6 +33,9 @@ public class UserAddressFragment extends Fragment implements View.OnClickListene
     private ICustomer mUser;
     private UpdateDetails mUpdateTask;
     private String oldAddress, oldCity, oldPostcode;
+    private EditText mPassword;
+    private CustomPasswordDialog mDialog;
+    private AuthenticatePassword mAuthTask;
 
     @Nullable
     @Override
@@ -40,18 +49,42 @@ public class UserAddressFragment extends Fragment implements View.OnClickListene
         mAddress.setText(mUser.getAddress());
         mCity.setText("CITY NOT IN DATABASE");
         mPostcode.setText(mUser.getPostcode());
-
         oldAddress = mAddress.getText().toString();
         oldCity = mCity.getText().toString();
         oldPostcode = mPostcode.getText().toString();
 
+        mDialog = new CustomPasswordDialog(getActivity());
+        mDialog.create();
+        Button updateAddress = (Button) view.findViewById(R.id.update_address);
+        Button updatePassword = (Button) mDialog.findViewById(R.id.confirm_password);
+        mPassword = (EditText) mDialog.findViewById(R.id.password);
+        updatePassword.setOnClickListener(this);
+        updateAddress.setOnClickListener(this);
+
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm.isAcceptingText()) imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
     }
 
     private void updateDetails() {
         if (!isTaskRunning(mUpdateTask)) {
-            mUpdateTask = new UpdateDetails(mAddress.getText().toString(), mCity.getText().toString(), mPostcode.getText().toString());
+            mUpdateTask = new UpdateDetails(mAddress.getText().toString(), mCity.getText().toString(), mPostcode.getText().toString(), mUser.getEmail(), mPassword.getText().toString());
             mUpdateTask.execute();
+        }
+    }
+
+    private void authenticatePassword() {
+        if (!isTaskRunning(mAuthTask)) {
+            mAuthTask = new AuthenticatePassword(getActivity(), mPassword.getText().toString(), mUser.getEmail());
+            mAuthTask.execute();
         }
     }
 
@@ -77,6 +110,9 @@ public class UserAddressFragment extends Fragment implements View.OnClickListene
         if (isTaskRunning(mUpdateTask)) {
             mUpdateTask.cancel(true);
         }
+        if (isTaskRunning(mAuthTask)) {
+            mAuthTask.cancel(true);
+        }
     }
 
     private boolean isTaskRunning(AsyncTask task) {
@@ -92,26 +128,80 @@ public class UserAddressFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        if (valuesHaveChanged()) updateDetails();
+        switch (v.getId()) {
+            case R.id.update_address:
+                if (valuesHaveChanged()) mDialog.show();
+                break;
+            case R.id.confirm_password:
+                authenticatePassword();
+                mDialog.cancel();
+                if (valuesHaveChanged()) updateDetails();
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    private class AuthenticatePassword extends AsyncTask<Void, Void, Boolean> {
+
+        private String userPassword, userEmail;
+        private Activity mContext;
+
+        public AuthenticatePassword(Activity mContext, String userPassword, String userEmail) {
+            this.mContext = mContext;
+            this.userPassword = userPassword;
+            this.userEmail = userEmail;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+
+            try {
+                UserWrapper.getInstance().loginUser(userEmail, userPassword);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+                return false;
+            }
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+            super.onPostExecute(success);
+            if (success) {
+                updateDetails();
+                mDialog.cancel();
+            } else Toast.makeText(mContext, R.string.invalid_password, Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private class UpdateDetails extends AsyncTask<Void, Void, Boolean> {
 
-        private String newAddress, newCity, newPostcode;
+        private String newAddress, newCity, newPostcode, userEmail, userPassword;
 
-        public UpdateDetails(String newAddress, String newCity, String newPostcode) {
+        public UpdateDetails(String newAddress, String newCity, String newPostcode, String userEmail, String userPassword) {
             this.newAddress = newAddress;
             this.newCity = newCity;
             this.newPostcode = newPostcode;
+            this.userEmail = userEmail;
+            this.userPassword = userPassword;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
-                mUser = new Customer(mUser.getID(), mUser.getFirstName(), mUser.getLastName(),
-                        mUser.getEmail(), newAddress, newPostcode, "");
+                mUser = new Customer(mUser.getID(), mUser.getFirstName(), mUser.getLastName(), userEmail, newAddress, newPostcode, userPassword);
                 UserWrapper.getInstance().updateObject(mUser, DatabaseTable.CUSTOMER);
+                UserWrapper.getInstance().loginUser(userEmail, userPassword);
             } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            } catch (IllegalArgumentException e) {
                 e.printStackTrace();
                 return false;
             }
@@ -124,8 +214,8 @@ public class UserAddressFragment extends Fragment implements View.OnClickListene
 
             String message;
 
-            if (success) message = getString(R.string.update_profile);
-            else message = "There was a network problem. Please try again.";
+            if (success) message = getString(R.string.profile_updated);
+            else message = getString(R.string.network_problem);
 
             Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
         }
