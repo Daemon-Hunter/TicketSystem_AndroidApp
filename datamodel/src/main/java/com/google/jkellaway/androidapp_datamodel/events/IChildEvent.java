@@ -6,6 +6,7 @@
 package com.google.jkellaway.androidapp_datamodel.events;
 
 import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
+import com.google.jkellaway.androidapp_datamodel.tickets.ITicketFactory;
 
 import java.io.IOException;
 import java.util.Date;
@@ -40,7 +41,9 @@ public interface IChildEvent extends ISocial {
     IParentEvent getParentEvent() throws IOException;
     Boolean setParentEvent(IParentEvent event);
 
-    ITicket getTicket(Integer id);
+    ITicketFactory getTicketFactory();
+
+    ITicket getTicket(Integer id) throws IOException;
     List<ITicket> getTickets() throws IOException;
     Boolean addTicket(ITicket ticket);
     Boolean removeTicket(ITicket ticket);

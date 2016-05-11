@@ -96,27 +96,27 @@ final class MapToObject {
 
         socialMediaID = Integer.parseInt(socialMap.get("SOCIAL_MEDIA_ID"));
         facebook = socialMap.get("FACEBOOK");
-        if (facebook.equals("null")) {
+        if (facebook.equals("null") || facebook.equals("")) {
             facebook = null;
         }
         twitter = socialMap.get("TWITTER");
-        if (twitter.equals("null")) {
+        if (twitter.equals("null") || twitter.equals("")) {
             twitter = null;
         }
         instagram = socialMap.get("INSTAGRAM");
-        if (instagram.equals("null")) {
+        if (instagram.equals("null") || instagram.equals("")) {
             instagram = null;
         }
         soundcloud = socialMap.get("SOUNDCLOUD");
-        if (soundcloud.equals("null")) {
+        if (soundcloud.equals("null") || soundcloud.equals("")) {
             soundcloud = null;
         }
         website = socialMap.get("WEBSITE");
-        if (website.equals("null")) {
+        if (website.equals("null") || website.equals("")) {
             website = null;
         }
         spotify = socialMap.get("SPOTIFY");
-        if (spotify.equals("null")) {
+        if (spotify.equals("null") || spotify.equals("")) {
             spotify = null;
         }
         decodedBytes = Base64.decode(socialMap.get("IMAGE"), 0);
@@ -297,7 +297,7 @@ final class MapToObject {
     public static IBooking MapToGuestBooking(Map<String, String> bookingMap) {
         Integer bookingID, ticketID, quantity;
         String email, address, postcode;
-        Date dateTime = new Date();
+        String dateTime;
 
         bookingID = Integer.parseInt(bookingMap.get("GUEST_BOOKING_ID"));
         ticketID = Integer.parseInt(bookingMap.get("TICKET_ID"));
@@ -305,12 +305,7 @@ final class MapToObject {
         email = bookingMap.get("GUEST_EMAIL");
         address = bookingMap.get("GUEST_ADDRESS");
         postcode = bookingMap.get("GUEST_POSTCODE");
-
-        try {
-            dateTime = formatter.parse(bookingMap.get("GUEST_BOOKING_DATE_TIME"));
-        } catch (ParseException e) {
-            System.err.println(e.toString());
-        }
+        dateTime = bookingMap.get("GUEST_BOOKING_DATE_TIME");
 
         return new GuestBooking(bookingID, ticketID, quantity, dateTime, new Guest(email, address, postcode));
     }

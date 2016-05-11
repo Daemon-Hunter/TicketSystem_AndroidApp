@@ -11,35 +11,35 @@ import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
 import static com.google.jkellaway.androidapp_datamodel.utilities.HashString.Encrypt;
 
 /**
- *
  * @author 10467841
  */
 public class Admin implements IAdmin {
-    
+
     private Integer ID;
-    private String  firstName, lastName, email, password;
+    private String firstName, lastName, email, password;
     private DatabaseTable table;
-    
+
     public Admin(String fName, String lName, String email, String password) throws IllegalArgumentException {
         ID = 0;
         if (fName == null || lName == null)
-            throw new NullPointerException("First or last name is null.");
+            throw new IllegalArgumentException("First or last name is null.");
         Validator.nameValidator(fName);
         Validator.nameValidator(lName);
+        Validator.emailValidator(email);
 
         firstName = fName;
         lastName = lName;
-        Validator.emailValidator(email);
         this.email = email;
         this.password = Encrypt(password);
     }
-    
+
     public Admin(Integer ID, String fName, String lName, String email) {
         this.ID = ID;
         firstName = fName;
         lastName = lName;
+        this.email = email;
     }
-    
+
     @Override
     public Integer getID() {
         if (ID == null) {
@@ -48,7 +48,7 @@ public class Admin implements IAdmin {
             return ID;
         }
     }
-  
+
     @Override
     public String getEmail() {
         if (email == null) {
@@ -70,8 +70,8 @@ public class Admin implements IAdmin {
 
     @Override
     public Boolean setPassword(String password) {
-        this.password = password;
-        return this.password == password;
+        this.password = Encrypt(password);
+        return true;
     }
 
     @Override

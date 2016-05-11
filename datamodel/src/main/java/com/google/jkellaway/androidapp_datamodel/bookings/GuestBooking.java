@@ -43,13 +43,13 @@ public class GuestBooking implements IBooking {
      * @param dateTime
      * @param guest 
      */
-    public GuestBooking (Integer ID, Integer ticketID, Integer ticketQty, Date dateTime, IUser guest) {
+    public GuestBooking (Integer ID, Integer ticketID, Integer ticketQty, String dateTime, IUser guest) {
         this.bookingID = ID;
         this.ticketID = ticketID;
         this.ticketQuantity = ticketQty;
         // Store a copy of the time, as the variable could be externally changed
         // after construction -> externally mutable object
-        this.bookingDateTime = formatter.format(dateTime);
+        this.bookingDateTime = dateTime;
         if (guest != null) {
             this.guest = guest;
         } else {

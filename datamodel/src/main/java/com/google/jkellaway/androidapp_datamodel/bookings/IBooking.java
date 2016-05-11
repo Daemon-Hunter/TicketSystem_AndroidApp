@@ -11,19 +11,63 @@ import java.io.IOException;
 import java.util.Date;
 
 /**
+ * This interface should be implemented bu all classes which are a type of booking.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public interface IBooking {
+    /**
+     *
+     * @return an Integer which represents the primary id of a booking.
+     */
     Integer getBookingID();
 
+    /**
+     *
+     * @return an Integer which represents the primary key of a ticket.
+     */
     Integer getTicketID();
+
+    /**
+     *
+     * @return an (@code ITicket) object.
+     * @throws IOException if the method needs to request data from an external source.
+     */
     ITicket getTicket() throws IOException;
+
+    /**
+     * This method sets the ticket referenced by the booking.
+     * @param ticket reference to the ticket to be set in the booking.
+     * @return a Boolean value representing if the method was successful.
+     */
     Boolean setTicket(ITicket ticket);
-    
+
+    /**
+     *
+     * @return an Integer which represents the quantity of tickets booked.
+     */
     Integer getQuantity();
+
+    /**
+     * This method sets the quantity in the implementing method.
+     * @param qty the Integer to be set as the quantity.
+     * @return a Boolean value representing if the method was successful.
+     * @throws IllegalArgumentException if the input violates any constraints.
+     */
     Boolean setQuantity(Integer qty) throws IllegalArgumentException;
-    
+
+    /**
+     *
+     * @return a Date type containing the set dateTime of the booking.
+     */
     Date    getBookingTime();
+
+    /**
+     * This method sets the DateTime of the booking.
+     * @param time the date/time which will be set in the booking.
+     * @return a Boolean value representing if the method was successful.
+     * @throws IllegalArgumentException
+     */
     Boolean setBookingTime(Date time) throws IllegalArgumentException;
 }

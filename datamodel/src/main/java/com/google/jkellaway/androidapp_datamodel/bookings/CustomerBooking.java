@@ -20,7 +20,6 @@ import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.quan
 
 /**
  *
- * @author 10512691
  */
 public class CustomerBooking implements IBooking {
 
