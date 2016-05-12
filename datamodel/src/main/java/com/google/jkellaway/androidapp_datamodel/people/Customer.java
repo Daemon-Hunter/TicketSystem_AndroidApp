@@ -36,7 +36,7 @@ public class Customer implements ICustomer {
     /**
      * Use this when creating a customer object from the database.
      *
-     * @param ID        is known.
+     * @param ID is known.
      * @param firstName
      * @param lastName
      * @param email
@@ -200,7 +200,7 @@ public class Customer implements ICustomer {
     @Override
     public List<IBooking> getBookings() throws IOException {
         bookings = APIHandle.getBookingAmount(this.ID, 4, 0);
-        return bookings;
+        return new LinkedList<>(bookings);
     }
 
     @Override

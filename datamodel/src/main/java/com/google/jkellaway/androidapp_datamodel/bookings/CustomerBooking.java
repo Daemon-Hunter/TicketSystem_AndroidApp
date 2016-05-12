@@ -29,35 +29,37 @@ public class CustomerBooking implements IBooking {
     private DatabaseTable table;
     private Integer bookingID;
     private Integer ticketQuantity;
-    private String  bookingDateTime;
+    private String bookingDateTime;
     private IOrder order;
     private Integer orderID;
 
     private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
-    
+
     /**
      * Use this constructor when creating a booking object from the database.
+     *
      * @param ID
      * @param ticketQty
      * @param dateTime
      */
-    public CustomerBooking (Integer ID, Integer ticketID, Integer orderID, Integer ticketQty, Date dateTime) throws IllegalArgumentException {
+    public CustomerBooking(Integer ID, Integer ticketID, Integer orderID, Integer ticketQty, String dateTime) throws IllegalArgumentException {
         this.bookingID = ID;
         this.ticketID = ticketID;
         this.ticketQuantity = ticketQty;
         // Store a copy of the time, as the variable could be externally changed
         // after construction -> externally mutable object
-        this.bookingDateTime = formatter.format(dateTime);
+        this.bookingDateTime = dateTime;
         this.table = DatabaseTable.BOOKING;
         this.orderID = orderID;
     }
-    
+
     /**
      * Use this constructor when creating a new customer booking object.
+     *
      * @param ticket
      * @param ticketQty
      */
-    public CustomerBooking (IOrder order, ITicket ticket, Integer ticketQty) {
+    public CustomerBooking(IOrder order, ITicket ticket, Integer ticketQty) {
         // Set ID as 0. Database will create one using sequence.
         this.bookingID = 0;
         this.order = order;
@@ -87,7 +89,7 @@ public class CustomerBooking implements IBooking {
         return order;
     }
 
-    public Integer getOrderID(){
+    public Integer getOrderID() {
         return orderID;
     }
 
@@ -169,6 +171,7 @@ public class CustomerBooking implements IBooking {
         }
         return null;
     }
+
     @Override
     public Boolean setBookingTime(Date time) throws IllegalArgumentException {
         if (time == null) {

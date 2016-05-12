@@ -268,18 +268,13 @@ final class MapToObject {
 
     public static IBooking MapToCustomerBooking(Map<String, String> bookingMap) {
         Integer bookingID, quantity, ticketID, orderID;
-        Date date = new Date();
+        String date;
 
         bookingID = Integer.parseInt(bookingMap.get("BOOKING_ID"));
         quantity = Integer.parseInt(bookingMap.get("BOOKING_QUANTITY"));
         ticketID = Integer.parseInt(bookingMap.get("TICKET_ID"));
         orderID = Integer.parseInt(bookingMap.get("ORDER_ID"));
-
-        try {
-            date = formatter.parse(bookingMap.get("BOOKING_DATE_TIME"));
-        } catch (ParseException e) {
-            System.err.println(e.toString());
-        }
+        date = bookingMap.get("BOOKING_DATE_TIME");
 
         return new CustomerBooking(bookingID, ticketID, orderID, quantity, date);
     }
