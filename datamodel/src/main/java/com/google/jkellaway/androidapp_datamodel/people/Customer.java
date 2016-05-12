@@ -210,7 +210,7 @@ public class Customer implements ICustomer {
             if (booking.getBookingID() < lowestID || lowestID == 0)
                 lowestID = booking.getBookingID();
         }
-        List<IBooking> newData = getBookingAmount(this.ID, 4, 0);
+        List<IBooking> newData = getBookingAmount(this.ID, 4, lowestID);
         bookings.addAll(newData);
         return new LinkedList<>(newData);
     }
