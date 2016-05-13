@@ -18,17 +18,25 @@ public class CheckoutActivity extends AppCompatActivity implements OnClickListen
 
     public static String ORDER_ID;
 
+    /*
+    * Initialise activity
+    */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
-        setupToolbar();
+        creatToolbar();
 
         ImageView pay = (ImageView) findViewById(R.id.pay);
         pay.setOnClickListener(this);
     }
 
-    private void setupToolbar() {
+    /*
+     * Set up the toolbar
+     * Set title
+     * and back navigation
+     */
+    private void creatToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.checkout);
         setSupportActionBar(toolbar);
@@ -41,18 +49,28 @@ public class CheckoutActivity extends AppCompatActivity implements OnClickListen
         });
     }
 
+    /*
+    * Override back navigation
+    * Add fade transition
+    */
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
+    /*
+    * Initialise menu
+    */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu2, menu);
         return true;
     }
 
+    /*
+    * Handle toolbar item clicks
+    */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -70,13 +88,16 @@ public class CheckoutActivity extends AppCompatActivity implements OnClickListen
         return super.onOptionsItemSelected(item);
     }
 
+    /*
+    * Handle view onClicks
+    */
     @Override
     public void onClick(View v) {
 
         v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.onclick));
 
         switch (v.getId()) {
-
+            // Start receipt activity and pass in Order ID
             case R.id.pay:
                 Intent intent = new Intent(this, ReceiptActivity.class);
                 intent.putExtra(ReceiptActivity.ORDER_ID, getIntent().getExtras().getInt(ORDER_ID));

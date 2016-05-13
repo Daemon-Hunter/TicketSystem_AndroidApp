@@ -28,7 +28,8 @@ public class TicketFragAdapter extends ArrayAdapter<IBooking> {
     private List<IChildEvent> mChildEvents;
     private List<IVenue> mVenues;
 
-    public TicketFragAdapter(Activity context, List<ITicket> tickets, List<IBooking> bookings, List<Integer> orderIDs, List<IChildEvent> childEvents, List<IVenue> venues) {
+    public TicketFragAdapter(Activity context, List<ITicket> tickets, List<IBooking> bookings, List<Integer> orderIDs,
+                             List<IChildEvent> childEvents, List<IVenue> venues) {
 
         super(context, R.layout.list_row_my_ticket);
 

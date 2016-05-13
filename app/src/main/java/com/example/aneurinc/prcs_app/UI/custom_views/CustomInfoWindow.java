@@ -14,20 +14,32 @@ import com.google.jkellaway.androidapp_datamodel.events.IVenue;
  */
 public class CustomInfoWindow extends View implements GoogleMap.InfoWindowAdapter {
 
+    // Reference to parent activity
     private Activity mContext;
+
+    // Venue object
     private IVenue mVenue;
 
+    /*
+    * Initialise information window
+    */
     public CustomInfoWindow(Activity context, IVenue venue) {
         super(context);
         mContext = context;
         mVenue = venue;
     }
 
+    /*
+    * Return info window outline
+    */
     @Override
     public View getInfoWindow(Marker marker) {
         return null;
     }
 
+    /*
+    * Return info window contents
+    */
     @Override
     public View getInfoContents(Marker marker) {
         View view = mContext.getLayoutInflater().inflate(R.layout.info_window, null);

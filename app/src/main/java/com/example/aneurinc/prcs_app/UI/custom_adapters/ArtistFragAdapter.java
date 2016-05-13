@@ -22,35 +22,56 @@ import java.util.List;
 
 public class ArtistFragAdapter extends ArrayAdapter<IArtist> {
 
+    // Reference to parent activity
     private Activity mContext;
+
+    // Artist list for adapter
     private List<IArtist> mArtistList;
 
+    /*
+    * Initialise artist adapter
+    */
     public ArtistFragAdapter(Activity context, List<IArtist> artistList) {
         super(context, R.layout.grid_single);
         mContext = context;
         mArtistList = artistList;
     }
 
+    /*
+    * Clear list
+    */
     @Override
     public void clear() {
         mArtistList.clear();
     }
 
+    /*
+    * Add collection to list
+    */
     @Override
     public void addAll(Collection<? extends IArtist> collection) {
         mArtistList.addAll(collection);
     }
 
+    /*
+    * Return list size
+    */
     @Override
     public int getCount() {
         return mArtistList.size();
     }
 
+    /*
+    * Get item in list by position
+    */
     @Override
     public IArtist getItem(int position) {
         return mArtistList.get(position);
     }
 
+    /*
+    * Return row view
+    */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -90,6 +111,9 @@ public class ArtistFragAdapter extends ArrayAdapter<IArtist> {
         return convertView;
     }
 
+    /*
+    * Static view holder class to keep reference to row views
+    */
     static class ViewHolder {
         ImageView gridImage;
         TextView gridText;

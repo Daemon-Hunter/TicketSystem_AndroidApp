@@ -8,6 +8,11 @@ import com.example.aneurinc.prcs_app.R;
 
 public class SplashActivity extends AppCompatActivity {
 
+    /*
+    * Initialise the activity
+    * and start Login Activity
+    * Splash logic handled in theme
+    */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

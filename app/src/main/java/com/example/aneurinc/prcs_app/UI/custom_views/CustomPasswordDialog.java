@@ -12,11 +12,16 @@ import com.example.aneurinc.prcs_app.R;
  */
 public class CustomPasswordDialog extends Dialog {
 
-
+    /*
+    * Initialise dialog with reference to parent activity context
+    */
     public CustomPasswordDialog(Activity context) {
         super(context);
     }
 
+    /*
+    * Initialise dialog
+    */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

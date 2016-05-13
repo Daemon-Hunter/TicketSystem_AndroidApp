@@ -11,6 +11,7 @@ import com.example.aneurinc.prcs_app.UI.activities.RegisterActivity;
 
 public class CustomClickableSpan extends ClickableSpan {
 
+    // Reference to parent activity
     private Activity context;
 
     public CustomClickableSpan(Activity c) {
@@ -19,6 +20,9 @@ public class CustomClickableSpan extends ClickableSpan {
 
     }
 
+    /*
+    * Handle text onClick and move to corresponding activity
+    */
     @Override
     public void onClick(View v) {
 
@@ -41,6 +45,9 @@ public class CustomClickableSpan extends ClickableSpan {
 
     }
 
+    /*
+    * Set underline to text
+    */
     @Override
     public void updateDrawState(TextPaint ds) {
 

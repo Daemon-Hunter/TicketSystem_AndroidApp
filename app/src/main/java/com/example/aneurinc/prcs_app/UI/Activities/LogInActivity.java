@@ -14,7 +14,6 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,7 +28,6 @@ import android.widget.TextView.OnEditorActionListener;
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.custom_views.CustomClickableSpan;
 import com.example.aneurinc.prcs_app.UI.fragments.FragmentType;
-import com.google.jkellaway.androidapp_datamodel.utilities.HashString;
 import com.google.jkellaway.androidapp_datamodel.wrappers.UserWrapper;
 
 import java.io.IOException;
@@ -50,6 +48,9 @@ public class LogInActivity extends AppCompatActivity implements OnEditorActionLi
     private View mProgressView;
     private View mLoginFormView;
 
+    /*
+    * Initialise activity
+    */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,19 +76,20 @@ public class LogInActivity extends AppCompatActivity implements OnEditorActionLi
 
         setClickableSpan();
 
-        //// TODO: 21/04/2016 REMOVE THIS 
-        mPasswordView.setText("qqqqq");
-        mEmailView.setText("trevgomez@gmail.com");
-        Log.d(MainActivity.DEBUG_TAG, "onCreate: " + HashString.Encrypt(mPasswordView.getText().toString()));
-
     }
 
+    /*
+    * Called when activity resumes
+    */
     @Override
     protected void onResume() {
         super.onResume();
         setClickableSpan();
     }
 
+    /*
+    * Add link to text to register page
+    */
     private void setClickableSpan() {
 
         TextView tvSignIn = (TextView) findViewById(R.id.tv_go_to_register);
@@ -195,7 +197,9 @@ public class LogInActivity extends AppCompatActivity implements OnEditorActionLi
         }
     }
 
-
+    /*
+    * Called when edit text is changed
+    */
     @Override
     public boolean onEditorAction(TextView v, int id, KeyEvent event) {
         if (id == R.id.login || id == EditorInfo.IME_NULL) {
@@ -205,11 +209,16 @@ public class LogInActivity extends AppCompatActivity implements OnEditorActionLi
         return false;
     }
 
+    /*
+    * Called when user clicks on view
+    */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.confirm_order:
+                // close keyboard
                 closeKeyboard();
+                // attempt to log user in
                 attemptLogin();
                 break;
             default:
@@ -217,6 +226,9 @@ public class LogInActivity extends AppCompatActivity implements OnEditorActionLi
         }
     }
 
+    /*
+    * Close soft keyboard
+    */
     private void closeKeyboard() {
         View view = this.getCurrentFocus();
         if (view != null) {
@@ -225,6 +237,9 @@ public class LogInActivity extends AppCompatActivity implements OnEditorActionLi
         }
     }
 
+    /*
+    * Override default transition with slide transition
+    */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -240,12 +255,19 @@ public class LogInActivity extends AppCompatActivity implements OnEditorActionLi
         private final String mPassword;
         private final Activity mContext;
 
+        /*
+        * Pass in user details from form input
+         */
         UserLoginTask(Activity context, String email, String password) {
             mContext = context;
             mEmail = email;
             mPassword = password;
         }
 
+        /*
+         * Execute login task
+         * Return true if successful
+         */
         @Override
         protected Boolean doInBackground(Void... params) {
             try {
@@ -261,23 +283,32 @@ public class LogInActivity extends AppCompatActivity implements OnEditorActionLi
             return true;
         }
 
+        /*
+        * Callback fired once task is completed
+        * Update UI depending on value
+        */
         @Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
             showProgress(false);
 
+            // Login was successful so finish start main activity
             if (success) {
                 finish();
                 Intent intent = new Intent(mContext, MainActivity.class);
                 intent.putExtra(MainActivity.FRAGMENT_ID, FragmentType.PARENT_EVENT.toString());
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-            } else {
+            } else { // Notify user of incorrect entry
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
             }
         }
 
+        /*
+        * Callback fired if thread is cancelled
+        * Finish async task and hide progress spinner
+        */
         @Override
         protected void onCancelled() {
             mAuthTask = null;

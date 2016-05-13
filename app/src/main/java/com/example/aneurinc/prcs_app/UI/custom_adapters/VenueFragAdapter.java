@@ -23,36 +23,59 @@ import java.util.List;
  */
 public class VenueFragAdapter extends ArrayAdapter<IVenue> {
 
+    // Reference to parent activity
     private final Activity mContext;
+
+    // List of venues
     private List<IVenue> mVenues;
+
+    // Row colours
     private static final int ROW_COLOUR1 = 0x3003a9f4;
     private static final int ROW_COLOUR2 = 0x3081d4fa;
 
+    /*
+    * Initialise adapter
+    */
     public VenueFragAdapter(Activity context, List<IVenue> venues) {
         super(context, R.layout.list_row_venue);
         mVenues = venues;
         mContext = context;
     }
 
+    /*
+    * Return alternate row colours
+    */
     private int getRowColour(int position) {
         return position % 2 == 0 ? ROW_COLOUR1 : ROW_COLOUR2;
     }
 
+    /*
+    * Add collection to list
+    */
     @Override
     public void addAll(Collection<? extends IVenue> collection) {
         mVenues.addAll(collection);
     }
 
+    /*
+    * Clear list
+    */
     @Override
     public void clear() {
         mVenues.clear();
     }
 
+    /*
+    * Return item from list by position
+    */
     @Override
     public IVenue getItem(int position) {
         return mVenues.get(position);
     }
 
+    /*
+    * Return row view
+    */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -61,18 +84,22 @@ public class VenueFragAdapter extends ArrayAdapter<IVenue> {
 
         if (convertView == null) {
 
+            // inflate layout
             LayoutInflater inflater = mContext.getLayoutInflater();
             convertView = inflater.inflate(R.layout.list_row_venue, null);
 
+            // Set up view holder
             viewHolder = new ViewHolder();
             viewHolder.venueImage = (ImageView) convertView.findViewById(R.id.artist_image);
             viewHolder.venueName = (TextView) convertView.findViewById(R.id.artist_child_event_name);
             viewHolder.venueCity = (TextView) convertView.findViewById(R.id.city);
             viewHolder.venueMap = (ImageView) convertView.findViewById(R.id.venue_map);
 
+            // store the holder with the view
             convertView.setTag(viewHolder);
 
         } else {
+            // use view holder to save resources
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
@@ -84,6 +111,7 @@ public class VenueFragAdapter extends ArrayAdapter<IVenue> {
         viewHolder.venueName.setText(currVenue.getName());
         viewHolder.venueCity.setText(currVenue.getCity());
 
+        // Add onClick listener for venue maps icon
         viewHolder.venueMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,6 +132,9 @@ public class VenueFragAdapter extends ArrayAdapter<IVenue> {
         return mVenues.size();
     }
 
+    /*
+    * Static view holder class to keep reference to row views
+    */
     static class ViewHolder {
         ImageView venueImage;
         ImageView venueMap;

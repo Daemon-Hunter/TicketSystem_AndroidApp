@@ -27,12 +27,18 @@ import com.example.aneurinc.prcs_app.UI.fragments.VenueFragment;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener {
 
-    // debug tag
+    // Debug tag
     public static final String DEBUG_TAG = "PRCS";
+
+    // ID intent data for fragment selection
     public static String FRAGMENT_ID;
 
+    // Manage fragments
     private static FragmentManager fragmentManager;
 
+    /*
+    * Initialise activity and set layout
+    */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +48,15 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         setSupportActionBar(toolbar);
 
         addOnClickListeners();
+        chooseFragment();
 
+        fragmentManager = getSupportFragmentManager();
+    }
+
+    /*
+    * Decides which fragment to load depending on what type is passed in the intent
+    */
+    private void chooseFragment() {
         switch (getIntent().getExtras().getString(FRAGMENT_ID)) {
             case "ARTIST":
                 switchFragment(new ArtistFragment(), FragmentType.ARTIST);
@@ -54,10 +68,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 switchFragment(new VenueFragment(), FragmentType.VENUE);
                 break;
         }
-
-        fragmentManager = getSupportFragmentManager();
     }
 
+    /*
+    * Uses the fragment manager to transition between fragments
+    */
     public void switchFragment(Fragment fragment, FragmentType type) {
 
         FragmentManager fm = getSupportFragmentManager();
@@ -72,6 +87,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     }
 
+    /*
+    * Decides which way to slide depending on current fragment and next one
+    */
     private void setCustomAnimation(FragmentTransaction trans, FragmentType type) {
 
         switch (getFragmentTag()) {
@@ -106,6 +124,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     }
 
+    /*
+    * Get current selected fragment by tag
+    */
     private FragmentType getFragmentTag() {
 
         Fragment fragment = getSupportFragmentManager().findFragmentByTag(FragmentType.PARENT_EVENT.toString());
@@ -129,6 +150,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         return FragmentType.VENUE;
     }
 
+    /*
+    * Add menu fragment button onClick listeners
+    */
     private void addOnClickListeners() {
 
         // get buttons
@@ -145,6 +169,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     }
 
+    /*
+    * Handle back navigation
+    * Determine whether to exit app or move to previous fragment
+    */
     @Override
     public void onBackPressed() {
 
@@ -161,6 +189,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     }
 
+    /*
+    * Update buttons based on current fragment
+    */
     private void updateCurrentFragment() {
 
         switch (getFragmentTag()) {
@@ -182,6 +213,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     }
 
+    /*
+    * Update button colour and selection underline to match current fragment in view
+    */
     private void updateButtons(FragmentType type) {
 
         Resources resources = getResources();
@@ -239,6 +273,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         }
     }
 
+    /*
+    * Inflate menu and add search icon to the right
+    */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -252,6 +289,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         return true;
     }
 
+
+    /*
+    * Handle menu item onClicks
+    * Start corresponding activity
+    */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -273,6 +315,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         return true;
     }
 
+    /*
+    * Handle onClicks for fragment buttons
+    */
     @Override
     public void onClick(View v) {
 

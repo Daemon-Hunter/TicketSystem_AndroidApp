@@ -199,7 +199,7 @@ public class Customer implements ICustomer {
 
     @Override
     public List<IBooking> getBookings() throws IOException {
-        bookings = APIHandle.getBookingAmount(this.ID, 4, 0);
+        bookings = APIHandle.getBookingAmount(this.ID, 5, 0);
         return new LinkedList<>(bookings);
     }
 
@@ -210,7 +210,7 @@ public class Customer implements ICustomer {
             if (booking.getBookingID() < lowestID || lowestID == 0)
                 lowestID = booking.getBookingID();
         }
-        List<IBooking> newData = getBookingAmount(this.ID, 4, lowestID);
+        List<IBooking> newData = getBookingAmount(this.ID, 5, lowestID);
         bookings.addAll(newData);
         return new LinkedList<>(newData);
     }

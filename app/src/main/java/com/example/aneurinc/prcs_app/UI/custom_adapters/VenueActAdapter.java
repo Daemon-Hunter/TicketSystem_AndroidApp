@@ -20,31 +20,51 @@ import java.util.List;
  */
 public class VenueActAdapter extends ArrayAdapter<IChildEvent> {
 
+    // Reference to parent activity
     private Activity mContext;
+
+    // Adapter list
     private List<IChildEvent> mChildEvents;
+
+    // Row colours
     private static final int ROW_COLOUR1 = 0x3003a9f4;
     private static final int ROW_COLOUR2 = 0x3081d4fa;
 
+    /*
+    * Initialise adapter
+    */
     public VenueActAdapter(Activity context, List<IChildEvent> childEvents) {
         super(context, R.layout.list_row_artist_child_events);
         mContext = context;
         mChildEvents = childEvents;
     }
 
+    /*
+    * Return alternate row colours
+    */
     private int getRowColour(int position) {
         return position % 2 == 0 ? ROW_COLOUR1 : ROW_COLOUR2;
     }
 
+    /*
+    * Return list item by index
+    */
     @Override
     public IChildEvent getItem(int position) {
         return mChildEvents.get(position);
     }
 
+    /*
+    * Return list size
+    */
     @Override
     public int getCount() {
         return mChildEvents.size();
     }
 
+    /*
+    * Return row view
+    */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -53,14 +73,17 @@ public class VenueActAdapter extends ArrayAdapter<IChildEvent> {
 
         if (convertView == null) {
 
+            // inflate layout
             LayoutInflater inflater = mContext.getLayoutInflater();
             convertView = inflater.inflate(R.layout.list_row_parent_event, parent, false);
 
+            // Set up view holder
             viewHolder = new ViewHolder();
             viewHolder.childEventImage = (ImageView) convertView.findViewById(R.id.child_event_venue_image);
             viewHolder.childEventTitle = (TextView) convertView.findViewById(R.id.child_event_title);
             viewHolder.childEventDate = (TextView) convertView.findViewById(R.id.child_event_date);
 
+            // store the holder with the view
             convertView.setTag(viewHolder);
 
         } else {
@@ -83,6 +106,9 @@ public class VenueActAdapter extends ArrayAdapter<IChildEvent> {
         return convertView;
     }
 
+    /*
+    * Static view holder class to keep reference to row views
+    */
     static class ViewHolder {
         ImageView childEventImage;
         TextView childEventTitle;

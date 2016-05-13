@@ -21,40 +21,56 @@ import java.util.List;
  */
 public class ParentEventFragAdapter extends ArrayAdapter<IParentEvent> {
 
+    // Reference to parent activity
     private Activity mContext;
+
+    // Adapter list
     private List<IParentEvent> mParentEvents;
 
+    /*
+    * Initialise adapter
+    */
     public ParentEventFragAdapter(Activity context, List<IParentEvent> parentEvents) {
         super(context, R.layout.grid_single);
         mContext = context;
         mParentEvents = parentEvents;
     }
 
+    /*
+    * Clear list
+    */
     @Override
     public void clear() {
         mParentEvents.clear();
     }
 
+    /*
+    * Add collection to list
+    */
     @Override
     public void addAll(Collection<? extends IParentEvent> collection) {
         mParentEvents.addAll(collection);
     }
 
+    /*
+    * Return list size
+    */
     @Override
     public int getCount() {
         return mParentEvents.size();
     }
 
+    /*
+    * Get item from list at position index
+    */
     @Override
     public IParentEvent getItem(int position) {
         return mParentEvents.get(position);
     }
 
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
-
+    /*
+    * Return row view
+    */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -80,8 +96,8 @@ public class ParentEventFragAdapter extends ArrayAdapter<IParentEvent> {
 
         }
 
+        // Calculate screen width and adjust image accrodingly
         int xy = mContext.findViewById(R.id.event_grid_view).getWidth() / 3;
-
         if (xy > 0) {
             viewHolder.gridImage.setImageBitmap(Utilities.scaleDown(currParentEvent.getImage(0), xy, xy));
         }
@@ -90,6 +106,9 @@ public class ParentEventFragAdapter extends ArrayAdapter<IParentEvent> {
         return convertView;
     }
 
+    /*
+    * Static view holder class to keep reference to row views
+    */
     static class ViewHolder {
         ImageView gridImage;
         TextView gridText;

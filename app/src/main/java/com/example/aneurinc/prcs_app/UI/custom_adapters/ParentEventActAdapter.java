@@ -20,31 +20,51 @@ import java.util.List;
  */
 public class ParentEventActAdapter extends ArrayAdapter<IChildEvent> {
 
+    // Reference to parent activity
     private final Activity mContext;
+
+    // Adapter list
     private List<IChildEvent> mChildEventsList;
+
+    // Row colours
     private static final int ROW_COLOUR1 = 0x3003a9f4;
     private static final int ROW_COLOUR2 = 0x3081d4fa;
 
+    /*
+    * Initialise adapter
+    */
     public ParentEventActAdapter(Activity context, List<IChildEvent> childEvents) {
         super(context, R.layout.list_row_parent_event);
         mContext = context;
         mChildEventsList = childEvents;
     }
 
+    /*
+    * Return alternate row colours
+    */
     private int getRowColour(int position) {
         return position % 2 == 0 ? ROW_COLOUR1 : ROW_COLOUR2;
     }
 
+    /*
+    * Get list item at position index
+    */
     @Override
     public IChildEvent getItem(int position) {
         return mChildEventsList.get(position);
     }
 
+    /*
+    * Return size of list
+    */
     @Override
     public int getCount() {
         return mChildEventsList.size();
     }
 
+    /*
+    * Return row view
+    */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -72,6 +92,7 @@ public class ParentEventActAdapter extends ArrayAdapter<IChildEvent> {
         // alternate list view row colour
         convertView.setBackgroundColor(getRowColour(position));
 
+        // Calculate screen width and resize image accordingly
         int xy = Utilities.getScreenWidth(mContext) / 5;
         Bitmap scaledImage = Utilities.scaleDown(currChildEvent.getVenue().getImage(0), xy, xy);
         viewHolder.childEventImage.setImageBitmap(scaledImage);
@@ -86,6 +107,9 @@ public class ParentEventActAdapter extends ArrayAdapter<IChildEvent> {
 
     }
 
+    /*
+    * Static view holder class to keep reference to row views
+    */
     static class ViewHolder {
         ImageView childEventImage;
         TextView childEventName;

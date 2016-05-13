@@ -18,14 +18,21 @@ import java.util.List;
  */
 public class UserProfileAdapter extends ArrayAdapter<String> {
 
+    // Reference to parent activity
     private Activity mContext;
+
+    // List of customer field and images
     private List<String> mCustomerFields;
     private List<Integer> mImages;
 
+    /*
+    * Initialise adapter
+    */
     public UserProfileAdapter(Activity context) {
         super(context, R.layout.list_row_user_profile);
         mContext = context;
 
+        // Initialise lists
         mCustomerFields = new ArrayList<>();
         mCustomerFields.add("Name");
         mCustomerFields.add("Email Address");
@@ -39,18 +46,30 @@ public class UserProfileAdapter extends ArrayAdapter<String> {
         mImages.add(R.drawable.ic_location_city_48pt_3x);
     }
 
+    /*
+    * Return list size
+    */
     @Override
     public int getCount() {
         return mCustomerFields.size();
     }
 
+    /*
+    * Return image by position
+    * */
     private Integer getImage(int position) { return mImages.get(position); }
 
+    /*
+    * Return customer field string by position
+    */
     @Override
     public String getItem(int position) {
         return mCustomerFields.get(position);
     }
 
+    /*
+    * Return row view
+    */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -58,13 +77,16 @@ public class UserProfileAdapter extends ArrayAdapter<String> {
 
         if (convertView == null) {
 
+            // inflate layout
             LayoutInflater inflater = mContext.getLayoutInflater();
             convertView = inflater.inflate(R.layout.list_row_user_profile, parent, false);
 
+            // Set up view holder
             mViewHolder = new ViewHolder();
             mViewHolder.image = (ImageView) convertView.findViewById(R.id.item_image);
             mViewHolder.detail = (TextView) convertView.findViewById(R.id.user_detail);
 
+            // store the holder with the view
             convertView.setTag(mViewHolder);
         } else {
             mViewHolder = (ViewHolder) convertView.getTag();
@@ -76,6 +98,9 @@ public class UserProfileAdapter extends ArrayAdapter<String> {
         return convertView;
     }
 
+    /*
+    * Static view holder class to keep reference to row views
+    */
     static class ViewHolder {
         TextView detail;
         ImageView image;

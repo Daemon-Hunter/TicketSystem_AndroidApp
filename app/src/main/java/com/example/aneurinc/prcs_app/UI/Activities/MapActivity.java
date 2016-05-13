@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.custom_views.CustomInfoWindow;
@@ -35,29 +36,46 @@ import java.util.List;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
 
+    // Zoom value of map camera
     private static final float ZOOM_VAL = 16.0f;
+
+    // Venue location in coordinates
     private LatLng mLocation;
+
+    // Venue string address
     private String mAddress;
+
+    // Selected Venue
     private IVenue mVenue;
+
+    // GoogleMap reference
     private GoogleMap mGoogleMap;
 
+    // Mao view type buttons
     private Button mRoadMapBtn;
     private Button mHybridBtn;
     private Button mSatelliteBtn;
 
+    // Venue ID passed in as intent
     public static String VENUE_ID;
 
+    /*
+    * Initialise activity and load layout
+    */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         setUpToolbar();
 
+        // Get Venue by ID
         try {
             mVenue = UserWrapper.getInstance().getVenue(getIntent().getExtras().getInt(VENUE_ID));
         } catch (IOException e) {
-            // TODO: 03/05/2016 handle
+            Toast.makeText(this, getString(R.string.network_problem), Toast.LENGTH_SHORT).show();
         }
+
+        // Get address from Venue object
         mAddress = String.format("%s %s %s", mVenue.getAddress(), mVenue.getCity(), mVenue
                 .getPostcode());
 
@@ -76,6 +94,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
+    /*
+    * Add onClick listeners for map type
+    */
     private void addListeners() {
         mRoadMapBtn.setOnClickListener(this);
         mHybridBtn.setOnClickListener(this);
@@ -83,6 +104,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
 
+    /*
+    * Convert address string to coordinates
+    */
     @Nullable
     private LatLng geocodeAddress(String addressStr) {
 
@@ -110,12 +134,18 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return p1;
     }
 
+    /*
+    * Initialise map fragment
+    */
     private void initMapFragment() {
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.venue_map);
         mapFragment.getMapAsync(this);
     }
 
+    /*
+    * Initialise toolbar - set title and back navigation
+    */
     private void setUpToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.venue_location);
@@ -131,6 +161,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
+    /*
+    * Create menu and inflate
+    */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -138,6 +171,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return true;
     }
 
+    /*
+    * Handle menu item clicks
+    */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -153,6 +189,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return super.onOptionsItemSelected(item);
     }
 
+    /*
+    * Callback fired when map fragment is initialised
+    */
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
@@ -166,6 +205,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
+    /*
+    * Update UI to show Venue details
+    */
     private void updateUI() {
         TextView title = (TextView) findViewById(R.id.venue_title);
         TextView phoneNo = (TextView) findViewById(R.id.venue_phone_no);
@@ -178,12 +220,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         email.setText(mVenue.getEmail());
         parking.setText(String.format("%s spaces", mVenue.getParking()));
 
+        // Calculate screen width and set image width accordingly
         int xy = Utilities.getScreenWidth(this) / 4 + 30;
         Bitmap scaledImage = Utilities.scaleDown(mVenue.getImage(0), xy, xy);
 
         image.setImageBitmap(scaledImage);
     }
 
+    /*
+    * Update map type buttons to display selected button and colour
+    */
     private void updateButtons(Button b) {
 
         Resources resources = getResources();

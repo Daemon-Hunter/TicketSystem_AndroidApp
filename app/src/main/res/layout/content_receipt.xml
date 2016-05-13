@@ -237,7 +237,7 @@
             android:layout_below="@id/customer_email"
             android:paddingLeft="10dp"
             android:paddingTop="2dp"
-            android:src="@drawable/confirm_order"/>
+            android:src="@drawable/confirm"/>
 
     </RelativeLayout>
 

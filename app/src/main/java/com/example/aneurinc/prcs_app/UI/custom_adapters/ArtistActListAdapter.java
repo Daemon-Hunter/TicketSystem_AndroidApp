@@ -18,33 +18,53 @@ import java.util.List;
 /**
  * Created by aneurinc on 19/03/2016.
  */
-public class ArtistActListView extends ArrayAdapter<IChildEvent> {
+public class ArtistActListAdapter extends ArrayAdapter<IChildEvent> {
 
+    // Reference to parent activity
     private final Activity mContext;
+
+    // List to populate adapter
     private List<IChildEvent> mChildEvents;
+
+    // Row colours to alternate
     private static final int ROW_COLOUR1 = 0x3003a9f4;
     private static final int ROW_COLOUR2 = 0x3081d4fa;
 
-    public ArtistActListView(Activity context, List<IChildEvent> childEvents) {
+    /*
+    * Initialise adapter
+    */
+    public ArtistActListAdapter(Activity context, List<IChildEvent> childEvents) {
         super(context, R.layout.list_row_artist_child_events);
         mContext = context;
         mChildEvents = childEvents;
     }
 
+    /*
+    * Alternate colour based on position
+    */
     private int getRowColour(int position) {
         return position % 2 == 0 ? ROW_COLOUR1 : ROW_COLOUR2;
     }
 
+    /*
+    * Get size of adapter list
+    */
     @Override
     public int getCount() {
         return mChildEvents.size();
     }
 
+    /*
+    * Return item from list by position
+    */
     @Override
     public IChildEvent getItem(int position) {
         return mChildEvents.get(position);
     }
 
+    /*
+    * Return row view
+    */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -84,6 +104,9 @@ public class ArtistActListView extends ArrayAdapter<IChildEvent> {
         return convertView;
     }
 
+    /*
+    * Static view holder class to keep reference to row views
+    */
     static class ViewHolder {
         ImageView eventImage;
         TextView eventName;

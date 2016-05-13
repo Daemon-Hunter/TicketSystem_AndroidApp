@@ -17,13 +17,11 @@
             android:name=".UI.activities.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-
         </activity>
         <activity
             android:name=".UI.activities.ParentEventActivity"
@@ -80,11 +78,9 @@
             android:label="@string/title_activity_child_event"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key"/>
-
         <activity
             android:name=".UI.activities.MapActivity"
             android:label="@string/title_activity_map"
@@ -102,5 +98,4 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan"/>
     </application>
-
 </manifest>

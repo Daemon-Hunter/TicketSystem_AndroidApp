@@ -10,23 +10,39 @@ import android.view.View;
  */
 public class OnSwipeTouchListener implements View.OnTouchListener {
 
+    // Gesture detector
     private final GestureDetector gestureDetector;
 
-
+    /*
+    * Pass in parent activity context
+    * Set listener to custom listener private class
+    */
     public OnSwipeTouchListener(Context ctx) {
         gestureDetector = new GestureDetector(ctx, new GestureListener());
     }
 
+    /*
+    * Return gesture detector
+    */
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         return gestureDetector.onTouchEvent(event);
     }
 
+    /*
+    * Custom swipe detector class
+    * Calculates swipe left or right
+    */
     private final class GestureListener extends GestureDetector.SimpleOnGestureListener {
 
+        // Swipe and velocity threshold
         private static final int SWIPE_THRESHOLD = 100;
         private static final int SWIPE_VELOCITY_THRESHOLD = 100;
 
+        /*
+        * Determine if swipe motion is left or right movement
+        * Call correct helper method
+        */
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             boolean result = false;
@@ -50,9 +66,15 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
         }
     }
 
+    /*
+    * Override in parent activity
+    */
     public void onSwipeRight() {
     }
 
+    /*
+    * Override in parent activity
+    */
     public void onSwipeLeft() {
     }
 }

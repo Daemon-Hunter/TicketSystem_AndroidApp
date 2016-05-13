@@ -19,11 +19,16 @@ import java.util.List;
  */
 public class ReceiptActAdapter extends ArrayAdapter<ITicket> {
 
-
+    // Reference to parent activity
     private final Activity context;
+
+    // Tickets and bookings list
     private List<ITicket> mTickets;
     private List<IBooking> mBookings;
 
+    /*
+    * Initialise adapter
+    */
     public ReceiptActAdapter(Activity c, List<ITicket> tickets, List<IBooking> bookings) {
 
         super(c, R.layout.list_invoice);
@@ -35,16 +40,25 @@ public class ReceiptActAdapter extends ArrayAdapter<ITicket> {
         mBookings = bookings;
     }
 
+    /*
+    * Return ticket list item at position index
+    */
     @Override
     public ITicket getItem(int position) {
         return mTickets.get(position);
     }
 
+    /*
+    * Return list size
+    */
     @Override
     public int getCount() {
         return mTickets.size();
     }
 
+    /*
+    * Get row view
+    */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -81,6 +95,9 @@ public class ReceiptActAdapter extends ArrayAdapter<ITicket> {
         return convertView;
     }
 
+    /*
+    * Static view holder class to keep reference to row views
+    */
     static class ViewHolder {
         TextView ticketType;
         TextView ticketQty;

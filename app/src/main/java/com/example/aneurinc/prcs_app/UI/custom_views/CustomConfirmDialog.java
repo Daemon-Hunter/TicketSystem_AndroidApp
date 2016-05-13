@@ -15,18 +15,26 @@ import com.example.aneurinc.prcs_app.R;
 public class CustomConfirmDialog extends Dialog {
 
 
+    /*
+    * Initialise dialog with parent activity context
+    */
     public CustomConfirmDialog(Activity context) {
         super(context);
     }
 
+    /*
+    * Initialise dialog
+    */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Hide title
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.dialog_confirm);
 
+        // Make modal
         setCancelable(false);
 
         WindowManager.LayoutParams params = getWindow().getAttributes();

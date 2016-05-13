@@ -23,11 +23,19 @@ import java.util.List;
  */
 public class TicketActAdapter extends ArrayAdapter<ITicket> {
 
+    // Reference to parent activity
     private final Activity mContext;
+
+    // Ticket list
     private List<ITicket> mTickets;
+
+    // Row colours
     private static final int ROW_COLOUR1 = 0x3003a9f4;
     private static final int ROW_COLOUR2 = 0x3081d4fa;
 
+    /*
+    * Initialise adapter
+    */
     public TicketActAdapter(Activity context, List<ITicket> tickets) {
 
         super(context, R.layout.list_row_ticket_type);
@@ -38,16 +46,25 @@ public class TicketActAdapter extends ArrayAdapter<ITicket> {
 
     }
 
+    /*
+    * Clear list
+    */
     @Override
     public void clear() {
         mTickets.clear();
     }
 
+    /*
+    * Add collection to list
+    */
     @Override
     public void addAll(Collection<? extends ITicket> collection) {
         mTickets.addAll(collection);
     }
 
+    /*
+    * Return view by specified postion
+    */
     public View getViewByPosition(int pos, ListView listView) {
         final int firstListItemPosition = listView.getFirstVisiblePosition();
         final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
@@ -60,20 +77,32 @@ public class TicketActAdapter extends ArrayAdapter<ITicket> {
         }
     }
 
+    /*
+    * Return list size
+    */
     @Override
     public int getCount() {
         return mTickets.size();
     }
 
+    /*
+    * Return ticket by position
+    */
     @Override
     public ITicket getItem(int position) {
         return mTickets.get(position);
     }
 
+    /*
+    * Return row alternate row colours
+    */
     private int getRowColour(int position) {
         return position % 2 == 0 ? ROW_COLOUR1 : ROW_COLOUR2;
     }
 
+    /*
+    * Return row view
+    */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -116,6 +145,9 @@ public class TicketActAdapter extends ArrayAdapter<ITicket> {
         return convertView;
     }
 
+    /*
+    * Add onClick listeners for plus and minus buttons
+    */
     private void setOnClickListeners(ViewHolder viewHolder, final View row) {
 
         viewHolder.plus.setOnClickListener(new View.OnClickListener() {
@@ -150,6 +182,9 @@ public class TicketActAdapter extends ArrayAdapter<ITicket> {
 
     }
 
+    /*
+    * Update total quantity and cost
+    */
     private void updateTotal(View row, int val) {
 
         // get reference to ticket total text view
@@ -179,6 +214,9 @@ public class TicketActAdapter extends ArrayAdapter<ITicket> {
 
     }
 
+    /*
+    * Static view holder class to keep reference to row views
+    */
     static class ViewHolder {
         TextView ticketType;
         TextView ticketCost;

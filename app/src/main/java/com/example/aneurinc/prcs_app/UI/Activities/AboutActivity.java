@@ -13,6 +13,10 @@ import com.example.aneurinc.prcs_app.UI.fragments.FragmentType;
 
 public class AboutActivity extends AppCompatActivity {
 
+
+    /*
+    * Initialise activity
+    */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,12 +24,18 @@ public class AboutActivity extends AppCompatActivity {
         createToolbar();
     }
 
+    /*
+    * Initialise toolbar menu - load in menu2
+    */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu2, menu);
         return true;
     }
 
+    /*
+    * Handle toolbar menu clicks
+    */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -42,6 +52,9 @@ public class AboutActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /*
+    * Create toolbar - set title and add back navigation onClick listener
+    */
     private void createToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.about_us);
