@@ -413,7 +413,6 @@ final class APIConnection {
     }
 
     /**
-     *
      * @param input The string that you wish to split up into a map
      * @return a map of the keys and values form the JSON string that the api receives
      */
