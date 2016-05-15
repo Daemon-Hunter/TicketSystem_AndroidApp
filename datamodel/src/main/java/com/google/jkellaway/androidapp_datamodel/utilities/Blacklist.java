@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
+ * The type Blacklist.
  *
  * @author 10467841
  */
@@ -38,11 +39,11 @@ public class Blacklist {
         
         return new ArrayList();
     }
-    
-    
-    
+
+
     /**
      * Checks an string or paragraph input against a list of bad words.
+     *
      * @param input A word, sentence, or paragraph.
      * @return True if a bad word is found.
      */

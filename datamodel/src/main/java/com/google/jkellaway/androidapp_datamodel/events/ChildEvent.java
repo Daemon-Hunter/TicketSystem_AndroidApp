@@ -54,12 +54,15 @@ public class ChildEvent implements IChildEvent {
      * creating an object already stored in the database.
      * Therefore do not need to check validation - will already have been checked.
      *
-     * @param ID
-     * @param name
-     * @param description
-     * @param startTime
-     * @param endTime
-     * @param cancelled
+     * @param ID            the id
+     * @param venueID       the venue id
+     * @param name          the name
+     * @param description   the description
+     * @param startTime     the start time
+     * @param endTime       the end time
+     * @param cancelled     the cancelled
+     * @param parentEventID the parent event id
+     * @throws IOException the io exception
      */
     public ChildEvent(Integer ID, Integer venueID, String name, String description, String startTime, String endTime, Boolean cancelled, Integer parentEventID) throws IOException {
         this.childEventID = ID;
@@ -74,6 +77,17 @@ public class ChildEvent implements IChildEvent {
         venue = (IVenue) APIHandle.getSingle(this.venueID, DatabaseTable.VENUE);
     }
 
+    /**
+     * Instantiates a new Child event.
+     *
+     * @param name        the name
+     * @param description the description
+     * @param startTime   the start time
+     * @param endTime     the end time
+     * @param venue       the venue
+     * @param parentEvent the parent event
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     public ChildEvent(String name, String description, Date startTime, Date endTime, IVenue venue, IParentEvent parentEvent)  throws IllegalArgumentException {
         childEventID = 0;
 

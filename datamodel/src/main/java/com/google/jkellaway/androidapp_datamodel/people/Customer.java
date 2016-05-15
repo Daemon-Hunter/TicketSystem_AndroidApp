@@ -21,6 +21,8 @@ import static com.google.jkellaway.androidapp_datamodel.database.APIHandle.getBo
 import static com.google.jkellaway.androidapp_datamodel.utilities.HashString.Encrypt;
 
 /**
+ * The type Customer.
+ *
  * @author 10512691
  */
 public class Customer implements ICustomer {
@@ -30,18 +32,22 @@ public class Customer implements ICustomer {
     private Integer ID;
     private List<IReview> reviews;
     private List<IOrder> orders;
+    /**
+     * The Bookings.
+     */
     List<IBooking> bookings;
 
 
     /**
      * Use this when creating a customer object from the database.
      *
-     * @param ID is known.
-     * @param firstName
-     * @param lastName
-     * @param email
-     * @param address
-     * @param postcode
+     * @param ID        is known.
+     * @param firstName the first name
+     * @param lastName  the last name
+     * @param email     the email
+     * @param address   the address
+     * @param postcode  the postcode
+     * @param password  the password
      */
     public Customer(Integer ID, String firstName, String lastName, String email, String address,
                     String postcode, String password) {
@@ -59,11 +65,13 @@ public class Customer implements ICustomer {
      * Use this when creating a new customer object.
      * ID is unknown.
      *
-     * @param firstName
-     * @param lastName
-     * @param email
-     * @param address
-     * @param postcode
+     * @param firstName the first name
+     * @param lastName  the last name
+     * @param email     the email
+     * @param address   the address
+     * @param postcode  the postcode
+     * @param password  the password
+     * @throws IllegalArgumentException the illegal argument exception
      */
     public Customer(String firstName, String lastName, String email, String address, String postcode, String password) throws IllegalArgumentException {
         // Check if names are null or valid. All users must have a valid name.
@@ -91,6 +99,11 @@ public class Customer implements ICustomer {
         this.ID = 0;
     }
 
+    /**
+     * Gets table.
+     *
+     * @return the table
+     */
     public DatabaseTable getTable() {
         return table;
     }

@@ -6,10 +6,16 @@
 package com.google.jkellaway.androidapp_datamodel.people;
 
 /**
+ * The interface Admin.
  *
  * @author 10467841
  */
 public interface IAdmin extends IPerson {
-    
+
+    /**
+     * Gets id.
+     *
+     * @return the id
+     */
     Integer getID();
 }

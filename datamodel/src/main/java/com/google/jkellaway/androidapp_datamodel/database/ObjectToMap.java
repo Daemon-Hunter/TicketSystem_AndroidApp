@@ -22,11 +22,17 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- *
+ * The type Object to map.
  */
 final class ObjectToMap {
     private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
 
+    /**
+     * Admin to map map.
+     *
+     * @param admin the admin
+     * @return the map
+     */
     public static Map<String, String> adminToMap(IAdmin admin) {
         Map<String, String> adminMap = new HashMap<>();
         adminMap.put("ADMIN_ID", Integer.toString(admin.getID()));
@@ -35,6 +41,13 @@ final class ObjectToMap {
         return adminMap;
     }
 
+    /**
+     * Customer booking to map map.
+     *
+     * @param booking the booking
+     * @return the map
+     * @throws IOException the io exception
+     */
     public static Map<String, String> customerBookingToMap(CustomerBooking booking) throws IOException {
         Map<String, String> returnMap = new HashMap<>();
         returnMap.put("BOOKING_ID", Integer.toString(booking.getBookingID()));
@@ -45,6 +58,12 @@ final class ObjectToMap {
         return returnMap;
     }
 
+    /**
+     * Customer to map map.
+     *
+     * @param customer the customer
+     * @return the map
+     */
     public static Map<String, String> customerToMap(IUser customer) {
         Map<String, String> returnMap = new HashMap<>();
         returnMap.put("CUSTOMER_ID", Integer.toString(customer.getID()));
@@ -58,6 +77,12 @@ final class ObjectToMap {
         return returnMap;
     }
 
+    /**
+     * Order to map map.
+     *
+     * @param order the order
+     * @return the map
+     */
     public static Map<String, String> orderToMap(IOrder order) {
         Map<String, String> orderMap = new HashMap<>();
         orderMap.put("ORDER_ID", Integer.toString(order.getOrderID()));
@@ -65,6 +90,12 @@ final class ObjectToMap {
         return orderMap;
     }
 
+    /**
+     * Artist to map map.
+     *
+     * @param artist the artist
+     * @return the map
+     */
     public static Map<String, String> artistToMap(IArtist artist) {
         Map<String, String> returnMap = new HashMap<>();
         String tags = "";
@@ -96,6 +127,12 @@ final class ObjectToMap {
         return returnMap;
     }
 
+    /**
+     * Social media to map map.
+     *
+     * @param socialMedia the social media
+     * @return the map
+     */
     public static Map<String, String> socialMediaToMap(SocialMedia socialMedia) {
         Map<String, String> returnMap = new HashMap<>();
         returnMap.put("SOCIAL_MEDIA_ID", Integer.toString(socialMedia.getSocialId()));
@@ -160,6 +197,12 @@ final class ObjectToMap {
         return returnMap;
     }
 
+    /**
+     * Parent event to map map.
+     *
+     * @param parentEvent the parent event
+     * @return the map
+     */
     public static Map<String, String> parentEventToMap(IParentEvent parentEvent) {
         Map<String, String> returnMap = new HashMap<>();
         returnMap.put("PARENT_EVENT_ID", Integer.toString(parentEvent.getID()));
@@ -169,6 +212,12 @@ final class ObjectToMap {
         return returnMap;
     }
 
+    /**
+     * Child event to map map.
+     *
+     * @param childEvent the child event
+     * @return the map
+     */
     public static Map<String, String> childEventToMap(IChildEvent childEvent) {
         Map<String, String> returnMap = new HashMap<>();
         returnMap.put("CHILD_EVENT_ID", Integer.toString(childEvent.getID()));
@@ -181,6 +230,12 @@ final class ObjectToMap {
         return returnMap;
     }
 
+    /**
+     * Ticket to map map.
+     *
+     * @param ticket the ticket
+     * @return the map
+     */
     public static Map<String, String> ticketToMap(ITicket ticket) {
         Map<String, String> ticketMap = new HashMap<>();
         ticketMap.put("TICKET_ID", Integer.toString(ticket.getID()));
@@ -192,6 +247,12 @@ final class ObjectToMap {
         return ticketMap;
     }
 
+    /**
+     * Venue to map map.
+     *
+     * @param venue the venue
+     * @return the map
+     */
     public static Map<String, String> venueToMap(IVenue venue) {
         Map<String, String> venueMap = new HashMap<>();
         venueMap.put("VENUE_ID", venue.getID().toString());
@@ -211,6 +272,12 @@ final class ObjectToMap {
         return venueMap;
     }
 
+    /**
+     * Guest booking to map map.
+     *
+     * @param guestBooking the guest booking
+     * @return the map
+     */
     public static Map<String, String> guestBookingToMap(GuestBooking guestBooking) {
         Map<String, String> guestBookingMap = new HashMap<>();
         guestBookingMap.put("GUEST_BOOKING_ID", guestBooking.getBookingID().toString());

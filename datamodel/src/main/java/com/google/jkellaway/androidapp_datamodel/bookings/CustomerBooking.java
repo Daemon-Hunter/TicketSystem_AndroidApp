@@ -19,7 +19,7 @@ import java.util.Locale;
 import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.quantityValidator;
 
 /**
- *
+ * The  Customer booking Class.
  */
 public class CustomerBooking implements IBooking {
 
@@ -38,9 +38,12 @@ public class CustomerBooking implements IBooking {
     /**
      * Use this constructor when creating a booking object from the database.
      *
-     * @param ID
-     * @param ticketQty
-     * @param dateTime
+     * @param ID        the id of the booking
+     * @param ticketID  the ticket id
+     * @param orderID   the order id
+     * @param ticketQty the ticket quantity
+     * @param dateTime  the time at which the booking occurs
+     * @throws IllegalArgumentException
      */
     public CustomerBooking(Integer ID, Integer ticketID, Integer orderID, Integer ticketQty, String dateTime) throws IllegalArgumentException {
         this.bookingID = ID;
@@ -56,8 +59,9 @@ public class CustomerBooking implements IBooking {
     /**
      * Use this constructor when creating a new customer booking object.
      *
-     * @param ticket
-     * @param ticketQty
+     * @param order     the order
+     * @param ticket    the ticket
+     * @param ticketQty the ticket qty
      */
     public CustomerBooking(IOrder order, ITicket ticket, Integer ticketQty) {
         // Set ID as 0. Database will create one using sequence.
@@ -81,6 +85,12 @@ public class CustomerBooking implements IBooking {
         table = DatabaseTable.BOOKING;
     }
 
+    /**
+     * Gets order from a booking
+     *
+     * @return the the order object
+     * @throws IOException
+     */
     public IOrder getOrder() throws IOException {
         if (order == null) {
             order = (IOrder) APIHandle.getSingle(orderID, DatabaseTable.ORDER);
@@ -89,10 +99,21 @@ public class CustomerBooking implements IBooking {
         return order;
     }
 
+    /**
+     * Gets primary id of the order object.
+     *
+     * @return the order id
+     */
     public Integer getOrderID() {
         return orderID;
     }
 
+    /**
+     * Sets the Bookings order to the one passed through.
+     *
+     * @param order the order that you wish to set the bookings order to
+     * @return Boolean dependant on whether the order was successfully set
+     */
     public Boolean setOrder(IOrder order) {
         if (order == null) {
             throw new NullPointerException("Cannot set user to null");
@@ -104,6 +125,7 @@ public class CustomerBooking implements IBooking {
     }
 
     /**
+     * Gets the booking ID from the object
      * @return the unique ID of the booking.
      */
     @Override
@@ -184,6 +206,11 @@ public class CustomerBooking implements IBooking {
         }
     }
 
+    /**
+     * Gets  the table in relation of the database for this object.
+     *
+     * @return the table
+     */
     public DatabaseTable getTable() {
         return table;
     }

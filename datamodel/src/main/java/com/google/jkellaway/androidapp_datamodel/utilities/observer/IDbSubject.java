@@ -8,13 +8,15 @@ package com.google.jkellaway.androidapp_datamodel.utilities.observer;
 import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 
 /**
+ * The interface Db subject.
  *
  * @author 10512691
  */
 public interface IDbSubject extends ISubject {
-    
+
     /**
      * Get the database table which this object maps.
+     *
      * @return Table enumeration.
      */
     DatabaseTable getTable();

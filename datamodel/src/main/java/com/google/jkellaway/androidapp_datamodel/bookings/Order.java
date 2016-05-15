@@ -16,6 +16,7 @@ import java.util.List;
 import static com.google.jkellaway.androidapp_datamodel.database.APIHandle.getObjectsFromObject;
 
 /**
+ * The type Order.
  *
  * @author 10467841
  */
@@ -26,10 +27,12 @@ public class Order implements IOrder {
     private IUser user;
     private List<IBooking> bookingList;
     private DatabaseTable table = DatabaseTable.ORDER;
-    
+
     /**
      * Use this constructor when creating an order object from the database.
-     * @param ID
+     *
+     * @param ID     the id
+     * @param userID the user id
      */
     public Order(Integer ID, Integer userID) {
         this.orderID = ID;
@@ -39,7 +42,8 @@ public class Order implements IOrder {
 
     /**
      * Use this constructor when create a new order object
-     * @param userID
+     *
+     * @param userID the user id
      */
     public Order(Integer userID) {
         this.orderID = 0;

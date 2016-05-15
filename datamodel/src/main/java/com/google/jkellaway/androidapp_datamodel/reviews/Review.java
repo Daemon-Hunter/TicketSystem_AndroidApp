@@ -13,29 +13,53 @@ import java.util.Date;
 import java.util.Objects;
 
 /**
+ * The type Review.
  *
  * @author 10512691
  */
 public abstract class Review implements IReview {
+    /**
+     * The Review base id.
+     */
     protected Integer       reviewBaseID;
+    /**
+     * The Customer id.
+     */
     protected Integer       customerID;
+    /**
+     * The Date time.
+     */
     protected Date          dateTime;
+    /**
+     * The Rating.
+     */
     protected Integer       rating;
+    /**
+     * The Review body.
+     */
     protected String        reviewBody;
+    /**
+     * The Verified.
+     */
     protected Boolean       verified;
+    /**
+     * The Table.
+     */
     protected DatabaseTable table;
-    
+
     /**
      * Use this constructor when creating a review object from the database.
      * Validity is is known.
-     * @param baseID
-     * @param customerID
-     * @param rating
-     * @param date
-     * @param body
-     * @param verified 
+     *
+     * @param baseID     the base id
+     * @param customerID the customer id
+     * @param rating     the rating
+     * @param date       the date
+     * @param body       the body
+     * @param verified   the verified
+     * @throws IllegalArgumentException the illegal argument exception
      */
-    public Review(Integer baseID, Integer customerID, Integer rating, 
+    public Review(Integer baseID, Integer customerID, Integer rating,
                     Date date, String body, Boolean verified) throws IllegalArgumentException
     {
         // Check to see if any of the arguments were null
@@ -65,14 +89,16 @@ public abstract class Review implements IReview {
             this.verified = verified;
         }
     }
-    
+
     /**
      * Use this constructor when creating a new review object.
      * Verified is automatically set to false.
-     * @param baseID
-     * @param customerID
-     * @param rating
-     * @param body
+     *
+     * @param baseID     the base id
+     * @param customerID the customer id
+     * @param rating     the rating
+     * @param body       the body
+     * @throws IllegalArgumentException the illegal argument exception
      */
     public Review(Integer baseID, Integer customerID, Integer rating, String body) throws IllegalArgumentException
     {
@@ -101,6 +127,11 @@ public abstract class Review implements IReview {
         }
     }
 
+    /**
+     * Gets table.
+     *
+     * @return the table
+     */
     public DatabaseTable getTable() {
         return table;
     }

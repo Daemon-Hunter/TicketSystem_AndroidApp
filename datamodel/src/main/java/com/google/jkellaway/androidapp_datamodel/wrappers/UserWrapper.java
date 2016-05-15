@@ -26,6 +26,7 @@ import static com.google.jkellaway.androidapp_datamodel.database.APIHandle.getOb
 import static com.google.jkellaway.androidapp_datamodel.database.APIHandle.pushObjectToDatabase;
 
 /**
+ * The type User wrapper.
  *
  * @author 10467841
  */
@@ -47,6 +48,11 @@ public class UserWrapper implements IUserWrapper {
 
     private UserWrapper() {}
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static UserWrapper getInstance() {
         if (wrapper == null) {
             wrapper = new UserWrapper();

@@ -12,6 +12,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * The type Validator.
+ *
  * @author 10512691
  */
 public final class Validator {
@@ -23,6 +25,12 @@ public final class Validator {
     // Matches landlines and mobile numbers - e.g. 07534951289 || +447534951289 || 01934862045
     private static final Pattern PHONE_REGEX = Pattern.compile("[\\+][4]{2}[1237][\\d]{8,9}");
 
+    /**
+     * Price validator.
+     *
+     * @param price the price
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     public static void priceValidator(String price) throws IllegalArgumentException {
         try {
             Double numbPrice = Double.parseDouble(price);
@@ -37,6 +45,12 @@ public final class Validator {
         }
     }
 
+    /**
+     * Quantity validator.
+     *
+     * @param qty the qty
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     public static void quantityValidator(Integer qty) throws IllegalArgumentException {
         if (!(0 < qty))
             throw new IllegalArgumentException("You cannot have a negative quantity!");
@@ -45,7 +59,8 @@ public final class Validator {
     /**
      * Checks the rating is in range '0 to 5'
      *
-     * @param rating
+     * @param rating the rating
+     * @throws IllegalArgumentException the illegal argument exception
      */
     public static void ratingValidator(Integer rating) throws IllegalArgumentException {
         if (!(0 < rating && rating <= 5))
@@ -55,7 +70,8 @@ public final class Validator {
     /**
      * Returns true if the review body is between 15 & 100 characters.
      *
-     * @param body
+     * @param body the body
+     * @throws IllegalArgumentException the illegal argument exception
      */
     public static void reviewBodyValidator(String body) throws IllegalArgumentException {
         if (Blacklist.contains(body))
@@ -70,7 +86,8 @@ public final class Validator {
      * Tries to make a connection with the given URL.
      * Returns true if a connection is made, false if not.
      *
-     * @param url
+     * @param url the url
+     * @throws IllegalArgumentException the illegal argument exception
      */
     public static void URLValidator(String url) throws IllegalArgumentException {
         if (url != null && !url.equals("")) {
@@ -94,7 +111,8 @@ public final class Validator {
      * returns true if the name does not contain any blacklisted words,
      * and is between 2 & 20 characters long.
      *
-     * @param name
+     * @param name the name
+     * @throws IllegalArgumentException the illegal argument exception
      */
     public static void nameValidator(String name) throws IllegalArgumentException {
         if (Blacklist.contains(name))
@@ -108,7 +126,8 @@ public final class Validator {
      * Description must be between 10 & 100 characters long,
      * and not contain blacklisted words...
      *
-     * @param description
+     * @param description the description
+     * @throws IllegalArgumentException the illegal argument exception
      */
     public static void descriptionValidator(String description) throws IllegalArgumentException {
         if (Blacklist.contains(description))
@@ -121,8 +140,9 @@ public final class Validator {
     /**
      * Integer value must be between 0 & 1 million.
      *
-     * @param capacity
+     * @param capacity the capacity
      * @return
+     * @throws IllegalArgumentException the illegal argument exception
      */
     public static void capacityValidator(Integer capacity) throws IllegalArgumentException {
         if (!(capacity >= 0 && capacity <= 1000000))
@@ -132,8 +152,9 @@ public final class Validator {
     /**
      * Facilities description cannot contain blacklisted words, and must be under 100 characters.
      *
-     * @param facilities
+     * @param facilities the facilities
      * @return
+     * @throws IllegalArgumentException the illegal argument exception
      */
     public static void facilitiesValidator(String facilities) throws IllegalArgumentException {
         if (Blacklist.contains(facilities))
@@ -143,6 +164,12 @@ public final class Validator {
             throw new IllegalArgumentException("Facilities description length must be under 100 characters.");
     }
 
+    /**
+     * Parking space validator.
+     *
+     * @param parking the parking
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     public static void parkingSpaceValidator(Integer parking) throws IllegalArgumentException {
         if (!(parking <= 100000))
             throw new IllegalArgumentException("Cannot have more than 100000 parking spaces.");
@@ -151,12 +178,24 @@ public final class Validator {
             throw new IllegalArgumentException("Cannot set the number of parking spaces to a negative number.");
     }
 
+    /**
+     * Email validator.
+     *
+     * @param email the email
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     public static void emailValidator(String email) throws IllegalArgumentException {
         Matcher m = EMAIL_REGEX.matcher(email);
         if (!m.matches())
             throw new IllegalArgumentException("You've entered an invalid email address. Please review and try again.");
     }
 
+    /**
+     * Phone number validator.
+     *
+     * @param phoneNumber the phone number
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     public static void phoneNumberValidator(String phoneNumber) throws IllegalArgumentException {
         phoneNumber = phoneNumber.replace(" ", "");
         if (phoneNumber.startsWith("0")) {
@@ -167,7 +206,13 @@ public final class Validator {
             throw new IllegalArgumentException("You've entered an invalid UK phone number. Please review and try again.");
     }
 
-    // Check against other addresses? Cannot have 2 venues at same place?
+    /**
+     * Address validator.
+     *
+     * @param address the address
+     * @throws IllegalArgumentException the illegal argument exception
+     */
+// Check against other addresses? Cannot have 2 venues at same place?
     public static void addressValidator(String address) throws IllegalArgumentException {
         if (Blacklist.contains(address))
             throw new IllegalArgumentException("The address you've entered contains blacklisted words. Please review and try again.");
@@ -179,8 +224,9 @@ public final class Validator {
     /**
      * Postcode cannot contain spaces.
      *
-     * @param postcode
+     * @param postcode the postcode
      * @return
+     * @throws IllegalArgumentException the illegal argument exception
      */
     public static void postcodeValidator(String postcode) throws IllegalArgumentException {
         Matcher m = POSTCODE_REGEX.matcher(postcode);
@@ -188,6 +234,11 @@ public final class Validator {
             throw new IllegalArgumentException("The postcode you've entered is invalid. please enter a valid UK postcode.");
     }
 
+    /**
+     * Tag validator.
+     *
+     * @param tag the tag
+     */
     public static void tagValidator(String tag) {
         if (Blacklist.contains(tag))
             throw new IllegalArgumentException("The tag you've entered ");

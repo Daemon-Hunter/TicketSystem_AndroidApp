@@ -18,16 +18,22 @@ import java.util.Date;
  */
 public interface IBooking {
     /**
+     * Gets booking id.
+     *
      * @return an Integer which represents the primary id of a booking.
      */
     Integer getBookingID();
 
     /**
+     * Gets ticket id.
+     *
      * @return an Integer which represents the primary key of a ticket.
      */
     Integer getTicketID();
 
     /**
+     * Gets ticket.
+     *
      * @return an (@code ITicket) object.
      * @throws IOException if the method needs to request data from an external source.
      */
@@ -42,6 +48,8 @@ public interface IBooking {
     Boolean setTicket(ITicket ticket);
 
     /**
+     * Gets quantity.
+     *
      * @return an Integer which represents the quantity of tickets booked.
      */
     Integer getQuantity();
@@ -56,6 +64,8 @@ public interface IBooking {
     Boolean setQuantity(Integer qty) throws IllegalArgumentException;
 
     /**
+     * Gets booking time.
+     *
      * @return a Date type containing the set dateTime of the booking.
      */
     Date getBookingTime();
@@ -65,7 +75,7 @@ public interface IBooking {
      *
      * @param time the date/time which will be set in the booking.
      * @return a Boolean value representing if the method was successful.
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException the illegal argument exception
      */
     Boolean setBookingTime(Date time) throws IllegalArgumentException;
 }

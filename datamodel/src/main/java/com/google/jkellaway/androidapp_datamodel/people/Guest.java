@@ -12,6 +12,7 @@ import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
 import static com.google.jkellaway.androidapp_datamodel.utilities.HashString.Encrypt;
 
 /**
+ * The type Guest.
  *
  * @author 10512691
  */
@@ -25,9 +26,11 @@ public class Guest implements IGuest {
     /**
      * Use this constructor when creating a new Guest object.
      * ID is unknown.
-     * @param email
-     * @param address
-     * @param postcode
+     *
+     * @param email    the email
+     * @param address  the address
+     * @param postcode the postcode
+     * @throws IllegalArgumentException the illegal argument exception
      */
     public Guest(String email, String address, String postcode) throws IllegalArgumentException
     {
@@ -43,14 +46,16 @@ public class Guest implements IGuest {
 
         table = DatabaseTable.GUEST_BOOKING;
     }
-    
+
     /**
      * Use this constructor when creating an object from the database.
      * ID is known.
-     * @param ID
-     * @param email
-     * @param address
-     * @param postcode
+     *
+     * @param ID       the id
+     * @param email    the email
+     * @param address  the address
+     * @param postcode the postcode
+     * @throws IllegalArgumentException the illegal argument exception
      */
     public Guest(Integer ID, String email, String address, String postcode) throws IllegalArgumentException {
         // Check email. Email can be null.
@@ -141,6 +146,11 @@ public class Guest implements IGuest {
         return "ACCOUNT";
     }
 
+    /**
+     * Gets table.
+     *
+     * @return the table
+     */
     public DatabaseTable getTable() {
         return table;
     }

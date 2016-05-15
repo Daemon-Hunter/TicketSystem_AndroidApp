@@ -8,6 +8,7 @@ package com.google.jkellaway.androidapp_datamodel.reviews;
 import java.util.Date;
 
 /**
+ * The type Artist review factory.
  *
  * @author 10512691
  */

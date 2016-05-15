@@ -8,17 +8,32 @@ package com.google.jkellaway.androidapp_datamodel.utilities.observer;
 import java.io.IOException;
 
 /**
+ * The interface Subject.
  *
  * @author 10512691
  */
 public interface ISubject {
-    
+
     /**
      * Notify the observers of a change in this object.
-    **/
+     *
+     * @throws IOException the io exception
+     */
     void notifyObservers() throws IOException;
-    
+
+    /**
+     * Register observer boolean.
+     *
+     * @param o the o
+     * @return the boolean
+     */
     Boolean registerObserver(IObserver o);
-    
+
+    /**
+     * Remove observer boolean.
+     *
+     * @param o the o
+     * @return the boolean
+     */
     Boolean removeObserver(IObserver o);
 }

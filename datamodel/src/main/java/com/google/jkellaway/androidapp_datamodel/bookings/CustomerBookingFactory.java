@@ -8,6 +8,7 @@ package com.google.jkellaway.androidapp_datamodel.bookings;
 import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
 
 /**
+ * The  Customer booking factory.
  *
  * @author 10512691
  */

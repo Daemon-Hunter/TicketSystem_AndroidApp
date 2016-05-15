@@ -19,29 +19,50 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
+ * The type Guest booking.
  *
  * @author 10512691
  */
 public class GuestBooking implements IBooking {
 
+    /**
+     * The Ticket for the booking
+     */
     protected ITicket ticket;
 
+    /**
+     * The Ticket id.
+     */
     protected Integer ticketID;
+    /**
+     * The Table.
+     */
     protected DatabaseTable table;
+    /**
+     * The Booking id.
+     */
     protected Integer bookingID;
+    /**
+     * The Ticket quantity.
+     */
     protected Integer ticketQuantity;
+    /**
+     * The dateTime of when the booking is made.
+     */
     protected String  bookingDateTime;
     private IUser guest;
 
     private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
-    
+
     /**
      * Use this constructor when creating object from the database.
      * ID is known.
-     * @param ID
-     * @param ticketQty
-     * @param dateTime
-     * @param guest 
+     *
+     * @param ID        the primary ID of th ebooking
+     * @param ticketID  the ticket id
+     * @param ticketQty the amount of tickets for the booking
+     * @param dateTime  the time at which the booking was made
+     * @param guest     the guest object that is making the booking
      */
     public GuestBooking (Integer ID, Integer ticketID, Integer ticketQty, String dateTime, IUser guest) {
         this.bookingID = ID;
@@ -57,14 +78,15 @@ public class GuestBooking implements IBooking {
         }
         table = DatabaseTable.GUEST_BOOKING;
     }
-    
+
     /**
      * Use this constructor when creating a new GuestBooking.
-     * ID is unknown.
-     * @param ticket
-     * @param ticketQty
-     * @param dateTime 
-     * @param guest 
+     * ID guest booking is not yet set in the database.
+     *
+     * @param ticket    the ticket
+     * @param ticketQty the amount of tickets purchased
+     * @param dateTime  the date time
+     * @param guest     the guest
      */
     public GuestBooking (ITicket ticket, Integer ticketQty, Date dateTime,
             IUser guest) 
@@ -91,8 +113,14 @@ public class GuestBooking implements IBooking {
             throw new NullPointerException("Cannot create a booking for a null guest.");
         }
         table = DatabaseTable.GUEST_BOOKING;
-    } 
+    }
 
+    /**
+     *Gets the guest object that the booking is made for
+     *
+     * @return IUSER the guest object
+     * @throws  NullPointerException if
+     */
     public IUser getGuest() {
         if (guest != null) {
             return guest;
@@ -101,6 +129,12 @@ public class GuestBooking implements IBooking {
         }
     }
 
+    /**
+     * Sets guest.
+     *
+     * @param guest the guest
+     * @return the guest
+     */
     public Boolean setGuest(Guest guest) {
         if (guest == null) {
             throw new NullPointerException("Cannot set user to null");
@@ -191,6 +225,11 @@ public class GuestBooking implements IBooking {
         }
     }
 
+    /**
+     * Gets table.
+     *
+     * @return the table
+     */
     public DatabaseTable getTable() {
         return table;
     }

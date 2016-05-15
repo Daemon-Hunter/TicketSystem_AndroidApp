@@ -30,6 +30,8 @@ import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.phon
 import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.postcodeValidator;
 
 /**
+ * The type Venue.
+ *
  * @author 10512691
  */
 public class Venue implements IVenue {
@@ -49,6 +51,9 @@ public class Venue implements IVenue {
     private Boolean disabledAccess;
     private String facilities;
 
+    /**
+     * Instantiates a new Venue.
+     */
     public Venue() {
         reviewFactory = new VenueReviewFactory();
     }
@@ -58,18 +63,20 @@ public class Venue implements IVenue {
      * No ID is given, it will be assigned from a returning call to the API.
      * in the setID() method.
      *
-     * @param social
-     * @param description
-     * @param capSeating
-     * @param capStanding
-     * @param access
-     * @param facilities
-     * @param parking
-     * @param phoneNo
-     * @param email
-     * @param address
-     * @param postcode
-     * @param name
+     * @param social      the social
+     * @param description the description
+     * @param capSeating  the cap seating
+     * @param capStanding the cap standing
+     * @param access      the access
+     * @param facilities  the facilities
+     * @param parking     the parking
+     * @param phoneNo     the phone no
+     * @param email       the email
+     * @param address     the address
+     * @param city        the city
+     * @param postcode    the postcode
+     * @param name        the name
+     * @throws IllegalArgumentException the illegal argument exception
      */
     public Venue(SocialMedia social, String description, Integer capSeating, Integer capStanding, Boolean access, String facilities, Integer parking, String phoneNo, String email, String address, String city, String postcode, String name) throws IllegalArgumentException {
 
@@ -108,18 +115,20 @@ public class Venue implements IVenue {
      * For use when creating venues that already exist in the database.
      * ID is given and assigned.
      *
-     * @param id
-     * @param description
-     * @param capSeating
-     * @param capStanding
-     * @param access
-     * @param facilities
-     * @param parking
-     * @param phoneNo
-     * @param email
-     * @param address
-     * @param postcode
-     * @param name
+     * @param id            the id
+     * @param socialMediaID the social media id
+     * @param description   the description
+     * @param capSeating    the cap seating
+     * @param capStanding   the cap standing
+     * @param access        the access
+     * @param facilities    the facilities
+     * @param parking       the parking
+     * @param phoneNo       the phone no
+     * @param email         the email
+     * @param address       the address
+     * @param city          the city
+     * @param postcode      the postcode
+     * @param name          the name
      */
     public Venue(Integer id, Integer socialMediaID, String description, Integer capSeating, Integer capStanding, Boolean access, String facilities, Integer parking, String phoneNo, String email, String address, String city, String postcode, String name) {
         this.ID = id;
@@ -401,6 +410,11 @@ public class Venue implements IVenue {
     }
 
 
+    /**
+     * Gets review factory.
+     *
+     * @return the review factory
+     */
     protected IReviewFactory getReviewFactory() {
         return reviewFactory;
     }
@@ -444,6 +458,11 @@ public class Venue implements IVenue {
         }
     }
 
+    /**
+     * Gets table.
+     *
+     * @return the table
+     */
     public DatabaseTable getTable() {
         if (table == null) {
             throw new NullPointerException();

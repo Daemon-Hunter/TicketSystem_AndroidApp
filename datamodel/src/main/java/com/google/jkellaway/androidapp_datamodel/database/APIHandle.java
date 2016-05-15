@@ -57,10 +57,16 @@ import static com.google.jkellaway.androidapp_datamodel.database.ObjectToMap.ven
 import static com.google.jkellaway.androidapp_datamodel.utilities.HashString.Encrypt;
 
 /**
- *
+ * The type Api handle.
  */
 public final class APIHandle {
 
+    /**
+     * Gets users.
+     *
+     * @return the users
+     * @throws IOException the io exception
+     */
     public static List<IUser> getUsers() throws IOException {
 
         List<IUser> userList = new LinkedList<>();
@@ -71,6 +77,16 @@ public final class APIHandle {
         return userList;
     }
 
+    /**
+     * Is password true person.
+     *
+     * @param email    the email
+     * @param password the password
+     * @param table    the table
+     * @return the person
+     * @throws IOException              the io exception
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     public static IPerson isPasswordTrue(String email, String password, DatabaseTable table) throws IOException, IllegalArgumentException {
         switch (table) {
             case CUSTOMER:
@@ -90,6 +106,14 @@ public final class APIHandle {
         }
     }
 
+    /**
+     * Gets single.
+     *
+     * @param id    the id
+     * @param table the table
+     * @return the single
+     * @throws IOException the io exception
+     */
     public static Object getSingle(int id, DatabaseTable table) throws IOException {
         Map<String, String> objMap = APIConnection.readSingle(id, table);
         switch (table) {
@@ -132,6 +156,15 @@ public final class APIHandle {
         }
     }
 
+    /**
+     * Search objects list.
+     *
+     * @param search the search
+     * @param amount the amount
+     * @param table  the table
+     * @return the list
+     * @throws IOException the io exception
+     */
     public static List<Object> searchObjects(String search, Integer amount, final DatabaseTable table) throws IOException {
         List<Object> objectList = new LinkedList<>();
         List<Map<String, String>> objectMapList = APIConnection.search(search, amount, table);
@@ -183,6 +216,15 @@ public final class APIHandle {
         return objectList;
     }
 
+    /**
+     * Gets booking amount.
+     *
+     * @param userID   the user id
+     * @param amount   the amount
+     * @param lowestID the lowest id
+     * @return the booking amount
+     * @throws IOException the io exception
+     */
     public static List<IBooking> getBookingAmount(Integer userID, Integer amount, Integer lowestID) throws IOException {
         List<IBooking> objectList = new LinkedList<>();
 
@@ -216,6 +258,15 @@ public final class APIHandle {
         return objectList;
     }
 
+    /**
+     * Gets object amount.
+     *
+     * @param amount the amount
+     * @param lastID the last id
+     * @param table  the table
+     * @return the object amount
+     * @throws IOException the io exception
+     */
     public static List<Object> getObjectAmount(Integer amount, Integer lastID, final DatabaseTable table) throws IOException {
 
         List<Object> objectList = new LinkedList<>();
@@ -277,6 +328,15 @@ public final class APIHandle {
         return objectList;
     }
 
+    /**
+     * Gets objects from object.
+     *
+     * @param parentID     the parent id
+     * @param objectsToGet the objects to get
+     * @param object       the object
+     * @return the objects from object
+     * @throws IOException the io exception
+     */
     public static List<Object> getObjectsFromObject(final int parentID, final DatabaseTable objectsToGet, DatabaseTable object) throws IOException {
         List<Map<String, String>> objectMapList = APIConnection.getObjectsOfObject(parentID, objectsToGet, object);
 
@@ -347,6 +407,14 @@ public final class APIHandle {
         return reviewList;
     }
 
+    /**
+     * Push object to database object.
+     *
+     * @param object the object
+     * @param table  the table
+     * @return the object
+     * @throws IOException the io exception
+     */
     public static Object pushObjectToDatabase(Object object, DatabaseTable table) throws IOException {
         switch (table) {
             case ADMIN:
@@ -390,6 +458,14 @@ public final class APIHandle {
         }
     }
 
+    /**
+     * Update object to database object.
+     *
+     * @param object the object
+     * @param table  the table
+     * @return the object
+     * @throws IOException the io exception
+     */
     public static Object updateObjectToDatabase(Object object, DatabaseTable table) throws IOException {
         switch (table) {
             case ADMIN:
@@ -433,10 +509,25 @@ public final class APIHandle {
         }
     }
 
+    /**
+     * Create contract boolean.
+     *
+     * @param artistID     the artist id
+     * @param childEventID the child event id
+     * @return the boolean
+     * @throws IOException the io exception
+     */
     public static Boolean createContract(int artistID, int childEventID) throws IOException {
         return APIConnection.createContract(artistID, childEventID);
     }
 
+    /**
+     * Gets stats.
+     *
+     * @param stats the stats
+     * @return the stats
+     * @throws IOException the io exception
+     */
     public static List<Object> getStats(String stats) throws IOException {
         final String string = stats.toLowerCase();
         List<Object> objectList = new LinkedList<>();

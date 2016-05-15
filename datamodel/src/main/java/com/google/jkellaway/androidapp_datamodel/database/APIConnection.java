@@ -26,6 +26,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 /**
+ * The type Api connection.
+ *
  * @author 10512691
  */
 final class APIConnection {
@@ -38,7 +40,14 @@ final class APIConnection {
         return table.toString() + "s";
     }
 
-    // Allows the application to delete a record in the database
+    /**
+     * Delete boolean.
+     *
+     * @param id    the id
+     * @param table the table
+     * @return the boolean
+     */
+// Allows the application to delete a record in the database
     public static boolean delete(int id, DatabaseTable table) {
         boolean ableToDelete;
         String urlToDelete = URI + DBTableToString(table) + "/" + Integer.toString(id);
@@ -60,7 +69,16 @@ final class APIConnection {
         return ableToDelete;
     }
 
-    // Allows the application to
+    /**
+     * Update map.
+     *
+     * @param id        the id
+     * @param mapToEdit the map to edit
+     * @param table     the table
+     * @return the map
+     * @throws IOException the io exception
+     */
+// Allows the application to
     public static Map<String, String> update(int id, Map<String, String> mapToEdit, DatabaseTable table) throws IOException {
 
         Map<String, String> map;
@@ -100,6 +118,14 @@ final class APIConnection {
 
     }
 
+    /**
+     * Add map.
+     *
+     * @param mapToAdd the map to add
+     * @param table    the table
+     * @return the map
+     * @throws IOException the io exception
+     */
     public static Map<String, String> add(Map<String, String> mapToAdd, DatabaseTable table) throws IOException {
         int httpCode;
         Map<String, String> map;
@@ -141,11 +167,25 @@ final class APIConnection {
         return map;
     }
 
+    /**
+     * Read all list.
+     *
+     * @param table the table
+     * @return the list
+     * @throws IOException the io exception
+     */
     public static List<Map<String, String>> readAll(DatabaseTable table) throws IOException {
         return Connection(URI + DBTableToString(table));
     }
 
-    // Accepts the ID and the table to use in the method
+    /**
+     * Read single map.
+     *
+     * @param id    the id
+     * @param table the table
+     * @return the map
+     */
+// Accepts the ID and the table to use in the method
     public static Map<String, String> readSingle(int id, DatabaseTable table) {
         // creation of URL with unique values;
         String urlToGet = URI + DBTableToString(table) + "/" + Integer.toString(id);
@@ -182,10 +222,27 @@ final class APIConnection {
         return map;
     }
 
+    /**
+     * Read amount list.
+     *
+     * @param table  the table
+     * @param amount the amount
+     * @param lastID the last id
+     * @return the list
+     * @throws IOException the io exception
+     */
     public static List<Map<String, String>> readAmount(DatabaseTable table, Integer amount, Integer lastID) throws IOException {
         return Connection(URI + "functions/get" + DBTableToString(table) + "amount/" + amount.toString() + "/" + lastID.toString());
     }
 
+    /**
+     * Read objects reviews list.
+     *
+     * @param table    the table
+     * @param objectID the object id
+     * @return the list
+     * @throws IOException the io exception
+     */
     public static List<Map<String, String>> readObjectsReviews(DatabaseTable table, Integer objectID) throws IOException {
         if (table != DatabaseTable.ARTIST && table != DatabaseTable.PARENT_EVENT && table != DatabaseTable.VENUE)
             throw new IllegalArgumentException("Table must be ARTIST/PARENT_EVENT/VENUE.");
@@ -193,26 +250,77 @@ final class APIConnection {
         return Connection(URI + "functions/getReviewsOf" + table.toString() + "/" + objectID.toString());
     }
 
+    /**
+     * Search list.
+     *
+     * @param searchText     the search text
+     * @param amountToSearch the amount to search
+     * @param table          the table
+     * @return the list
+     * @throws IOException the io exception
+     */
     public static List<Map<String, String>> search(String searchText, Integer amountToSearch, DatabaseTable table) throws IOException {
         return Connection(URI + "functions/search" + DBTableToString(table) + "/" + searchText + "/" + amountToSearch.toString());
     }
 
+    /**
+     * Compare password list.
+     *
+     * @param email    the email
+     * @param password the password
+     * @param table    the table
+     * @return the list
+     * @throws IOException the io exception
+     */
     public static List<Map<String, String>> comparePassword(String email, String password, DatabaseTable table) throws IOException {
         return Connection(URI + "functions/compare" + table.toString() + "Passwords/" + email + "/" + password);
     }
 
+    /**
+     * Gets objects of object.
+     *
+     * @param artistID     the artist id
+     * @param objectsToGet the objects to get
+     * @param objectToUse  the object to use
+     * @return the objects of object
+     * @throws IOException the io exception
+     */
     public static List<Map<String, String>> getObjectsOfObject(Integer artistID, DatabaseTable objectsToGet, DatabaseTable objectToUse) throws IOException {
         return Connection(URI + "functions/get" + DBTableToString(objectsToGet) + "Of" + objectToUse.toString() + "/" + artistID.toString());
     }
 
+    /**
+     * Read ticket amount list.
+     *
+     * @param orderID      the order id
+     * @param amountToRead the amount to read
+     * @param lowestID     the lowest id
+     * @return the list
+     * @throws IOException the io exception
+     */
     public static List<Map<String, String>> readTicketAmount(Integer orderID, Integer amountToRead, Integer lowestID) throws IOException {
         return Connection(URI + "functions/getBookingsOfCustomerAmount/" + orderID.toString() + "/" + amountToRead.toString() + "/" + lowestID.toString());
     }
 
+    /**
+     * Gets string.
+     *
+     * @param string the string
+     * @return the string
+     * @throws IOException the io exception
+     */
     public static List<Map<String, String>> getSTRING(String string) throws IOException {
         return Connection(URI + "functions/get" + string);
     }
 
+    /**
+     * Create contract boolean.
+     *
+     * @param artistID     the artist id
+     * @param childEventID the child event id
+     * @return the boolean
+     * @throws IOException the io exception
+     */
     public static Boolean createContract(Integer artistID, Integer childEventID) throws IOException {
         URL url;
         boolean result;
@@ -327,6 +435,12 @@ final class APIConnection {
         return map;
     }
 
+    /**
+     * Create json string string.
+     *
+     * @param map the map
+     * @return the string
+     */
     public static String createJsonString(Map<String, String> map) {
         String strToReturn = "{";
         Object[] keys = map.keySet().toArray();

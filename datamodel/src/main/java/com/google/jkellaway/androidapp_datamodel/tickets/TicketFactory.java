@@ -8,12 +8,22 @@ package com.google.jkellaway.androidapp_datamodel.tickets;
 import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
 
 /**
+ * The type Ticket factory.
+ *
  * @author 10512691
  */
 public class TicketFactory implements ITicketFactory {
 
+    /**
+     * The Event.
+     */
     IChildEvent event;
 
+    /**
+     * Instantiates a new Ticket factory.
+     *
+     * @param event the event
+     */
     public TicketFactory(IChildEvent event) {
         this.event = event;
     }

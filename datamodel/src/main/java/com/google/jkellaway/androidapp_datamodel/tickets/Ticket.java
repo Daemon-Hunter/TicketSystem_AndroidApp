@@ -20,6 +20,8 @@ import static com.google.jkellaway.androidapp_datamodel.utilities.Blacklist.cont
 import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.descriptionValidator;
 
 /**
+ * The type Ticket.
+ *
  * @author 10512691
  */
 public class Ticket implements ITicket {
@@ -55,6 +57,16 @@ public class Ticket implements ITicket {
         this.table = DatabaseTable.TICKET;
     }
 
+    /**
+     * Instantiates a new Ticket.
+     *
+     * @param event     the event
+     * @param price     the price
+     * @param desc      the desc
+     * @param remaining the remaining
+     * @param type      the type
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     public Ticket(IChildEvent event, Double price, String desc, Integer remaining, String type)
             throws IllegalArgumentException {
         if (event == null)
@@ -85,6 +97,11 @@ public class Ticket implements ITicket {
         this.type = type;
     }
 
+    /**
+     * Gets table.
+     *
+     * @return the table
+     */
     public DatabaseTable getTable() {
         return table;
     }

@@ -23,6 +23,8 @@ import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.desc
 import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.nameValidator;
 
 /**
+ * The type Artist.
+ *
  * @author 10512691
  */
 public class Artist implements IArtist {
@@ -41,6 +43,9 @@ public class Artist implements IArtist {
     private Integer typeID;
     private LinkedList<String> tags;
 
+    /**
+     * Instantiates a new Artist.
+     */
     public Artist() {
         this.table = DatabaseTable.ARTIST;
         tags = new LinkedList<>();
@@ -53,10 +58,11 @@ public class Artist implements IArtist {
      * No child events given. When a call is made to the artist to return it's child events,
      * it will fetch relevant events through the API.
      *
-     * @param name
-     * @param description
-     * @param tags
-     * @param social
+     * @param name        the name
+     * @param description the description
+     * @param tags        the tags
+     * @param social      the social
+     * @param typeID      the type id
      */
     public Artist(String name, String description, LinkedList<String> tags, SocialMedia social, Integer typeID) {
 
@@ -78,12 +84,12 @@ public class Artist implements IArtist {
     /**
      * Use this constructor when
      *
-     * @param ID
-     * @param name
-     * @param description
-     * @param tags
-     * @param socialMediaID
-     * @param typeID
+     * @param ID            the id
+     * @param name          the name
+     * @param description   the description
+     * @param tags          the tags
+     * @param socialMediaID the social media id
+     * @param typeID        the type id
      */
     public Artist(Integer ID, String name, String description, LinkedList<String> tags, Integer socialMediaID, Integer typeID) {
 
@@ -268,10 +274,20 @@ public class Artist implements IArtist {
         return socialMedia.setSocialId(id);
     }
 
+    /**
+     * Gets review factory.
+     *
+     * @return the review factory
+     */
     protected IReviewFactory getReviewFactory() {
         return reviewFactory;
     }
 
+    /**
+     * Gets table.
+     *
+     * @return the table
+     */
     public DatabaseTable getTable() {
         if (table == null) {
             throw new NullPointerException();

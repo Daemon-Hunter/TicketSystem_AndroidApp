@@ -6,25 +6,74 @@
 package com.google.jkellaway.androidapp_datamodel.database;
 
 /**
+ * The enum Database table.
  *
  * @author 10512691
  */
 public enum DatabaseTable {
+    /**
+     * Admin database table.
+     */
     ADMIN,
+    /**
+     * Artist database table.
+     */
     ARTIST ,
+    /**
+     * Artist type database table.
+     */
     ARTIST_TYPE,
-    ARTIST_REVIEW, 
-    BOOKING, 
+    /**
+     * Artist review database table.
+     */
+    ARTIST_REVIEW,
+    /**
+     * Booking database table.
+     */
+    BOOKING,
+    /**
+     * Child event database table.
+     */
     CHILD_EVENT,
+    /**
+     * Customer database table.
+     */
     CUSTOMER,
+    /**
+     * Contracts database table.
+     */
     CONTRACTS,
+    /**
+     * Parent event review database table.
+     */
     PARENT_EVENT_REVIEW,
+    /**
+     * Guest booking database table.
+     */
     GUEST_BOOKING,
-    PARENT_EVENT, 
-    SOCIAL_MEDIA, 
-    TICKET, 
-    VENUE, 
+    /**
+     * Parent event database table.
+     */
+    PARENT_EVENT,
+    /**
+     * Social media database table.
+     */
+    SOCIAL_MEDIA,
+    /**
+     * Ticket database table.
+     */
+    TICKET,
+    /**
+     * Venue database table.
+     */
+    VENUE,
+    /**
+     * Venue review database table.
+     */
     VENUE_REVIEW,
+    /**
+     * Order database table.
+     */
     ORDER;
 }
 

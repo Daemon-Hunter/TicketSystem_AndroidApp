@@ -21,6 +21,8 @@ import java.util.List;
 import static com.google.jkellaway.androidapp_datamodel.database.APIHandle.getObjectsFromObject;
 
 /**
+ * The type Parent event.
+ *
  * @author 10512691
  */
 public class ParentEvent implements IParentEvent {
@@ -47,6 +49,14 @@ public class ParentEvent implements IParentEvent {
         reviewFactory = new ParentEventReviewFactory();
     }
 
+    /**
+     * Instantiates a new Parent event.
+     *
+     * @param socialID    the social id
+     * @param name        the name
+     * @param description the description
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     public ParentEvent(Integer socialID, String name, String description) throws IllegalArgumentException {
         if (socialID == null)
             throw new IllegalArgumentException("Cannot create a parent event with no social media object.");
@@ -65,6 +75,14 @@ public class ParentEvent implements IParentEvent {
         this.name = name;
     }
 
+    /**
+     * Instantiates a new Parent event.
+     *
+     * @param ID          the id
+     * @param socialID    the social id
+     * @param name        the name
+     * @param description the description
+     */
     public ParentEvent(Integer ID, Integer socialID, String name, String description) {
         this.ID = ID;
         this.name = name;
@@ -187,6 +205,11 @@ public class ParentEvent implements IParentEvent {
     }
 
 
+    /**
+     * Gets review factory.
+     *
+     * @return the review factory
+     */
     protected IReviewFactory getReviewFactory() {
         return reviewFactory;
     }
@@ -230,6 +253,11 @@ public class ParentEvent implements IParentEvent {
         }
     }
 
+    /**
+     * Gets table.
+     *
+     * @return the table
+     */
     public DatabaseTable getTable() {
         if (table == null) {
             throw new NullPointerException();

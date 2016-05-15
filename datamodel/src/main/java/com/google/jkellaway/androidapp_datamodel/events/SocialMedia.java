@@ -15,6 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * The type Social media.
  *
  * @author 10512691
  */
@@ -25,11 +26,26 @@ public class SocialMedia implements ISocial {
     private List<Bitmap> images;
     private final DatabaseTable table = DatabaseTable.SOCIAL_MEDIA;
     private LinkedList<IObserver> observers;
-    
+
+    /**
+     * Instantiates a new Social media.
+     */
     public SocialMedia() {
         id = 0;
     }
 
+    /**
+     * Instantiates a new Social media.
+     *
+     * @param images     the images
+     * @param facebook   the facebook
+     * @param twitter    the twitter
+     * @param instagram  the instagram
+     * @param soundcloud the soundcloud
+     * @param website    the website
+     * @param spotify    the spotify
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     public SocialMedia(List<Bitmap> images, String facebook, String twitter, String instagram, String soundcloud, String website, String spotify) throws IllegalArgumentException {
 
         Validator.URLValidator(facebook);
@@ -49,6 +65,18 @@ public class SocialMedia implements ISocial {
         this.spotify = spotify;
     }
 
+    /**
+     * Instantiates a new Social media.
+     *
+     * @param id         the id
+     * @param images     the images
+     * @param facebook   the facebook
+     * @param twitter    the twitter
+     * @param instagram  the instagram
+     * @param soundcloud the soundcloud
+     * @param website    the website
+     * @param spotify    the spotify
+     */
     public SocialMedia(Integer id, List<Bitmap> images, String facebook, String twitter,
                        String instagram, String soundcloud, String website, String spotify) {
 

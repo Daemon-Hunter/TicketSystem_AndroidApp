@@ -28,6 +28,7 @@ import static com.google.jkellaway.androidapp_datamodel.database.APIHandle.getSt
 import static com.google.jkellaway.androidapp_datamodel.database.APIHandle.pushObjectToDatabase;
 
 /**
+ * The type Desktop wrapper.
  *
  * @author 10512691
  */
@@ -52,6 +53,11 @@ public class DesktopWrapper implements IDesktopWrapper {
 
     private  DesktopWrapper(){}
 
+    /**
+     * Get instance desktop wrapper.
+     *
+     * @return the desktop wrapper
+     */
     public static DesktopWrapper getInstance(){
         if (wrapper == null){
             wrapper = new DesktopWrapper();

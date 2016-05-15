@@ -11,6 +11,8 @@ import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
 import static com.google.jkellaway.androidapp_datamodel.utilities.HashString.Encrypt;
 
 /**
+ * The type Admin.
+ *
  * @author 10467841
  */
 public class Admin implements IAdmin {
@@ -19,6 +21,15 @@ public class Admin implements IAdmin {
     private String firstName, lastName, email, password;
     private DatabaseTable table;
 
+    /**
+     * Instantiates a new Admin.
+     *
+     * @param fName    the f name
+     * @param lName    the l name
+     * @param email    the email
+     * @param password the password
+     * @throws IllegalArgumentException the illegal argument exception
+     */
     public Admin(String fName, String lName, String email, String password) throws IllegalArgumentException {
         ID = 0;
         if (fName == null || lName == null)
@@ -33,6 +44,14 @@ public class Admin implements IAdmin {
         this.password = Encrypt(password);
     }
 
+    /**
+     * Instantiates a new Admin.
+     *
+     * @param ID    the id
+     * @param fName the f name
+     * @param lName the l name
+     * @param email the email
+     */
     public Admin(Integer ID, String fName, String lName, String email) {
         this.ID = ID;
         firstName = fName;
