@@ -18,10 +18,10 @@ public class GuestBookingFactory {
     /**
      * Create booking booking.
      *
-     * @param ticket   the ticket
-     * @param guest    the guest
-     * @param quantity the quantity
-     * @return the booking
+     * @param ticket   the ticket that you wish to attatch the booking to
+     * @param guest    the guest object that the booking is being made for
+     * @param quantity the amount of tickets that have been purchased
+     * @return the booking object that has been created
      */
     public IBooking createBooking(Ticket ticket, IUser guest, Integer quantity) {
         return new GuestBooking(ticket, quantity, null, guest);

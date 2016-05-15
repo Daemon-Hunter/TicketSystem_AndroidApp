@@ -16,10 +16,10 @@ public interface IBookingFactory {
      /**
       * Create booking booking.
       *
-      * @param ticket   the ticket
-      * @param order    the order
-      * @param quantity the quantity
-      * @return the booking
+      * @param ticket   the ticket that you wish to make a booking for
+      * @param order    the order that contains the user that is making the booking
+      * @param quantity the amount of tickets that you are making a booking for
+      * @return the new booking object that has been created
       */
      IBooking createBooking(ITicket ticket, IOrder order, Integer quantity);
 }
