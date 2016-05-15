@@ -77,12 +77,17 @@ public final class APIHandle {
                 Map<String, String> customer = APIConnection.comparePassword(email, Encrypt(password), DatabaseTable.CUSTOMER).get(0);
                 if (Integer.parseInt(customer.get("CUSTOMER_ID")) != -1)
                     return MapToCustomer(customer);
+                else
+                    throw new IllegalArgumentException("Account / password doesn't match!");
             case ADMIN:
                 Map<String, String> admin = APIConnection.comparePassword(email, Encrypt(password), DatabaseTable.ADMIN).get(0);
                 if (Integer.parseInt(admin.get("ADMIN_ID")) != -1)
                     return MapToAdmin(admin);
+                else
+                    throw new IllegalArgumentException("Account / password doesn't match!");
+            default:
+                throw new UnsupportedOperationException("Cannot compare the password of an object of the given type.");
         }
-        throw new IllegalArgumentException("Email and password combination is incorrect.");
     }
 
     public static Object getSingle(int id, DatabaseTable table) throws IOException {
