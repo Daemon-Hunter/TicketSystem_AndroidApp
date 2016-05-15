@@ -31,7 +31,7 @@ public class ParentEventFragAdapter extends ArrayAdapter<IParentEvent> {
     * Initialise adapter
     */
     public ParentEventFragAdapter(Activity context, List<IParentEvent> parentEvents) {
-        super(context, R.layout.grid_single);
+        super(context, R.layout.gridview_single);
         mContext = context;
         mParentEvents = parentEvents;
     }
@@ -80,7 +80,7 @@ public class ParentEventFragAdapter extends ArrayAdapter<IParentEvent> {
         if (convertView == null) {
 
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.grid_single, null);
+            convertView = inflater.inflate(R.layout.gridview_single, null);
 
             // set up view holder
             viewHolder = new ViewHolder();

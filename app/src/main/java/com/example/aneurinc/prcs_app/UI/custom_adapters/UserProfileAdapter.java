@@ -40,10 +40,10 @@ public class UserProfileAdapter extends ArrayAdapter<String> {
         mCustomerFields.add("Change Address");
 
         mImages = new ArrayList<>();
-        mImages.add(R.drawable.ic_perm_identity_48pt_3x);
-        mImages.add(R.drawable.ic_email_48pt_3x);
-        mImages.add(R.drawable.ic_lock_outline_48pt_3x);
-        mImages.add(R.drawable.ic_location_city_48pt_3x);
+        mImages.add(R.drawable.ic_perm_identity);
+        mImages.add(R.drawable.ic_email);
+        mImages.add(R.drawable.ic_lock);
+        mImages.add(R.drawable.ic_location_city);
     }
 
     /*

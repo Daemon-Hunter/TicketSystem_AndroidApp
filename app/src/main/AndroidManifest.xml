@@ -78,9 +78,11 @@
             android:label="@string/title_activity_child_event"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key"/>
+
         <activity
             android:name=".UI.activities.MapActivity"
             android:label="@string/title_activity_map"

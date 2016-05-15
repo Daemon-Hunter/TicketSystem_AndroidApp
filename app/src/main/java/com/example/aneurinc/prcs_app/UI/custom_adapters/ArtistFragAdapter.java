@@ -32,7 +32,7 @@ public class ArtistFragAdapter extends ArrayAdapter<IArtist> {
     * Initialise artist adapter
     */
     public ArtistFragAdapter(Activity context, List<IArtist> artistList) {
-        super(context, R.layout.grid_single);
+        super(context, R.layout.gridview_single);
         mContext = context;
         mArtistList = artistList;
     }
@@ -81,7 +81,7 @@ public class ArtistFragAdapter extends ArrayAdapter<IArtist> {
         if (convertView == null) {
 
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.grid_single, null);
+            convertView = inflater.inflate(R.layout.gridview_single, null);
 
             // set up view holder
             viewHolder = new ViewHolder();

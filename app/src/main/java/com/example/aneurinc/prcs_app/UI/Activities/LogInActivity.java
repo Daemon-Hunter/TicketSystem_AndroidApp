@@ -61,7 +61,7 @@ public class LogInActivity extends AppCompatActivity implements OnEditorActionLi
         int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);
 
-        setContentView(R.layout.activity_sign_in);
+        setContentView(R.layout.activity_login);
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);

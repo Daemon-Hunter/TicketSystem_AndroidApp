@@ -51,7 +51,7 @@ public interface IWrapper {
      * Add parent event.
      *
      * @param parentEvent The parent event to be added.
-     * @return Boolean
+     * @return Boolean to indicated outcome of outcome.
      */
     Boolean addParentEvent(IParentEvent parentEvent);
 
@@ -67,76 +67,76 @@ public interface IWrapper {
     /**
      * Refresh parent events list.
      *
-     * @return the list
-     * @throws IOException the io exception
+     * @return Up to date list of parent events.
+     * @throws IOException Thrown if connection to the database fails.
      */
     List<IParentEvent> refreshParentEvents() throws IOException;
 
     /**
      * Search parent events list.
      *
-     * @param string the string
-     * @return the list
-     * @throws IOException the io exception
+     * @param string Query string.
+     * @return List matching query.
+     * @throws IOException Thrown if connection to the database fails.
      */
     List<IParentEvent> searchParentEvents(String string) throws IOException;
 
 
     /**
-     * Gets venues.
+     * Gets all venues.
      *
-     * @return the venues
-     * @throws IOException the io exception
+     * @return A list of all venues.
+     * @throws IOException Thrown if connection to the database fails.
      */
     List<IVenue> getVenues() throws IOException;
 
     /**
-     * Gets venue.
+     * Gets all venues.
      *
-     * @param id the id
-     * @return the venue
-     * @throws IOException the io exception
+     * @param id The ID of the venue to be returned.
+     * @return The venue matching the ID.
+     * @throws IOException Thrown if connection to the database fails.
      */
     IVenue getVenue(Integer id) throws IOException;
 
     /**
-     * Load more venues list.
+     * Loads more venue into the venues list.
      *
-     * @return the list
-     * @throws IOException the io exception
+     * @return An updated list of all venues.
+     * @throws IOException Thrown if connection to the database fails.
      */
     List<IVenue> loadMoreVenues() throws IOException;
 
     /**
-     * Add venue boolean.
+     * Adds a venue to the venue list.
      *
-     * @param venue the venue
-     * @return the boolean
+     * @param venue The venue to be added.
+     * @return Boolean indicating outcome of add operation.
      */
     Boolean addVenue(IVenue venue);
 
     /**
-     * Remove venue boolean.
+     * Remove venue from the venue list.
      *
-     * @param venue the venue
-     * @return the boolean
+     * @param venue The venue to be removed.
+     * @return Boolean to indicate outcome of removal operation.
      */
     Boolean removeVenue(IVenue venue);
 
     /**
      * Refresh venues list.
      *
-     * @return the list
-     * @throws IOException the io exception
+     * @return An up to date list of all venues.
+     * @throws IOException Thrown if connection to the database fails.
      */
     List<IVenue> refreshVenues() throws IOException;
 
     /**
-     * Search venues list.
+     * Search venues list of for a query.
      *
-     * @param string the string
-     * @return the list
-     * @throws IOException the io exception
+     * @param string The string query to search for.
+     * @return A list of venues that match the query.
+     * @throws IOException Thrown if connection to the database fails.
      */
     List<IVenue> searchVenues(String string) throws IOException;
 
@@ -144,41 +144,41 @@ public interface IWrapper {
     /**
      * Gets artists.
      *
-     * @return the artists
-     * @throws IOException the io exception
+     * @return A list of all artists.
+     * @throws IOException Thrown if connection to the database fails.
      */
     List<IArtist> getArtists() throws IOException;
 
     /**
-     * Load more artists list.
+     * Loads more artists into the artist list.
      *
-     * @return the list
-     * @throws IOException the io exception
+     * @return Returns an up to date list of venues.
+     * @throws IOException Thrown if connection to the database fails.
      */
     List<IArtist> loadMoreArtists() throws IOException;
 
     /**
      * Gets artist.
      *
-     * @param id the id
-     * @return the artist
-     * @throws IOException the io exception
+     * @param id The ID of the artist to be searched.
+     * @return The artist matching the ID.
+     * @throws IOException Thrown if connection to the database fails.
      */
     IArtist getArtist(Integer id) throws IOException;
 
     /**
-     * Add artist boolean.
+     * Add an artist to the artist list.
      *
-     * @param artist the artist
-     * @return the boolean
+     * @param artist The artist to be added.
+     * @return Boolean to indicate success of add operation.
      */
     Boolean addArtist(IArtist artist);
 
     /**
-     * Remove artist boolean.
+     * Remove artist from the artist list..
      *
-     * @param artist the artist
-     * @return the boolean
+     * @param artist The artist to remove.
+     * @return Boolean to indicate removal.
      */
     Boolean removeArtist(IArtist artist);
 
@@ -191,48 +191,48 @@ public interface IWrapper {
     List<IArtist> refreshArtists() throws IOException;
 
     /**
-     * Search artists list.
+     * Search artists list using a query string.
      *
-     * @param string the string
-     * @return the list
-     * @throws IOException the io exception
+     * @param string The query string.
+     * @return A list of artist that match the query.
+     * @throws IOException Thrown if connection to the database fails.
      */
     List<IArtist> searchArtists(String string) throws IOException;
 
     /**
-     * Sets amount to load.
+     * Sets amount to load from the database.
      *
      * @param amountToLoad the amount to load
-     * @return the amount to load
+     * @return Boolean indicating success.
      */
     Boolean setAmountToLoad(Integer amountToLoad);
 
     /**
-     * Create new object object.
+     * Create new object.
      *
-     * @param object the object
-     * @param table  the table
-     * @return the object
-     * @throws IOException the io exception
+     * @param object The object to be created.
+     * @param table  The table the object is to be inserted in.
+     * @return The object
+     * @throws IOException Thrown if connection to the database fails.
      */
     Object createNewObject(Object object, DatabaseTable table) throws IOException;
 
     /**
      * Update object object.
      *
-     * @param object the object
-     * @param table  the table
-     * @return the object
-     * @throws IOException the io exception
+     * @param object The object to update.
+     * @param table  The table to update the object in.
+     * @return The updated object.
+     * @throws IOException Thrown if connection to the database fails.
      */
     Object updateObject(Object object, DatabaseTable table) throws IOException;
 
     /**
-     * Make guest bookings list.
+     * Make a list of guest bookings.
      *
-     * @param guestBookings the guest bookings
-     * @return the list
-     * @throws IOException the io exception
+     * @param guestBookings The guest bookings list.
+     * @return The list of guest bookings.
+     * @throws IOException Thrown if connection to the database fails.
      */
     List<GuestBooking> makeGuestBookings(List<GuestBooking> guestBookings) throws IOException;
 }

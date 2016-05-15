@@ -18,7 +18,7 @@ public class GuestBookingFactory {
     /**
      * Create booking booking.
      *
-     * @param ticket   the ticket that you wish to attatch the booking to
+     * @param ticket   the ticket that you wish to attach the booking to
      * @param guest    the guest object that the booking is being made for
      * @param quantity the amount of tickets that have been purchased
      * @return the booking object that has been created
