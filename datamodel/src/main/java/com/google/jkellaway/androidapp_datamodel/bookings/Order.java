@@ -31,8 +31,8 @@ public class Order implements IOrder {
     /**
      * Use this constructor when creating an order object from the database.
      *
-     * @param ID     the id
-     * @param userID the user id
+     * @param ID     the primary id from the order object
+     * @param userID the primary ID of the user that the order is being made
      */
     public Order(Integer ID, Integer userID) {
         this.orderID = ID;
