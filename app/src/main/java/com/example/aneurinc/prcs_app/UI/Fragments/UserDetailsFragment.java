@@ -20,8 +20,12 @@ import com.example.aneurinc.prcs_app.UI.custom_adapters.UserProfileAdapter;
  */
 public class UserDetailsFragment extends Fragment implements AdapterView.OnItemClickListener {
 
+    // Reference to parent activity
     private UserProfileActivity mUserProfileActivity;
 
+    /*
+    * Initialise fragment components and load layout
+    */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,6 +47,9 @@ public class UserDetailsFragment extends Fragment implements AdapterView.OnItemC
         return view;
     }
 
+    /*
+    * Get item click position and select correct fragment corresponding to list row view
+    */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         switch (position) {

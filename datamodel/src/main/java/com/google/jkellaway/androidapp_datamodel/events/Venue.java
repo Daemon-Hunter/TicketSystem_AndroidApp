@@ -285,8 +285,7 @@ public class Venue implements IVenue {
 
     @Override
     public Boolean setName(String name) throws IllegalArgumentException {
-        if (name == null)
-            throw new IllegalArgumentException("Enter a name");
+        if (name == null) throw new IllegalArgumentException("Enter a name");
         nameValidator(name);
         this.name = name;
         return this.name.equals(name);
@@ -295,8 +294,7 @@ public class Venue implements IVenue {
 
     @Override
     public Boolean setDescription(String description) throws IllegalArgumentException {
-        if (description == null)
-            throw new IllegalArgumentException("Enter a description");
+        if (description == null) throw new IllegalArgumentException("Enter a description");
         descriptionValidator(description);
         this.description = description;
         return this.description.equals(description);
@@ -304,8 +302,7 @@ public class Venue implements IVenue {
 
     @Override
     public Boolean setStandingCapacity(Integer standing) throws IllegalArgumentException {
-        if (standing == null)
-            throw new IllegalArgumentException("Enter a capacity.");
+        if (standing == null) throw new IllegalArgumentException("Enter a capacity.");
         capacityValidator(standing);
         this.capacityStanding = standing;
         return this.capacityStanding.equals(capacityStanding);
@@ -313,8 +310,7 @@ public class Venue implements IVenue {
 
     @Override
     public Boolean setSeatingCapacity(Integer seating) throws IllegalArgumentException {
-        if (seating == null)
-            throw new IllegalArgumentException("Enter a capacity.");
+        if (seating == null) throw new IllegalArgumentException("Enter a capacity.");
         capacityValidator(seating);
         this.capacitySeating = seating;
         return this.capacitySeating.equals(capacitySeating);
@@ -341,8 +337,7 @@ public class Venue implements IVenue {
 
     @Override
     public Boolean setParking(Integer parking) throws IllegalArgumentException {
-        if (parking == null)
-            parking = 0;
+        if (parking == null) parking = 0;
         parkingSpaceValidator(parking);
         this.parkingSpaces = parking;
         return this.parkingSpaces == parking;
@@ -350,8 +345,7 @@ public class Venue implements IVenue {
 
     @Override
     public Boolean setEmail(String email) throws IllegalArgumentException {
-        if (email == null)
-            throw new IllegalArgumentException("Enter an email address.");
+        if (email == null) throw new IllegalArgumentException("Enter an email address.");
         emailValidator(email);
         this.email = email;
         return this.email.equals(email);
@@ -359,8 +353,7 @@ public class Venue implements IVenue {
 
     @Override
     public Boolean setPhoneNumber(String phoneNumber) throws IllegalArgumentException {
-        if (phoneNumber == null)
-            throw new IllegalArgumentException("Enter a phone number.");
+        if (phoneNumber == null) throw new IllegalArgumentException("Enter a phone number.");
         phoneNumberValidator(phoneNumber);
         this.phoneNumber = phoneNumber;
         return this.phoneNumber.equals(phoneNumber);
@@ -368,8 +361,7 @@ public class Venue implements IVenue {
 
     @Override
     public Boolean setAddress(String address) throws IllegalArgumentException {
-        if (address == null)
-            throw new IllegalArgumentException("Enter an address.");
+        if (address == null) throw new IllegalArgumentException("Enter an address.");
         addressValidator(address);
         this.address = address;
         return this.address.equals(address);
@@ -377,20 +369,19 @@ public class Venue implements IVenue {
 
     @Override
     public Boolean setCity(String city) throws IllegalArgumentException {
-        if (city == null)
-            throw new IllegalArgumentException("Enter a city.");
+        if (city == null) throw new IllegalArgumentException("Enter a city.");
         addressValidator(city);
         this.city = city;
         return this.city.equals(city);
     }
 
     @Override
-    public Boolean setPostcode(String postcode)  throws IllegalArgumentException {
-        if (postcode == null)
-            throw new IllegalArgumentException("Enter a postcode.");
+    public Boolean setPostcode(String postcode) throws IllegalArgumentException {
+        if (postcode == null) throw new IllegalArgumentException("Enter a postcode.");
         this.postcode = postcode;
         return this.postcode.equals(postcode);
     }
+
     @Override
     public Integer getSocialId() {
         return socialMediaID;
@@ -426,8 +417,7 @@ public class Venue implements IVenue {
 
     @Override
     public IReview getReview(Integer customerID) throws IllegalArgumentException {
-        if (customerID == null)
-            throw new NullPointerException();
+        if (customerID == null) throw new NullPointerException();
         for (IReview r : reviews) {
             if (r.getCustomerID().equals(customerID)) {
                 return r;

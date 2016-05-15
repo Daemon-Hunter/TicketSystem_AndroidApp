@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 
 import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.custom_views.CustomClickableSpan;
@@ -254,6 +255,7 @@ public class LogInActivity extends AppCompatActivity implements OnEditorActionLi
         private final String mEmail;
         private final String mPassword;
         private final Activity mContext;
+        private String mError;
 
         /*
         * Pass in user details from form input
@@ -262,6 +264,7 @@ public class LogInActivity extends AppCompatActivity implements OnEditorActionLi
             mContext = context;
             mEmail = email;
             mPassword = password;
+            mError = "";
         }
 
         /*
@@ -274,10 +277,16 @@ public class LogInActivity extends AppCompatActivity implements OnEditorActionLi
                 UserWrapper.getInstance().loginUser(mEmail, mPassword);
                 Thread.sleep(750);
             } catch (IOException e) {
+                e.printStackTrace();
+                mError = e.getMessage();
                 return false;
             } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+                mError = e.getMessage();
                 return false;
             } catch (InterruptedException e) {
+                e.printStackTrace();
+                mError = e.getMessage();
                 return false;
             }
             return true;
@@ -299,9 +308,11 @@ public class LogInActivity extends AppCompatActivity implements OnEditorActionLi
                 intent.putExtra(MainActivity.FRAGMENT_ID, FragmentType.PARENT_EVENT.toString());
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-            } else { // Notify user of incorrect entry
+            } else if (mError.isEmpty()) { // Notify user of incorrect entry
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
+            } else {
+                Toast.makeText(mContext, mError, Toast.LENGTH_SHORT).show();
             }
         }
 

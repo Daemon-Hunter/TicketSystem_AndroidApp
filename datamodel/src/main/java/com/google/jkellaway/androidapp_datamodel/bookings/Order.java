@@ -21,7 +21,7 @@ import static com.google.jkellaway.androidapp_datamodel.database.APIHandle.getOb
  * @author 10467841
  */
 public class Order implements IOrder {
-   
+
     private Integer orderID;
     private Integer userID;
     private IUser user;
@@ -49,10 +49,11 @@ public class Order implements IOrder {
         this.orderID = 0;
         this.userID = userID;
     }
-    
+
     /**
      * Gets the order's unique ID
-     * @return 
+     *
+     * @return
      */
     @Override
     public Integer getOrderID() {
@@ -61,11 +62,12 @@ public class Order implements IOrder {
 
     /**
      * Returns the user that made the order
-     * @return 
+     *
+     * @return
      */
     @Override
     public IUser getUser() throws IOException {
-        user = (IUser)APIHandle.getSingle(userID, DatabaseTable.CUSTOMER);
+        user = (IUser) APIHandle.getSingle(userID, DatabaseTable.CUSTOMER);
         userID = user.getID();
         return user;
     }
@@ -77,7 +79,8 @@ public class Order implements IOrder {
 
     /**
      * Gets the list of bookings related to the order
-     * @return 
+     *
+     * @return
      */
     @Override
     public List<IBooking> getBookingList() throws IOException {
@@ -87,8 +90,9 @@ public class Order implements IOrder {
 
     /**
      * Returns a single booking, get via booking ID.
+     *
      * @param bookingID
-     * @return 
+     * @return
      */
     @Override
     public IBooking getBooking(Integer bookingID) {
@@ -97,11 +101,10 @@ public class Order implements IOrder {
 
     @Override
     public Boolean addBooking(IBooking booking) {
-        if (booking == null){
+        if (booking == null) {
             throw new IllegalArgumentException("Booking cannot be null");
         }
-        if (bookingList == null)
-            bookingList = new LinkedList();
+        if (bookingList == null) bookingList = new LinkedList();
         return bookingList.add(booking);
     }
 }

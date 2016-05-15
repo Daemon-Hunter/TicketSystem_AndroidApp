@@ -30,9 +30,7 @@ public class VenueReview extends Review {
      * @param verified   the verified
      * @throws IllegalArgumentException the illegal argument exception
      */
-    public VenueReview(Integer baseID, Integer customerID, Integer rating,
-            Date date, String body, Boolean verified) throws IllegalArgumentException
-    {
+    public VenueReview(Integer baseID, Integer customerID, Integer rating, Date date, String body, Boolean verified) throws IllegalArgumentException {
         super(baseID, customerID, rating, date, body, verified);
         table = DatabaseTable.VENUE_REVIEW;
     }

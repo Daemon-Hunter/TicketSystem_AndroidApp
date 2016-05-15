@@ -28,8 +28,7 @@ public class ArtistReview extends Review {
      * @param verified   the verified
      * @throws IllegalArgumentException the illegal argument exception
      */
-    public ArtistReview(Integer baseID, Integer customerID, Integer rating, Date date, String body,
-                        Boolean verified) throws IllegalArgumentException {
+    public ArtistReview(Integer baseID, Integer customerID, Integer rating, Date date, String body, Boolean verified) throws IllegalArgumentException {
         super(baseID, customerID, rating, date, body, verified);
         table = DatabaseTable.ARTIST_REVIEW;
     }

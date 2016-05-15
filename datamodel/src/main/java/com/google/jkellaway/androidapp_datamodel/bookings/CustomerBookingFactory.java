@@ -12,12 +12,12 @@ import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
  *
  * @author 10512691
  */
-public class CustomerBookingFactory implements IBookingFactory  {
+public class CustomerBookingFactory implements IBookingFactory {
 
     @Override
     public IBooking createBooking(ITicket ticket, IOrder order, Integer quantity) {
         return new CustomerBooking(order, ticket, quantity);
     }
 
-    
+
 }

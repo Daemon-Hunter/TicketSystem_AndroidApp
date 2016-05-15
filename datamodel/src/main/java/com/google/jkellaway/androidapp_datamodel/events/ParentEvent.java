@@ -118,8 +118,7 @@ public class ParentEvent implements IParentEvent {
                 childEvents = getChildEvents();
             }
             for (IChildEvent childEvent : childEvents) {
-                if (childEvent.getID().equals(childEventID))
-                    return childEvent;
+                if (childEvent.getID().equals(childEventID)) return childEvent;
             }
             throw new NullPointerException("No child event with this ID");
         }
@@ -221,15 +220,13 @@ public class ParentEvent implements IParentEvent {
 
     @Override
     public IReview getReview(Integer customerID) throws IllegalArgumentException {
-        if (customerID == null)
-            throw new NullPointerException();
+        if (customerID == null) throw new NullPointerException();
         for (IReview r : reviews) {
             if (r.getCustomerID().equals(customerID)) {
                 return r;
             }
         }
-        throw new IllegalArgumentException("No customers with that ID have "
-                + "written a review for this venue.");
+        throw new IllegalArgumentException("No customers with that ID have " + "written a review for this venue.");
     }
 
     @Override

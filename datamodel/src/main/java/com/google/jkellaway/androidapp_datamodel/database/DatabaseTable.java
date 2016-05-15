@@ -18,7 +18,7 @@ public enum DatabaseTable {
     /**
      * Artist database table.
      */
-    ARTIST ,
+    ARTIST,
     /**
      * Artist type database table.
      */

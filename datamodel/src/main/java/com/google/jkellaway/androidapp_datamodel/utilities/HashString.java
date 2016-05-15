@@ -10,11 +10,10 @@ public class HashString {
      * @param pass the pass
      * @return the string
      */
-    public static String Encrypt(String pass)
-    {
+    public static String Encrypt(String pass) {
         String saltEnd = "162300JBKYSCOTT"; // 128 bit key;
         String saltStart = "7hegdChickenu2ys90";
-        pass = saltStart + pass +  saltEnd;
+        pass = saltStart + pass + saltEnd;
         Integer hashedValue = pass.hashCode();
         return Integer.toString(hashedValue);
     }

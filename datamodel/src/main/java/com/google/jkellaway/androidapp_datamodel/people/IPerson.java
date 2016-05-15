@@ -17,7 +17,7 @@ public interface IPerson {
      *
      * @return the first name
      */
-    String  getFirstName();
+    String getFirstName();
 
     /**
      * Sets first name.
@@ -47,7 +47,7 @@ public interface IPerson {
      *
      * @return the email
      */
-    String  getEmail();
+    String getEmail();
 
     /**
      * Sets email.

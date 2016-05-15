@@ -88,7 +88,7 @@ public class ChildEvent implements IChildEvent {
      * @param parentEvent the parent event
      * @throws IllegalArgumentException the illegal argument exception
      */
-    public ChildEvent(String name, String description, Date startTime, Date endTime, IVenue venue, IParentEvent parentEvent)  throws IllegalArgumentException {
+    public ChildEvent(String name, String description, Date startTime, Date endTime, IVenue venue, IParentEvent parentEvent) throws IllegalArgumentException {
         childEventID = 0;
 
         nameValidator(name);
@@ -105,9 +105,8 @@ public class ChildEvent implements IChildEvent {
     }
 
     @Override
-        public ITicketFactory getTicketFactory() {
-        if (ticketFactory == null)
-            ticketFactory = new TicketFactory(this);
+    public ITicketFactory getTicketFactory() {
+        if (ticketFactory == null) ticketFactory = new TicketFactory(this);
         return ticketFactory;
     }
 
@@ -153,8 +152,7 @@ public class ChildEvent implements IChildEvent {
 
     @Override
     public Boolean setName(String name) throws IllegalArgumentException {
-        if (name == null)
-            throw new IllegalArgumentException("Enter a name");
+        if (name == null) throw new IllegalArgumentException("Enter a name");
         nameValidator(name);
         childEventName = name;
         return childEventName.equals(name);
@@ -162,8 +160,7 @@ public class ChildEvent implements IChildEvent {
 
     @Override
     public Boolean setDescription(String description) throws IllegalArgumentException {
-        if (description == null)
-            throw new IllegalArgumentException("Enter a description");
+        if (description == null) throw new IllegalArgumentException("Enter a description");
         descriptionValidator(description);
         childEventDescription = description;
         return childEventDescription.equals(description);
@@ -217,8 +214,7 @@ public class ChildEvent implements IChildEvent {
 
     @Override
     public Integer getParentEventID() {
-        if (parentEventID == null)
-            parentEventID = parentEvent.getID();
+        if (parentEventID == null) parentEventID = parentEvent.getID();
         return parentEventID;
     }
 
@@ -246,8 +242,7 @@ public class ChildEvent implements IChildEvent {
     public ITicket getTicket(Integer id) throws IOException {
         if (tickets != null) {
             for (ITicket ticket : tickets) {
-                if (ticket.getID().equals(id))
-                    return ticket;
+                if (ticket.getID().equals(id)) return ticket;
             }
         }
         APIHandle.getSingle(id, DatabaseTable.TICKET);
@@ -293,8 +288,7 @@ public class ChildEvent implements IChildEvent {
     @Override
     public Boolean newContract(IArtist artist) throws IOException {
         if (createContract(artist.getID(), this.childEventID)) {
-            if (artists == null)
-                artists = new LinkedList<>();
+            if (artists == null) artists = new LinkedList<>();
             artists.add(artist);
             return true;
         }

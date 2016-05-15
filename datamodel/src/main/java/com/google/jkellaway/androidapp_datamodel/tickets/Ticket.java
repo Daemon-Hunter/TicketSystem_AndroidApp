@@ -1,4 +1,3 @@
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -67,8 +66,7 @@ public class Ticket implements ITicket {
      * @param type      the type
      * @throws IllegalArgumentException the illegal argument exception
      */
-    public Ticket(IChildEvent event, Double price, String desc, Integer remaining, String type)
-            throws IllegalArgumentException {
+    public Ticket(IChildEvent event, Double price, String desc, Integer remaining, String type) throws IllegalArgumentException {
         if (event == null)
             throw new IllegalArgumentException("Cannot make a ticket for a null event.");
 
@@ -201,15 +199,13 @@ public class Ticket implements ITicket {
 
     @Override
     public Boolean addBooking(IBooking booking) {
-        if (booking == null)
-            throw new IllegalArgumentException("Cannot add a null booking");
+        if (booking == null) throw new IllegalArgumentException("Cannot add a null booking");
         return bookings.add(booking);
     }
 
     @Override
     public Boolean removeBooking(IBooking booking) {
-        if (booking == null)
-            throw new IllegalArgumentException("Cannot remove a null booking");
+        if (booking == null) throw new IllegalArgumentException("Cannot remove a null booking");
         return bookings.remove(booking);
     }
 

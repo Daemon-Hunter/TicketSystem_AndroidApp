@@ -21,27 +21,27 @@ public abstract class Review implements IReview {
     /**
      * The Review base id.
      */
-    protected Integer       reviewBaseID;
+    protected Integer reviewBaseID;
     /**
      * The Customer id.
      */
-    protected Integer       customerID;
+    protected Integer customerID;
     /**
      * The Date time.
      */
-    protected Date          dateTime;
+    protected Date dateTime;
     /**
      * The Rating.
      */
-    protected Integer       rating;
+    protected Integer rating;
     /**
      * The Review body.
      */
-    protected String        reviewBody;
+    protected String reviewBody;
     /**
      * The Verified.
      */
-    protected Boolean       verified;
+    protected Boolean verified;
     /**
      * The Table.
      */
@@ -59,24 +59,15 @@ public abstract class Review implements IReview {
      * @param verified   the verified
      * @throws IllegalArgumentException the illegal argument exception
      */
-    public Review(Integer baseID, Integer customerID, Integer rating,
-                    Date date, String body, Boolean verified) throws IllegalArgumentException
-    {
+    public Review(Integer baseID, Integer customerID, Integer rating, Date date, String body, Boolean verified) throws IllegalArgumentException {
         // Check to see if any of the arguments were null
-        if (baseID == null || customerID == null) 
-        {
+        if (baseID == null || customerID == null) {
             throw new IllegalArgumentException("Sorry, we've had an internal error :( please try again.");
-        } 
-        else if (rating == null || body == null) 
-        {
+        } else if (rating == null || body == null) {
             throw new IllegalArgumentException("Review rating, or body, hasn't been set - please try again.");
-        } 
-        else if (verified == null)
-        {
+        } else if (verified == null) {
             throw new IllegalArgumentException("Sorry, we've had an internal error whilst checking review verification :( please try again.");
-        }
-
-        else {
+        } else {
             Validator.ratingValidator(rating);
             Validator.reviewBodyValidator(body);
 
@@ -100,23 +91,18 @@ public abstract class Review implements IReview {
      * @param body       the body
      * @throws IllegalArgumentException the illegal argument exception
      */
-    public Review(Integer baseID, Integer customerID, Integer rating, String body) throws IllegalArgumentException
-    {
+    public Review(Integer baseID, Integer customerID, Integer rating, String body) throws IllegalArgumentException {
         // Check to see if any of the arguments were null
-        if (baseID == null || customerID == null) 
-        {
+        if (baseID == null || customerID == null) {
             throw new IllegalArgumentException("Sorry, we've had an internal error :( please try again.");
-        } 
-        else if (rating == null || body == null) 
-        {
+        } else if (rating == null || body == null) {
             throw new IllegalArgumentException("Review rating, or body, hasn't been set - please try again.");
-        } 
-        else {
-            
+        } else {
+
             // Given no arguments were null, see if they're valid
             Validator.ratingValidator(rating);
             Validator.reviewBodyValidator(body);
-                            
+
             // Everything is valid -> initialise variables
             reviewBaseID = baseID;
             this.customerID = customerID;
@@ -170,7 +156,7 @@ public abstract class Review implements IReview {
         }
         dateTime = datetime;
         return true;
-        
+
     }
 
     @Override
@@ -204,8 +190,7 @@ public abstract class Review implements IReview {
 
     @Override
     public Boolean SetBody(String body) throws IllegalArgumentException {
-        if (body == null)
-            throw new NullPointerException("Cannot set review body to null");
+        if (body == null) throw new NullPointerException("Cannot set review body to null");
 
         Validator.reviewBodyValidator(body);
 

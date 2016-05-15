@@ -82,6 +82,7 @@ public class CheckoutActivity extends AppCompatActivity implements OnClickListen
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra(MainActivity.FRAGMENT_ID, FragmentType.PARENT_EVENT.toString());
                 startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 break;
         }
 
@@ -102,6 +103,7 @@ public class CheckoutActivity extends AppCompatActivity implements OnClickListen
                 Intent intent = new Intent(this, ReceiptActivity.class);
                 intent.putExtra(ReceiptActivity.ORDER_ID, getIntent().getExtras().getInt(ORDER_ID));
                 startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 break;
 
             default:

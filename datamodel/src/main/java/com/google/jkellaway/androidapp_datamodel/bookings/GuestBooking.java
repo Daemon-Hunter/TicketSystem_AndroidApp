@@ -49,7 +49,7 @@ public class GuestBooking implements IBooking {
     /**
      * The dateTime of when the booking is made.
      */
-    protected String  bookingDateTime;
+    protected String bookingDateTime;
     private IUser guest;
 
     private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
@@ -64,7 +64,7 @@ public class GuestBooking implements IBooking {
      * @param dateTime  the time at which the booking was made
      * @param guest     the guest object that is making the booking
      */
-    public GuestBooking (Integer ID, Integer ticketID, Integer ticketQty, String dateTime, IUser guest) {
+    public GuestBooking(Integer ID, Integer ticketID, Integer ticketQty, String dateTime, IUser guest) {
         this.bookingID = ID;
         this.ticketID = ticketID;
         this.ticketQuantity = ticketQty;
@@ -88,9 +88,7 @@ public class GuestBooking implements IBooking {
      * @param dateTime  the date time
      * @param guest     the guest
      */
-    public GuestBooking (ITicket ticket, Integer ticketQty, Date dateTime,
-            IUser guest) 
-    {
+    public GuestBooking(ITicket ticket, Integer ticketQty, Date dateTime, IUser guest) {
         // Set ID as 0. Database will create one using sequence.
         this.bookingID = 0;
         if (ticket == null) {
@@ -116,10 +114,10 @@ public class GuestBooking implements IBooking {
     }
 
     /**
-     *Gets the guest object that the booking is made for
+     * Gets the guest object that the booking is made for
      *
      * @return IUSER the guest object
-     * @throws  NullPointerException if there is no guest for the booking
+     * @throws NullPointerException if there is no guest for the booking
      */
     public IUser getGuest() {
         if (guest != null) {
@@ -192,8 +190,7 @@ public class GuestBooking implements IBooking {
 
     @Override
     public Boolean setQuantity(Integer qty) throws IllegalArgumentException {
-        if (qty == null)
-            throw new IllegalArgumentException("Enter a quantity");
+        if (qty == null) throw new IllegalArgumentException("Enter a quantity");
         Validator.quantityValidator(qty);
         ticketQuantity = qty;
         return this.ticketQuantity.equals(qty);
@@ -213,6 +210,7 @@ public class GuestBooking implements IBooking {
         }
         return null;
     }
+
     @Override
     public Boolean setBookingTime(Date time) throws IllegalArgumentException {
         if (time == null) {

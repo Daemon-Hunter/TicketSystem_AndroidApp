@@ -187,7 +187,7 @@ public class TicketActivity extends AppCompatActivity implements OnClickListener
     }
 
     /*
-    * Handle back naviagtion
+    * Handle back navigation
     * Add custom transition
     */
     @Override

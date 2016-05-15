@@ -113,8 +113,7 @@ public class Artist implements IArtist {
 
     @Override
     public Boolean addTag(String tag) throws IllegalArgumentException {
-        if (tag == null)
-            throw new IllegalArgumentException("Enter a tag.");
+        if (tag == null) throw new IllegalArgumentException("Enter a tag.");
         Validator.tagValidator(tag);
         tags.add(tag);
         return tags.contains(tag);
@@ -138,9 +137,8 @@ public class Artist implements IArtist {
     }
 
     @Override
-    public Boolean setName (String name)  throws IllegalArgumentException {
-        if (name == null)
-            throw new IllegalArgumentException("Enter a name.");
+    public Boolean setName(String name) throws IllegalArgumentException {
+        if (name == null) throw new IllegalArgumentException("Enter a name.");
         nameValidator(name);
         this.name = name;
         return this.name.equals(name);
@@ -157,8 +155,7 @@ public class Artist implements IArtist {
 
     @Override
     public Boolean setDescription(String description) throws IllegalArgumentException {
-        if (description == null)
-            throw new IllegalArgumentException("Enter a description.");
+        if (description == null) throw new IllegalArgumentException("Enter a description.");
         Validator.descriptionValidator(description);
         this.description = description;
         return this.description.equals(description);
@@ -167,7 +164,7 @@ public class Artist implements IArtist {
     @Override
     public String getType() throws IOException {
         if (type == null) {
-            type = (String)APIHandle.getSingle(typeID, DatabaseTable.ARTIST_TYPE);
+            type = (String) APIHandle.getSingle(typeID, DatabaseTable.ARTIST_TYPE);
             return type;
         } else {
             return type;
@@ -239,8 +236,7 @@ public class Artist implements IArtist {
                 childEvents = getChildEvents();
             }
             for (IChildEvent childEvent : childEvents) {
-                if (childEvent.getID().equals(childEventID))
-                    return childEvent;
+                if (childEvent.getID().equals(childEventID)) return childEvent;
             }
             throw new NullPointerException("No child event with this ID");
         }
@@ -248,9 +244,8 @@ public class Artist implements IArtist {
 
     @Override
     public Boolean newContract(IChildEvent childEvent) throws IOException {
-        if(createContract(this.ID, childEvent.getID())){
-            if (childEvents == null)
-                childEvents = new LinkedList<>();
+        if (createContract(this.ID, childEvent.getID())) {
+            if (childEvents == null) childEvents = new LinkedList<>();
             childEvents.add(childEvent);
             return true;
         }

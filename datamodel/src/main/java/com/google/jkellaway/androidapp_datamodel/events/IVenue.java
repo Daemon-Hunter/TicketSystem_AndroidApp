@@ -137,7 +137,7 @@ public interface IVenue extends ISocial, IReviewable {
      * @return the name
      * @throws IllegalArgumentException the illegal argument exception
      */
-    Boolean setName(String name)  throws IllegalArgumentException;
+    Boolean setName(String name) throws IllegalArgumentException;
 
     /**
      * Sets description.
@@ -146,7 +146,7 @@ public interface IVenue extends ISocial, IReviewable {
      * @return the description
      * @throws IllegalArgumentException the illegal argument exception
      */
-    Boolean setDescription(String description)  throws IllegalArgumentException;
+    Boolean setDescription(String description) throws IllegalArgumentException;
 
     /**
      * Sets standing capacity.
@@ -155,7 +155,7 @@ public interface IVenue extends ISocial, IReviewable {
      * @return the standing capacity
      * @throws IllegalArgumentException the illegal argument exception
      */
-    Boolean setStandingCapacity(Integer standing)  throws IllegalArgumentException;
+    Boolean setStandingCapacity(Integer standing) throws IllegalArgumentException;
 
     /**
      * Sets seating capacity.
@@ -164,7 +164,7 @@ public interface IVenue extends ISocial, IReviewable {
      * @return the seating capacity
      * @throws IllegalArgumentException the illegal argument exception
      */
-    Boolean setSeatingCapacity(Integer seating)  throws IllegalArgumentException;
+    Boolean setSeatingCapacity(Integer seating) throws IllegalArgumentException;
 
     /**
      * Sets disabled access.
@@ -173,7 +173,7 @@ public interface IVenue extends ISocial, IReviewable {
      * @return the disabled access
      * @throws IllegalArgumentException the illegal argument exception
      */
-    Boolean setDisabledAccess(Boolean access)  throws IllegalArgumentException;
+    Boolean setDisabledAccess(Boolean access) throws IllegalArgumentException;
 
     /**
      * Sets facilites.
@@ -182,7 +182,7 @@ public interface IVenue extends ISocial, IReviewable {
      * @return the facilites
      * @throws IllegalArgumentException the illegal argument exception
      */
-    Boolean setFacilites(String facilities)  throws IllegalArgumentException;
+    Boolean setFacilites(String facilities) throws IllegalArgumentException;
 
     /**
      * Sets parking.
@@ -191,7 +191,7 @@ public interface IVenue extends ISocial, IReviewable {
      * @return the parking
      * @throws IllegalArgumentException the illegal argument exception
      */
-    Boolean setParking(Integer parking)  throws IllegalArgumentException;
+    Boolean setParking(Integer parking) throws IllegalArgumentException;
 
     /**
      * Sets email.
@@ -200,7 +200,7 @@ public interface IVenue extends ISocial, IReviewable {
      * @return the email
      * @throws IllegalArgumentException the illegal argument exception
      */
-    Boolean setEmail(String email)  throws IllegalArgumentException;
+    Boolean setEmail(String email) throws IllegalArgumentException;
 
     /**
      * Sets phone number.
@@ -209,7 +209,7 @@ public interface IVenue extends ISocial, IReviewable {
      * @return the phone number
      * @throws IllegalArgumentException the illegal argument exception
      */
-    Boolean setPhoneNumber(String phoneNumber)  throws IllegalArgumentException;
+    Boolean setPhoneNumber(String phoneNumber) throws IllegalArgumentException;
 
     /**
      * Sets address.
@@ -218,7 +218,7 @@ public interface IVenue extends ISocial, IReviewable {
      * @return the address
      * @throws IllegalArgumentException the illegal argument exception
      */
-    Boolean setAddress(String address)  throws IllegalArgumentException;
+    Boolean setAddress(String address) throws IllegalArgumentException;
 
     /**
      * Sets city.
