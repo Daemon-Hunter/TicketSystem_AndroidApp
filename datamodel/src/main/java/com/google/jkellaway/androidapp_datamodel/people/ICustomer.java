@@ -17,7 +17,7 @@ import java.util.List;
  *
  * @author 10467841
  */
-public interface ICustomer extends IUser, IHaveReviews{
+public interface ICustomer extends IUser, IHaveReviews {
     /**
      * Gets order list.
      *
@@ -74,5 +74,5 @@ public interface ICustomer extends IUser, IHaveReviews{
      * @throws IOException the io exception
      */
     List<IBooking> loadMoreBookings() throws IOException;
-    
+
 }

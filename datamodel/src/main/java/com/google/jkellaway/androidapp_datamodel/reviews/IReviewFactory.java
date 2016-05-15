@@ -25,6 +25,5 @@ public interface IReviewFactory {
      * @param verified     the verified
      * @return the review
      */
-    public IReview createReview(Integer reviewBaseID, Integer customerID,
-                                Integer rating, Date date, String body, Boolean verified);
+    public IReview createReview(Integer reviewBaseID, Integer customerID, Integer rating, Date date, String body, Boolean verified);
 }

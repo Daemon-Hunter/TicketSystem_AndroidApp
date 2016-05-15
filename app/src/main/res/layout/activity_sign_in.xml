@@ -62,7 +62,8 @@
                 android:hint="@string/prompt_email"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
-                android:singleLine="true"/>
+                android:singleLine="true"
+                android:text="roytucker@plymouth.ac.uk"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -82,7 +83,8 @@
                 android:imeOptions="actionUnspecified"
                 android:inputType="textPassword"
                 android:maxLines="1"
-                android:singleLine="true"/>
+                android:singleLine="true"
+                android:text="qqqqq"/>
 
         </android.support.design.widget.TextInputLayout>
 

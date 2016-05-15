@@ -23,45 +23,46 @@ import java.util.List;
 public interface IWrapper {
 
     /**
-     * Gets parent events.
+     * Gets all parent events.
      *
-     * @return the parent events
-     * @throws IOException the io exception
+     * @return A list of all current parent events.
+     * @throws IOException Thrown if connection to the database fails.
      */
-    LinkedList          getParentEvents() throws IOException;
+    LinkedList getParentEvents() throws IOException;
 
     /**
      * Load more parent events list.
      *
-     * @return the list
-     * @throws IOException the io exception
+     * @return A list of up to date parent events.
+     * @throws IOException Thrown if connection to the database fails.
      */
-    List<IParentEvent>  loadMoreParentEvents() throws IOException;
+    List<IParentEvent> loadMoreParentEvents() throws IOException;
 
     /**
-     * Gets parent event.
+     * Gets a parent event by its ID.
      *
-     * @param id the id
-     * @return the parent event
-     * @throws IOException the io exception
+     * @param id The ID of the parent event.
+     * @return The parent event.
+     * @throws IOException Thrown if connection to the database fails.
      */
-    IParentEvent        getParentEvent(Integer id) throws IOException;
+    IParentEvent getParentEvent(Integer id) throws IOException;
 
     /**
-     * Add parent event boolean.
+     * Add parent event.
      *
-     * @param parentEvent the parent event
-     * @return the boolean
+     * @param parentEvent The parent event to be added.
+     * @return Boolean
      */
-    Boolean             addParentEvent(IParentEvent parentEvent);
+    Boolean addParentEvent(IParentEvent parentEvent);
 
     /**
+     * x
      * Remove parent event boolean.
      *
      * @param pEvent the p event
      * @return the boolean
      */
-    Boolean             removeParentEvent(IParentEvent pEvent);
+    Boolean removeParentEvent(IParentEvent pEvent);
 
     /**
      * Refresh parent events list.
@@ -69,7 +70,7 @@ public interface IWrapper {
      * @return the list
      * @throws IOException the io exception
      */
-    List<IParentEvent>  refreshParentEvents() throws IOException;
+    List<IParentEvent> refreshParentEvents() throws IOException;
 
     /**
      * Search parent events list.
@@ -78,7 +79,7 @@ public interface IWrapper {
      * @return the list
      * @throws IOException the io exception
      */
-    List<IParentEvent>  searchParentEvents(String string) throws IOException;
+    List<IParentEvent> searchParentEvents(String string) throws IOException;
 
 
     /**
@@ -87,7 +88,7 @@ public interface IWrapper {
      * @return the venues
      * @throws IOException the io exception
      */
-    List<IVenue>    getVenues() throws IOException;
+    List<IVenue> getVenues() throws IOException;
 
     /**
      * Gets venue.
@@ -96,7 +97,7 @@ public interface IWrapper {
      * @return the venue
      * @throws IOException the io exception
      */
-    IVenue          getVenue(Integer id) throws IOException;
+    IVenue getVenue(Integer id) throws IOException;
 
     /**
      * Load more venues list.
@@ -104,7 +105,7 @@ public interface IWrapper {
      * @return the list
      * @throws IOException the io exception
      */
-    List<IVenue>    loadMoreVenues() throws IOException;
+    List<IVenue> loadMoreVenues() throws IOException;
 
     /**
      * Add venue boolean.
@@ -112,7 +113,7 @@ public interface IWrapper {
      * @param venue the venue
      * @return the boolean
      */
-    Boolean         addVenue(IVenue venue);
+    Boolean addVenue(IVenue venue);
 
     /**
      * Remove venue boolean.
@@ -120,7 +121,7 @@ public interface IWrapper {
      * @param venue the venue
      * @return the boolean
      */
-    Boolean         removeVenue(IVenue venue);
+    Boolean removeVenue(IVenue venue);
 
     /**
      * Refresh venues list.
@@ -128,7 +129,7 @@ public interface IWrapper {
      * @return the list
      * @throws IOException the io exception
      */
-    List<IVenue>    refreshVenues() throws IOException;
+    List<IVenue> refreshVenues() throws IOException;
 
     /**
      * Search venues list.
@@ -137,7 +138,7 @@ public interface IWrapper {
      * @return the list
      * @throws IOException the io exception
      */
-    List<IVenue>    searchVenues(String string) throws IOException;
+    List<IVenue> searchVenues(String string) throws IOException;
 
 
     /**
@@ -146,7 +147,7 @@ public interface IWrapper {
      * @return the artists
      * @throws IOException the io exception
      */
-    List<IArtist>   getArtists() throws IOException;
+    List<IArtist> getArtists() throws IOException;
 
     /**
      * Load more artists list.
@@ -154,7 +155,7 @@ public interface IWrapper {
      * @return the list
      * @throws IOException the io exception
      */
-    List<IArtist>   loadMoreArtists() throws IOException;
+    List<IArtist> loadMoreArtists() throws IOException;
 
     /**
      * Gets artist.
@@ -163,7 +164,7 @@ public interface IWrapper {
      * @return the artist
      * @throws IOException the io exception
      */
-    IArtist         getArtist(Integer id) throws IOException;
+    IArtist getArtist(Integer id) throws IOException;
 
     /**
      * Add artist boolean.
@@ -171,7 +172,7 @@ public interface IWrapper {
      * @param artist the artist
      * @return the boolean
      */
-    Boolean         addArtist(IArtist artist);
+    Boolean addArtist(IArtist artist);
 
     /**
      * Remove artist boolean.
@@ -179,7 +180,7 @@ public interface IWrapper {
      * @param artist the artist
      * @return the boolean
      */
-    Boolean         removeArtist(IArtist artist);
+    Boolean removeArtist(IArtist artist);
 
     /**
      * Refresh artists list.
@@ -187,7 +188,7 @@ public interface IWrapper {
      * @return the list
      * @throws IOException the io exception
      */
-    List<IArtist>   refreshArtists() throws IOException;
+    List<IArtist> refreshArtists() throws IOException;
 
     /**
      * Search artists list.
@@ -196,7 +197,7 @@ public interface IWrapper {
      * @return the list
      * @throws IOException the io exception
      */
-    List<IArtist>   searchArtists(String string) throws IOException;
+    List<IArtist> searchArtists(String string) throws IOException;
 
     /**
      * Sets amount to load.

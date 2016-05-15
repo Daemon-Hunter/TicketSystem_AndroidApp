@@ -39,14 +39,14 @@
         android:layout_weight="37"
         android:padding="5dp">
 
-        <!--plus ticket-->
+        <!--minus ticket-->
         <ImageView
-            android:id="@+id/plus"
+            android:id="@+id/minus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/plus"
-            android:padding="5dp"/>
+            android:src="@drawable/minus"
+            android:padding="5dp" />
 
         <!--ticket quantity-->
         <TextView
@@ -60,14 +60,14 @@
             android:paddingTop="5dp"
             android:paddingBottom="5dp"/>
 
-        <!--minus ticket-->
+        <!--plus ticket-->
         <ImageView
-            android:id="@+id/minus"
+            android:id="@+id/plus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/minus"
-            android:padding="5dp" />
+            android:src="@drawable/plus"
+            android:padding="5dp"/>
 
     </LinearLayout>
 

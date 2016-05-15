@@ -23,221 +23,221 @@ import java.util.List;
  */
 public interface IDesktopWrapper extends IWrapper {
     /**
-     * Add customer boolean.
+     * Add a Customer to the customer list.
      *
-     * @param customer the customer
-     * @return the boolean
+     * @param customer The customer.
+     * @return Boolean to indicate completion of add operation.
      */
-    Boolean      addCustomer(ICustomer customer);
+    Boolean addCustomer(ICustomer customer);
 
     /**
-     * Gets customers.
+     * Returns all Customers.
      *
-     * @return the customers
-     * @throws IOException the io exception
+     * @return A list of Customers.
+     * @throws IOException Thrown if connection to the database fails.
      */
-    List<ICustomer>  getCustomers()throws IOException;
+    List<ICustomer> getCustomers() throws IOException;
 
     /**
-     * Gets customer.
+     * Gets an individual customer.
      *
-     * @param index the index
-     * @return the customer
-     * @throws IOException the io exception
+     * @param index ID of Customer.
+     * @return A Customer matching the ID.
+     * @throws IOException Thrown if connection to the database fails.
      */
-    ICustomer    getCustomer(Integer index) throws IOException;
+    ICustomer getCustomer(Integer index) throws IOException;
 
     /**
-     * Remove customer boolean.
+     * Removes a Customer.
      *
-     * @param customer the customer
-     * @return the boolean
+     * @param customer The Customer to be removed.
+     * @return Boolean to indicate removal.
      */
-    Boolean      removeCustomer(ICustomer customer);
+    Boolean removeCustomer(ICustomer customer);
 
     /**
-     * Load more customers list.
+     * Loads more
      *
-     * @return the list
-     * @throws IOException the io exception
+     * @return The updated list that includes the new Customers.
+     * @throws IOException Thrown if connection to the database fails.
      */
-    List<ICustomer>  loadMoreCustomers() throws IOException;
+    List<ICustomer> loadMoreCustomers() throws IOException;
 
     /**
-     * Refresh customers list.
+     * Refreshs Customer list to show latest data from the database.
      *
-     * @return the list
-     * @throws IOException the io exception
+     * @return The latest copy of Customers.
+     * @throws IOException Thrown if connection to the database fails.
      */
-    List<ICustomer>  refreshCustomers() throws IOException;
+    List<ICustomer> refreshCustomers() throws IOException;
 
     /**
-     * Search customers list.
+     * Search Customer list for a string.
      *
-     * @param string the string
-     * @return the list
-     * @throws IOException the io exception
+     * @param string The string query to search for.
+     * @return A list that matched the query.
+     * @throws IOException Thrown if connection to the database fails.
      */
     List<ICustomer> searchCustomers(String string) throws IOException;
 
     /**
-     * Add admin boolean.
+     * Adds an Admin to the admin list.
      *
-     * @param admin the admin
-     * @return the boolean
+     * @param admin The Admin to be added.
+     * @return A boolean to indicate success of the adding operation.
      */
-    Boolean      addAdmin(IAdmin admin);
+    Boolean addAdmin(IAdmin admin);
 
     /**
-     * Gets admin.
+     * Gets an Admin by its ID.
      *
-     * @param index the index
-     * @return the admin
-     * @throws IOException the io exception
+     * @param index The ID of the Admin to be returned.
+     * @return The Admin that matched the ID.
+     * @throws IOException Thrown if connection to the database fails.
      */
-    IAdmin       getAdmin(Integer index) throws IOException;
+    IAdmin getAdmin(Integer index) throws IOException;
 
     /**
-     * Gets admins.
+     * Gets all Admins.
      *
-     * @return the admins
-     * @throws IOException the io exception
+     * @return All Admins in the admin list.
+     * @throws IOException Thrown if connection to the database fails.
      */
     List<IAdmin> getAdmins() throws IOException;
 
     /**
-     * Remove admin boolean.
+     * Removes an Admin from the admin list.
      *
-     * @param admin the admin
-     * @return the boolean
+     * @param admin The Admin to be removed.
+     * @return Boolean to indicate success of removal.
      */
-    Boolean      removeAdmin(IAdmin admin);
+    Boolean removeAdmin(IAdmin admin);
 
     /**
-     * Load more admins list.
+     * Loads more Admins into the admin list.
      *
-     * @return the list
+     * @return The updated list including the new Admins.
+     * @throws IOException Thrown if connection to the database fails.
+     */
+    List<IAdmin> loadMoreAdmins() throws IOException;
+
+    /**
+     * Refresh latest copy of the admin list.
+     *
+     * @return The updated list of admins.
+     * @throws IOException Thrown if connection to the database fails.
+     */
+    List<IAdmin> refreshAdmins() throws IOException;
+
+    /**
+     * Make Customer booking order.
+     *
+     * @param customer The Customer who is making the booking.
+     * @param ticket   The selected ticket.
+     * @param quantity The quantity of that ticket.
+     * @return The order containing the ticket and booking.
      * @throws IOException the io exception
      */
-    List<IAdmin>  loadMoreAdmins() throws IOException;
+    IOrder makeCustomerBooking(ICustomer customer, ITicket ticket, Integer quantity) throws IOException;
 
     /**
-     * Refresh admins list.
+     * Add a guest booking.
      *
-     * @return the list
-     * @throws IOException the io exception
+     * @param guest The Guest who is making the booking.
+     * @return Success to indicate the outcome of the add operation.
      */
-    List<IAdmin>  refreshAdmins() throws IOException;
+    Boolean addGuestBooking(GuestBooking guest);
 
     /**
-     * Make customer booking order.
+     * Get all Guest bookings.
      *
-     * @param customer the customer
-     * @param ticket   the ticket
-     * @param quantity the quantity
-     * @return the order
-     * @throws IOException the io exception
+     * @return The a list of all Guest bookings.
+     * @throws IOException Thrown if connection to the database fails.
      */
-    IOrder makeCustomerBooking(ICustomer customer , ITicket ticket, Integer quantity) throws IOException;
+    List<GuestBooking> getGuestBookings() throws IOException;
 
     /**
-     * Add guest booking boolean.
+     * Gets a guest booking by its ID.
      *
-     * @param guest the guest
-     * @return the boolean
+     * @param index ID of guest.
+     * @return The booking that matches the ID.
+     * @throws IOException Thrown if connection to the database fails.
      */
-    Boolean      addGuestBooking(GuestBooking guest);
+    GuestBooking getGuestBooking(Integer index) throws IOException;
 
     /**
-     * Gets guest bookings.
+     * Removes a guest booking.
      *
-     * @return the guest bookings
-     * @throws IOException the io exception
+     * @param customer The booking to be removed.
+     * @return Boolean to indicate removal.
      */
-    List<GuestBooking>  getGuestBookings()throws IOException;
+    Boolean removeGuestBooking(GuestBooking customer);
 
     /**
-     * Gets guest booking.
+     * Load more guests into the bookings list.
      *
-     * @param index the index
-     * @return the guest booking
-     * @throws IOException the io exception
+     * @return Up to date list.
+     * @throws IOException Thrown if connection to the database fails.
      */
-    GuestBooking    getGuestBooking(Integer index) throws IOException;
+    List<GuestBooking> loadMoreGuestBookings() throws IOException;
 
     /**
-     * Remove guest booking boolean.
+     * Refresh guest bookings list to get the latest copy.
      *
-     * @param customer the customer
-     * @return the boolean
+     * @return Up to date copy of the guest bookings list.
+     * @throws IOException Thrown if connection to the database fails.
      */
-    Boolean      removeGuestBooking(GuestBooking customer);
+    List<GuestBooking> refreshGuestBookings() throws IOException;
 
     /**
-     * Load more guest bookings list.
+     * Search guest bookings using a query.
      *
-     * @return the list
-     * @throws IOException the io exception
-     */
-    List<GuestBooking>  loadMoreGuestBookings() throws IOException;
-
-    /**
-     * Refresh guest bookings list.
-     *
-     * @return the list
-     * @throws IOException the io exception
-     */
-    List<GuestBooking>  refreshGuestBookings() throws IOException;
-
-    /**
-     * Search guest bookings list.
-     *
-     * @param string the string
-     * @return the list
-     * @throws IOException the io exception
+     * @param string The query.
+     * @return A list of bookings that match the query.
+     * @throws IOException Thrown if connection to the database fails.
      */
     List<GuestBooking> searchGuestBookings(String string) throws IOException;
 
     /**
-     * Login admin boolean.
+     * Login Admin.
      *
-     * @param email    the email
-     * @param password the password
-     * @return the boolean
-     * @throws IOException the io exception
+     * @param email    Email of the Admin.
+     * @param password Password of the Admin.
+     * @return Boolean to indicate success of operation.
+     * @throws IOException Thrown if connection to the database fails.
      */
     Boolean loginAdmin(String email, String password) throws IOException;
 
     /**
-     * Check admin password boolean.
+     * Check admin password.
      *
-     * @param email    the email
-     * @param password the password
-     * @return the boolean
-     * @throws IOException the io exception
+     * @param email    Admin email.
+     * @param password Admin password.
+     * @return Boolean to indicate success of operation.
+     * @throws IOException Thrown if connection to the database fails.
      */
     Boolean checkAdminPassword(String email, String password) throws IOException;
 
     /**
      * Gets current admin.
      *
-     * @return the current admin
+     * @return The current admin.
      */
-    IAdmin  getCurrentAdmin();
+    IAdmin getCurrentAdmin();
 
     /**
-     * Gets this months sales.
+     * Gets all sales from this month.
      *
-     * @return the this months sales
-     * @throws IOException the io exception
+     * @return A list of this months sales.
+     * @throws IOException Thrown if connection to the database fails.
      */
     List<IBooking> getThisMonthsSales() throws IOException;
 
     /**
-     * Gets sold out events.
+     * Gets all sold out events.
      *
-     * @return the sold out events
-     * @throws IOException the io exception
+     * @return A list of sold out events.
+     * @throws IOException Thrown if connection to the database fails.
      */
     List<IChildEvent> getSoldOutEvents() throws IOException;
 }

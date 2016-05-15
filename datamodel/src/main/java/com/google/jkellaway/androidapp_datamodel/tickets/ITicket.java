@@ -68,7 +68,7 @@ public interface ITicket {
      *
      * @return the description
      */
-    String  getDescription();
+    String getDescription();
 
     /**
      * Sets description.
@@ -100,7 +100,7 @@ public interface ITicket {
      *
      * @return the type
      */
-    String  getType();
+    String getType();
 
     /**
      * Sets type.

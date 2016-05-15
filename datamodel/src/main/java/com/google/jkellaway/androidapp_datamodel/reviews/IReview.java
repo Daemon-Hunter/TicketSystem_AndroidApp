@@ -36,7 +36,7 @@ public interface IReview {
      *
      * @return the date time
      */
-    Date    getDateTime();
+    Date getDateTime();
 
     /**
      * Sets date time.
@@ -67,7 +67,7 @@ public interface IReview {
      *
      * @return the body
      */
-    String  getBody();
+    String getBody();
 
     /**
      * Set body boolean.

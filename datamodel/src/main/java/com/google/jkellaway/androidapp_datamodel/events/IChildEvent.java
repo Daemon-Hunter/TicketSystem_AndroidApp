@@ -31,28 +31,28 @@ public interface IChildEvent extends ISocial {
      *
      * @return the name
      */
-    String  getName();
+    String getName();
 
     /**
      * Gets description.
      *
      * @return the description
      */
-    String  getDescription();
+    String getDescription();
 
     /**
      * Gets start date time.
      *
      * @return the start date time
      */
-    Date    getStartDateTime();
+    Date getStartDateTime();
 
     /**
      * Gets end date time.
      *
      * @return the end date time
      */
-    Date    getEndDateTime();
+    Date getEndDateTime();
 
     /**
      * Gets cancelled.
@@ -126,7 +126,7 @@ public interface IChildEvent extends ISocial {
      *
      * @return the venue
      */
-    IVenue  getVenue();
+    IVenue getVenue();
 
     /**
      * Gets artist list.

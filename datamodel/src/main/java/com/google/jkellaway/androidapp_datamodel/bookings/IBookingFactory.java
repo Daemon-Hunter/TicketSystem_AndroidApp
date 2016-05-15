@@ -13,13 +13,13 @@ import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
  * @author 10467841
  */
 public interface IBookingFactory {
-     /**
-      * Create booking booking.
-      *
-      * @param ticket   the ticket
-      * @param order    the order
-      * @param quantity the quantity
-      * @return the booking
-      */
-     IBooking createBooking(ITicket ticket, IOrder order, Integer quantity);
+    /**
+     * Create booking booking.
+     *
+     * @param ticket   the ticket
+     * @param order    the order
+     * @param quantity the quantity
+     * @return the booking
+     */
+    IBooking createBooking(ITicket ticket, IOrder order, Integer quantity);
 }

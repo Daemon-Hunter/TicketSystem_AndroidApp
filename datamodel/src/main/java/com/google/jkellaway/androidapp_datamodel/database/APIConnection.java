@@ -104,8 +104,7 @@ final class APIConnection {
         writer.write(createJsonString(mapToEdit));
         writer.close();
         os.close();
-        try (BufferedReader in = new BufferedReader(
-                new InputStreamReader(connection.getInputStream()))) {
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
 
             // inputValues of the JSON
             String inputLine = in.readLine();
@@ -154,8 +153,7 @@ final class APIConnection {
         if (connection.getResponseCode() != 201)
             throw new IOException("Request violated database constraint.");
 
-        try (BufferedReader in = new BufferedReader(
-                new InputStreamReader(connection.getInputStream()))) {
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
             // inputValues of the JSON
             String inputLine = in.readLine();
 
@@ -202,8 +200,7 @@ final class APIConnection {
             // to return in JSON Format
             connection.setRequestProperty("Accept", "application/JSON");
 
-            try (BufferedReader in = new BufferedReader(
-                    new InputStreamReader(connection.getInputStream()))) {
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
 
                 // inputValues of the JSON
                 String inputLine = in.readLine();
@@ -344,8 +341,7 @@ final class APIConnection {
         writer.write("{}");
         writer.close();
         os.close();
-        try (BufferedReader in = new BufferedReader(
-                new InputStreamReader(connection.getInputStream()))) {
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
             result = Boolean.parseBoolean(in.readLine());
             System.out.println(result);
         }
@@ -367,8 +363,7 @@ final class APIConnection {
         connection.setRequestMethod("GET");
         // to return in JSON Format
         connection.setRequestProperty("Accept", "application/JSON");
-        try (BufferedReader in = new BufferedReader(
-                new InputStreamReader(connection.getInputStream()))) {
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
 
             List<Map<String, String>> listOfEntities = JSONBreakDown(in.readLine());
             connection.disconnect();
@@ -451,8 +446,7 @@ final class APIConnection {
             String endValue = ",";
             String tempLine = "\"" + keys[i] + "\"";
 
-            if (i == keys.length - 1)
-                endValue = "}";
+            if (i == keys.length - 1) endValue = "}";
 
             try {
                 Integer.parseInt(values[i].toString());
@@ -461,10 +455,8 @@ final class APIConnection {
             } catch (Exception ex) {
                 isAnInteger = false;
             }
-            if (!isAnInteger)
-                tempLine += ":" + "\"" + values[i] + "\"" + endValue;
-            else
-                tempLine += ":" + values[i] + endValue;
+            if (!isAnInteger) tempLine += ":" + "\"" + values[i] + "\"" + endValue;
+            else tempLine += ":" + values[i] + endValue;
 
             strToReturn += tempLine;
         }

@@ -28,7 +28,6 @@
         android:dividerHeight="10.0sp"
         android:divider="#00000000"
         android:scrollbarAlwaysDrawHorizontalTrack="false"
-        android:fadeScrollbars="false"
         android:background="@android:color/transparent"/>
 
     <ProgressBar

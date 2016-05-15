@@ -28,9 +28,7 @@ public class ParentEventReview extends Review {
      * @param verified   the verified
      * @throws IllegalArgumentException the illegal argument exception
      */
-    public ParentEventReview(Integer baseID, Integer customerID, Integer rating,
-            Date date, String body, Boolean verified) throws IllegalArgumentException
-    {
+    public ParentEventReview(Integer baseID, Integer customerID, Integer rating, Date date, String body, Boolean verified) throws IllegalArgumentException {
         super(baseID, customerID, rating, date, body, verified);
         table = DatabaseTable.PARENT_EVENT_REVIEW;
     }

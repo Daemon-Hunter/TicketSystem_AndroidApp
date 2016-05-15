@@ -15,8 +15,7 @@ import java.util.Date;
 public class VenueReviewFactory implements IReviewFactory {
 
     @Override
-    public IReview createReview(Integer reviewBaseID, Integer customerID,
-                                Integer rating, Date date, String body, Boolean verified) throws IllegalArgumentException {
+    public IReview createReview(Integer reviewBaseID, Integer customerID, Integer rating, Date date, String body, Boolean verified) throws IllegalArgumentException {
         return new VenueReview(reviewBaseID, customerID, rating, date, body, verified);
     }
 }

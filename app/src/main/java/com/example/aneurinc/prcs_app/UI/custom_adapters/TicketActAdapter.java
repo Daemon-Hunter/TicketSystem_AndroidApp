@@ -14,14 +14,13 @@ import com.example.aneurinc.prcs_app.R;
 import com.example.aneurinc.prcs_app.UI.utilities.Utilities;
 import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
 
-import java.text.DecimalFormat;
 import java.util.Collection;
 import java.util.List;
 
 /**
  * Created by aneurinc on 11/03/2016.
  */
-public class TicketActAdapter extends ArrayAdapter<ITicket> {
+public class TicketActAdapter extends ArrayAdapter<ITicket> implements View.OnClickListener {
 
     // Reference to parent activity
     private final Activity mContext;
@@ -63,17 +62,16 @@ public class TicketActAdapter extends ArrayAdapter<ITicket> {
     }
 
     /*
-    * Return view by specified postion
+    * Return view by specified position
     */
     public View getViewByPosition(int pos, ListView listView) {
         final int firstListItemPosition = listView.getFirstVisiblePosition();
         final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
 
-        if (pos < firstListItemPosition || pos > lastListItemPosition ) {
+        if (pos < firstListItemPosition || pos > lastListItemPosition) {
             return listView.getAdapter().getView(pos, null, listView);
         } else {
-            final int childIndex = pos - firstListItemPosition;
-            return listView.getChildAt(childIndex);
+            return listView.getChildAt(pos - firstListItemPosition);
         }
     }
 
@@ -104,7 +102,7 @@ public class TicketActAdapter extends ArrayAdapter<ITicket> {
     * Return row view
     */
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         ViewHolder viewHolder;
         ITicket currTicket = getItem(position);
@@ -122,9 +120,6 @@ public class TicketActAdapter extends ArrayAdapter<ITicket> {
             viewHolder.plus = (ImageView) convertView.findViewById(R.id.plus);
             viewHolder.minus = (ImageView) convertView.findViewById(R.id.minus);
 
-            // add on click listeners for plus and minus ticket qty
-            setOnClickListeners(viewHolder, convertView);
-
             // store the holder with the view
             convertView.setTag(viewHolder);
 
@@ -135,10 +130,12 @@ public class TicketActAdapter extends ArrayAdapter<ITicket> {
 
         }
 
+        viewHolder.plus.setOnClickListener(this);
+        viewHolder.minus.setOnClickListener(this);
+
         // get text view from view holder and update value
         viewHolder.ticketType.setText(currTicket.getType());
         viewHolder.ticketCost.setText(Utilities.formatPrice(currTicket.getPrice()));
-
 
         convertView.setBackgroundColor(getRowColour(position));
 
@@ -146,72 +143,55 @@ public class TicketActAdapter extends ArrayAdapter<ITicket> {
     }
 
     /*
-    * Add onClick listeners for plus and minus buttons
+    * Handle onClick events for for plus and minus buttons in list view row
     */
-    private void setOnClickListeners(ViewHolder viewHolder, final View row) {
+    @Override
+    public void onClick(View v) {
+        v.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.onclick));
+        View parent = (View) v.getParent();
+        View row = (View) parent.getParent();
+        TextView costView = (TextView) row.findViewById(R.id.ticket_cost);
+        TextView qtyView = (TextView) parent.findViewById(R.id.ticket_qty);
+        double costVal = Double.parseDouble(costView.getText().toString().replace("£", ""));
+        int qtyVal = Integer.parseInt(qtyView.getText().toString());
 
-        viewHolder.plus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                v.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.onclick));
-                TextView ticketQty = (TextView) row.findViewById(R.id.ticket_qty);
-                int qty = Integer.valueOf(ticketQty.getText().toString());
-                ticketQty.setText(Integer.toString(++qty));
-                updateTotal(row, 1);
-
-            }
-        });
-
-        viewHolder.minus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                v.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.onclick));
-                TextView ticketQty = (TextView) row.findViewById(R.id.ticket_qty);
-                int qty = Integer.valueOf(ticketQty.getText().toString());
-
-
-                if (qty > 0) {
-                    ticketQty.setText(Integer.toString(--qty));
-                    updateTotal(row, -1);
+        switch (v.getId()) {
+            case R.id.plus:
+                qtyVal++;
+                qtyView.setText(String.valueOf(qtyVal));
+                updateTotal(costVal, 1);
+                break;
+            case R.id.minus:
+                if (qtyVal > 0) {
+                    qtyVal--;
+                    qtyView.setText(String.valueOf(qtyVal));
+                    updateTotal(costVal, -1);
                 }
-
-            }
-        });
+                break;
+            default:
+                break;
+        }
 
     }
 
     /*
     * Update total quantity and cost
     */
-    private void updateTotal(View row, int val) {
-
+    private void updateTotal(double cost, int qty) {
         // get reference to ticket total text view
         TextView total = (TextView) mContext.findViewById(R.id.ticket_total_amount);
-        String totalStr = total.getText().toString();
-        totalStr = totalStr.replace("£", "");
+        // strip pound sign
+        String totalStr = total.getText().toString().replace("£", "");
+        // to store a double
         double currTotalVal = Double.parseDouble(totalStr);
-
-        // get reference to ticket price in list view row
-        TextView cost = (TextView) row.findViewById(R.id.ticket_cost);
-        String costStr = cost.getText().toString();
-        costStr = costStr.replace("£", "");
-        double costVal = Double.parseDouble(costStr);
-
-        // calculate new value of total ticket price
-        double newTotalVal = currTotalVal + costVal * val;
-        DecimalFormat df = new DecimalFormat("£0.00");
-        total.setText(df.format(newTotalVal));
-
-        // set checkout button to enabled
-        ImageView checkout = (ImageView) mContext.findViewById(R.id.checkout);
-        if (newTotalVal > 0) {
-            checkout.setClickable(true);
-        } else {
-            checkout.setClickable(false);
-        }
-
+        // calculate new cost
+        double newTotalVal = currTotalVal + cost * qty;
+        // update UI
+        total.setText(Utilities.formatPrice(newTotalVal));
+        // enable or disable checkout button
+        ImageView checkoutBtn = (ImageView) mContext.findViewById(R.id.checkout);
+        if (newTotalVal > 0) checkoutBtn.setClickable(true);
+        else checkoutBtn.setClickable(false);
     }
 
     /*

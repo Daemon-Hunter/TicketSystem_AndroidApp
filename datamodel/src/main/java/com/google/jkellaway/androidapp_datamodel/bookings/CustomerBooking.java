@@ -70,8 +70,7 @@ public class CustomerBooking implements IBooking {
         this.orderID = order.getOrderID();
         this.bookingDateTime = formatter.format(Calendar.getInstance().getTime());
 
-        if (ticket == null)
-            throw new IllegalArgumentException("Null ticket");
+        if (ticket == null) throw new IllegalArgumentException("Null ticket");
         this.ticket = ticket;
         this.ticketID = ticket.getID();
 
@@ -126,6 +125,7 @@ public class CustomerBooking implements IBooking {
 
     /**
      * Gets the booking ID from the object
+     *
      * @return the unique ID of the booking.
      */
     @Override
@@ -173,8 +173,7 @@ public class CustomerBooking implements IBooking {
 
     @Override
     public Boolean setQuantity(Integer qty) throws IllegalArgumentException {
-        if (qty == null)
-            throw new NullPointerException("Null quantity");
+        if (qty == null) throw new NullPointerException("Null quantity");
         quantityValidator(qty);
         ticketQuantity = qty;
         return this.ticketQuantity.equals(qty);

@@ -52,8 +52,7 @@ public final class Validator {
      * @throws IllegalArgumentException the illegal argument exception
      */
     public static void quantityValidator(Integer qty) throws IllegalArgumentException {
-        if (!(0 < qty))
-            throw new IllegalArgumentException("You cannot have a negative quantity!");
+        if (!(0 < qty)) throw new IllegalArgumentException("You cannot have a negative quantity!");
     }
 
     /**
@@ -240,7 +239,6 @@ public final class Validator {
      * @param tag the tag
      */
     public static void tagValidator(String tag) {
-        if (Blacklist.contains(tag))
-            throw new IllegalArgumentException("The tag you've entered ");
+        if (Blacklist.contains(tag)) throw new IllegalArgumentException("The tag you've entered ");
     }
 }

@@ -79,8 +79,7 @@ public class Admin implements IAdmin {
 
     @Override
     public Boolean setEmail(String email) throws IllegalArgumentException {
-        if (email == null)
-            throw new NullPointerException("Cannot set email to null");
+        if (email == null) throw new NullPointerException("Cannot set email to null");
         Validator.emailValidator(email);
         this.email = email;
         return this.email.equals(email);
@@ -109,8 +108,7 @@ public class Admin implements IAdmin {
 
     @Override
     public Boolean setFirstName(String name) throws IllegalArgumentException {
-        if (name == null)
-            throw new NullPointerException("Cannot set first name to null");
+        if (name == null) throw new NullPointerException("Cannot set first name to null");
         Validator.nameValidator(name);
         firstName = name;
         return firstName.equals(name);
@@ -127,8 +125,7 @@ public class Admin implements IAdmin {
 
     @Override
     public Boolean setLastName(String name) throws IllegalArgumentException {
-        if (name == null)
-            throw new NullPointerException("Cannot set last name to null");
+        if (name == null) throw new NullPointerException("Cannot set last name to null");
         Validator.nameValidator(name);
         lastName = name;
         return lastName.equals(name);
