@@ -22,7 +22,11 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * The type Object to map.
+ * The ObjectToMap class is self explanatory.
+ * It converts an object to a Map<String, String>.
+ *
+ * @author Joshua Kellaway
+ * @author Dominic Garbett
  */
 final class ObjectToMap {
     private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);

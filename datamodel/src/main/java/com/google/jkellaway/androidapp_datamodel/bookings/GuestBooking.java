@@ -19,9 +19,10 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * The type Guest booking.
+ * The class Guest booking is used to represent the GuestBooking entity in the database.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public class GuestBooking implements IBooking {
 

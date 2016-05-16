@@ -8,9 +8,10 @@ package com.google.jkellaway.androidapp_datamodel.bookings;
 import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
 
 /**
- * The  Customer booking factory.
+ * The  Customer booking factory is used to create CustomerBooking objects.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public class CustomerBookingFactory implements IBookingFactory {
 

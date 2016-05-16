@@ -8,9 +8,10 @@ package com.google.jkellaway.androidapp_datamodel.tickets;
 import com.google.jkellaway.androidapp_datamodel.events.IChildEvent;
 
 /**
- * The type Ticket factory.
+ * The class Ticket factory is used to create an instance of the ticket class.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public class TicketFactory implements ITicketFactory {
 

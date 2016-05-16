@@ -8,9 +8,11 @@ package com.google.jkellaway.androidapp_datamodel.bookings;
 import com.google.jkellaway.androidapp_datamodel.tickets.ITicket;
 
 /**
- * The interface Booking factory.
+ * The interface Booking factory is used by any class wishing
+ * to be used create an IBooking type.
  *
- * @author 10467841
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public interface IBookingFactory {
      /**

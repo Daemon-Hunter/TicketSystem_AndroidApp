@@ -12,9 +12,10 @@ import java.util.List;
 
 
 /**
- * The interface Parent event.
+ * The interface Parent event is implemented by any object wishing to represent a parent event type.
  *
- * @author 10467841
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public interface IParentEvent extends ISocial, IReviewable {
     /**

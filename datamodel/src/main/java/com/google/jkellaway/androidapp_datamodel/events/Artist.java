@@ -23,9 +23,10 @@ import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.desc
 import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.nameValidator;
 
 /**
- * The type Artist.
+ * The type Artist reprsents an Artist record in the database Artist table.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public class Artist implements IArtist {
 

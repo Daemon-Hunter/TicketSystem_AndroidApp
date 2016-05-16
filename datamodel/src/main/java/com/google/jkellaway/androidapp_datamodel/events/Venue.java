@@ -30,9 +30,10 @@ import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.phon
 import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.postcodeValidator;
 
 /**
- * The type Venue.
+ * The Venue table represents a record in the Venue table within the database.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public class Venue implements IVenue {
 

@@ -15,9 +15,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * The type Social media.
+ * The Social media type represents a record in the SocialMedia table in the database.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public class SocialMedia implements ISocial {
 

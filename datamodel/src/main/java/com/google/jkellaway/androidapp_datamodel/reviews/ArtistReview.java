@@ -10,9 +10,10 @@ import com.google.jkellaway.androidapp_datamodel.database.DatabaseTable;
 import java.util.Date;
 
 /**
- * The type Artist review.
+ * The type Artist review represents a record in the ArtistReview table in the database.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public class ArtistReview extends Review {
 

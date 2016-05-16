@@ -12,9 +12,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * The type Validator.
+ * The Validator class is used to check if input matches required validation.
+ * This is also an example of the Servant Pattern.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public final class Validator {
 

@@ -21,9 +21,10 @@ import static com.google.jkellaway.androidapp_datamodel.database.APIHandle.getBo
 import static com.google.jkellaway.androidapp_datamodel.utilities.HashString.Encrypt;
 
 /**
- * The type Customer.
+ * The type Customer represents a record in the Customer table of the database.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public class Customer implements ICustomer {
 

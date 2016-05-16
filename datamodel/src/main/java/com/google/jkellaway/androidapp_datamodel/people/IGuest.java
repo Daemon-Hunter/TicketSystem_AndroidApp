@@ -8,9 +8,10 @@ package com.google.jkellaway.androidapp_datamodel.people;
 import com.google.jkellaway.androidapp_datamodel.bookings.IBooking;
 
 /**
- * The interface Guest.
+ * The interface Guest is implemented by any class wishing to represent a Guest.
  *
- * @author 10467841
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public interface IGuest extends IUser {
     /**

@@ -28,15 +28,16 @@ import static com.google.jkellaway.androidapp_datamodel.database.APIHandle.getSt
 import static com.google.jkellaway.androidapp_datamodel.database.APIHandle.pushObjectToDatabase;
 
 /**
- * The type Desktop wrapper.
+ * The DesktopWrapper class provides a facade for a Admin centered application.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public class DesktopWrapper implements IDesktopWrapper {
 
     private static DesktopWrapper wrapper;
 
-    private Integer amountToLoad = 5;
+    private Integer amountToLoad = 15;
 
     private List<IParentEvent> parentEventList;
     private List<IParentEvent> parentEventSearchList;

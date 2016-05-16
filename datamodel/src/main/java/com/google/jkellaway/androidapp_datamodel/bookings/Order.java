@@ -16,9 +16,10 @@ import java.util.List;
 import static com.google.jkellaway.androidapp_datamodel.database.APIHandle.getObjectsFromObject;
 
 /**
- * The type Order.
+ * The type Order represents the entity Order in the database.
  *
- * @author 10467841
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public class Order implements IOrder {
 

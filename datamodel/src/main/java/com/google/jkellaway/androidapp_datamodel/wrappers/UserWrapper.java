@@ -26,9 +26,10 @@ import static com.google.jkellaway.androidapp_datamodel.database.APIHandle.getOb
 import static com.google.jkellaway.androidapp_datamodel.database.APIHandle.pushObjectToDatabase;
 
 /**
- * The type User wrapper.
+ * The UserWrapper class provides a facade for a user centered application.
  *
- * @author 10467841
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public class UserWrapper implements IUserWrapper {
 
@@ -50,7 +51,9 @@ public class UserWrapper implements IUserWrapper {
     }
 
     /**
-     * Gets instance.
+     * Gets the instance of the wrapper.
+     * This is a vital part of the singlton pattern only allowing a single
+     * instance to exist at a time.
      *
      * @return the instance
      */

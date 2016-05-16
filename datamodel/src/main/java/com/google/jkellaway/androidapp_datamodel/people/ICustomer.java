@@ -13,9 +13,10 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * The interface Customer.
+ * The interface ICustomer is implemented by any class wishing to represent a customer.
  *
- * @author 10467841
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public interface ICustomer extends IUser, IHaveReviews {
     /**

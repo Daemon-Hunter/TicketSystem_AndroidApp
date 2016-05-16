@@ -19,9 +19,10 @@ import static com.google.jkellaway.androidapp_datamodel.utilities.Blacklist.cont
 import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.descriptionValidator;
 
 /**
- * The type Ticket.
+ * The Ticket class represents a record in the Ticket table in the database.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public class Ticket implements ITicket {
 

@@ -11,9 +11,11 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * The interface Order.
+ * The IOrder interface would be implemented by any class
+ * with intentions of represent an order.
  *
- * @author 10467841
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public interface IOrder {
 

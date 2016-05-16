@@ -13,9 +13,10 @@ import java.util.Date;
 import java.util.Objects;
 
 /**
- * The type Review.
+ * The Review class is abstract to be extended by any class wishing to represent a review.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public abstract class Review implements IReview {
     /**

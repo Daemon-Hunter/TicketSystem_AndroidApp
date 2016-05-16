@@ -26,9 +26,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 /**
- * The type Api connection.
+ * The Api connection class handles all of the outgoing and returning connections.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Domimic Garbett
  */
 final class APIConnection {
 

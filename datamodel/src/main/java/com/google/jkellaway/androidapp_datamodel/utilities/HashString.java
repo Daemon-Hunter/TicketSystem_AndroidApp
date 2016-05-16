@@ -1,7 +1,11 @@
 package com.google.jkellaway.androidapp_datamodel.utilities;
 
 /**
- * Created by Dominic on 25/04/2016.
+ * This class Hashes a string.
+ *
+ * @author Joshua Kellaway
+ * @author Charles Gillions
+ * @author Dominic Garbett
  */
 public class HashString {
     /**

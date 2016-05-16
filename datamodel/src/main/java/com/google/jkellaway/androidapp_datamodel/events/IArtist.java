@@ -9,9 +9,10 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * The interface Artist.
+ * The interface Artist is implemented by any class wishing to represent and artist type.
  *
- * @author 10467841
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public interface IArtist extends ISocial {
 

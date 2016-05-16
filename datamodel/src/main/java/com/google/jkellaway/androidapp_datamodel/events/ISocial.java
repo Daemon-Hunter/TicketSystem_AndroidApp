@@ -10,9 +10,10 @@ import android.graphics.Bitmap;
 import java.util.List;
 
 /**
- * The interface Social.
+ * The interface ISocial shall be implemented by any class wishing to represent a social media type..
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public interface ISocial {
 

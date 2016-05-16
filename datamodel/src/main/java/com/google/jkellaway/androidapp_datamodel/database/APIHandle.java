@@ -57,7 +57,10 @@ import static com.google.jkellaway.androidapp_datamodel.database.ObjectToMap.ven
 import static com.google.jkellaway.androidapp_datamodel.utilities.HashString.Encrypt;
 
 /**
- * The type Api handle.
+ * The Api handle class is an example of the Mediator Pattern.
+ * The class handles all of the database requests and handles the conversion of Objects.
+ *
+ * @author Joshua Kellaway
  */
 public final class APIHandle {
 

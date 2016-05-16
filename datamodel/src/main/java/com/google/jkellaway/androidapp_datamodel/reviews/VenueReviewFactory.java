@@ -8,9 +8,10 @@ package com.google.jkellaway.androidapp_datamodel.reviews;
 import java.util.Date;
 
 /**
- * The type Venue review factory.
+ * The type Venue review factory is used by classes to create an instance of an venue review object.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public class VenueReviewFactory implements IReviewFactory {
 

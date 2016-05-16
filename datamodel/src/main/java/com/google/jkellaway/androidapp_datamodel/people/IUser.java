@@ -6,9 +6,10 @@
 package com.google.jkellaway.androidapp_datamodel.people;
 
 /**
- * The interface User.
+ * The interface IUser is extended by the ICustomer and IGuest interfaces to provide abstraction.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public interface IUser extends IPerson {
 

@@ -11,9 +11,10 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * The interface Venue.
+ * The interface IVenue shall be implemented by any class wishing to represent a Venue type.
  *
- * @author 10467841
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public interface IVenue extends ISocial, IReviewable {
 

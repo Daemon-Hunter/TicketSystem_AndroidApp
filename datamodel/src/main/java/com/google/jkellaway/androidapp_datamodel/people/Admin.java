@@ -11,9 +11,10 @@ import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
 import static com.google.jkellaway.androidapp_datamodel.utilities.HashString.Encrypt;
 
 /**
- * The type Admin.
+ * The type Admin represents a record in the Admin table of the database.
  *
- * @author 10467841
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public class Admin implements IAdmin {
 

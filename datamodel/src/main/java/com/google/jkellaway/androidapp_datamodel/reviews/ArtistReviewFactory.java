@@ -8,9 +8,10 @@ package com.google.jkellaway.androidapp_datamodel.reviews;
 import java.util.Date;
 
 /**
- * The type Artist review factory.
+ * The type Artist review factory is used by classes to create an instance of an artist review object.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public class ArtistReviewFactory implements IReviewFactory {
 

@@ -29,7 +29,10 @@ import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.name
  * The child of a parent event, containing lineup and venue details, as well
  * as a further description and start/end times.
  *
- * @author 10512691
+ * The ChildEvent class represents a record in the ChildEvent table within the database.
+ *
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public class ChildEvent implements IChildEvent {
 

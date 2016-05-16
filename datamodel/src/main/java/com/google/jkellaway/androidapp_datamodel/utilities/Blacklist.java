@@ -12,9 +12,11 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * The type Blacklist.
+ * The Blacklist is used to check if input strings contain curse words or unfavorable words.
+ * This is also an example of the Servant Pattern.
  *
- * @author 10467841
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public class Blacklist {
 

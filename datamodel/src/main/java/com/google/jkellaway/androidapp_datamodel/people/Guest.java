@@ -12,9 +12,10 @@ import com.google.jkellaway.androidapp_datamodel.utilities.Validator;
 import static com.google.jkellaway.androidapp_datamodel.utilities.HashString.Encrypt;
 
 /**
- * The type Guest.
+ * The type Guest represents a record in the GuestBooking table of the database.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public class Guest implements IGuest {
 

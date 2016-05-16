@@ -8,9 +8,10 @@ package com.google.jkellaway.androidapp_datamodel.reviews;
 import java.util.Date;
 
 /**
- * The interface Reviewable.
+ * The interface Reviewable is implemented by a class which is reviewable.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public interface IReviewable extends IHaveReviews {
 
@@ -25,5 +26,5 @@ public interface IReviewable extends IHaveReviews {
      * @return the review
      */
 // Inside create review method, call getReviewFactory() on 'this' object
-    public IReview createReview(Integer customerID, Integer rating, String body, Date date, Boolean verified);
+    IReview createReview(Integer customerID, Integer rating, String body, Date date, Boolean verified);
 }

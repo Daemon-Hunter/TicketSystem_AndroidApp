@@ -12,9 +12,10 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * The type Formatter.
+ * The Formatter class formats prices and dates.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public class Formatter {
     private static final SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);

@@ -48,7 +48,11 @@ import java.util.Map;
 import static java.lang.Integer.parseInt;
 
 /**
- * The type Map to object.
+ * The MapToObject class is self explanatory.
+ * It converts a Map<String, String> to the relevant object.
+ *
+ * @author Joshua Kellaway
+ * @author Dominic Garbett
  */
 final class MapToObject {
     private static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);

@@ -9,9 +9,10 @@ import java.io.IOException;
 import java.util.Date;
 
 /**
- * The interface Review.
+ * The interface IReview is implemented by a class which represents a review.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public interface IReview {
 

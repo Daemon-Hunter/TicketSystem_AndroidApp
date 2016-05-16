@@ -9,9 +9,10 @@ import com.google.jkellaway.androidapp_datamodel.people.IUser;
 import com.google.jkellaway.androidapp_datamodel.tickets.Ticket;
 
 /**
- * The type Guest booking factory.
+ * The type Guest booking factory is used to create GuestBooking objects.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public class GuestBookingFactory {
 

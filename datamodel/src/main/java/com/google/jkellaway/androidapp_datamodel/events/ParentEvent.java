@@ -21,9 +21,10 @@ import java.util.List;
 import static com.google.jkellaway.androidapp_datamodel.database.APIHandle.getObjectsFromObject;
 
 /**
- * The type Parent event.
+ * The ParentEvent represents a record in the ParentEvent table in the database.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public class ParentEvent implements IParentEvent {
 

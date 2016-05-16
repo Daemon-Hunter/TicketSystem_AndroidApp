@@ -6,9 +6,10 @@
 package com.google.jkellaway.androidapp_datamodel.people;
 
 /**
- * The interface Person.
+ * The interface IPerson is extend by the IUser and the IAdmin to abstract the methods.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public interface IPerson {
 

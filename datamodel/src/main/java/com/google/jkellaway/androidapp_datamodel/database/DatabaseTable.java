@@ -6,9 +6,10 @@
 package com.google.jkellaway.androidapp_datamodel.database;
 
 /**
- * The enum Database table.
+ * The enum DatabaseTable contains a enum for each entity type in the database.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public enum DatabaseTable {
     /**
@@ -74,6 +75,6 @@ public enum DatabaseTable {
     /**
      * Order database table.
      */
-    ORDER;
+    ORDER
 }
 

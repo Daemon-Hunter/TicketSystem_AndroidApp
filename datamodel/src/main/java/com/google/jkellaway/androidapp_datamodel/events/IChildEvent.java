@@ -13,9 +13,10 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * The interface Child event.
+ * The interface Child event is implemented by any class wishing to represent an child event type.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public interface IChildEvent extends ISocial {
 

@@ -6,9 +6,10 @@
 package com.google.jkellaway.androidapp_datamodel.people;
 
 /**
- * The interface Admin.
+ * The interface IAdmin is implemented by any class wishing to represent an Admin.
  *
- * @author 10467841
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public interface IAdmin extends IPerson {
 

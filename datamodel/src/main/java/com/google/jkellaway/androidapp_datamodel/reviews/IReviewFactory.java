@@ -8,9 +8,10 @@ package com.google.jkellaway.androidapp_datamodel.reviews;
 import java.util.Date;
 
 /**
- * The interface Review factory.
+ * The interface Review factory is implemented by a factory of a review type.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public interface IReviewFactory {
 
@@ -25,5 +26,5 @@ public interface IReviewFactory {
      * @param verified     the verified
      * @return the review
      */
-    public IReview createReview(Integer reviewBaseID, Integer customerID, Integer rating, Date date, String body, Boolean verified);
+    IReview createReview(Integer reviewBaseID, Integer customerID, Integer rating, Date date, String body, Boolean verified);
 }

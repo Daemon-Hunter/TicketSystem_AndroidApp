@@ -12,9 +12,10 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * The interface Ticket.
+ * The interface ITicket is implemented by a class wishing to represent a ticket.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public interface ITicket {
 

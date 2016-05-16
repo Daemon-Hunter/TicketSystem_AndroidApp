@@ -6,9 +6,10 @@
 package com.google.jkellaway.androidapp_datamodel.tickets;
 
 /**
- * The interface Ticket factory.
+ * The type ITicketFactory is implemented by classes wishing to be able to create tickets.
  *
- * @author 10512691
+ * @author Joshua Kellaway
+ * @author Charles Gillions
  */
 public interface ITicketFactory {
 

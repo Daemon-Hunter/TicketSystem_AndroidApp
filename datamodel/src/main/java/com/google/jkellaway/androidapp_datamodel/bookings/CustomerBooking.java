@@ -19,7 +19,10 @@ import java.util.Locale;
 import static com.google.jkellaway.androidapp_datamodel.utilities.Validator.quantityValidator;
 
 /**
- * The  Customer booking Class.
+ * The Customer booking Class represents a version of the Booking entity from the database
+ *
+ * @author Joshua Kellaway
+ * @author Charles Gillions.
  */
 public class CustomerBooking implements IBooking {
 
